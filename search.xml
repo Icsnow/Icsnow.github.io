@@ -622,4 +622,26 @@ or\\
         <tag>Math</tag>
       </tags>
   </entry>
+  <entry>
+    <title>网安学习_D.1_环境部署</title>
+    <url>/2022/05/25/%E7%BD%91%E5%AE%89%E5%AD%A6%E4%B9%A0-D-1-%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/</url>
+    <content><![CDATA[<h1 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h1><p>使用 Vmware 装上几个旧window系统的虚拟机 win-xp/2003/7/2008</p>
+<h2 id="winxp"><a href="#winxp" class="headerlink" title="winxp"></a>winxp</h2><p>我的配置：</p>
+<ol>
+<li>使用的 winxp_professional 镜像(来自 msdn.itellyou)，删掉了 打印机，声卡</li>
+<li>分配 40G 空间（20+20）</li>
+<li>关掉了防火墙和自动更新</li>
+<li>至此，拍摄快照并克隆虚拟机（链接）<ul>
+<li>链接克隆和完整克隆的区别：链接克隆创建一个主虚拟机的子链接， 与主虚拟机并存（占用空间小）；完整克隆复制出一个独立的虚拟机（占用和主虚拟机一样大的空间）</li>
+</ul>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>CyberspaceSecurity</category>
+      </categories>
+      <tags>
+        <tag>CS_OP</tag>
+      </tags>
+  </entry>
 </search>
