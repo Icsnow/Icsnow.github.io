@@ -20,26 +20,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.1","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="ahhhhhhhhh~~~">
-<meta property="og:type" content="website">
-<meta property="og:title" content="❄">
-<meta property="og:url" content="http://example.com/tags/DFS/index.html">
+    <meta name="description" content="香农提出了密码设计的两种基本方法即 混淆和扩散。 分组密码系统包括 线性部分 和 非线性部分，其对应功能分别是 扩散和混淆。 扩散性往往由线性函数提供，如 rotation ，shift ，或更复杂的 MDS matrix（但其本质也是 rotation and shift）。 在研究扩散性时，如果往其最基本单元考虑： 线性运算时一般是 位切片操作，即对每一个 bit 进行运算。那么总体来看就是一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Diffusion Basic">
+<meta property="og:url" content="http://example.com/2022/05/26/Cryptanalysis/Basic-Diffusion/index.html">
 <meta property="og:site_name" content="❄">
-<meta property="og:description" content="ahhhhhhhhh~~~">
+<meta property="og:description" content="香农提出了密码设计的两种基本方法即 混淆和扩散。 分组密码系统包括 线性部分 和 非线性部分，其对应功能分别是 扩散和混淆。 扩散性往往由线性函数提供，如 rotation ，shift ，或更复杂的 MDS matrix（但其本质也是 rotation and shift）。 在研究扩散性时，如果往其最基本单元考虑： 线性运算时一般是 位切片操作，即对每一个 bit 进行运算。那么总体来看就是一">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-05-26T08:35:24.000Z">
+<meta property="article:modified_time" content="2022-05-26T09:07:12.296Z">
 <meta property="article:author" content="icSnow">
-<meta property="article:tag" content="Crypto,Coder">
+<meta property="article:tag" content="Crypto">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://example.com/tags/DFS/">
+<link rel="canonical" href="http://example.com/2022/05/26/Cryptanalysis/Basic-Diffusion/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"tags/DFS/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/05/26/Cryptanalysis/Basic-Diffusion/","path":"2022/05/26/Cryptanalysis/Basic-Diffusion/","title":"Diffusion Basic"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>标签: DFS | ❄</title>
+<title>Diffusion Basic | ❄</title>
   
 
 
@@ -195,50 +197,105 @@
 </noscript>
 
 
-    <div class="main-inner tag posts-collapse">
+    <div class="main-inner post posts-expand">
 
 
   
+
+
+<div class="post-block">
   
   
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
-        <h1 class="collection-header">DFS
-          <small>标签</small>
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/26/Cryptanalysis/Basic-Diffusion/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://ossimg.yzitc.com/2022/05/24/f573a763bec76.png">
+      <meta itemprop="name" content="icSnow">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="❄">
+      <meta itemprop="description" content="ahhhhhhhhh~~~">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Diffusion Basic | ❄">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Diffusion Basic
         </h1>
-      </div>
 
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
       
-    <div class="collection-year">
-      <span class="collection-header">2022</span>
+
+      <time title="创建时间：2022-05-26 16:35:24 / 修改时间：17:07:12" itemprop="dateCreated datePublished" datetime="2022-05-26T16:35:24+08:00">2022-05-26</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>香农提出了密码设计的两种基本方法即 混淆和扩散。</p>
+<p>分组密码系统包括 线性部分 和 非线性部分，其对应功能分别是 扩散和混淆。</p>
+<p>扩散性往往由线性函数提供，如 rotation ，shift ，或更复杂的 MDS matrix（但其本质也是 rotation and shift）。</p>
+<p>在研究扩散性时，如果往其最基本单元考虑：</p>
+<p>线性运算时一般是 位切片操作，即对每一个 bit 进行运算。那么总体来看就是一个面向 GPU 友好型的 <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%8D%95%E6%8C%87%E4%BB%A4%E6%B5%81%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%B5%81/257612">SIMD</a> 操作 ，对一个 bit 的操作不会影响到其他 bits，显然这是不能够满足扩散性的，那么就需要一些 rotation，shift… 来将 bit 打散，使其能够更多的参与到非线性运算。</p>
+<p>由于 扩散主要是用来使用明文和密文的关系变得尽可能的复杂，明文中任何一点小更动都会使得密文有很大的差异，即达到雪崩效应。</p>
+<blockquote>
+<p>雪崩效应：对于密码而言，要求输入位的 1 bit 变化导致每个输出位 bit 有 50% 的概率发生反转</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://crypto.stackexchange.com/questions/19000/shannon-confusion-and-diffusion-concept/44659#44659">The job of the linear diffusion layer is to ensure that each successive input to the non-linear function consists of a balanced and maximum number of super-positioned input bits.</a></p>
+<p>而验证扩散性是否能够尽可能地达到使密码系统安全的办法，除建立相关性方程，利用如 Mathmatica 等工具来搜索之外，可能还需要考虑由于扩散不全而造成的分支代数次数低，差分线性分析等等。</p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2022-05-25T19:23:36+08:00"
-              content="2022-05-25">
-          05-25
-        </time>
-      </div>
+    
+    
+    
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2022/05/25/Lc_daily/LC-5.24-t.965.-Univalued-Binary-Tree/" itemprop="url">
-            <span itemprop="name">LC 5.24 t.965. Univalued Binary Tree</span>
-          </a>
-      </div>
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Crypto/" rel="tag"># Crypto</a>
+          </div>
 
-      
-    </header>
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/05/25/%E7%BD%91%E5%AE%89%E5%AD%A6%E4%B9%A0-D-1-%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/" rel="prev" title="网安学习_D.1_环境部署">
+                  <i class="fa fa-chevron-left"></i> 网安学习_D.1_环境部署
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/05/27/Cryptanalysis/About%20MITM%20and%20variants/" rel="next" title="MITM AttacK">
+                  MITM AttacK <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
   </article>
+</div>
 
-    </div>
-  </div>
-  
-  
-  
+
+
+
+
 
 </div>
   </main>
