@@ -1,29 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Brian Kernighan Algorithm</title>
-    <url>/2022/05/25/Algorithm/Brian-Kernighan-Algorithm/</url>
-    <content><![CDATA[<h1 id="Brian-Kernighan-Algorithm"><a href="#Brian-Kernighan-Algorithm" class="headerlink" title="Brian Kernighan Algorithm"></a>Brian Kernighan Algorithm</h1><h2 id="principle"><a href="#principle" class="headerlink" title="principle"></a>principle</h2><p>通过一定的位运算取到二进制数据的相应位</p>
-<ol>
-<li><p>$n\&amp;(n-1)$ 将数据二进制最右的 1 变为 0 </p>
-<p>例如：$n = 11_{(10)} = 1011_{(2)}, n\&amp;(n-1) = 1011 \&amp; 1010 = 1010_{(2)} = 10_{(10)}$</p>
-</li>
-<li><p>$n\&amp;(~n+1)$ 提取数据二进制最后一个 1 到结尾的数据</p>
-<p>例如：$n = 14_{(10)} = 1110_{(2)}, n\&amp;(~n+1) = 1110 \&amp; 0001 + 00001 = 1110 \&amp; 0010 = 0010_{(2)} = 2_{(10)}$</p>
-</li>
-</ol>
-<p>可以测试一下：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">n = random.randint(<span class="number">0</span>,<span class="number">16</span>)</span><br><span class="line"><span class="built_in">print</span>(n,<span class="built_in">bin</span>(n))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;n&amp;(n−1):&#x27;</span>,n&amp;(n-<span class="number">1</span>),<span class="built_in">bin</span>(n&amp;(n-<span class="number">1</span>)))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;n&amp;(~n+1):&#x27;</span>,n&amp;(~n+<span class="number">1</span>),<span class="built_in">bin</span>(n&amp;(~n+<span class="number">1</span>)))</span><br></pre></td></tr></table></figure>
-<h2 id="example："><a href="#example：" class="headerlink" title="example："></a>example：</h2><p><a href="https://leetcode.cn/problems/number-of-1-bits/">191. 位1的个数</a></p>
-]]></content>
-      <categories>
-        <category>Code_Algo</category>
-      </categories>
-      <tags>
-        <tag>Math,Binary</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>凸包算法</title>
     <url>/2022/05/25/Algorithm/%E5%87%B8%E5%8C%85%E7%AE%97%E6%B3%95/</url>
     <content><![CDATA[<h2 id="凸包算法"><a href="#凸包算法" class="headerlink" title="凸包算法"></a>凸包算法</h2><p># 待补充：Jarvis，Andrew </p>
@@ -98,16 +75,26 @@
       </tags>
   </entry>
   <entry>
-    <title>约瑟夫环</title>
-    <url>/2022/05/25/Algorithm/%E7%BA%A6%E7%91%9F%E5%A4%AB%E7%8E%AF/</url>
-    <content><![CDATA[<h1 id="约瑟夫环"><a href="#约瑟夫环" class="headerlink" title="约瑟夫环"></a>约瑟夫环</h1><p>参见：</p>
-<p> <a href="https://leetcode-cn.com/problems/find-the-winner-of-the-circular-game/">1823. 找出游戏的获胜者</a></p>
-<h4 id="剑指-Offer-62-圆圈中最后剩下的数字"><a href="#剑指-Offer-62-圆圈中最后剩下的数字" class="headerlink" title="剑指 Offer 62. 圆圈中最后剩下的数字"></a><a href="https://leetcode-cn.com/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/">剑指 Offer 62. 圆圈中最后剩下的数字</a></h4>]]></content>
+    <title>Brian Kernighan Algorithm</title>
+    <url>/2022/05/25/Algorithm/Brian-Kernighan-Algorithm/</url>
+    <content><![CDATA[<h1 id="Brian-Kernighan-Algorithm"><a href="#Brian-Kernighan-Algorithm" class="headerlink" title="Brian Kernighan Algorithm"></a>Brian Kernighan Algorithm</h1><h2 id="principle"><a href="#principle" class="headerlink" title="principle"></a>principle</h2><p>通过一定的位运算取到二进制数据的相应位</p>
+<ol>
+<li><p>$n\&amp;(n-1)$ 将数据二进制最右的 1 变为 0 </p>
+<p>例如：$n = 11_{(10)} = 1011_{(2)}, n\&amp;(n-1) = 1011 \&amp; 1010 = 1010_{(2)} = 10_{(10)}$</p>
+</li>
+<li><p>$n\&amp;(~n+1)$ 提取数据二进制最后一个 1 到结尾的数据</p>
+<p>例如：$n = 14_{(10)} = 1110_{(2)}, n\&amp;(~n+1) = 1110 \&amp; 0001 + 00001 = 1110 \&amp; 0010 = 0010_{(2)} = 2_{(10)}$</p>
+</li>
+</ol>
+<p>可以测试一下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">n = random.randint(<span class="number">0</span>,<span class="number">16</span>)</span><br><span class="line"><span class="built_in">print</span>(n,<span class="built_in">bin</span>(n))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;n&amp;(n−1):&#x27;</span>,n&amp;(n-<span class="number">1</span>),<span class="built_in">bin</span>(n&amp;(n-<span class="number">1</span>)))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;n&amp;(~n+1):&#x27;</span>,n&amp;(~n+<span class="number">1</span>),<span class="built_in">bin</span>(n&amp;(~n+<span class="number">1</span>)))</span><br></pre></td></tr></table></figure>
+<h2 id="example："><a href="#example：" class="headerlink" title="example："></a>example：</h2><p><a href="https://leetcode.cn/problems/number-of-1-bits/">191. 位1的个数</a></p>
+]]></content>
       <categories>
         <category>Code_Algo</category>
       </categories>
       <tags>
-        <tag>Math</tag>
+        <tag>Math,Binary</tag>
       </tags>
   </entry>
   <entry>
@@ -144,6 +131,38 @@ F(n)
 <script type="math/tex; mode=display">
 M = \left[ \begin{matrix} 1 & 1 \\ 1 & 0 \end{matrix} \right]</script><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">fib</span>(<span class="params">self, n: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        <span class="keyword">if</span> n &lt; <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> n</span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">multiply_matrix</span>(<span class="params">a,b</span>):</span><br><span class="line">            <span class="comment">#a,b = matrix</span></span><br><span class="line">            <span class="comment">#return matrix</span></span><br><span class="line">            c=[[<span class="number">0</span>,<span class="number">0</span>],[<span class="number">0</span>,<span class="number">0</span>]]</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>):</span><br><span class="line">                <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>):</span><br><span class="line">                    c[i][j] = (a[i][<span class="number">0</span>]*b[<span class="number">0</span>][j] + a[i][<span class="number">1</span>]*b[<span class="number">1</span>][j]) % <span class="number">1000000007</span></span><br><span class="line">                    <span class="built_in">print</span>(c)</span><br><span class="line">            <span class="keyword">return</span> c</span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">pow_matrix</span>(<span class="params">a,n</span>):</span><br><span class="line">            <span class="comment">#初始化为单位阵，不会影响初始运算</span></span><br><span class="line">            res = [[<span class="number">1</span>,<span class="number">0</span>],[<span class="number">0</span>,<span class="number">1</span>]] </span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> n &gt; <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">if</span> n &amp; <span class="number">1</span>:</span><br><span class="line">                    res = multiply_matrix(res,a)</span><br><span class="line">                n &gt;&gt;= <span class="number">1</span>  <span class="comment">#右移一位相当于 ceil(n//2)</span></span><br><span class="line">                a = multiply_matrix(a,a)</span><br><span class="line">            <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line">        ans = pow_matrix([[<span class="number">1</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">0</span>]],n-<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> ans[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 ]]></content>
+      <categories>
+        <category>Code_Algo</category>
+      </categories>
+      <tags>
+        <tag>Math</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>素数筛</title>
+    <url>/2022/05/25/Algorithm/%E7%B4%A0%E6%95%B0%E7%AD%9B/</url>
+    <content><![CDATA[<h1 id="素数筛"><a href="#素数筛" class="headerlink" title="素数筛"></a>素数筛</h1><h2 id="艾氏筛"><a href="#艾氏筛" class="headerlink" title="艾氏筛"></a>艾氏筛</h2><p>筛出小于 n 的所有素数</p>
+<ol>
+<li>建立数组记录每个值是否为素数，初始化全是素数；</li>
+<li>遍历数组（<strong>遍历到 sqrt(n) 就够了</strong>），将当前值 i 的倍数全部划为合数类；</li>
+<li>得到一个划分和素数与合数的数组</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">countPrimes</span>(<span class="params">self, n: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        <span class="keyword">if</span> n &lt; <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        isPrime = [<span class="number">1</span>] * n</span><br><span class="line">        isPrime[<span class="number">0</span>] = isPrime[<span class="number">1</span>] = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, <span class="built_in">int</span>(n ** <span class="number">0.5</span>) + <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> isPrime[i]:</span><br><span class="line">                <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i*i,n,i):</span><br><span class="line">                    isPrime[j] = <span class="number">0</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">sum</span>(isPrime)</span><br></pre></td></tr></table></figure>
+<p>例子： <a href="https://leetcode.cn/problems/count-primes/">204. 计数质数</a></p>
+]]></content>
+      <categories>
+        <category>Code_Algo</category>
+      </categories>
+      <tags>
+        <tag>Math</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>约瑟夫环</title>
+    <url>/2022/05/25/Algorithm/%E7%BA%A6%E7%91%9F%E5%A4%AB%E7%8E%AF/</url>
+    <content><![CDATA[<h1 id="约瑟夫环"><a href="#约瑟夫环" class="headerlink" title="约瑟夫环"></a>约瑟夫环</h1><p>参见：</p>
+<p> <a href="https://leetcode-cn.com/problems/find-the-winner-of-the-circular-game/">1823. 找出游戏的获胜者</a></p>
+<h4 id="剑指-Offer-62-圆圈中最后剩下的数字"><a href="#剑指-Offer-62-圆圈中最后剩下的数字" class="headerlink" title="剑指 Offer 62. 圆圈中最后剩下的数字"></a><a href="https://leetcode-cn.com/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/">剑指 Offer 62. 圆圈中最后剩下的数字</a></h4>]]></content>
       <categories>
         <category>Code_Algo</category>
       </categories>
@@ -199,25 +218,6 @@ or\\
 \frac{n-1}{n}\times\frac{n-2}{n-1}\times...\times\frac{k}{k+1}\times1=\frac{k}{n}</script><p>这是符合要求的。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">i = 0</span><br><span class="line">s = NULL</span><br><span class="line">for line in lines:</span><br><span class="line">	i = i + 1</span><br><span class="line">	r = random.choice(0,1)</span><br><span class="line">	if r &lt; 1/i:</span><br><span class="line">		s = line #替换</span><br></pre></td></tr></table></figure>
 <h2 id="关于为什么替换"><a href="#关于为什么替换" class="headerlink" title="关于为什么替换"></a>关于为什么替换</h2><p>替换就是采样，不断地替换或者不替换表示当前是否采样到该数据；</p>
-]]></content>
-      <categories>
-        <category>Code_Algo</category>
-      </categories>
-      <tags>
-        <tag>Math</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>素数筛</title>
-    <url>/2022/05/25/Algorithm/%E7%B4%A0%E6%95%B0%E7%AD%9B/</url>
-    <content><![CDATA[<h1 id="素数筛"><a href="#素数筛" class="headerlink" title="素数筛"></a>素数筛</h1><h2 id="艾氏筛"><a href="#艾氏筛" class="headerlink" title="艾氏筛"></a>艾氏筛</h2><p>筛出小于 n 的所有素数</p>
-<ol>
-<li>建立数组记录每个值是否为素数，初始化全是素数；</li>
-<li>遍历数组（<strong>遍历到 sqrt(n) 就够了</strong>），将当前值 i 的倍数全部划为合数类；</li>
-<li>得到一个划分和素数与合数的数组</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">countPrimes</span>(<span class="params">self, n: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        <span class="keyword">if</span> n &lt; <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        isPrime = [<span class="number">1</span>] * n</span><br><span class="line">        isPrime[<span class="number">0</span>] = isPrime[<span class="number">1</span>] = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, <span class="built_in">int</span>(n ** <span class="number">0.5</span>) + <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> isPrime[i]:</span><br><span class="line">                <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i*i,n,i):</span><br><span class="line">                    isPrime[j] = <span class="number">0</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">sum</span>(isPrime)</span><br></pre></td></tr></table></figure>
-<p>例子： <a href="https://leetcode.cn/problems/count-primes/">204. 计数质数</a></p>
 ]]></content>
       <categories>
         <category>Code_Algo</category>
@@ -346,6 +346,131 @@ or\\
       </tags>
   </entry>
   <entry>
+    <title>MITM AttacK</title>
+    <url>/2022/05/27/Cryptanalysis/About%20MITM%20and%20variants/</url>
+    <content><![CDATA[<h1 id="Classical-MITM"><a href="#Classical-MITM" class="headerlink" title="Classical MITM"></a>Classical MITM</h1><p>在 Hellman 的文章<a href="https://www.computer.org/csdl/magazine/co/1977/06/01646525/13rRUwInvDu">Special Feature Exhaustive Cryptanalysis of the NBS Data Encryption Standard</a>中给出了中间相遇攻击的基本概念。</p>
+<p>首先需要意识到，中间相遇攻击也是穷举，但是结合了 TMTO 的思想，通过建表存一部分值，穷搜另一部分值来达到比穷举攻击更好的效益。</p>
+<p><strong>经典MITM</strong>：<br>有迭代的分组密码，分组长度为 $n$ ，子密钥可独立的分为 $K_1||K_2$ </p>
+<p><strong>MITM stage</strong></p>
+<ol>
+<li><p>任取明密文对 $(P,C) $ ，将密钥做以下划分：</p>
+<p>前向轮密钥记为 $K_1$ ，后向轮密钥记为 $K_2$</p>
+</li>
+<li><p>用前向的密钥对明文加密得到中间值 $U$ ；同样的，用后向的密钥对密文解密得到中间值 $V$ </p>
+</li>
+<li><p>匹配中间值，判断 $U\overset{?}{=}V$ 如果是，则将使用的密钥（全部bit）存入候选密钥表中，否则丢弃（在该过程中，可能会有一些随机值也能够匹配）</p>
+</li>
+</ol>
+<p><strong>Testing stage</strong></p>
+<p>再次任选明密文对 $(P_1,C_1)$ 并对候选密钥表进行二次筛查，重复步该过程直至候选密钥表中仅剩 1 个密钥，即为正确密钥。</p>
+<p><strong>NOTE</strong>：</p>
+<ol>
+<li>以上过程如果能够保证前向和后向密钥能够覆盖全密钥空间，则在匹配到 $U=V$ 时即可能得到正确密钥，但不能保证随机值导致的误报不会出现（这里总可能数为 $2^{|K_1|+|K_2|}$ ，但匹配的长度为 $2^{n}$，明显 $|K_1|+|K_2| &gt; n$（安全标准），所以产生的中间值肯定会有很多误报）假设这里能够此处匹配到的概率是 $2^{-n}$ ，而全可能密钥数为 $2^{|K_1|+|K_2|}$ ，所以筛选留下的密钥数为 $2^{|K_1|+|K_2|-n}$，这需要在后续的测试阶段不断筛选；</li>
+<li>能够使用经典中间相遇攻击的前提是子密钥的独立性。</li>
+</ol>
+<p><strong>复杂度分析</strong></p>
+<p>时间复杂度：将更大的密钥拿来查询（内存比时间更贵），所以时间复杂度为：</p>
+<script type="math/tex; mode=display">
+T = max(2^{K_1},2^{K_2})</script><p>空间复杂度：将更小的密钥拿来查询，所以空间复杂度为：</p>
+<script type="math/tex; mode=display">
+M = min(2^{K_1},2^{K_2})</script><p>数据复杂度：留下的候选密钥 $|K_1|+|K_2|-n\ bits$ 而对每个新的明密文对， 理想情况下会筛掉 $n\ bits$ ，所以数据复杂度为：</p>
+<script type="math/tex; mode=display">
+D = \frac{|K_1|+|K_2|-n}{n}</script><p>（这里没有考虑建表和查表的时间，后面也不会考虑，如果考虑，通过较优化的算法如快速排序，二分查找之类，建表并排序的时间大概为 $2^{log(min(2^{K_1},2^{K_2}))}$，查表时间大概为 $2^{log(max(2^{K_1},2^{K_2}))}$）</p>
+<h1 id="MITM-variant-No-OnE-partial-matching"><a href="#MITM-variant-No-OnE-partial-matching" class="headerlink" title="MITM variant No.OnE (partial matching)"></a>MITM variant No.OnE (partial matching)</h1><p>在进行经典 MITM 时，大多数情况不能在中间匹配到等于分组长度的状态，即 $n=s$ 往往不能满足。</p>
+<p>所以更多情况下，往往只对分组长的部分比特进行匹配，也即部分匹配。</p>
+<p>这是一种匹配的技巧，在中间相遇攻击中都会用到，如经典 MITM 的 MITM stage 中，步骤 2. 的得到的 $U\ and\ V$ 的长度往往比分组长度小，但这样部分匹配也引发了一定的问题：</p>
+<p>见经典 MITM NOTE 1. 匹配到的概率会变小，如果状态长度为 $s\ (s&lt;n)$ 那么匹配到的概率就是 $2^{-s}$ ，留下的密钥数量就是$2^{|K_1|+|K_2|-s}$ ，在后面测试阶段就需要更多的明密文对来筛选候选密钥集。当然也可以利用并行搜索的办法，减少留下的候选密钥数量，并行 $N$ 个明密文对来进行 MITM ，留下的密钥数量就是$2^{|K_1|+|K_2|-N*s}$ ，MITM 阶段和测试阶段的操作没有实质性的变换，但复杂度需要重新考虑：</p>
+<p><strong>复杂度分析：</strong></p>
+<p>时间复杂度：并行 N 个明密文对，所以时间复杂度变为：</p>
+<script type="math/tex; mode=display">
+T = max(2^{K_1},2^{K_2})*N</script><p>空间复杂度：同样的，并行 N 个明密文对，所以空间复杂度变为：</p>
+<script type="math/tex; mode=display">
+M = min(2^{K_1},2^{K_2})*N</script><p>数据复杂度：MITM 阶段和测试阶段都使用了多个明密文对，取较大的作为数据复杂度量级：</p>
+<script type="math/tex; mode=display">
+D = max(\frac{|K_1|+|K_2|-s*N}{n},N)</script><h1 id="MITM-variant-No-TwO-3-subset"><a href="#MITM-variant-No-TwO-3-subset" class="headerlink" title="MITM variant No.TwO (3 subset)"></a>MITM variant No.TwO (3 subset)</h1><p>从经典的 MITM 考虑，如果子密钥不能独立，那么建表和穷举部分都无法独立进行，参考文章<a href="https://link.springer.com/chapter/10.1007/978-3-642-19574-7_16">A 3-Subset Meet-in-the-Middle Attack: Cryptanalysis of the Lightweight Block Cipher KTANTAN</a> 和文章<a href="https://link.springer.com/chapter/10.1007/978-3-642-31410-0_9">Three-Subset Meet-in-the-Middle Attack on Reduced XTEA</a> 了解使用 3 子集来构造具有独立性的子密钥集合，并结合穷举和经典 MITM 来进行中间相遇攻击。</p>
+<p><img src="https://ossimg.yzitc.com/2022/05/27/d6d5603020045.png"></p>
+<p>术语解释：</p>
+<p>$K=k_{\ell-1} k_{\ell-2} \ldots k_{1} k_{0} \text { be the } \ell \text {-bit key. }$</p>
+<p>$K_{1}=\left\{k_{i}: k_{i} \text { used by } \varphi_{1, \alpha}\right\}$</p>
+<p>$K_{2}=\left\{k_{i}: k_{i} \text { used by } \varphi_{R-\beta+1, R}\right\}$</p>
+<p>$A_{0}=K_{1} \cap K_{2}$是在前向 $\alpha$ 和后向 $\beta$ 都使用的密钥 <strong>比特</strong></p>
+<p>$K = K_1 \cup K_2$</p>
+<p><strong>NOTE</strong>:明确一点：$K,K_i$ 是以密钥个为单位，$Ai$ 以比特为单位；</p>
+<p>$A_{1}=K_{1} \backslash K_{1} \cap K_{2} \text { and } A_{2}=K_{2} \backslash K_{1} \cap K_{2}$ 就比较好理解，这里 \ 表示除去而非经典数学的除法。例如：</p>
+<p>密钥总位数为 $32\ bits$;相关部分为 $|A_0| = 21\ bits$ 那么 $|A_1|=|A_2|=11\ bits$</p>
+<p><strong>3-subset MITM：</strong><br>有迭代的分组密码，分组长度为 $n$ ，子密钥不独立的分为 $K_1,K_2$，有 $A_0\ bits$ 为公用密钥，$A_{1}=K_{1} \backslash K_{1} \cap K_{2}\ bits\  \text { and }\  A_{2}=K_{2} \backslash K_{1} \cap K_{2}\ bits$</p>
+<p><strong>MITM stage</strong></p>
+<p>对任意一个明密文对 $(P,C)$ </p>
+<ol>
+<li>穷举所有 $A_0\ bits$ ，并对每一种 $A_0$ 情况，进行步骤 2. 3.；</li>
+<li>将 $A_0$ 与 $A_1$ 拼接获得 $K_1$，前向加密得到中间值 $U$，将所有 $U$ 存入表 $T$;</li>
+<li>将 $A_0$ 与 $A_2$ 拼接获得 $K_2$，向后解密得到中间值 $V$，将所有 $V$ 与表 $T$ 中所有值进行匹配（不一定匹配中间值的全部比特），匹配到的值存入候选密钥表 $T_{vc}$ 中;</li>
+</ol>
+<p><strong>Testing Stage</strong></p>
+<p>和经典 MITM 相同，再任选不同的明密文对，对表 $T_{vc}$ 进行筛查，直到仅留下 1 个密钥。这里使用的明密文对数量和 $|A_0|$ 有关，显然是成反比的。</p>
+<p><strong>复杂度分析</strong></p>
+<p>不考虑并行明密文对，这里的 $A_0,A_1,A_2$ 表示密钥的长度$（bits)$：</p>
+<p>时间复杂度：建表时间 $2^{A_0}<em>2^{A_1}$ ，匹配时间 $2^{A_0}</em>2^{A_2}$ ，总时间：</p>
+<script type="math/tex; mode=display">
+T = 2^{A_0}*(2^{A_1}+2^{A_2})</script><p>空间复杂度：</p>
+<script type="math/tex; mode=display">
+M = 2^{A_0}*min(2^{A_1}+2^{A_2})</script><p>数据复杂度：假设中间值匹配的位数为 $m\ :\ 1&lt;=m&lt;=n$ ，则留下的候选密钥为 $A_0(A_1+A_2) - m\ bits$，所以测试需要的明密文对为：</p>
+<script type="math/tex; mode=display">
+D = \frac{A_0(A_1+A_2) - m}{n}</script><h1 id="MITM-variant-No-ThreE-All-Subkey-Recovery"><a href="#MITM-variant-No-ThreE-All-Subkey-Recovery" class="headerlink" title="MITM variant No.ThreE (All Subkey Recovery)"></a>MITM variant No.ThreE (All Subkey Recovery)</h1><p>原始文章： <a href="https://link.springer.com/chapter/10.1007/978-3-642-35999-6_14">All Subkeys Recovery Attack on Block Ciphers: Extending Meet-in-the-Middle Approach</a></p>
+<p>从经典中间相遇攻击而来，考虑到经典中间相遇攻击的局限性：</p>
+<ol>
+<li><p>需要子密钥相互独立，不独立情况见 “MITM variant No.TwO (3 subset)” 部分</p>
+</li>
+<li><p>由于密钥编排算法的限制，可能无法在仅获得部分子密钥的情况下获取主密钥</p>
+</li>
+</ol>
+<p>ASR 攻击注意针对第 2 个局限进行改进，即试图使用中间相遇的思想来恢复全部子密钥，从而忽略密钥编排算法的影响，如果密钥编排可逆，也可以利用所有子密钥恢复主密钥。</p>
+<p><strong>ASR attack</strong></p>
+<p>假设分组密码分组长度为 $n$ ，加密函数为 $E$ ，有 $R$ 轮，且每轮使用不同的加密子密钥，子密钥不需要全部独立（但需要有部分独立的情况存在）</p>
+<p><strong>MITM stage</strong></p>
+<ol>
+<li><p>攻击者确定中间碰撞状态 $S\ (s-bits)$ ；这个过程并不能独立后面的步骤，和 $K_1,K_2$ 的选取有很大关系</p>
+<p>状态 $S$ 可以从两个方向计算得来，即 $S=F_{1}(P,K_1) = F_2^{-1}(C,K_2)$ ，其中 $F_1,F_2$ 分别是前向和后向的（部分）加密函数</p>
+<p>但并不是仅有 $K_1,K_2$ 就可以从明文加密到密文，还有剩余没有用上的密钥 $K_3$ ，所以有 $\left|\mathcal{K}_{(1)}\right|+\left|\mathcal{K}_{(2)}\right|+\left|\mathcal{K}_{(3)}\right|=R \cdot \ell$ </p>
+<p>对于此处的 $K_1,K_2$ ，需要能够保证 $F_{1}(P,K_1) = F_2^{-1}(C,K_2)$ 的计算是独立的；</p>
+</li>
+<li><p>将 $min(K_1,K_2)$ 得到的 $(P/C,S)$ 拿来存表，而另一部分用来做匹配，如果能够在状态 $S$ 匹配到，即 $S=F_{1}(P,K_1) = F_2^{-1}(C,K_2)$ ，则将使用的密钥 $K_1,K_2$ 加入候选密钥表；</p>
+</li>
+<li><p>考虑到并行操作，可以对多个明密文对并行操作进行步骤 2.</p>
+</li>
+</ol>
+<p><strong>Test Stage</strong></p>
+<p>同样的，使用不同明密文对测试，但测试的不是是否能够从明文加密到密文，因为整个过程没有考虑 $K_3$ ，而是测试使用不同的明密文能否找到状态 $S$ 的匹配 ？ 是这样吗？？</p>
+<p><strong>NOTE</strong></p>
+<ol>
+<li><p>在步骤 2. 有 $2^{-s}$ 的概率在状态 $S$ 匹配到，而总可能密钥数为 $2^{R<em>l}$ 所以留下的候选密钥为 $2^{R</em>l-s}$ 个，而并行使用 N 个明密文对留下的候选密钥就为  $2^{R<em>l-N</em>s}$ 个；</p>
+</li>
+<li><p>这里可以并行使用的明密文对数量 N 为，需要有一定的限制：</p>
+<p>$2^{R<em>l-N</em>s} \leq 2^{R*l-(|K_1|+|K_2|)}$ 即 $N\leq(|K_1|+|K_2|)/s$，如果不满足，则意味着使用 $2^{|K_1|+|K_2|}$ 种密钥筛掉了超过大于 $2^{|K_1|+|K_2|}$ 个密钥，这是不合理的；</p>
+</li>
+</ol>
+<p><strong>复杂度分析</strong></p>
+<ul>
+<li>时间复杂度：选 $|K_1|,|K_2|$ 更大的用来做匹配，对 N 个明密文对，就需要 $\max \left(2^{\left|\mathcal{K}_{(1)}\right|}, 2^{\left|\mathcal{K}_{(2)}\right|}\right) \times N$ 的计算，而对剩余的密钥 $K_3$ 就需要穷举，需要 $2^{R \cdot \ell-N \cdot s}$ 的计算，所以总时间复杂度为：</li>
+</ul>
+<script type="math/tex; mode=display">
+T_n = C_{c o m p}=\max \left(2^{\left|\mathcal{K}_{(1)}\right|}, 2^{\left|\mathcal{K}_{(2)}\right|}\right) \times N+2^{R \cdot \ell-N \cdot s} .</script><ul>
+<li>空间复杂度：选 $|K_1|,|K_2|$ 更小的用来建表，对 N 个明密文对，总空间复杂度为：</li>
+</ul>
+<script type="math/tex; mode=display">
+S_n = \min \left(2^{\left|\mathcal{K}_{(1)}\right|}, 2^{\left|\mathcal{K}_{(2)}\right|} \mid\right) \times N</script><ul>
+<li>数据复杂度：并行 N 个不同的明密文对，在测试阶段，留下密钥 $R<em>l-N</em>s$ bits，因为分组长度为 n ，所以每个新的明密文对可以筛掉 n bits（<strong>注意</strong>这个过程：$P \rightarrow E_k \rightarrow C$ ，这里的 $_k$ 会遍历所有留下的候选密钥，而理论上会有 n 个被筛掉）所以需要进行  $\lceil(R \cdot \ell-N \cdot s) / n\rceil$ 次筛查，数据复杂度为：</li>
+</ul>
+<script type="math/tex; mode=display">
+D_n = \max (N,\lceil(R \cdot \ell-N \cdot s) / n\rceil)</script>]]></content>
+      <categories>
+        <category>Cryptanalysis</category>
+      </categories>
+      <tags>
+        <tag>Crypto</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>LC 5.23 t.675 Cut Off Trees for Golf Event</title>
     <url>/2022/05/25/Lc_daily/LC-5.23-t.675-Cut-Off-Trees-for-Golf-Event/</url>
     <content><![CDATA[<h4 id="5-23-675-为高尔夫比赛砍树"><a href="#5-23-675-为高尔夫比赛砍树" class="headerlink" title="5.23  675. 为高尔夫比赛砍树"></a>5.23  <a href="https://leetcode.cn/problems/cut-off-trees-for-golf-event/">675. 为高尔夫比赛砍树</a></h4><p>难度：困难</p>
@@ -387,39 +512,6 @@ or\\
       </categories>
       <tags>
         <tag>BFS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>LC 5.24 t.965. Univalued Binary Tree</title>
-    <url>/2022/05/25/Lc_daily/LC-5.24-t.965.-Univalued-Binary-Tree/</url>
-    <content><![CDATA[<h4 id="965-单值二叉树"><a href="#965-单值二叉树" class="headerlink" title="965. 单值二叉树"></a><a href="https://leetcode.cn/problems/univalued-binary-tree/">965. 单值二叉树</a></h4><p>难度：简单</p>
-<p>如果二叉树每个节点都具有相同的值，那么该二叉树就是<em>单值</em>二叉树。</p>
-<p>只有给定的树是单值二叉树时，才返回 <code>true</code>；否则返回 <code>false</code>。</p>
-<p><strong>示例 1：</strong></p>
-<p><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/29/screen-shot-2018-12-25-at-50104-pm.png" alt="img"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：[1,1,1,1,1,null,1]</span><br><span class="line">输出：true</span><br></pre></td></tr></table></figure>
-<p><strong>示例 2：</strong></p>
-<p><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/29/screen-shot-2018-12-25-at-50050-pm.png" alt="img"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：[2,2,2,5,2]</span><br><span class="line">输出：false</span><br></pre></td></tr></table></figure>
-<p><strong>提示：</strong></p>
-<ol>
-<li>给定树的节点数范围是 <code>[1, 100]</code>。</li>
-<li>每个节点的值都是整数，范围为 <code>[0, 99]</code> 。</li>
-</ol>
-<h5 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h5><ol>
-<li><p>深度优先，在判断到不等值时返回 False，一直相等，到遍历完返回 True</p>
-</li>
-<li><p>使用集合，无论采取哪种遍历方式，将所有值加入集合，并在最后判断集合的长度是否为 1 即可</p>
-</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"># class TreeNode:</span></span><br><span class="line"><span class="comment">#     def __init__(self, val=0, left=None, right=None):</span></span><br><span class="line"><span class="comment">#         self.val = val</span></span><br><span class="line"><span class="comment">#         self.left = left</span></span><br><span class="line"><span class="comment">#         self.right = right</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">isUnivalTree</span>(<span class="params">self, root: TreeNode</span>) -&gt; <span class="built_in">bool</span>:</span><br><span class="line">        <span class="comment">#3 traverse</span></span><br><span class="line">        ttval = <span class="built_in">set</span>()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">preorder</span>(<span class="params">root</span>):</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> root:</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            ttval.add(root.val)</span><br><span class="line">            preorder(root.left)</span><br><span class="line">            preorder(root.right)</span><br><span class="line"></span><br><span class="line">        preorder(root)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(ttval) == <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">        #DFS</span></span><br><span class="line"><span class="string">        if not root:</span></span><br><span class="line"><span class="string">            return True</span></span><br><span class="line"><span class="string">        if root.left:</span></span><br><span class="line"><span class="string">            if root.val != root.left.val or not self.isUnivalTree(root.left):</span></span><br><span class="line"><span class="string">                return False</span></span><br><span class="line"><span class="string">        if root.right:</span></span><br><span class="line"><span class="string">            if root.val != root.right.val or not self.isUnivalTree(root.right):</span></span><br><span class="line"><span class="string">                return False</span></span><br><span class="line"><span class="string">        return True</span></span><br><span class="line"><span class="string">        &#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
-<h5 id="前中后序遍历的-demo"><a href="#前中后序遍历的-demo" class="headerlink" title="前中后序遍历的 demo"></a>前中后序遍历的 demo</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">order</span>(<span class="params">root</span>):</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> root:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    <span class="comment">#preorder(root)</span></span><br><span class="line">    order(root.left)</span><br><span class="line">    <span class="comment">#inorder(root)</span></span><br><span class="line">    order(root.right)</span><br><span class="line">    <span class="comment">#postorder(root)</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>LeetCode_daily</category>
-      </categories>
-      <tags>
-        <tag>DFS</tag>
       </tags>
   </entry>
   <entry>
@@ -786,128 +878,36 @@ i.e.\ \ \ \alpha \cdot c=\beta \cdot m \oplus \beta \cdot k\ \ where\ \alpha=(1,
       </tags>
   </entry>
   <entry>
-    <title>MITM AttacK</title>
-    <url>/2022/05/27/Cryptanalysis/About%20MITM%20and%20variants/</url>
-    <content><![CDATA[<h1 id="Classical-MITM"><a href="#Classical-MITM" class="headerlink" title="Classical MITM"></a>Classical MITM</h1><p>在 Hellman 的文章<a href="https://www.computer.org/csdl/magazine/co/1977/06/01646525/13rRUwInvDu">Special Feature Exhaustive Cryptanalysis of the NBS Data Encryption Standard</a>中给出了中间相遇攻击的基本概念。</p>
-<p>首先需要意识到，中间相遇攻击也是穷举，但是结合了 TMTO 的思想，通过建表存一部分值，穷搜另一部分值来达到比穷举攻击更好的效益。</p>
-<p><strong>经典MITM</strong>：<br>有迭代的分组密码，分组长度为 $n$ ，子密钥可独立的分为 $K_1||K_2$ </p>
-<p><strong>MITM stage</strong></p>
+    <title>LC 5.24 t.965. Univalued Binary Tree</title>
+    <url>/2022/05/25/Lc_daily/LC-5.24-t.965.-Univalued-Binary-Tree/</url>
+    <content><![CDATA[<h4 id="965-单值二叉树"><a href="#965-单值二叉树" class="headerlink" title="965. 单值二叉树"></a><a href="https://leetcode.cn/problems/univalued-binary-tree/">965. 单值二叉树</a></h4><p>难度：简单</p>
+<p>如果二叉树每个节点都具有相同的值，那么该二叉树就是<em>单值</em>二叉树。</p>
+<p>只有给定的树是单值二叉树时，才返回 <code>true</code>；否则返回 <code>false</code>。</p>
+<p><strong>示例 1：</strong></p>
+<p><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/29/screen-shot-2018-12-25-at-50104-pm.png" alt="img"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：[1,1,1,1,1,null,1]</span><br><span class="line">输出：true</span><br></pre></td></tr></table></figure>
+<p><strong>示例 2：</strong></p>
+<p><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/29/screen-shot-2018-12-25-at-50050-pm.png" alt="img"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：[2,2,2,5,2]</span><br><span class="line">输出：false</span><br></pre></td></tr></table></figure>
+<p><strong>提示：</strong></p>
 <ol>
-<li><p>任取明密文对 $(P,C) $ ，将密钥做以下划分：</p>
-<p>前向轮密钥记为 $K_1$ ，后向轮密钥记为 $K_2$</p>
+<li>给定树的节点数范围是 <code>[1, 100]</code>。</li>
+<li>每个节点的值都是整数，范围为 <code>[0, 99]</code> 。</li>
+</ol>
+<h5 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h5><ol>
+<li><p>深度优先，在判断到不等值时返回 False，一直相等，到遍历完返回 True</p>
 </li>
-<li><p>用前向的密钥对明文加密得到中间值 $U$ ；同样的，用后向的密钥对密文解密得到中间值 $V$ </p>
-</li>
-<li><p>匹配中间值，判断 $U\overset{?}{=}V$ 如果是，则将使用的密钥（全部bit）存入候选密钥表中，否则丢弃（在该过程中，可能会有一些随机值也能够匹配）</p>
+<li><p>使用集合，无论采取哪种遍历方式，将所有值加入集合，并在最后判断集合的长度是否为 1 即可</p>
 </li>
 </ol>
-<p><strong>Testing stage</strong></p>
-<p>再次任选明密文对 $(P_1,C_1)$ 并对候选密钥表进行二次筛查，重复步该过程直至候选密钥表中仅剩 1 个密钥，即为正确密钥。</p>
-<p><strong>NOTE</strong>：</p>
-<ol>
-<li>以上过程如果能够保证前向和后向密钥能够覆盖全密钥空间，则在匹配到 $U=V$ 时即可能得到正确密钥，但不能保证随机值导致的误报不会出现（这里总可能数为 $2^{|K_1|+|K_2|}$ ，但匹配的长度为 $2^{n}$，明显 $|K_1|+|K_2| &gt; n$（安全标准），所以产生的中间值肯定会有很多误报）假设这里能够此处匹配到的概率是 $2^{-n}$ ，而全可能密钥数为 $2^{|K_1|+|K_2|}$ ，所以筛选留下的密钥数为 $2^{|K_1|+|K_2|-n}$，这需要在后续的测试阶段不断筛选；</li>
-<li>能够使用经典中间相遇攻击的前提是子密钥的独立性。</li>
-</ol>
-<p><strong>复杂度分析</strong></p>
-<p>时间复杂度：将更大的密钥拿来查询（内存比时间更贵），所以时间复杂度为：</p>
-<script type="math/tex; mode=display">
-T = max(2^{K_1},2^{K_2})</script><p>空间复杂度：将更小的密钥拿来查询，所以空间复杂度为：</p>
-<script type="math/tex; mode=display">
-M = min(2^{K_1},2^{K_2})</script><p>数据复杂度：留下的候选密钥 $|K_1|+|K_2|-n\ bits$ 而对每个新的明密文对， 理想情况下会筛掉 $n\ bits$ ，所以数据复杂度为：</p>
-<script type="math/tex; mode=display">
-D = \frac{|K_1|+|K_2|-n}{n}</script><p>（这里没有考虑建表和查表的时间，后面也不会考虑，如果考虑，通过较优化的算法如快速排序，二分查找之类，建表并排序的时间大概为 $2^{log(min(2^{K_1},2^{K_2}))}$，查表时间大概为 $2^{log(max(2^{K_1},2^{K_2}))}$）</p>
-<h1 id="MITM-variant-No-OnE-partial-matching"><a href="#MITM-variant-No-OnE-partial-matching" class="headerlink" title="MITM variant No.OnE (partial matching)"></a>MITM variant No.OnE (partial matching)</h1><p>在进行经典 MITM 时，大多数情况不能在中间匹配到等于分组长度的状态，即 $n=s$ 往往不能满足。</p>
-<p>所以更多情况下，往往只对分组长的部分比特进行匹配，也即部分匹配。</p>
-<p>这是一种匹配的技巧，在中间相遇攻击中都会用到，如经典 MITM 的 MITM stage 中，步骤 2. 的得到的 $U\ and\ V$ 的长度往往比分组长度小，但这样部分匹配也引发了一定的问题：</p>
-<p>见经典 MITM NOTE 1. 匹配到的概率会变小，如果状态长度为 $s\ (s&lt;n)$ 那么匹配到的概率就是 $2^{-s}$ ，留下的密钥数量就是$2^{|K_1|+|K_2|-s}$ ，在后面测试阶段就需要更多的明密文对来筛选候选密钥集。当然也可以利用并行搜索的办法，减少留下的候选密钥数量，并行 $N$ 个明密文对来进行 MITM ，留下的密钥数量就是$2^{|K_1|+|K_2|-N*s}$ ，MITM 阶段和测试阶段的操作没有实质性的变换，但复杂度需要重新考虑：</p>
-<p><strong>复杂度分析：</strong></p>
-<p>时间复杂度：并行 N 个明密文对，所以时间复杂度变为：</p>
-<script type="math/tex; mode=display">
-T = max(2^{K_1},2^{K_2})*N</script><p>空间复杂度：同样的，并行 N 个明密文对，所以空间复杂度变为：</p>
-<script type="math/tex; mode=display">
-M = min(2^{K_1},2^{K_2})*N</script><p>数据复杂度：MITM 阶段和测试阶段都使用了多个明密文对，取较大的作为数据复杂度量级：</p>
-<script type="math/tex; mode=display">
-D = max(\frac{|K_1|+|K_2|-s*N}{n},N)</script><h1 id="MITM-variant-No-TwO-3-subset"><a href="#MITM-variant-No-TwO-3-subset" class="headerlink" title="MITM variant No.TwO (3 subset)"></a>MITM variant No.TwO (3 subset)</h1><p>从经典的 MITM 考虑，如果子密钥不能独立，那么建表和穷举部分都无法独立进行，参考文章<a href="https://link.springer.com/chapter/10.1007/978-3-642-19574-7_16">A 3-Subset Meet-in-the-Middle Attack: Cryptanalysis of the Lightweight Block Cipher KTANTAN</a> 和文章<a href="https://link.springer.com/chapter/10.1007/978-3-642-31410-0_9">Three-Subset Meet-in-the-Middle Attack on Reduced XTEA</a> 了解使用 3 子集来构造具有独立性的子密钥集合，并结合穷举和经典 MITM 来进行中间相遇攻击。</p>
-<p><img src="https://ossimg.yzitc.com/2022/05/27/d6d5603020045.png"></p>
-<p>术语解释：</p>
-<p>$K=k_{\ell-1} k_{\ell-2} \ldots k_{1} k_{0} \text { be the } \ell \text {-bit key. }$</p>
-<p>$K_{1}=\left\{k_{i}: k_{i} \text { used by } \varphi_{1, \alpha}\right\}$</p>
-<p>$K_{2}=\left\{k_{i}: k_{i} \text { used by } \varphi_{R-\beta+1, R}\right\}$</p>
-<p>$A_{0}=K_{1} \cap K_{2}$是在前向 $\alpha$ 和后向 $\beta$ 都使用的密钥 <strong>比特</strong></p>
-<p>$K = K_1 \cup K_2$</p>
-<p><strong>NOTE</strong>:明确一点：$K,K_i$ 是以密钥个为单位，$Ai$ 以比特为单位；</p>
-<p>$A_{1}=K_{1} \backslash K_{1} \cap K_{2} \text { and } A_{2}=K_{2} \backslash K_{1} \cap K_{2}$ 就比较好理解，这里 \ 表示除去而非经典数学的除法。例如：</p>
-<p>密钥总位数为 $32\ bits$;相关部分为 $|A_0| = 21\ bits$ 那么 $|A_1|=|A_2|=11\ bits$</p>
-<p><strong>3-subset MITM：</strong><br>有迭代的分组密码，分组长度为 $n$ ，子密钥不独立的分为 $K_1,K_2$，有 $A_0\ bits$ 为公用密钥，$A_{1}=K_{1} \backslash K_{1} \cap K_{2}\ bits\  \text { and }\  A_{2}=K_{2} \backslash K_{1} \cap K_{2}\ bits$</p>
-<p><strong>MITM stage</strong></p>
-<p>对任意一个明密文对 $(P,C)$ </p>
-<ol>
-<li>穷举所有 $A_0\ bits$ ，并对每一种 $A_0$ 情况，进行步骤 2. 3.；</li>
-<li>将 $A_0$ 与 $A_1$ 拼接获得 $K_1$，前向加密得到中间值 $U$，将所有 $U$ 存入表 $T$;</li>
-<li>将 $A_0$ 与 $A_2$ 拼接获得 $K_2$，向后解密得到中间值 $V$，将所有 $V$ 与表 $T$ 中所有值进行匹配（不一定匹配中间值的全部比特），匹配到的值存入候选密钥表 $T_{vc}$ 中;</li>
-</ol>
-<p><strong>Testing Stage</strong></p>
-<p>和经典 MITM 相同，再任选不同的明密文对，对表 $T_{vc}$ 进行筛查，直到仅留下 1 个密钥。这里使用的明密文对数量和 $|A_0|$ 有关，显然是成反比的。</p>
-<p><strong>复杂度分析</strong></p>
-<p>不考虑并行明密文对，这里的 $A_0,A_1,A_2$ 表示密钥的长度$（bits)$：</p>
-<p>时间复杂度：建表时间 $2^{A_0}<em>2^{A_1}$ ，匹配时间 $2^{A_0}</em>2^{A_2}$ ，总时间：</p>
-<script type="math/tex; mode=display">
-T = 2^{A_0}*(2^{A_1}+2^{A_2})</script><p>空间复杂度：</p>
-<script type="math/tex; mode=display">
-M = 2^{A_0}*min(2^{A_1}+2^{A_2})</script><p>数据复杂度：假设中间值匹配的位数为 $m\ :\ 1&lt;=m&lt;=n$ ，则留下的候选密钥为 $A_0(A_1+A_2) - m\ bits$，所以测试需要的明密文对为：</p>
-<script type="math/tex; mode=display">
-D = \frac{A_0(A_1+A_2) - m}{n}</script><h1 id="MITM-variant-No-ThreE-All-Subkey-Recovery"><a href="#MITM-variant-No-ThreE-All-Subkey-Recovery" class="headerlink" title="MITM variant No.ThreE (All Subkey Recovery)"></a>MITM variant No.ThreE (All Subkey Recovery)</h1><p>原始文章： <a href="https://link.springer.com/chapter/10.1007/978-3-642-35999-6_14">All Subkeys Recovery Attack on Block Ciphers: Extending Meet-in-the-Middle Approach</a></p>
-<p>从经典中间相遇攻击而来，考虑到经典中间相遇攻击的局限性：</p>
-<ol>
-<li><p>需要子密钥相互独立，不独立情况见 “MITM variant No.TwO (3 subset)” 部分</p>
-</li>
-<li><p>由于密钥编排算法的限制，可能无法在仅获得部分子密钥的情况下获取主密钥</p>
-</li>
-</ol>
-<p>ASR 攻击注意针对第 2 个局限进行改进，即试图使用中间相遇的思想来恢复全部子密钥，从而忽略密钥编排算法的影响，如果密钥编排可逆，也可以利用所有子密钥恢复主密钥。</p>
-<p><strong>ASR attack</strong></p>
-<p>假设分组密码分组长度为 $n$ ，加密函数为 $E$ ，有 $R$ 轮，且每轮使用不同的加密子密钥，子密钥不需要全部独立（但需要有部分独立的情况存在）</p>
-<p><strong>MITM stage</strong></p>
-<ol>
-<li><p>攻击者确定中间碰撞状态 $S\ (s-bits)$ ；这个过程并不能独立后面的步骤，和 $K_1,K_2$ 的选取有很大关系</p>
-<p>状态 $S$ 可以从两个方向计算得来，即 $S=F_{1}(P,K_1) = F_2^{-1}(C,K_2)$ ，其中 $F_1,F_2$ 分别是前向和后向的（部分）加密函数</p>
-<p>但并不是仅有 $K_1,K_2$ 就可以从明文加密到密文，还有剩余没有用上的密钥 $K_3$ ，所以有 $\left|\mathcal{K}_{(1)}\right|+\left|\mathcal{K}_{(2)}\right|+\left|\mathcal{K}_{(3)}\right|=R \cdot \ell$ </p>
-<p>对于此处的 $K_1,K_2$ ，需要能够保证 $F_{1}(P,K_1) = F_2^{-1}(C,K_2)$ 的计算是独立的；</p>
-</li>
-<li><p>将 $min(K_1,K_2)$ 得到的 $(P/C,S)$ 拿来存表，而另一部分用来做匹配，如果能够在状态 $S$ 匹配到，即 $S=F_{1}(P,K_1) = F_2^{-1}(C,K_2)$ ，则将使用的密钥 $K_1,K_2$ 加入候选密钥表；</p>
-</li>
-<li><p>考虑到并行操作，可以对多个明密文对并行操作进行步骤 2.</p>
-</li>
-</ol>
-<p><strong>Test Stage</strong></p>
-<p>同样的，使用不同明密文对测试，但测试的不是是否能够从明文加密到密文，因为整个过程没有考虑 $K_3$ ，而是测试使用不同的明密文能否找到状态 $S$ 的匹配 ？ 是这样吗？？</p>
-<p><strong>NOTE</strong></p>
-<ol>
-<li><p>在步骤 2. 有 $2^{-s}$ 的概率在状态 $S$ 匹配到，而总可能密钥数为 $2^{R<em>l}$ 所以留下的候选密钥为 $2^{R</em>l-s}$ 个，而并行使用 N 个明密文对留下的候选密钥就为  $2^{R<em>l-N</em>s}$ 个；</p>
-</li>
-<li><p>这里可以并行使用的明密文对数量 N 为，需要有一定的限制：</p>
-<p>$2^{R<em>l-N</em>s} \leq 2^{R*l-(|K_1|+|K_2|)}$ 即 $N\leq(|K_1|+|K_2|)/s$，如果不满足，则意味着使用 $2^{|K_1|+|K_2|}$ 种密钥筛掉了超过大于 $2^{|K_1|+|K_2|}$ 个密钥，这是不合理的；</p>
-</li>
-</ol>
-<p><strong>复杂度分析</strong></p>
-<ul>
-<li>时间复杂度：选 $|K_1|,|K_2|$ 更大的用来做匹配，对 N 个明密文对，就需要 $\max \left(2^{\left|\mathcal{K}_{(1)}\right|}, 2^{\left|\mathcal{K}_{(2)}\right|}\right) \times N$ 的计算，而对剩余的密钥 $K_3$ 就需要穷举，需要 $2^{R \cdot \ell-N \cdot s}$ 的计算，所以总时间复杂度为：</li>
-</ul>
-<script type="math/tex; mode=display">
-T_n = C_{c o m p}=\max \left(2^{\left|\mathcal{K}_{(1)}\right|}, 2^{\left|\mathcal{K}_{(2)}\right|}\right) \times N+2^{R \cdot \ell-N \cdot s} .</script><ul>
-<li>空间复杂度：选 $|K_1|,|K_2|$ 更小的用来建表，对 N 个明密文对，总空间复杂度为：</li>
-</ul>
-<script type="math/tex; mode=display">
-S_n = \min \left(2^{\left|\mathcal{K}_{(1)}\right|}, 2^{\left|\mathcal{K}_{(2)}\right|} \mid\right) \times N</script><ul>
-<li>数据复杂度：并行 N 个不同的明密文对，在测试阶段，留下密钥 $R<em>l-N</em>s$ bits，因为分组长度为 n ，所以每个新的明密文对可以筛掉 n bits（<strong>注意</strong>这个过程：$P \rightarrow E_k \rightarrow C$ ，这里的 $_k$ 会遍历所有留下的候选密钥，而理论上会有 n 个被筛掉）所以需要进行  $\lceil(R \cdot \ell-N \cdot s) / n\rceil$ 次筛查，数据复杂度为：</li>
-</ul>
-<script type="math/tex; mode=display">
-D_n = \max (N,\lceil(R \cdot \ell-N \cdot s) / n\rceil)</script>]]></content>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"># class TreeNode:</span></span><br><span class="line"><span class="comment">#     def __init__(self, val=0, left=None, right=None):</span></span><br><span class="line"><span class="comment">#         self.val = val</span></span><br><span class="line"><span class="comment">#         self.left = left</span></span><br><span class="line"><span class="comment">#         self.right = right</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">isUnivalTree</span>(<span class="params">self, root: TreeNode</span>) -&gt; <span class="built_in">bool</span>:</span><br><span class="line">        <span class="comment">#3 traverse</span></span><br><span class="line">        ttval = <span class="built_in">set</span>()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">preorder</span>(<span class="params">root</span>):</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> root:</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            ttval.add(root.val)</span><br><span class="line">            preorder(root.left)</span><br><span class="line">            preorder(root.right)</span><br><span class="line"></span><br><span class="line">        preorder(root)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(ttval) == <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">        #DFS</span></span><br><span class="line"><span class="string">        if not root:</span></span><br><span class="line"><span class="string">            return True</span></span><br><span class="line"><span class="string">        if root.left:</span></span><br><span class="line"><span class="string">            if root.val != root.left.val or not self.isUnivalTree(root.left):</span></span><br><span class="line"><span class="string">                return False</span></span><br><span class="line"><span class="string">        if root.right:</span></span><br><span class="line"><span class="string">            if root.val != root.right.val or not self.isUnivalTree(root.right):</span></span><br><span class="line"><span class="string">                return False</span></span><br><span class="line"><span class="string">        return True</span></span><br><span class="line"><span class="string">        &#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+<h5 id="前中后序遍历的-demo"><a href="#前中后序遍历的-demo" class="headerlink" title="前中后序遍历的 demo"></a>前中后序遍历的 demo</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">order</span>(<span class="params">root</span>):</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> root:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    <span class="comment">#preorder(root)</span></span><br><span class="line">    order(root.left)</span><br><span class="line">    <span class="comment">#inorder(root)</span></span><br><span class="line">    order(root.right)</span><br><span class="line">    <span class="comment">#postorder(root)</span></span><br></pre></td></tr></table></figure>
+]]></content>
       <categories>
-        <category>Cryptanalysis</category>
+        <category>LeetCode_daily</category>
       </categories>
       <tags>
-        <tag>Crypto</tag>
+        <tag>DFS</tag>
       </tags>
   </entry>
 </search>
