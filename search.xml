@@ -158,6 +158,19 @@ M = \left[ \begin{matrix} 1 & 1 \\ 1 & 0 \end{matrix} \right]</script><figure cl
       </tags>
   </entry>
   <entry>
+    <title>约瑟夫环</title>
+    <url>/2022/05/25/Algorithm/%E7%BA%A6%E7%91%9F%E5%A4%AB%E7%8E%AF/</url>
+    <content><![CDATA[<h1 id="约瑟夫环"><a href="#约瑟夫环" class="headerlink" title="约瑟夫环"></a>约瑟夫环</h1><p>参见：</p>
+<p> <a href="https://leetcode-cn.com/problems/find-the-winner-of-the-circular-game/">1823. 找出游戏的获胜者</a></p>
+<h4 id="剑指-Offer-62-圆圈中最后剩下的数字"><a href="#剑指-Offer-62-圆圈中最后剩下的数字" class="headerlink" title="剑指 Offer 62. 圆圈中最后剩下的数字"></a><a href="https://leetcode-cn.com/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/">剑指 Offer 62. 圆圈中最后剩下的数字</a></h4>]]></content>
+      <categories>
+        <category>Code_Algo</category>
+      </categories>
+      <tags>
+        <tag>Math</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>如何判断三点是否共线？</title>
     <url>/2022/06/09/Algorithm/%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E4%B8%89%E7%82%B9%E6%98%AF%E5%90%A6%E5%85%B1%E7%BA%BF%EF%BC%9F/</url>
     <content><![CDATA[<h2 id="判断三点共线"><a href="#判断三点共线" class="headerlink" title="判断三点共线"></a>判断三点共线</h2><p>判断三点是否共线，有三种方法（其实实质上是两种）</p>
@@ -197,39 +210,6 @@ x 3 & y 3 & 1
       </tags>
   </entry>
   <entry>
-    <title>Gurobi_1_ex_mip1</title>
-    <url>/2022/05/30/Gurobi/Gurobi-1-ex-mip1/</url>
-    <content><![CDATA[<h1 id="ex-mip1"><a href="#ex-mip1" class="headerlink" title="ex_mip1"></a>ex_mip1</h1><h2 id="求解问题"><a href="#求解问题" class="headerlink" title="求解问题"></a>求解问题</h2><script type="math/tex; mode=display">
-\begin{array}{cl}
-\max & x+y+2 z \\
-\text { s.t. } & x+2 y+3 z \leq 4 \\
-& x+y \geq 1 \\
-& x, y, z \in\{0,1\}
-\end{array}</script><h2 id="代码解释"><a href="#代码解释" class="headerlink" title="代码解释"></a>代码解释</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> gurobipy</span><br><span class="line"><span class="keyword">from</span> gurobipy <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="comment">#需要对出错情况进行反馈，所以用 try</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#建一个模型</span></span><br><span class="line">    m = gurobipy.Model(<span class="string">&quot;mip1&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Model=&#x27;</span>,m)   <span class="comment">#Model= &lt;gurobi.Model Continuous instance mip1: 0 constrs, 0 vars, No parameter changes&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#定义变量</span></span><br><span class="line">    x = m.addVar(vtype=GRB.BINARY, name=<span class="string">&quot;x&quot;</span>)</span><br><span class="line">    y = m.addVar(vtype=GRB.BINARY, name=<span class="string">&quot;y&quot;</span>)</span><br><span class="line">    z = m.addVar(vtype=GRB.BINARY, name=<span class="string">&quot;z&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#目标函数</span></span><br><span class="line">    m.setObjective(x+y+<span class="number">2</span>*z, GRB.MAXIMIZE)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#约束条件</span></span><br><span class="line">    m.addConstr(x+<span class="number">2</span>*y+<span class="number">3</span>*z &lt;= <span class="number">4</span>, <span class="string">&#x27;c0&#x27;</span>)</span><br><span class="line">    m.addConstr(x+y &gt;= <span class="number">1</span>, <span class="string">&#x27;c1&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#优化模型</span></span><br><span class="line">    m.optimize()</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;new_Model=&#x27;</span>, m)  <span class="comment">#new_Model= &lt;gurobi.Model MIP instance mip1: 2 constrs, 3 vars, No parameter changes&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> v <span class="keyword">in</span> m.getVars():</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;%s %g&#x27;</span> % (v.VarName, v.X))</span><br><span class="line">    <span class="comment">#x 1</span></span><br><span class="line">    <span class="comment">#y 0</span></span><br><span class="line">    <span class="comment">#z 1</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Obj: %g&#x27;</span> % m.ObjVal) <span class="comment">#Obj: 3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">except</span> gurobipy.GurobiError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Error code &#x27;</span> + <span class="built_in">str</span>(e.errno) + <span class="string">&#x27;: &#x27;</span> + <span class="built_in">str</span>(e))</span><br><span class="line"></span><br><span class="line"><span class="keyword">except</span> AttributeError:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Encountered an attribute error&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>参考：</p>
-<p><a href="https://blog.csdn.net/WASEFADG/article/details/105261808">https://blog.csdn.net/WASEFADG/article/details/105261808</a></p>
-]]></content>
-      <categories>
-        <category>MILP_Learning</category>
-      </categories>
-      <tags>
-        <tag>Gurobi</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>约瑟夫环</title>
-    <url>/2022/05/25/Algorithm/%E7%BA%A6%E7%91%9F%E5%A4%AB%E7%8E%AF/</url>
-    <content><![CDATA[<h1 id="约瑟夫环"><a href="#约瑟夫环" class="headerlink" title="约瑟夫环"></a>约瑟夫环</h1><p>参见：</p>
-<p> <a href="https://leetcode-cn.com/problems/find-the-winner-of-the-circular-game/">1823. 找出游戏的获胜者</a></p>
-<h4 id="剑指-Offer-62-圆圈中最后剩下的数字"><a href="#剑指-Offer-62-圆圈中最后剩下的数字" class="headerlink" title="剑指 Offer 62. 圆圈中最后剩下的数字"></a><a href="https://leetcode-cn.com/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/">剑指 Offer 62. 圆圈中最后剩下的数字</a></h4>]]></content>
-      <categories>
-        <category>Code_Algo</category>
-      </categories>
-      <tags>
-        <tag>Math</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>蓄水池采样</title>
     <url>/2022/05/25/Algorithm/%E8%93%84%E6%B0%B4%E6%B1%A0%E7%AE%97%E6%B3%95/</url>
     <content><![CDATA[<h1 id="蓄水池采样算法-Reservoir-Sampling"><a href="#蓄水池采样算法-Reservoir-Sampling" class="headerlink" title="蓄水池采样算法 (Reservoir Sampling)"></a>蓄水池采样算法 (Reservoir Sampling)</h1><p><a href="https://www.bilibili.com/video/BV17i4y1j7wE/?spm_id_from=333.788.recommend_more_video.1">https://www.bilibili.com/video/BV17i4y1j7wE/?spm_id_from=333.788.recommend_more_video.1</a></p>
@@ -263,23 +243,541 @@ or\\
       </tags>
   </entry>
   <entry>
-    <title>Gurobi-2-ex-diet</title>
-    <url>/2022/06/01/Gurobi/Gurobi-2-ex-diet/</url>
-    <content><![CDATA[]]></content>
+    <title>Diffusion Basic</title>
+    <url>/2022/05/26/Cryptanalysis/Basic-Diffusion/</url>
+    <content><![CDATA[<p>香农提出了密码设计的两种基本方法即 混淆和扩散。</p>
+<p>分组密码系统包括 线性部分 和 非线性部分，其对应功能分别是 扩散和混淆。</p>
+<p>扩散性往往由线性函数提供，如 rotation ，shift ，或更复杂的 MDS matrix（但其本质也是 rotation and shift）。</p>
+<p>在研究扩散性时，如果往其最基本单元考虑：</p>
+<p>线性运算时一般是 位切片操作，即对每一个 bit 进行运算。那么总体来看就是一个面向 GPU 友好型的 <a href="https://baike.baidu.com/item/%E5%8D%95%E6%8C%87%E4%BB%A4%E6%B5%81%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%B5%81/257612">SIMD</a> 操作 ，对一个 bit 的操作不会影响到其他 bits，显然这是不能够满足扩散性的，那么就需要一些 rotation，shift… 来将 bit 打散，使其能够更多的参与到非线性运算。</p>
+<p>由于 扩散主要是用来使用明文和密文的关系变得尽可能的复杂，明文中任何一点小更动都会使得密文有很大的差异，即达到雪崩效应。</p>
+<blockquote>
+<p>雪崩效应：对于密码而言，要求输入位的 1 bit 变化导致每个输出位 bit 有 50% 的概率发生反转</p>
+</blockquote>
+<p><a href="https://crypto.stackexchange.com/questions/19000/shannon-confusion-and-diffusion-concept/44659#44659">The job of the linear diffusion layer is to ensure that each successive input to the non-linear function consists of a balanced and maximum number of super-positioned input bits.</a></p>
+<p>而验证扩散性是否能够尽可能地达到使密码系统安全的办法，除建立相关性方程，利用如 Mathmatica 等工具来搜索之外，可能还需要考虑由于扩散不全而造成的分支代数次数低，差分线性分析等等。</p>
+]]></content>
+      <tags>
+        <tag>Crypto</tag>
+      </tags>
   </entry>
   <entry>
-    <title>Gurobi_Outline</title>
-    <url>/2022/05/30/Gurobi/Gurobi_Outline/</url>
-    <content><![CDATA[<h1 id="Gurobi-建模的基本流程"><a href="#Gurobi-建模的基本流程" class="headerlink" title="Gurobi 建模的基本流程"></a>Gurobi 建模的基本流程</h1><p>这样定义会使整个模型易读</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">m = gurobipy.Model(<span class="string">&quot;Model_Name&quot;</span>)	<span class="comment">#模型</span></span><br><span class="line"></span><br><span class="line">var = m.addVar(vtype = var_type,name=<span class="string">&quot;var_name&quot;</span>)	<span class="comment">#增加变量</span></span><br><span class="line"><span class="comment">#...More vars</span></span><br><span class="line"></span><br><span class="line">m.setObject(objective_expression,objective_sense)	<span class="comment">#目标函数</span></span><br><span class="line"></span><br><span class="line">m.addConstr(constraint,constraint_name)	<span class="comment">#约束条件</span></span><br><span class="line"><span class="comment">#...More constraints</span></span><br><span class="line"></span><br><span class="line">m.optimize()	<span class="comment">#优化模型</span></span><br></pre></td></tr></table></figure>
-<p><img src="https://ossimg.yzitc.com/2022/05/30/930c4d13cf906.png"></p>
-]]></content>
+    <title>MITM AttacK</title>
+    <url>/2022/05/27/Cryptanalysis/About%20MITM%20and%20variants/</url>
+    <content><![CDATA[<h1 id="Classical-MITM"><a href="#Classical-MITM" class="headerlink" title="Classical MITM"></a>Classical MITM</h1><p>在 Hellman 的文章<a href="https://www.computer.org/csdl/magazine/co/1977/06/01646525/13rRUwInvDu">Special Feature Exhaustive Cryptanalysis of the NBS Data Encryption Standard</a>中给出了中间相遇攻击的基本概念。</p>
+<p>首先需要意识到，中间相遇攻击也是穷举，但是结合了 TMTO 的思想，通过建表存一部分值，穷搜另一部分值来达到比穷举攻击更好的效益。</p>
+<p><strong>经典MITM</strong>：<br>有迭代的分组密码，分组长度为 $n$ ，子密钥可独立的分为 $K_1||K_2$ </p>
+<p><strong>MITM stage</strong></p>
+<ol>
+<li><p>任取明密文对 $(P,C) $ ，将密钥做以下划分：</p>
+<p>前向轮密钥记为 $K_1$ ，后向轮密钥记为 $K_2$</p>
+</li>
+<li><p>用前向的密钥对明文加密得到中间值 $U$ ；同样的，用后向的密钥对密文解密得到中间值 $V$ </p>
+</li>
+<li><p>匹配中间值，判断 $U\overset{?}{=}V$ 如果是，则将使用的密钥（全部bit）存入候选密钥表中，否则丢弃（在该过程中，可能会有一些随机值也能够匹配）</p>
+</li>
+</ol>
+<p><strong>Testing stage</strong></p>
+<p>再次任选明密文对 $(P_1,C_1)$ 并对候选密钥表进行二次筛查，重复步该过程直至候选密钥表中仅剩 1 个密钥，即为正确密钥。</p>
+<p><strong>NOTE</strong>：</p>
+<ol>
+<li>以上过程如果能够保证前向和后向密钥能够覆盖全密钥空间，则在匹配到 $U=V$ 时即可能得到正确密钥，但不能保证随机值导致的误报不会出现（这里总可能数为 $2^{|K_1|+|K_2|}$ ，但匹配的长度为 $2^{n}$，明显 $|K_1|+|K_2| &gt; n$（安全标准），所以产生的中间值肯定会有很多误报）假设这里能够此处匹配到的概率是 $2^{-n}$ ，而全可能密钥数为 $2^{|K_1|+|K_2|}$ ，所以筛选留下的密钥数为 $2^{|K_1|+|K_2|-n}$，这需要在后续的测试阶段不断筛选；</li>
+<li>能够使用经典中间相遇攻击的前提是子密钥的独立性。</li>
+</ol>
+<p><strong>复杂度分析</strong></p>
+<p>时间复杂度：将更大的密钥拿来查询（内存比时间更贵），所以时间复杂度为：</p>
+<script type="math/tex; mode=display">
+T = max(2^{K_1},2^{K_2})</script><p>空间复杂度：将更小的密钥拿来查询，所以空间复杂度为：</p>
+<script type="math/tex; mode=display">
+M = min(2^{K_1},2^{K_2})</script><p>数据复杂度：留下的候选密钥 $|K_1|+|K_2|-n\ bits$ 而对每个新的明密文对， 理想情况下会筛掉 $n\ bits$ ，所以数据复杂度为：</p>
+<script type="math/tex; mode=display">
+D = \frac{|K_1|+|K_2|-n}{n}</script><p>（这里没有考虑建表和查表的时间，后面也不会考虑，如果考虑，通过较优化的算法如快速排序，二分查找之类，建表并排序的时间大概为 $2^{log(min(2^{K_1},2^{K_2}))}$，查表时间大概为 $2^{log(max(2^{K_1},2^{K_2}))}$）</p>
+<h1 id="MITM-variant-No-OnE-partial-matching"><a href="#MITM-variant-No-OnE-partial-matching" class="headerlink" title="MITM variant No.OnE (partial matching)"></a>MITM variant No.OnE (partial matching)</h1><p>在进行经典 MITM 时，大多数情况不能在中间匹配到等于分组长度的状态，即 $n=s$ 往往不能满足。</p>
+<p>所以更多情况下，往往只对分组长的部分比特进行匹配，也即部分匹配。</p>
+<p>这是一种匹配的技巧，在中间相遇攻击中都会用到，如经典 MITM 的 MITM stage 中，步骤 2. 的得到的 $U\ and\ V$ 的长度往往比分组长度小，但这样部分匹配也引发了一定的问题：</p>
+<p>见经典 MITM NOTE 1. 匹配到的概率会变小，如果状态长度为 $s\ (s&lt;n)$ 那么匹配到的概率就是 $2^{-s}$ ，留下的密钥数量就是$2^{|K_1|+|K_2|-s}$ ，在后面测试阶段就需要更多的明密文对来筛选候选密钥集。当然也可以利用并行搜索的办法，减少留下的候选密钥数量，并行 $N$ 个明密文对来进行 MITM ，留下的密钥数量就是$2^{|K_1|+|K_2|-N*s}$ ，MITM 阶段和测试阶段的操作没有实质性的变换，但复杂度需要重新考虑：</p>
+<p><strong>复杂度分析：</strong></p>
+<p>时间复杂度：并行 N 个明密文对，所以时间复杂度变为：</p>
+<script type="math/tex; mode=display">
+T = max(2^{K_1},2^{K_2})*N</script><p>空间复杂度：同样的，并行 N 个明密文对，所以空间复杂度变为：</p>
+<script type="math/tex; mode=display">
+M = min(2^{K_1},2^{K_2})*N</script><p>数据复杂度：MITM 阶段和测试阶段都使用了多个明密文对，取较大的作为数据复杂度量级：</p>
+<script type="math/tex; mode=display">
+D = max(\frac{|K_1|+|K_2|-s*N}{n},N)</script><h1 id="MITM-variant-No-TwO-3-subset"><a href="#MITM-variant-No-TwO-3-subset" class="headerlink" title="MITM variant No.TwO (3 subset)"></a>MITM variant No.TwO (3 subset)</h1><p>从经典的 MITM 考虑，如果子密钥不能独立，那么建表和穷举部分都无法独立进行，参考文章<a href="https://link.springer.com/chapter/10.1007/978-3-642-19574-7_16">A 3-Subset Meet-in-the-Middle Attack: Cryptanalysis of the Lightweight Block Cipher KTANTAN</a> 和文章<a href="https://link.springer.com/chapter/10.1007/978-3-642-31410-0_9">Three-Subset Meet-in-the-Middle Attack on Reduced XTEA</a> 了解使用 3 子集来构造具有独立性的子密钥集合，并结合穷举和经典 MITM 来进行中间相遇攻击。</p>
+<p><img src="https://ossimg.yzitc.com/2022/05/27/d6d5603020045.png"></p>
+<p>术语解释：</p>
+<p>$K=k_{\ell-1} k_{\ell-2} \ldots k_{1} k_{0} \text { be the } \ell \text {-bit key. }$</p>
+<p>$K_{1}=\left\{k_{i}: k_{i} \text { used by } \varphi_{1, \alpha}\right\}$</p>
+<p>$K_{2}=\left\{k_{i}: k_{i} \text { used by } \varphi_{R-\beta+1, R}\right\}$</p>
+<p>$A_{0}=K_{1} \cap K_{2}$是在前向 $\alpha$ 和后向 $\beta$ 都使用的密钥 <strong>比特</strong></p>
+<p>$K = K_1 \cup K_2$</p>
+<p><strong>NOTE</strong>:明确一点：$K,K_i$ 是以密钥个为单位，$Ai$ 以比特为单位；</p>
+<p>$A_{1}=K_{1} \backslash K_{1} \cap K_{2} \text { and } A_{2}=K_{2} \backslash K_{1} \cap K_{2}$ 就比较好理解，这里 \ 表示除去而非经典数学的除法。例如：</p>
+<p>密钥总位数为 $32\ bits$;相关部分为 $|A_0| = 21\ bits$ 那么 $|A_1|=|A_2|=11\ bits$</p>
+<p><strong>3-subset MITM：</strong><br>有迭代的分组密码，分组长度为 $n$ ，子密钥不独立的分为 $K_1,K_2$，有 $A_0\ bits$ 为公用密钥，$A_{1}=K_{1} \backslash K_{1} \cap K_{2}\ bits\  \text { and }\  A_{2}=K_{2} \backslash K_{1} \cap K_{2}\ bits$</p>
+<p><strong>MITM stage</strong></p>
+<p>对任意一个明密文对 $(P,C)$ </p>
+<ol>
+<li>穷举所有 $A_0\ bits$ ，并对每一种 $A_0$ 情况，进行步骤 2. 3.；</li>
+<li>将 $A_0$ 与 $A_1$ 拼接获得 $K_1$，前向加密得到中间值 $U$，将所有 $U$ 存入表 $T$;</li>
+<li>将 $A_0$ 与 $A_2$ 拼接获得 $K_2$，向后解密得到中间值 $V$，将所有 $V$ 与表 $T$ 中所有值进行匹配（不一定匹配中间值的全部比特），匹配到的值存入候选密钥表 $T_{vc}$ 中;</li>
+</ol>
+<p><strong>Testing Stage</strong></p>
+<p>和经典 MITM 相同，再任选不同的明密文对，对表 $T_{vc}$ 进行筛查，直到仅留下 1 个密钥。这里使用的明密文对数量和 $|A_0|$ 有关，显然是成反比的。</p>
+<p><strong>复杂度分析</strong></p>
+<p>不考虑并行明密文对，这里的 $A_0,A_1,A_2$ 表示密钥的长度$（bits)$：</p>
+<p>时间复杂度：建表时间 $2^{A_0}<em>2^{A_1}$ ，匹配时间 $2^{A_0}</em>2^{A_2}$ ，总时间：</p>
+<script type="math/tex; mode=display">
+T = 2^{A_0}*(2^{A_1}+2^{A_2})</script><p>空间复杂度：</p>
+<script type="math/tex; mode=display">
+M = 2^{A_0}*min(2^{A_1}+2^{A_2})</script><p>数据复杂度：假设中间值匹配的位数为 $m\ :\ 1&lt;=m&lt;=n$ ，则留下的候选密钥为 $A_0(A_1+A_2) - m\ bits$，所以测试需要的明密文对为：</p>
+<script type="math/tex; mode=display">
+D = \frac{A_0(A_1+A_2) - m}{n}</script><h1 id="MITM-variant-No-ThreE-All-Subkey-Recovery"><a href="#MITM-variant-No-ThreE-All-Subkey-Recovery" class="headerlink" title="MITM variant No.ThreE (All Subkey Recovery)"></a>MITM variant No.ThreE (All Subkey Recovery)</h1><p>原始文章： <a href="https://link.springer.com/chapter/10.1007/978-3-642-35999-6_14">All Subkeys Recovery Attack on Block Ciphers: Extending Meet-in-the-Middle Approach</a></p>
+<p>从经典中间相遇攻击而来，考虑到经典中间相遇攻击的局限性：</p>
+<ol>
+<li><p>需要子密钥相互独立，不独立情况见 “MITM variant No.TwO (3 subset)” 部分</p>
+</li>
+<li><p>由于密钥编排算法的限制，可能无法在仅获得部分子密钥的情况下获取主密钥</p>
+</li>
+</ol>
+<p>ASR 攻击注意针对第 2 个局限进行改进，即试图使用中间相遇的思想来恢复全部子密钥，从而忽略密钥编排算法的影响，如果密钥编排可逆，也可以利用所有子密钥恢复主密钥。</p>
+<p><strong>ASR attack</strong></p>
+<p>假设分组密码分组长度为 $n$ ，加密函数为 $E$ ，有 $R$ 轮，且每轮使用不同的加密子密钥，子密钥不需要全部独立（但需要有部分独立的情况存在）</p>
+<p><strong>MITM stage</strong></p>
+<ol>
+<li><p>攻击者确定中间碰撞状态 $S\ (s-bits)$ ；这个过程并不能独立后面的步骤，和 $K_1,K_2$ 的选取有很大关系</p>
+<p>状态 $S$ 可以从两个方向计算得来，即 $S=F_{1}(P,K_1) = F_2^{-1}(C,K_2)$ ，其中 $F_1,F_2$ 分别是前向和后向的（部分）加密函数</p>
+<p>但并不是仅有 $K_1,K_2$ 就可以从明文加密到密文，还有剩余没有用上的密钥 $K_3$ ，所以有 $\left|\mathcal{K}_{(1)}\right|+\left|\mathcal{K}_{(2)}\right|+\left|\mathcal{K}_{(3)}\right|=R \cdot \ell$ </p>
+<p>对于此处的 $K_1,K_2$ ，需要能够保证 $F_{1}(P,K_1) = F_2^{-1}(C,K_2)$ 的计算是独立的；</p>
+</li>
+<li><p>将 $min(K_1,K_2)$ 得到的 $(P/C,S)$ 拿来存表，而另一部分用来做匹配，如果能够在状态 $S$ 匹配到，即 $S=F_{1}(P,K_1) = F_2^{-1}(C,K_2)$ ，则将使用的密钥 $K_1,K_2$ 加入候选密钥表；</p>
+</li>
+<li><p>考虑到并行操作，可以对多个明密文对并行操作进行步骤 2.</p>
+</li>
+</ol>
+<p><strong>Test Stage</strong></p>
+<p>同样的，使用不同明密文对测试，但测试的不是是否能够从明文加密到密文，因为整个过程没有考虑 $K_3$ ，而是测试使用不同的明密文能否找到状态 $S$ 的匹配 ？ 是这样吗？？</p>
+<p><strong>NOTE</strong></p>
+<ol>
+<li><p>在步骤 2. 有 $2^{-s}$ 的概率在状态 $S$ 匹配到，而总可能密钥数为 $2^{R<em>l}$ 所以留下的候选密钥为 $2^{R</em>l-s}$ 个，而并行使用 N 个明密文对留下的候选密钥就为  $2^{R<em>l-N</em>s}$ 个；</p>
+</li>
+<li><p>这里可以并行使用的明密文对数量 N 为，需要有一定的限制：</p>
+<p>$2^{R<em>l-N</em>s} \leq 2^{R*l-(|K_1|+|K_2|)}$ 即 $N\leq(|K_1|+|K_2|)/s$，如果不满足，则意味着使用 $2^{|K_1|+|K_2|}$ 种密钥筛掉了超过大于 $2^{|K_1|+|K_2|}$ 个密钥，这是不合理的；</p>
+</li>
+</ol>
+<p><strong>复杂度分析</strong></p>
+<ul>
+<li>时间复杂度：选 $|K_1|,|K_2|$ 更大的用来做匹配，对 N 个明密文对，就需要 $\max \left(2^{\left|\mathcal{K}_{(1)}\right|}, 2^{\left|\mathcal{K}_{(2)}\right|}\right) \times N$ 的计算，而对剩余的密钥 $K_3$ 就需要穷举，需要 $2^{R \cdot \ell-N \cdot s}$ 的计算，所以总时间复杂度为：</li>
+</ul>
+<script type="math/tex; mode=display">
+T_n = C_{c o m p}=\max \left(2^{\left|\mathcal{K}_{(1)}\right|}, 2^{\left|\mathcal{K}_{(2)}\right|}\right) \times N+2^{R \cdot \ell-N \cdot s} .</script><ul>
+<li>空间复杂度：选 $|K_1|,|K_2|$ 更小的用来建表，对 N 个明密文对，总空间复杂度为：</li>
+</ul>
+<script type="math/tex; mode=display">
+S_n = \min \left(2^{\left|\mathcal{K}_{(1)}\right|}, 2^{\left|\mathcal{K}_{(2)}\right|} \mid\right) \times N</script><ul>
+<li>数据复杂度：并行 N 个不同的明密文对，在测试阶段，留下密钥 $R<em>l-N</em>s$ bits，因为分组长度为 n ，所以每个新的明密文对可以筛掉 n bits（<strong>注意</strong>这个过程：$P \rightarrow E_k \rightarrow C$ ，这里的 $_k$ 会遍历所有留下的候选密钥，而理论上会有 n 个被筛掉）所以需要进行  $\lceil(R \cdot \ell-N \cdot s) / n\rceil$ 次筛查，数据复杂度为：</li>
+</ul>
+<script type="math/tex; mode=display">
+D_n = \max (N,\lceil(R \cdot \ell-N \cdot s) / n\rceil)</script>]]></content>
       <categories>
-        <category>MILP_Learning</category>
+        <category>Cryptanalysis</category>
       </categories>
       <tags>
-        <tag>Gurobi</tag>
+        <tag>Crypto</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>LC 5.23 t.675 Cut Off Trees for Golf Event</title>
+    <url>/2022/05/25/Lc_daily/LC-5.23-t.675-Cut-Off-Trees-for-Golf-Event/</url>
+    <content><![CDATA[<h4 id="5-23-675-为高尔夫比赛砍树"><a href="#5-23-675-为高尔夫比赛砍树" class="headerlink" title="5.23  675. 为高尔夫比赛砍树"></a>5.23  <a href="https://leetcode.cn/problems/cut-off-trees-for-golf-event/">675. 为高尔夫比赛砍树</a></h4><p>难度：困难</p>
+<p>你被请来给一个要举办高尔夫比赛的树林砍树。树林由一个 <code>m x n</code> 的矩阵表示， 在这个矩阵中：</p>
+<ul>
+<li><code>0</code> 表示障碍，无法触碰</li>
+<li><code>1</code> 表示地面，可以行走</li>
+<li><code>比 1 大的数</code> 表示有树的单元格，可以行走，数值表示树的高度</li>
+</ul>
+<p>每一步，你都可以向上、下、左、右四个方向之一移动一个单位，如果你站的地方有一棵树，那么你可以决定是否要砍倒它。</p>
+<p>你需要按照树的高度从低向高砍掉所有的树，每砍过一颗树，该单元格的值变为 <code>1</code>（即变为地面）。</p>
+<p>你将从 <code>(0, 0)</code> 点开始工作，返回你砍完所有树需要走的最小步数。 如果你无法砍完所有的树，返回 <code>-1</code> 。</p>
+<p>可以保证的是，没有两棵树的高度是相同的，并且你至少需要砍倒一棵树。</p>
+<p><strong>示例 1：</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/11/26/trees1.jpg" alt="img"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：forest = [[1,2,3],[0,0,4],[7,6,5]]</span><br><span class="line">输出：6</span><br><span class="line">解释：沿着上面的路径，你可以用 6 步，按从最矮到最高的顺序砍掉这些树。</span><br></pre></td></tr></table></figure>
+<p><strong>示例 2：</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/11/26/trees2.jpg" alt="img"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：forest = [[1,2,3],[0,0,0],[7,6,5]]</span><br><span class="line">输出：-1</span><br><span class="line">解释：由于中间一行被障碍阻塞，无法访问最下面一行中的树。</span><br></pre></td></tr></table></figure>
+<p><strong>示例 3：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：forest = [[2,3,4],[0,0,5],[8,7,6]]</span><br><span class="line">输出：6</span><br><span class="line">解释：可以按与示例 1 相同的路径来砍掉所有的树。</span><br><span class="line">(0,0) 位置的树，可以直接砍去，不用算步数。</span><br></pre></td></tr></table></figure>
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>m == forest.length</code></li>
+<li><code>n == forest[i].length</code></li>
+<li><code>1 &lt;= m, n &lt;= 50</code></li>
+<li><code>0 &lt;= forest[i][j] &lt;= 109</code></li>
+</ul>
+<h5 id="思路1：排序＋广搜"><a href="#思路1：排序＋广搜" class="headerlink" title="思路1：排序＋广搜"></a>思路1：排序＋广搜</h5><blockquote>
+<p>类似 <a href="https://leetcode.cn/problems/pacific-atlantic-water-flow/">417. 太平洋大西洋水流问题</a> 都是四个方向的广搜，但限制条件不同</p>
+<p>先将需要砍掉的树按照树高度排序，需要记录坐标和高度 <code>(index_x,index_y,height)</code>，然后使用广度优先从四个方向搜索，搜索之前建立<code>visit[]</code>数组记录是否搜索过，可以先建立方向列表或直接遍历，原理是 <code>((x+1,y),(x-1,y),(x,y+1),(x,y-1))</code> 将满足限制条件的点再次入队。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">cutOffTree</span>(<span class="params">self, forest: <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]</span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line"></span><br><span class="line">        <span class="comment">#广度优先搜素</span></span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">bfs</span>(<span class="params">sx,sy,tx,ty</span>):</span><br><span class="line">            row = <span class="built_in">len</span>(forest)</span><br><span class="line">            col = <span class="built_in">len</span>(forest[<span class="number">0</span>])</span><br><span class="line">            queue = deque([(<span class="number">0</span>,sx,sy)])</span><br><span class="line">            visit = &#123;(sx,sy)&#125;</span><br><span class="line">            <span class="keyword">while</span> queue:</span><br><span class="line">                distance,x,y = queue.popleft()</span><br><span class="line">                <span class="keyword">if</span> x == tx <span class="keyword">and</span> y == ty:</span><br><span class="line">                    <span class="keyword">return</span> distance</span><br><span class="line">                <span class="keyword">for</span> nx,ny <span class="keyword">in</span> ((x+<span class="number">1</span>,y),(x-<span class="number">1</span>,y),(x,y+<span class="number">1</span>),(x,y-<span class="number">1</span>)):</span><br><span class="line">                    <span class="keyword">if</span> <span class="number">0</span>&lt;=nx&lt;row <span class="keyword">and</span> <span class="number">0</span>&lt;=ny&lt;col <span class="keyword">and</span> forest[nx][ny] <span class="keyword">and</span> (nx,ny) <span class="keyword">not</span> <span class="keyword">in</span> visit:</span><br><span class="line">                        visit.add((nx,ny))</span><br><span class="line">                        queue.append((distance+<span class="number">1</span>,nx,ny))</span><br><span class="line">                    <span class="comment">#print(&quot;queue:&quot;,queue)</span></span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">#按照树的高度排序(indx_x,indx_y,height)</span></span><br><span class="line">        sort_trees = []</span><br><span class="line">        <span class="keyword">for</span> row,tree <span class="keyword">in</span> <span class="built_in">enumerate</span>(forest):</span><br><span class="line">            <span class="keyword">for</span> col,h <span class="keyword">in</span> <span class="built_in">enumerate</span>(tree):</span><br><span class="line">                <span class="keyword">if</span> h &gt; <span class="number">1</span>:</span><br><span class="line">                    sort_trees.append((row,col,h))</span><br><span class="line">        sort_trees = <span class="built_in">sorted</span>(sort_trees,key = <span class="keyword">lambda</span> x : x[<span class="number">2</span>])</span><br><span class="line">        <span class="built_in">print</span>(sort_trees)</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line">        res = pre_x = pre_y = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> x,y,h <span class="keyword">in</span> sort_trees:</span><br><span class="line">            d = bfs(pre_x,pre_y,x,y)</span><br><span class="line">            <span class="keyword">if</span> d &lt; <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line">            res += d</span><br><span class="line">            pre_x,pre_y = x,y</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+<h5 id="矩阵类-BFS-的-demo"><a href="#矩阵类-BFS-的-demo" class="headerlink" title="矩阵类 BFS 的 demo"></a>矩阵类 BFS 的 demo</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">BFS</span>(<span class="params">sorce_val,target_val</span>):</span><br><span class="line">    row = <span class="built_in">len</span>(Matrix)</span><br><span class="line">    col = <span class="built_in">len</span>(Matrix[<span class="number">0</span>])</span><br><span class="line">    queue = deque([(need_val,indexs)])</span><br><span class="line">    visit = &#123;(pointer_index)&#125;</span><br><span class="line">    <span class="keyword">while</span> queue:</span><br><span class="line">        <span class="comment">#Limit the values stored in the queue based on conditions</span></span><br><span class="line">        need_val,indexs = queue.popleft()	</span><br><span class="line">        <span class="keyword">if</span> get_the_target_pointer:</span><br><span class="line">            <span class="comment">#conditions of return</span></span><br><span class="line">            <span class="keyword">return</span> need_val	</span><br><span class="line">        <span class="keyword">for</span> next_pointer <span class="keyword">in</span> all_directions:</span><br><span class="line">        <span class="comment">#eg: for nx,ny in ((x+1,y),(x-1,y),(x,y+1),(x,y-1)):</span></span><br><span class="line">        	<span class="comment">#search in all directions</span></span><br><span class="line">            <span class="keyword">if</span> fulfillment_of_conditions:</span><br><span class="line">            <span class="comment">#eg: if 0&lt;=nx&lt;row and 0&lt;=ny&lt;col and forest[nx][ny] and (nx,ny) not in visit:</span></span><br><span class="line">            	<span class="comment">#**Judgment Conditions**</span></span><br><span class="line">                visit.add((next_pointer))</span><br><span class="line">                queue.append((changed_need_val,indexs))</span><br><span class="line">    <span class="keyword">return</span> situation_of_ERR_or_boundary</span><br></pre></td></tr></table></figure>
+<h5 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h5><p>还可以用 Dijkstra 和 A*启发式算法求解，待续…</p>
+]]></content>
+      <categories>
+        <category>LeetCode_daily</category>
+      </categories>
+      <tags>
+        <tag>BFS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Differential Cryptanalysis</title>
+    <url>/2022/05/25/Cryptanalysis/%E5%B7%AE%E5%88%86%E5%88%86%E6%9E%90/</url>
+    <content><![CDATA[<p><em>有些地方没渲染出来，以后注意</em></p>
+<h1 id="Differential-Cryptanalysis"><a href="#Differential-Cryptanalysis" class="headerlink" title="Differential Cryptanalysis"></a>Differential Cryptanalysis</h1><h3 id="DC-to-ToyCipher"><a href="#DC-to-ToyCipher" class="headerlink" title="DC to ToyCipher"></a>DC to ToyCipher</h3><center>
+  <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650188144391/B9FB9D37BDF15A699BC071CE49BAEA53" width="30%">
+</center>
+
+<h4 id="CIPHER-1"><a href="#CIPHER-1" class="headerlink" title="CIPHER-1"></a>CIPHER-1</h4><p>以一个$toycipher$为例：$CIPHER-1$，其中，$S[·]$ 表示一个公开的 $S-Box$ 置换（可逆)</p>
+  <center>
+  <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650189319128/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
+  </center>
+
+<p>在已知明文 $m_{0} \; m_{1}$ ，密文 $c_{0}\;c_{1}$ 的情况下（已知明文攻击），加密过程如下：</p>
+<p>(已知：$m_{0} \; m_{1}\; c_{0}\;c_{1} ;$<br>未知：$k_{0}\;k_{1}\;u\;v)$</p>
+<center>
+  <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650186751354/D2B5CA33BD970F64A6301FA75AE2EB22" width="60%">
+  </center>
+
+<p>由于两次加密使用的是相同的密钥 $k_{0}$和 $k_{1}$ ，所以对明文以密码最常用操作( $\bigoplus$ )做差分得到：</p>
+  <center>
+    <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650186863109/D2B5CA33BD970F64A6301FA75AE2EB22" width="60%">
+  </center>
+
+<p>即，明文$m_{0} \; m_{1}$差分 == 中间状态 $u_{0}, u_{1}$ 的差分，消去了密钥 $k_{0}$ 的影响；</p>
+<p>所以，跳过 $k_{0}$ 的影响，枚举 $k_{1}$ 的候选值，记 $t$，当$ t$ 满足 </p>
+<script type="math/tex; mode=display">
+\textcolor{red}{S^{-1}  [ t \bigoplus c_{0}] \bigoplus S^{-1} [ t \bigoplus c_{0}] == m_{0} \bigoplus m_{1}}</script><p>时，记 $1$ 次有效的 $t$ 计数，当 $t$ 计数足够多时，则认为 $t$ 有很大可能就是$k_{1}$ ，只需验证即可。</p>
+<p>$ Conclusion\underline{ }\;P_1: $</p>
+<ol>
+<li>即使中间数据未知，仍然可以通过寻找已知数据的差异来断定中间数据的差异；</li>
+<li>差分分析的一种方法(init) ，通过寻找确定的一部分中间状态数据，穷举另一部分未知数据来恢复密钥。</li>
+</ol>
+<p>下面是一个具体的分析的例子:</p>
+  <center>
+ <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650189084066/D2B5CA33BD970F64A6301FA75AE2EB22">
+  </center>
+
+  <center>
+  <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650189139457/D2B5CA33BD970F64A6301FA75AE2EB22">
+  </center>
+
+
+<p>简单解释一下以上例子的过程：（已知明文攻击）</p>
+<ol>
+<li><p>选择两对明密文，根据上面推出的公式：中间值差分$(u_{0}\bigoplus u_1)==$ 明文差分 $(m_{0} \bigoplus m_{1})$，计算出$u_{0} \bigoplus u_{1}$的值;</p>
+</li>
+<li><p>计算出$S[·]$的逆$S^{-1}[·]=R[·]$，用来计算核心推导式;</p>
+</li>
+<li><p>穷举所有的 $k_{1}= t$,根据式：$S^{-1}  [ t \bigoplus c_{0}] \bigoplus S^{-1} [ t \bigoplus c_{0}]$计算出中间值差分;</p>
+</li>
+<li><p>将3.中的结果与2.中的结果匹配，对可能使等式$S^{-1}  [ t \bigoplus c_{0}] \bigoplus S^{-1} [ t \bigoplus c_{0}] == m_{0} \bigoplus m_{1}$成立的t计数（或存到一个集合中）需要注意使成立的t值可能<font color = purple>不唯一</font>，这就涉及到差分概率，后面再说;</p>
+</li>
+<li><p>为了找出唯一的$t=k_{1}$，需要更多的明密文对来重复上述1.2.3.4.过程;</p>
+</li>
+<li><p>将多个明密文对产生的可能$t=k_{1}$结果取交集，直到得到最后的唯一的结果，即可以断定其为正确的$k_{1}$</p>
+</li>
+</ol>
+  <center>
+<br>
+  <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650203196847/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
+  <br>
+  </center>
+
+<h4 id="CIPHER-2"><a href="#CIPHER-2" class="headerlink" title="CIPHER-2"></a>CIPHER-2</h4><p>下面考虑一个更复杂的例子，假设$Cipher-2$有两个$S$盒及$3$个密钥：</p>
+<center>
+  <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650203999365/757C75C2BC7E2D8D9493B7FD3FD6BF1F" width="80%">
+</center>
+
+<p>明显，在以上例子中，虽然有关系 $m_{0} \bigoplus m_{1}$，但无法通过$S[·]$的逆找到中间值$w$和$v$，因为再往前传递数据的过程中，$S[·]$会消去已部分差分关系（当然，不是完全消去）</p>
+<p>那么，就需要更进一步的考虑$S$盒对该差分传递的影响</p>
+<p>下面做一个小测试，考虑两个相同$S$盒的输出差分:<br>取i,j分别为进入两个S盒的数据，且i是j的补，即$j=i \bigoplus f$，则有下表$<br></p>
+<blockquote>
+<p><strong>#小知识：二进制数据$i$的补$==i\bigoplus F_{16} ==i\bigoplus \vec{1}$</strong></p>
+</blockquote>
+<p>按照$CIPHER-1$的办法无法获取中间值$v$和$w$，因为经过了非线性的$S$盒，$\bigoplus $的差分无法被传递下去；<br>所以选定明文 $i$，和通过明文 $i$ 可以推出的明文 $j$ ，并将其分别进入 $S$ 盒，拿到其输出 $S$ 盒的差分，建立下表：</p>
+<center>
+  <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650205129825/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
+</center>
+
+
+<p>通过上面发现，在第五列，$d$ 出现的频率更高   ，下面给出以上由 $i$ 到 $j$ 到 $S[i] \bigoplus S[j]$ 的推导过程：</p>
+<script type="math/tex; mode=display">
+i(i.e. message\;or\;plaintext) \rightarrow i \bigoplus F = S[i] \bigoplus S[j]</script><p>所以，我们只需要有一个明文 $i$ 即可；</p>
+<p>根据对 $CIPHER-1$ 的攻击可以知道，$m_{0}\bigoplus m_{1} == u_{0} \bigoplus u_{1} == F$,所以有：*当两个异或等于 $ F $ 的值分别进入该 $ S $ 盒，会有$ \frac{10}{16} $的概率得到输出差分 $ d$ ；</p>
+<p>同时，通过猜测$ k_{2} $可以得到 $w$ 位置的差分，而 $w$ 位置的差分又等于 $v$ 位置的差分。</p>
+<p><strong>所以得到结论：</strong></p>
+<p>通过选择两个输入差分为 F 的明文产生密文（并不是选择明文攻击），猜测 $k_{2}$ 从反向在中间进行对比，如果差分数据十分随机，则猜测的 $k_{2}$ 不对，如果猜测 $k_{2}$ 使得在中间 $v_{0}\bigoplus v_{1}$ 为 $d$，则很大可能猜测的 $k_{2}$ 正确。</p>
+<p>那么更进一步，对任何一对”选择”的明密文，猜测 $k_{2}$ ，并将所有 $k_{2}$ 的猜测记在$hash$表中，如果 $k_{2}$ 使得中间的差分 $ v_{0}\bigoplus v_{1} = $差分分布表中频率出现最高的数据（如 $Table\;6.1$ 的 $d$），则将该$hash$表中对于的 $k_{2}$ 的位置计数 $+1$.(*逆向推 $k_{2}$ 的过程中，正确的 $k_{2}$ 将会使中间值差分出现的频率远高于其他值出现的频率，如上图 $v_{0} \bigoplus v_{1}=d$ 概率为 $ \frac{10}{16} $,而其他为$ \frac{1}{16} $.</p>
+<p>以上的寻找输入差分 $d_{in}$ 及其经过两个 $S-Box$ 之后的输出差分 $d_{out}$ 的值可以建一个差分表 $\textcolor{red}{DDT}$  ,如下：</p>
+<p>从下图可以看出，当输入差分为$f$时，输出差分为$d$出现的频率最高次数为10，所以选择差分 $f$ 从 $plaintext$ 注入，获得一条差分概率最大的路径，概率为$\frac{10}{16}$,路径为$f\rightarrow d$. </p>
+<p><img src="https://uploadfiles.nowcoder.com/images/20220419/629760107_1650360923811/D2B5CA33BD970F64A6301FA75AE2EB22" alt="img"></p>
+<p>对 $CIPHER-2$ 的分析让我们发现了 $S[·]$ 的一些规律，比如：</p>
+<ul>
+<li>如果两对差分输入位上均不同，如 $0001\;and\;1110$，观察上表的 $1\;and\;e$ ，输出差分在各位也均不同；</li>
+<li>在所有位位置不同的十对输入将产生除了第二个最低有效位位置之外的所有不同的输出对；</li>
+<li>$and\;so\;on\;and\;so\;forth$</li>
+</ul>
+<p>那么，如果一对输入输出差分$(\alpha,\beta)$，即输入差分 $\alpha$ 通过 $S[·]$ 可以得到输出差分 $\beta$ ,则称该过程为通过操作 $S[·]$ 的差分特征 $ (differential) \;characteristic\;across\;the\;operation\;S[⋅]$ 记作$\alpha\;\stackrel{S[·]}{\rightarrow}\;\beta$ ,一个特征成立就有与其对应的概率如 $f\;\stackrel{S[·]}{\rightarrow}\;b$ 的概率为$\frac{10}{16}$.</p>
+<h3 id="DC-using-Characteristic"><a href="#DC-using-Characteristic" class="headerlink" title="DC using Characteristic"></a>DC using Characteristic</h3><h4 id="CIPHER-3"><a href="#CIPHER-3" class="headerlink" title="CIPHER-3"></a>CIPHER-3</h4><p>有了上面的规律，可以考虑一个更加复杂的$ToyCipher$：$CIPGERTHREE$在$CIPHER-2$的基础上，又多加了一个$S[·]$及一个密钥$k_3$</p>
+<center>
+<img src="https://uploadfiles.nowcoder.com/images/20220418/629760107_1650291467544/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
+</center>
+
+<p>有了对$CIPHER-2$的分析方法，对$CIPHER-3$分析就容易理解多了：如果考虑通过一个$S[·]$，则给定差分 $f$ 会得到差分 $d$ 的概率时 $\frac{10}{16}$；那么，考虑差分继续往后传播，到第二个$S[·]$，通过查表 $Table 6.2$ 可以得知，概率最高的是特征 $d\;\stackrel{S[·]}{\rightarrow}\;c$，概率为 $\frac{6}{16}$，也就是说，如果我们希望能够通过”猜密钥”的方式（或者是枚举）得到密钥 $k_3$ ，就需要经过两个 $S[·]$ ，而带来的影响是，差分概率降低（<em>我们选取的是差分概率最高的一条特征路径）。很自然的，我们把通过两个$S[·]$的差分特征概率乘起来 $\frac{10}{16}  </em> \frac{6}{16}=\frac{15}{64}$，也就是说，我们猜出正确的$k_3$的概率是$\frac{15}{64}$,但这也是很大的降低了噪声对我们猜测密钥的影响，因为随机猜测密钥的。</p>
+<h4 id="CIPHER-4"><a href="#CIPHER-4" class="headerlink" title="CIPHER-4"></a>CIPHER-4</h4><p>$CIPHER-4$已经十分类似我们现在使用的分组密码（见 $AES$ 算法 $Rijndael$）：使用 $r$ 轮加密，对 $16-bit\;block$ 操作，所有的 $r+1$ 轮的密钥都随机均匀选取，每一轮包含结构 $S[·]\;and\;P[·]$ （都可逆）见下图：</p>
+<p><em>其中，每一轮的输入为 $16-bit$ ，被分为 $4 </em> 4-bit$ 的四个半字节放入 $4 <em> S[·]$ 和 $P[·]$ 中运算，也就是说 $S[·]\;and\;P[·]$ 都是在 $\{0,1\}^4\;\rightarrow(0,f)$ 上的置换</em></p>
+<h1 id="4-轮的-CIPHER-4-实现了充分的扩散（雪崩），这得益于-P-·-的设计；"><a href="#4-轮的-CIPHER-4-实现了充分的扩散（雪崩），这得益于-P-·-的设计；" class="headerlink" title="4 轮的 $CIPHER-4$ 实现了充分的扩散（雪崩），这得益于$P[·]$的设计；"></a>4 轮的 $CIPHER-4$ 实现了充分的扩散（雪崩），这得益于$P[·]$的设计；</h1><h1 id="除-S-·-外，其余运算对二进制上的加法-bigoplus-均是线性的，-P-·-运算可以用一个线性的矩阵表示；"><a href="#除-S-·-外，其余运算对二进制上的加法-bigoplus-均是线性的，-P-·-运算可以用一个线性的矩阵表示；" class="headerlink" title="除 $S[·]$ 外，其余运算对二进制上的加法 $\bigoplus$ 均是线性的，$P[·]$ 运算可以用一个线性的矩阵表示；"></a>除 $S[·]$ 外，其余运算对二进制上的加法 $\bigoplus$ 均是线性的，$P[·]$ 运算可以用一个线性的矩阵表示；</h1><center>
+    <img src="https://uploadfiles.nowcoder.com/images/20220419/629760107_1650357183268/D2B5CA33BD970F64A6301FA75AE2EB22" width = "80%">
+</center>
+<center>
+    <img src="https://uploadfiles.nowcoder.com/images/20220419/629760107_1650357308008/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
+</center>
+
+<p>下面，考虑对$CIPHER-4$分析，继承对$CIPHER-3$的分析方法，寻找前 $r-1$ 轮的差分特征，猜第 $r$ 轮使用的密钥 $k_r$，由于有 4 个 $S[·]$ 所以将差分特征表示为：</p>
+<script type="math/tex; mode=display">
+(\alpha_1,\alpha_2,\alpha_3,\alpha_4)\stackrel{S}{\rightarrow}(\beta_1,\beta_2,\beta_3,\beta_4)</script><p>还有一个 $P[·]$ 作用在 $S[·]$ 之后，而 $P[·]$ 不会影响差分值，只会影响其在下一轮出现的位置， $P[·]$的作用是将差分传播到尽可能多的  $S[·]$ 中，将 $P[·]$过程表示为：</p>
+<script type="math/tex; mode=display">
+(\beta_1,\beta_2,\beta_3,\beta_4)\stackrel{P}{\rightarrow}(\gamma_1,\gamma_2,\gamma_3,\gamma_4)</script><p>所以，$\beta_1||\beta_2||\beta_3||\beta_4$ 就表示输入差分经 $S[·]$ 之后的输出差分，$\gamma_1||\gamma_2||\gamma_3||\gamma_4$ 表示输出差分经 $P[·]$之后该轮最后的输出差分，所以一轮的差分总体表示为：</p>
+<script type="math/tex; mode=display">
+(\alpha_1,\alpha_2,\alpha_3,\alpha_4)\stackrel{\mathcal{R}}{\rightarrow}(\gamma_1,\gamma_2,\gamma_3,\gamma_4)</script><p>通过表$Table\;6.2$ 可以发现，如果输入 $S[·]$ 的差分为 0，则输出差分也为 0 ，所以对于 $16-bit\;block$，可以以没半个字节为单位，构造只在一位（一个 $S[·]$ 输入差分）为非零值的数据。当然，这在分析上是允许的，但变成了*选择明文攻击，因为明文是我们自己构造的。在考虑$S[·]$的活跃性时，相当于构造只有一个$S[·]$活跃的轮。构造的输入差分例如$(0,0,1,0)$，每一个位置进入一个$S[·]$，那么至少在第一轮只有一个$S[·]$的输出会存在差分。</p>
+<p>再考虑到前面对$CIPHER-1,CIPHER-2$分析的时候，得到一个$S[·]$ 存在最大的差分特征 $f\;\stackrel{S[·]}{\rightarrow}\;b$ ，概率为$\frac{10}{16}$，所以将输入差分令为$(0,0,0,f)$，那么对第一轮，就只有第四个$S[·]$ 存在差分，描述经过一轮差分的传递：</p>
+<script type="math/tex; mode=display">
+(0,0,0,f)\stackrel{S}{\rightarrow}(0,0,0,d)</script><p>但是，一个好的$P[·]$置换，会将差分传递到下一轮尽量多的$S[·]$，比如采用 $MDS$ 矩阵的$P[·]$，见<a href="https://blog.nowcoder.net/n/0fbe211a2ff74f00bb960825947903ae">$Matrix_Branch\;and\;MDS$</a>。即使不考虑$P[·]$有足够好的扩散性能，其也可以将差分特征扩散，比如：</p>
+<script type="math/tex; mode=display">
+(0,0,0,d)\stackrel{P}{\rightarrow}(1,1,0,1)</script><p>所以上面整个过程描述下来就是：</p>
+<script type="math/tex; mode=display">
+(0,0,0,f)\stackrel{\mathcal{R}}{\rightarrow}(1,1,0,1)</script><p>因为这是整个一轮，所以其整个过程的概率就是$\frac{10}{16}$.</p>
+<p>继续考虑第二轮，通过表 $Table\;6.2$ 可以看到，$(1,1,0,1)$ 存在差分的三位再经过一次 $S[·]$ 的输出差分特征以概率$(\frac{6}{16})^3$存在（*因为每个输入差分1到输出差分2的特征概率都是$\frac{6}{16}$，所以将其概率相乘才是总体输出差分为$(2,2,0,2)$的概率）且差分特征描述为：</p>
+<script type="math/tex; mode=display">
+(1,1,0,1)\stackrel{\mathcal{S}}{\rightarrow}(2,2,0,2)</script><p>经过一次 $P[·]$ 置换，以概率 1 获得差分$(0,0,d,0)$：</p>
+<center>
+    <img src="https://uploadfiles.nowcoder.com/images/20220419/629760107_1650375507202/0F3B05EDC47049CEB882AF3A187D174E" width="80%">
+</center>
+
+<script type="math/tex; mode=display">
+(2,2,0,2)\stackrel{\mathcal{S}}{\rightarrow}(0,0,d,0)</script><p>所以，两轮的差分传递描述为：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+(0,0,0,f)\stackrel{\mathcal{R_1}}{\rightarrow}(1,1,0,1)\stackrel{\mathcal{R_2}}{\rightarrow}(0,0,d,0)
+\end{align}
+\tag{inherited\;path}</script><p>计算总概率，第一轮概率是 $\frac{10}{16}$，第二轮概率是$(\frac{6}{16})^3$，乘在一起得到 $\frac{10}{16} * (\frac{6}{16})^3=\frac{135}{4096}$，也就意味着我们在枚举密钥时，已经失去了对于穷举的优势。当然，对于这个例子可能不十分合适去解释，因为其用来 4 个 $S[·]$ ，那就假设每个$S[·]$ 前面使用的都是相同密钥，密钥是 4 位 2 进制，也就共有 $2^4=16$种可能。很显然 $\frac{135}{4096}$ 要小于 $\frac{1}{16}$ ，所以对两轮$CIPHER-4$的差分分析失去了消除噪声的优势。</p>
+<p>考虑一下原因，很自然的想到，$P[·]$ 是影响该结构差分传播的一个大问题，在第 2 轮时由于差分特征被 $P[·]$ 扩散开，所有就产生了三条路径，而计算时需要将三条路径的概率相乘，也就造成了经过两轮后差分特征概率变得如此低。同时，在第一轮输入开始就以我们预像的最大差分概率来构造差分，并将其注入明文来构造明文对，这种方法可能并不会给我们带来最佳差分路径（概率最高），因为其在前面 $CIPHER-1,2,3$ 中使用的差分特征仅仅对 $S[·]$ 而这里有 $P[·]$，所有我们应该将 $S[·]\;and\;P[·]$ 一起考虑。给出一个例子：</p>
+<script type="math/tex; mode=display">
+(0,0,2,0)\stackrel{S}{\rightarrow}(0,0,2,0)\stackrel{P}{\rightarrow}(0,0,2,0)</script><p>可能这是将差分扩散性作为优先级考虑的一种路径，但这条路径的差分特征概率确实比上面一条更高，通过表$Table\;6.2$发现，差分特征概率为$\frac{6}{16}$,为一轮的差分特征概率，同时为每一轮的差分特征概率。所有经过 4 轮之后，得到概率为 $(\frac{6}{16})^4$ 的差分特征路径：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+(0,0,2,0)\stackrel{\mathcal{R_1}}{\rightarrow}(0,0,2,0)\stackrel{\mathcal{R_2}}{\rightarrow}(0,0,2,0)\stackrel{\mathcal{R_3}}{\rightarrow}(0,0,2,0)\stackrel{\mathcal{R_4}}{\rightarrow}
+(0,0,2,0)
+\end{align}
+\tag{better\;path}</script><p>以上过程也可以通过寻找满足要求的明密文对来描述，如果要求选择的明密文对对满足在每一轮差分都为一定值,如上面的 $(0,0,2,0)$ ，则在随机密钥的情况下（其实对于我们举例的密码，密钥并没有影响到差分，但为保证其随机性，还是随机选择密钥，选择 5 个种子密钥，没有经过密钥编排，用作 4 轮，每一轮使用一个 4 位 2 进制作为密钥参与密码运算），统计对数并计算平均值，然后与总可能差分数量 $2^16=65536$ 作比，可以得到与计算特征概率几乎相同的结果：</p>
+<center>
+    <img src="https://uploadfiles.nowcoder.com/images/20220420/629760107_1650442599859/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
+</center>
+
+<p>来比较以下，</p>
+<ul>
+<li>$better\;path$ 的差分特征概率：每一轮的都是 $\frac{6}{16}$ 所有4轮之后概率为 $(\frac{6}{16})^4$</li>
+<li>$inherited\;path$ 的差分特征概率：$\frac{10}{16}<em>(\frac{6}{10})^3</em>\frac{6}{10}*\frac{6}{10}$</li>
+</ul>
+<script type="math/tex; mode=display">
+\begin{align}
+(0,0,0,f)\stackrel{\mathcal{R_1}}{\rightarrow}(1,1,0,1)\stackrel{\mathcal{R_2}}{\rightarrow}(0,0,d,0)\stackrel{\mathcal{R_3}}{\rightarrow}(0,0,c,0)\stackrel{\mathcal{R_4}}{\rightarrow}(e,0,0,0)
+\end{align}
+\tag {inherited\;path}</script><p>由上面的对比可以看到，$better\;path$ 拥有更大的差分特征概率。那么考虑以下，在找到 4 轮差分特征之后，是否有相对于穷举的优势来猜第五轮的密钥$k_5$，很明显，$(\frac{6}{16})^4 &lt;\frac{1}{16}$，也就是噪声大于我们猜测的概率。</p>
+<p>这是否意味着差分分析的失败？？（假设上面的$better\;path$ 就是最好的差分特征传播路径）在一定轮数之后就失去了其统计上的意义？？可能差分确实在传递到一定论数之后确实会因为特征概率太小而被噪声淹没，但似乎我们漏掉了一些使概率放大的办法…</p>
+<h3 id="DC-with-Differential"><a href="#DC-with-Differential" class="headerlink" title="DC with Differential"></a>DC with Differential</h3><h4 id="Different-path-to-same-destination"><a href="#Different-path-to-same-destination" class="headerlink" title="Different path to same destination"></a>Different path to same destination</h4><p>在我们上面的分析中，计算了每一轮的路径、特征及概率，但对现实使用的密码进行差分分析时，往往不会这样做，因为拿到每一轮的结果过于复杂，往往使用一定工具，如 <a href="https://blog.nowcoder.net/n/fa9ab4fc67614b9388fd8406195cd2e0">MILP</a>，来搜索达到可提供优势的差分路径的最大长度。而该搜索过程也不会考虑中间差分值，仅仅考虑该路径的输入差分和输出差分，中间值都可以为未知，例如对$CIPHER-4$有：</p>
+<script type="math/tex; mode=display">
+(0,0,2,0)\stackrel{\mathcal{R_1}}{\rightarrow}?\stackrel{\mathcal{R_2}}{\rightarrow}?\stackrel{\mathcal{R_3}}{\rightarrow}?\stackrel{\mathcal{R_4}}{\rightarrow}(0,0,2,0)
+
+\tag{practice\;path}</script><p>假设我们限制特定的输入输出差分，如都为 $(0,0,2,0)$，那么中间值无论是多少，只要能达到这一点就算做 *优势对*，否则算作 *劣势对*。很自然的想到，经过 4 轮且满足条件：输入差分为$(0,0,2,0)$且输出差分为$(0,0,2,0)$ 的优势对远远不止中间值$better\;path$所示的那些，我们将优势对构成的路径记为 $Adv\;paths$：</p>
+<script type="math/tex; mode=display">
+(0,0,2,0)\stackrel{\mathcal{R_1}}{\rightarrow}(0,0,2,0)\stackrel{\mathcal{R_2}}{\rightarrow}(0,0,2,0)\stackrel{\mathcal{R_3}}{\rightarrow}(0,0,2,0)\stackrel{\mathcal{R_4}}{\rightarrow}(0,0,2,0)\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;
+*Adv\;path\;_1*\\
+
+(0,0,2,0)\stackrel{\mathcal{R_1}}{\rightarrow}(0,0,0,2)\stackrel{\mathcal{R_2}}{\rightarrow}(0,0,0,1)\stackrel{\mathcal{R_3}}{\rightarrow}(0,0,1,0)\stackrel{\mathcal{R_4}}{\rightarrow}(0,0,2,0)\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;
+*Adv\;path\;_2*\\
+
+(0,0,2,0)\stackrel{\mathcal{R_1}}{\rightarrow}(0,0,0,2)\stackrel{\mathcal{R_2}}{\rightarrow}(0,0,1,0)\stackrel{\mathcal{R_3}}{\rightarrow}(0,0,2,0)\stackrel{\mathcal{R_4}}{\rightarrow}(0,0,2,0)\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;
+*Adv\;path\;_3*\\
+
+(0,0,2,0)\stackrel{\mathcal{R_1}}{\rightarrow}(0,0,2,0)\stackrel{\mathcal{R_2}}{\rightarrow}(0,0,0,2)\stackrel{\mathcal{R_3}}{\rightarrow}(0,0,1,0)\stackrel{\mathcal{R_4}}{\rightarrow}(0,0,2,0)\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;
+*Adv\;path\;_4*</script><p>可以查表$Table\;6.2$可以验证以上$Adv\;paths$，及查询其特征概率，均为$(\frac{6}{16})^4$ ,所以将其特征概率相加得到 $4*(\frac{6}{16})^4=\frac{81}{1024}$ ，而 $\frac{81}{1024} &gt; \frac{1}{16}$，所以，在不考虑路径中间差分值的时候，差分攻击对分析 4 轮 $CIPHER-4$，来猜测第五轮密钥 $k_5$ 时是有一定优势的。在实践的差分分析中，我们往往也是采用这种办法。</p>
+<p>同样的，类似 $ Fig.\;6.7$ 的描述方式如下：明显的，忽略了中间差分值，使优势对的数量提升了，这对应差分特征概率的提升。</p>
+<center>
+    <img src="https://uploadfiles.nowcoder.com/images/20220420/629760107_1650442831543/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
+</center>
+
+<h4 id="Filtering"><a href="#Filtering" class="headerlink" title="Filtering"></a>Filtering</h4><p>所谓差分密码分析，即识别发生差异的统计特性异常分布，产生比被我们称作噪声的枚举概率更高的猜测概率，从而使我们在猜测时，正确的数据能够从海量的数据中凸显出来，而非被其淹没。</p>
+<p>在前面已经介绍了将差分特征概率尽量提高的办法（当然还会有其他更有效的办法），那现在该把关注点放在猜测密钥上。</p>
+<p>回顾下前面整个过程：</p>
+<ol>
+<li>建$DDT$表并通过密码结果找出最佳差分路径，记录每一轮都满足差分路径的*数据*（明文1：密文1，明文2：密文2 为一对），例子中大概有1296对；</li>
+<li>只考虑输入差分和输出差分，而不需要在每一轮都满足差分路径以提高差分特征概率，将同时满足输入差分和输出差分的数据记录下来，例子中大概有 5310 对；</li>
+<li>枚举所有密文（全空间）因为寻找的差分路径是在一定概率下成立的，所有需要枚举所有密文，才能利用到差分提供的优势（才能达到使正确密钥凸显出的数据量）</li>
+</ol>
+<p>按照这个过程，我们将在最后一轮对每个密文，如果密码设计足够好的话会有 $2^{16}=65536$ 个，考虑对的话就是 $A^2_{65536}$，这将是很庞大的数据量，且对每一对密文都需要枚举 $2^{16}$ 个密钥，与构造的区分器进行对比。显然，虽然我们通过忽略中间差分路径取值来提高了特征概率，但在枚举猜密钥的过程中仍然需要很高的复杂度。</p>
+<p>所有，需要考虑将密文对筛掉一些，只留下满足条件的密文对，在第四轮之后，得到的差分值为$(0,0,2,0)$，通过查表 $Table\;6.2$ 可得，该差分经过一次 $S[·]$ 得到的值可能为 $(0,0,h,0)$ 其中 $h\in{\{1,2,9,a\}}$，而最后一轮没有 $P[·]$ ，那么对所有密文，我们需要留下的仅仅是满足条件：</p>
+<ol>
+<li><p>输入差分为$(0,0,2,0)$的明文加密所得；</p>
+</li>
+<li><p>在 1. 的基础上，将差分的第 0，1，3 半字节位不为全零，且第 2 半字节位不等于 ${\{1,2,9,a\}}$ 的密文对筛掉。</p>
+</li>
+</ol>
+<p>将所以符合上述条件的密文对记录下来，上述例子中大概有 7387 对，也就是说我们仅仅需要对 7387 个密文对，枚举所有可能的最后一轮密钥，这就将数据量降下来很多，同时，找到正确密钥的概率变为 $\frac{5310}{7387} \approx 70\%$  ,使用未经过筛选的密文对猜密钥，得到正确的概率是 $\frac{5310}{56636} \approx 8\%$，可见，筛选给猜密钥提供了很大的优势。书中给出的解释：</p>
+<p><center>
+    <img src="https://uploadfiles.nowcoder.com/images/20220420/629760107_1650456161985/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
+</center></p>
+<h4 id="Key-Recovery"><a href="#Key-Recovery" class="headerlink" title="Key Recovery"></a>Key Recovery</h4><p>在 4 轮之后，差分传递的特征及其概率如下：</p>
+<script type="math/tex; mode=display">
+(0,0,2,0)\stackrel{\mathcal{R_1}}{\rightarrow}?\stackrel{\mathcal{R_2}}{\rightarrow}?\stackrel{\mathcal{R_3}}{\rightarrow}?\stackrel{\mathcal{R_4}}{\rightarrow}(0,0,2,0)
+\tag{practice\;path}</script><p>概率为 $\frac{5310}{65536} \approx(\frac{6}{16})^4\approx0.08$，而筛选之后剩余的对的概率为 $\frac{7387}{65536} \approx0.11$，筛选出的对中可以用来求出正确密钥的对的比率为 $\frac{5310}{7387}\approx0.7$.那么，给出一个例子，如果我们有总共 $t$ 个对，筛选后留下的对为 $t<em>0.11$ 个，可能满足条件的对为 $t</em>0.08$ 个。比如 $t=500$ ，则会筛选出 $55$ 个满足差分特征的对，其中有 $40$ 个是由正确的最后一轮密钥加密所得，$15$ 个为无用对。为什么会有一部分无用对留下？我们筛选留下的是明文差分且密文差分都满足条件的对，而在密文位置满足差分特征的对往回推并不一定能够得到区分器末尾（例子第四轮后）的差分值。</p>
+<p><center>
+    <img src="https://uploadfiles.nowcoder.com/images/20220420/629760107_1650463751096/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
+</center><br>简单陈述这个过程存在的缺陷：</p>
+<ol>
+<li><p>我们只能通过对比，确切的猜出不为零的第 2 个半字节位，即 4 个 $bits$，记作目标比特 $target\;bits$ ，但其他 3 个半字节位由于没有穷尽所有可能的结果，所有无法确定其值。这并未达到分析的目的，甚至连一轮密钥都没有获取到。需要恢复更多 $bits $，需要重复该过程来恢复全 $bits$ 的密钥。</p>
+</li>
+<li><p>每次只能恢复一轮的密钥，想要恢复更多轮，可能需要更多次的重复上述过程，或者根据密钥编排算法来推所有密钥。（往往是拿到足够多轮次的密钥之后再根据密钥编排算法推）</p>
+</li>
+</ol>
+<p>*差分分析中，获得了一部分密钥 $bits$ 之后，会大大提高恢复其余更多 $bits$ 的难度。</p>
+<script type="math/tex; mode=display">
+The\;end</script>]]></content>
+      <categories>
+        <category>Cryptanalysis</category>
+      </categories>
+      <tags>
+        <tag>Crypto</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linear Cryptanalysis</title>
+    <url>/2022/05/25/Cryptanalysis/%E7%BA%BF%E6%80%A7%E5%88%86%E6%9E%90/</url>
+    <content><![CDATA[<h1 id="线性分析"><a href="#线性分析" class="headerlink" title="线性分析"></a>线性分析</h1><h2 id="principle"><a href="#principle" class="headerlink" title="principle"></a>principle</h2><p>线性分析通过寻找明密文与密钥间的线性相关性，构造可能产生线性偏差的掩码（搜索）来构造尽量大的线性逼近，从而逐比特的获取密钥信息。</p>
+<p>$Example\ 1$</p>
+<p>最简单的例子：$plaintext\ m,\ ciphertext\ c,\ key\ k = b\ bits$ ，密码系统 $c = m \oplus k$ ，显然该密码系统在不是一次一密的情况下是不安全的，但现在从另一个方面考虑：</p>
+<p>如果逐比特考虑这该密码系统的 3 个变量，则对应比特也满足关系 $c_i = m_i \oplus k_i$ ，$_i$ 表示对应的比特位。那么对于已知明文攻击，就可以通过 $k_i = m_i \oplus c_i$ 来计算获得 $k_i$ 的每一个比特，并还原成 $k$ .这是一种通过明密文的线性关系来逐比特恢复密钥的一个最简单实例，但其并没有较强的说服力.</p>
+<p>$Example\ 2$</p>
+<p>考虑一个稍微复杂的加密系统，密文比特由部分明文比特和密钥比特确定：同样可以通过直接逐比特的写出明密文与密钥的关系来恢复密钥</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+c_{3} &=m_{3} \oplus m_{1} \oplus m_{0} \oplus k_{3} \oplus k_{1} \oplus k_{0} \\
+c_{2} &=m_{2} \oplus m_{0} \oplus k_{2} \oplus k_{0} \\
+c_{1} &=m_{3} \oplus m_{2} \oplus k_{3} \oplus k_{2}, \text { and } \\
+c_{0} &=m_{1} \oplus m_{0} \oplus k_{1} \oplus k_{0}\\
+i.e.\\
+k_{0} &=m_{0} \oplus c_{0} \oplus c_{3} \\
+k_{1} &=m_{1} \oplus c_{0} \oplus c_{2} \oplus c_{3} \\
+k_{2} &=m_{2} \oplus c_{1} \oplus c_{1} \oplus c_{2}, \text { and } \\
+k_{3} &=m_{3} \oplus c_{0} \oplus c_{1} \oplus c_{2} \oplus c_{3}
+\end{aligned}\\</script><h2 id="CIPHER-A："><a href="#CIPHER-A：" class="headerlink" title="CIPHER_A："></a>CIPHER_A：</h2><p>现在考虑密码系统 CIPHER_A：其中变量均为 4 bits，密钥 8 bits，记为 $k_0||k_1$ ，</p>
+<p><img src="https://ossimg.yzitc.com/2022/05/23/20c5c34e70f97.png"></p>
+<p>该密码系统满足如下关系：$u=m \oplus k_{0}, v=S[u] \text {, and } c=v \oplus k_{1} \text {. }$ 现在需要找到合适的密钥使得 $v=S[u]$ ，试图通过逐比特的恢复密钥，如何能够逐比特的考虑明密文及密钥？将其都做为列向量来考虑，并且用一个行向量来当作<strong>掩码</strong>，表示取或不取该比特：</p>
+<script type="math/tex; mode=display">
+(1,0,0,0) \times\left(\begin{array}{c}
+m_{3} \\
+m_{2} \\
+m_{1} \\
+m_{0}
+\end{array}\right)=m_{3} \text {, and }(0,0,1,0) \times\left(\begin{array}{c}
+m_{3} \\
+m_{2} \\
+m_{1} \\
+m_{0}
+\end{array}\right)=m_{1}</script><p>那么上述的 $Example\ 2$ 就可以表示为：（掩码随机取的，× 表示数量积）</p>
+<script type="math/tex; mode=display">
+(1,0,1,1) \times\left(\begin{array}{l}
+m_{3} \\
+m_{2} \\
+m_{1} \\
+m_{0}
+\end{array}\right) \oplus(1,0,1,1) \times\left(\begin{array}{l}
+k_{3} \\
+k_{2} \\
+k_{1} \\
+k_{0} \\
+\end{array}\right)=m_{3} \oplus m_{1} \oplus m_{0} \oplus k_{3} \oplus k_{1} \oplus k_{0}\\</script><script type="math/tex; mode=display">
+i.e.\ \ \ c_{3}=m_{3} \oplus m_{1} \oplus m_{0} \oplus k_{3} \oplus k_{1} \oplus k_{0}\\</script><script type="math/tex; mode=display">
+i.e.\ \ \ \alpha \cdot c=\beta \cdot m \oplus \beta \cdot k\ \ where\ \alpha=(1,0,0,0) \text { and } \beta=(1,0,1,1)</script><p>也即，可以通过掩码表示明密文相应位和密钥的线性关系（或进行一定的线性变化），掩码为 $\alpha\ and\ \beta$ . 但是仅仅线性的关系对上图的 CIPHER_A 是没有用的，因为存在非线性的 S-box，所以自然的考虑能否通过统计特性，使其逼近该密码系统中的非线性函数，即 S-box ？关系为 $\alpha \cdot x = \beta \cdot S[x]$（注意这里的结果是 0 或 1） 对于一个理想的非线性函数，无论使用任何掩码，该关系满足与否的概率为 $1/2$ ，那又很自然的想到，希望通过穷搜所有掩码来使关系满足的概率偏离 $1/2$ ，即存在<strong>偏差</strong> 。</p>
+<p>以上密码使用掩码表示，并计算其已知偏差：</p>
+<script type="math/tex; mode=display">
+\begin{array}{l}
+(\alpha \cdot m)=\left(\alpha \cdot k_{0}\right) \oplus(\alpha \cdot u) \text { with probability } 1\\
+(\alpha \cdot u)=(\beta \cdot v) \quad \text { with probability } p\\
+(\beta \cdot v)=\left(\beta \cdot k_{1}\right) \oplus(\beta \cdot c) \text { with probability } 1 .
+\end{array}</script><p>只需要考虑中间的式子，进一步，将左边式子和右边式子相乘得到关于明密文及密钥的（化简过）（掩码位）关系式：</p>
+<script type="math/tex; mode=display">
+(\alpha \cdot m) \oplus(\beta \cdot c)=\left(\alpha \cdot k_{0}\right) \oplus\left(\beta \cdot k_{1}\right) \text { with probability } p \text {. }</script><p>也就是，在直到明密文对的情况下，找到  $\alpha \cdot x = \beta \cdot S[x]$ 关系式的相关信息，就能获得关于密钥的信息。</p>
+<p>如果 $p \ne 1/2$ 即存在偏差，那么就有可能在一定的数据量内获得关于密钥的信息，假设 $p = 1/2 + \varepsilon$ ，则 $0&lt;|\boldsymbol{\varepsilon}| \leq \frac{1}{2}$ 为线性偏差，当然会期望偏差尽量大，因为偏差越大就需要越少的数据量。 </p>
+<p>举例对上述非线性关系式  $\alpha \cdot x = \beta \cdot S[x]$ 的简单线性攻击（这里的 x 满足上述 CIPHER_A的 u 或 v)：</p>
+<p><strong>建立区分器</strong></p>
+<ol>
+<li>穷举所有 $x$ ，并计算 $S[x]$ ;</li>
+<li>对所有的 $x\ and\ S[x]$ 穷举所有掩码 $\alpha\ and\ \beta$ ；</li>
+<li>算出 $\alpha \cdot x = \beta \cdot S[x]$ 的概率（或 $\alpha \cdot x \oplus 1= \beta \cdot S[x]$ 的概率）； </li>
+</ol>
+<p>例子：$p(\alpha \cdot x = \beta \cdot S[x]) = 2/16\ \ and\ \ p(\alpha \cdot x \oplus 1= \beta \cdot S[x]) = 14/16$ </p>
+<p>$i.e.\ \ \ \  p((\alpha \cdot m) \oplus(\beta \cdot c) \oplus 1=\left(\alpha \cdot k_{0}\right) \oplus\left(\beta \cdot k_{1}\right))=14/16$ </p>
+<script type="math/tex; mode=display">
+\alpha=(1,0,0,1) \text { and } \beta=(0,0,1,0)</script><script type="math/tex; mode=display">
+\begin{array}{|c|cccccccccccccccc|}
+\hline \mathrm{x} & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & \mathrm{a} & \mathrm{b} & \mathrm{c} & \mathrm{d} & \mathrm{e} & \mathrm{f} \\
+\hline \mathrm{S}[\mathrm{x}] & \mathrm{f} & \mathrm{e} & \mathrm{b} & \mathrm{c} & 6 & \mathrm{~d} & 7 & 8 & 0 & 3 & 9 & \mathrm{a} & 4 & 2 & 1 & 5 \\
+\hline \hline \alpha \cdot x & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 \\
+\hline \beta \cdot S[x] & 1 & 1 & 1 & 0 & 1 & 0 & 1 & 0 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 0 \\
+\hline
+\end{array}</script><p>为了表述清楚：二元域内的运算和比较（module 2）</p>
+<script type="math/tex; mode=display">
+\alpha \cdot x = \beta \cdot S[x] \ \ \rightarrow\ \ (\alpha \cdot m) \oplus(\beta \cdot c)=\left(\alpha \cdot k_{0}\right) \oplus\left(\beta \cdot k_{1}\right)\ ::\ p = \frac{2}{16}</script><script type="math/tex; mode=display">
+\alpha \cdot x \ne \beta \cdot S[x] \ \ \rightarrow\ \ (\alpha \cdot m) \oplus(\beta \cdot c) \oplus 1=\left(\alpha \cdot k_{0}\right) \oplus\left(\beta \cdot k_{1}\right)\ ::\ p = \frac{14}{16}</script><p><strong>恢复密钥</strong></p>
+<ol>
+<li><p>设置计数器 $T_0\ and\ T_1$ ，固定掩码 $\alpha\ and\ \beta$ ，使用多对明密文进行测试，计算 $(\alpha \cdot m) \oplus (\beta \cdot c)$ ：</p>
+<p>为 1 ，$T_1$ 计数器＋1</p>
+<p>为 0 ，$T_0$ 计数器 + 1</p>
+<p>（注意这里使用的明密文对数量和偏差的大小有关）</p>
+</li>
+<li><p>可以先假设密钥值，观察两个计数器，可以获得 $(\alpha \cdot m) \oplus (\beta \cdot c)$ 的值（ 0 或 1）的分布，再根据相等与否的概率得出密钥信息 $(\alpha \cdot k_{0}) \oplus(\beta \cdot k_{1})=0\ or\ 1$ </p>
+<p>注意，并不能确定的获取密钥在该位的取值，只是获取掩码对应的几位之间的信息。</p>
+</li>
+</ol>
+<p>例子：</p>
+<blockquote>
+<ol>
+<li><p>固定掩码 $\alpha=(1,0,0,1) \text { and } \beta=(0,0,1,0)\$ ;</p>
+</li>
+<li><p>假设关系式 $(\alpha \cdot m) \oplus(\beta \cdot c)=\left(\alpha \cdot k_{0}\right) \oplus\left(\beta \cdot k_{1}\right)$ 成立的概率位 $2/16$，则不成立概率 $14/16$ ；</p>
+</li>
+<li><p>假设，密钥关系 $(\alpha \cdot k_{0}) \oplus(\beta \cdot k_{1})=1$ 对 N 个明密文对计算  $(\alpha \cdot m) \oplus (\beta \cdot c)$ ，将预计得到 $2N/16$ 个 1 和  $14N/16$ 个 0，即 $T_0 = \frac{2N}{16}\ and\ T_1 = \frac{14N}{16}$ </p>
+</li>
+<li><p>如果 3. 的计数器满足上面所述，则可以猜测  $(\alpha \cdot k_{0}) \oplus(\beta \cdot k_{1})=1$ 是正确的，否则，其是错误的，也就是  $(\alpha \cdot k_{0}) \oplus(\beta \cdot k_{1})=0$ （这种情况 $T_0$ 和 $T_1$ 的计数应该差不多和 3. 相反）；</p>
+</li>
+<li>如果 3. 的计数器满足上述，就可获得密钥信息  $(\alpha \cdot k_{0}) \oplus(\beta \cdot k_{1})=1\ \ i.e.\ \ k_{0,0}\oplus k_{0,3} \oplus k_{1,2} = 1$ ；</li>
+<li>继续寻找更多关系来尽可能多的恢复密钥比特。</li>
+</ol>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Cryptanalysis</category>
+      </categories>
+      <tags>
+        <tag>Crypto</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>有限域上的运算</title>
+    <url>/2022/05/27/Cryptanalysis/%E6%9C%89%E9%99%90%E5%9F%9F%E4%B8%8A%E7%9A%84%E8%BF%90%E7%AE%97/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>LC 5.24 t.965. Univalued Binary Tree</title>
@@ -337,50 +835,6 @@ or\\
       </categories>
       <tags>
         <tag>CS_OP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>LC 5.23 t.675 Cut Off Trees for Golf Event</title>
-    <url>/2022/05/25/Lc_daily/LC-5.23-t.675-Cut-Off-Trees-for-Golf-Event/</url>
-    <content><![CDATA[<h4 id="5-23-675-为高尔夫比赛砍树"><a href="#5-23-675-为高尔夫比赛砍树" class="headerlink" title="5.23  675. 为高尔夫比赛砍树"></a>5.23  <a href="https://leetcode.cn/problems/cut-off-trees-for-golf-event/">675. 为高尔夫比赛砍树</a></h4><p>难度：困难</p>
-<p>你被请来给一个要举办高尔夫比赛的树林砍树。树林由一个 <code>m x n</code> 的矩阵表示， 在这个矩阵中：</p>
-<ul>
-<li><code>0</code> 表示障碍，无法触碰</li>
-<li><code>1</code> 表示地面，可以行走</li>
-<li><code>比 1 大的数</code> 表示有树的单元格，可以行走，数值表示树的高度</li>
-</ul>
-<p>每一步，你都可以向上、下、左、右四个方向之一移动一个单位，如果你站的地方有一棵树，那么你可以决定是否要砍倒它。</p>
-<p>你需要按照树的高度从低向高砍掉所有的树，每砍过一颗树，该单元格的值变为 <code>1</code>（即变为地面）。</p>
-<p>你将从 <code>(0, 0)</code> 点开始工作，返回你砍完所有树需要走的最小步数。 如果你无法砍完所有的树，返回 <code>-1</code> 。</p>
-<p>可以保证的是，没有两棵树的高度是相同的，并且你至少需要砍倒一棵树。</p>
-<p><strong>示例 1：</strong></p>
-<p><img src="https://assets.leetcode.com/uploads/2020/11/26/trees1.jpg" alt="img"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：forest = [[1,2,3],[0,0,4],[7,6,5]]</span><br><span class="line">输出：6</span><br><span class="line">解释：沿着上面的路径，你可以用 6 步，按从最矮到最高的顺序砍掉这些树。</span><br></pre></td></tr></table></figure>
-<p><strong>示例 2：</strong></p>
-<p><img src="https://assets.leetcode.com/uploads/2020/11/26/trees2.jpg" alt="img"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：forest = [[1,2,3],[0,0,0],[7,6,5]]</span><br><span class="line">输出：-1</span><br><span class="line">解释：由于中间一行被障碍阻塞，无法访问最下面一行中的树。</span><br></pre></td></tr></table></figure>
-<p><strong>示例 3：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：forest = [[2,3,4],[0,0,5],[8,7,6]]</span><br><span class="line">输出：6</span><br><span class="line">解释：可以按与示例 1 相同的路径来砍掉所有的树。</span><br><span class="line">(0,0) 位置的树，可以直接砍去，不用算步数。</span><br></pre></td></tr></table></figure>
-<p><strong>提示：</strong></p>
-<ul>
-<li><code>m == forest.length</code></li>
-<li><code>n == forest[i].length</code></li>
-<li><code>1 &lt;= m, n &lt;= 50</code></li>
-<li><code>0 &lt;= forest[i][j] &lt;= 109</code></li>
-</ul>
-<h5 id="思路1：排序＋广搜"><a href="#思路1：排序＋广搜" class="headerlink" title="思路1：排序＋广搜"></a>思路1：排序＋广搜</h5><blockquote>
-<p>类似 <a href="https://leetcode.cn/problems/pacific-atlantic-water-flow/">417. 太平洋大西洋水流问题</a> 都是四个方向的广搜，但限制条件不同</p>
-<p>先将需要砍掉的树按照树高度排序，需要记录坐标和高度 <code>(index_x,index_y,height)</code>，然后使用广度优先从四个方向搜索，搜索之前建立<code>visit[]</code>数组记录是否搜索过，可以先建立方向列表或直接遍历，原理是 <code>((x+1,y),(x-1,y),(x,y+1),(x,y-1))</code> 将满足限制条件的点再次入队。</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">cutOffTree</span>(<span class="params">self, forest: <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]</span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line"></span><br><span class="line">        <span class="comment">#广度优先搜素</span></span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">bfs</span>(<span class="params">sx,sy,tx,ty</span>):</span><br><span class="line">            row = <span class="built_in">len</span>(forest)</span><br><span class="line">            col = <span class="built_in">len</span>(forest[<span class="number">0</span>])</span><br><span class="line">            queue = deque([(<span class="number">0</span>,sx,sy)])</span><br><span class="line">            visit = &#123;(sx,sy)&#125;</span><br><span class="line">            <span class="keyword">while</span> queue:</span><br><span class="line">                distance,x,y = queue.popleft()</span><br><span class="line">                <span class="keyword">if</span> x == tx <span class="keyword">and</span> y == ty:</span><br><span class="line">                    <span class="keyword">return</span> distance</span><br><span class="line">                <span class="keyword">for</span> nx,ny <span class="keyword">in</span> ((x+<span class="number">1</span>,y),(x-<span class="number">1</span>,y),(x,y+<span class="number">1</span>),(x,y-<span class="number">1</span>)):</span><br><span class="line">                    <span class="keyword">if</span> <span class="number">0</span>&lt;=nx&lt;row <span class="keyword">and</span> <span class="number">0</span>&lt;=ny&lt;col <span class="keyword">and</span> forest[nx][ny] <span class="keyword">and</span> (nx,ny) <span class="keyword">not</span> <span class="keyword">in</span> visit:</span><br><span class="line">                        visit.add((nx,ny))</span><br><span class="line">                        queue.append((distance+<span class="number">1</span>,nx,ny))</span><br><span class="line">                    <span class="comment">#print(&quot;queue:&quot;,queue)</span></span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">#按照树的高度排序(indx_x,indx_y,height)</span></span><br><span class="line">        sort_trees = []</span><br><span class="line">        <span class="keyword">for</span> row,tree <span class="keyword">in</span> <span class="built_in">enumerate</span>(forest):</span><br><span class="line">            <span class="keyword">for</span> col,h <span class="keyword">in</span> <span class="built_in">enumerate</span>(tree):</span><br><span class="line">                <span class="keyword">if</span> h &gt; <span class="number">1</span>:</span><br><span class="line">                    sort_trees.append((row,col,h))</span><br><span class="line">        sort_trees = <span class="built_in">sorted</span>(sort_trees,key = <span class="keyword">lambda</span> x : x[<span class="number">2</span>])</span><br><span class="line">        <span class="built_in">print</span>(sort_trees)</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line">        res = pre_x = pre_y = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> x,y,h <span class="keyword">in</span> sort_trees:</span><br><span class="line">            d = bfs(pre_x,pre_y,x,y)</span><br><span class="line">            <span class="keyword">if</span> d &lt; <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line">            res += d</span><br><span class="line">            pre_x,pre_y = x,y</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
-<h5 id="矩阵类-BFS-的-demo"><a href="#矩阵类-BFS-的-demo" class="headerlink" title="矩阵类 BFS 的 demo"></a>矩阵类 BFS 的 demo</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">BFS</span>(<span class="params">sorce_val,target_val</span>):</span><br><span class="line">    row = <span class="built_in">len</span>(Matrix)</span><br><span class="line">    col = <span class="built_in">len</span>(Matrix[<span class="number">0</span>])</span><br><span class="line">    queue = deque([(need_val,indexs)])</span><br><span class="line">    visit = &#123;(pointer_index)&#125;</span><br><span class="line">    <span class="keyword">while</span> queue:</span><br><span class="line">        <span class="comment">#Limit the values stored in the queue based on conditions</span></span><br><span class="line">        need_val,indexs = queue.popleft()	</span><br><span class="line">        <span class="keyword">if</span> get_the_target_pointer:</span><br><span class="line">            <span class="comment">#conditions of return</span></span><br><span class="line">            <span class="keyword">return</span> need_val	</span><br><span class="line">        <span class="keyword">for</span> next_pointer <span class="keyword">in</span> all_directions:</span><br><span class="line">        <span class="comment">#eg: for nx,ny in ((x+1,y),(x-1,y),(x,y+1),(x,y-1)):</span></span><br><span class="line">        	<span class="comment">#search in all directions</span></span><br><span class="line">            <span class="keyword">if</span> fulfillment_of_conditions:</span><br><span class="line">            <span class="comment">#eg: if 0&lt;=nx&lt;row and 0&lt;=ny&lt;col and forest[nx][ny] and (nx,ny) not in visit:</span></span><br><span class="line">            	<span class="comment">#**Judgment Conditions**</span></span><br><span class="line">                visit.add((next_pointer))</span><br><span class="line">                queue.append((changed_need_val,indexs))</span><br><span class="line">    <span class="keyword">return</span> situation_of_ERR_or_boundary</span><br></pre></td></tr></table></figure>
-<h5 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h5><p>还可以用 Dijkstra 和 A*启发式算法求解，待续…</p>
-]]></content>
-      <categories>
-        <category>LeetCode_daily</category>
-      </categories>
-      <tags>
-        <tag>BFS</tag>
       </tags>
   </entry>
   <entry>
@@ -627,496 +1081,42 @@ or\\
       </tags>
   </entry>
   <entry>
-    <title>Diffusion Basic</title>
-    <url>/2022/05/26/Cryptanalysis/Basic-Diffusion/</url>
-    <content><![CDATA[<p>香农提出了密码设计的两种基本方法即 混淆和扩散。</p>
-<p>分组密码系统包括 线性部分 和 非线性部分，其对应功能分别是 扩散和混淆。</p>
-<p>扩散性往往由线性函数提供，如 rotation ，shift ，或更复杂的 MDS matrix（但其本质也是 rotation and shift）。</p>
-<p>在研究扩散性时，如果往其最基本单元考虑：</p>
-<p>线性运算时一般是 位切片操作，即对每一个 bit 进行运算。那么总体来看就是一个面向 GPU 友好型的 <a href="https://baike.baidu.com/item/%E5%8D%95%E6%8C%87%E4%BB%A4%E6%B5%81%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%B5%81/257612">SIMD</a> 操作 ，对一个 bit 的操作不会影响到其他 bits，显然这是不能够满足扩散性的，那么就需要一些 rotation，shift… 来将 bit 打散，使其能够更多的参与到非线性运算。</p>
-<p>由于 扩散主要是用来使用明文和密文的关系变得尽可能的复杂，明文中任何一点小更动都会使得密文有很大的差异，即达到雪崩效应。</p>
-<blockquote>
-<p>雪崩效应：对于密码而言，要求输入位的 1 bit 变化导致每个输出位 bit 有 50% 的概率发生反转</p>
-</blockquote>
-<p><a href="https://crypto.stackexchange.com/questions/19000/shannon-confusion-and-diffusion-concept/44659#44659">The job of the linear diffusion layer is to ensure that each successive input to the non-linear function consists of a balanced and maximum number of super-positioned input bits.</a></p>
-<p>而验证扩散性是否能够尽可能地达到使密码系统安全的办法，除建立相关性方程，利用如 Mathmatica 等工具来搜索之外，可能还需要考虑由于扩散不全而造成的分支代数次数低，差分线性分析等等。</p>
+    <title>Gurobi_1_ex_mip1</title>
+    <url>/2022/05/30/Gurobi/Gurobi-1-ex-mip1/</url>
+    <content><![CDATA[<h1 id="ex-mip1"><a href="#ex-mip1" class="headerlink" title="ex_mip1"></a>ex_mip1</h1><h2 id="求解问题"><a href="#求解问题" class="headerlink" title="求解问题"></a>求解问题</h2><script type="math/tex; mode=display">
+\begin{array}{cl}
+\max & x+y+2 z \\
+\text { s.t. } & x+2 y+3 z \leq 4 \\
+& x+y \geq 1 \\
+& x, y, z \in\{0,1\}
+\end{array}</script><h2 id="代码解释"><a href="#代码解释" class="headerlink" title="代码解释"></a>代码解释</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> gurobipy</span><br><span class="line"><span class="keyword">from</span> gurobipy <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="comment">#需要对出错情况进行反馈，所以用 try</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#建一个模型</span></span><br><span class="line">    m = gurobipy.Model(<span class="string">&quot;mip1&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Model=&#x27;</span>,m)   <span class="comment">#Model= &lt;gurobi.Model Continuous instance mip1: 0 constrs, 0 vars, No parameter changes&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#定义变量</span></span><br><span class="line">    x = m.addVar(vtype=GRB.BINARY, name=<span class="string">&quot;x&quot;</span>)</span><br><span class="line">    y = m.addVar(vtype=GRB.BINARY, name=<span class="string">&quot;y&quot;</span>)</span><br><span class="line">    z = m.addVar(vtype=GRB.BINARY, name=<span class="string">&quot;z&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#目标函数</span></span><br><span class="line">    m.setObjective(x+y+<span class="number">2</span>*z, GRB.MAXIMIZE)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#约束条件</span></span><br><span class="line">    m.addConstr(x+<span class="number">2</span>*y+<span class="number">3</span>*z &lt;= <span class="number">4</span>, <span class="string">&#x27;c0&#x27;</span>)</span><br><span class="line">    m.addConstr(x+y &gt;= <span class="number">1</span>, <span class="string">&#x27;c1&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#优化模型</span></span><br><span class="line">    m.optimize()</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;new_Model=&#x27;</span>, m)  <span class="comment">#new_Model= &lt;gurobi.Model MIP instance mip1: 2 constrs, 3 vars, No parameter changes&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> v <span class="keyword">in</span> m.getVars():</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;%s %g&#x27;</span> % (v.VarName, v.X))</span><br><span class="line">    <span class="comment">#x 1</span></span><br><span class="line">    <span class="comment">#y 0</span></span><br><span class="line">    <span class="comment">#z 1</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Obj: %g&#x27;</span> % m.ObjVal) <span class="comment">#Obj: 3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">except</span> gurobipy.GurobiError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Error code &#x27;</span> + <span class="built_in">str</span>(e.errno) + <span class="string">&#x27;: &#x27;</span> + <span class="built_in">str</span>(e))</span><br><span class="line"></span><br><span class="line"><span class="keyword">except</span> AttributeError:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Encountered an attribute error&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>参考：</p>
+<p><a href="https://blog.csdn.net/WASEFADG/article/details/105261808">https://blog.csdn.net/WASEFADG/article/details/105261808</a></p>
 ]]></content>
-      <tags>
-        <tag>Crypto</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>MITM AttacK</title>
-    <url>/2022/05/27/Cryptanalysis/About%20MITM%20and%20variants/</url>
-    <content><![CDATA[<h1 id="Classical-MITM"><a href="#Classical-MITM" class="headerlink" title="Classical MITM"></a>Classical MITM</h1><p>在 Hellman 的文章<a href="https://www.computer.org/csdl/magazine/co/1977/06/01646525/13rRUwInvDu">Special Feature Exhaustive Cryptanalysis of the NBS Data Encryption Standard</a>中给出了中间相遇攻击的基本概念。</p>
-<p>首先需要意识到，中间相遇攻击也是穷举，但是结合了 TMTO 的思想，通过建表存一部分值，穷搜另一部分值来达到比穷举攻击更好的效益。</p>
-<p><strong>经典MITM</strong>：<br>有迭代的分组密码，分组长度为 $n$ ，子密钥可独立的分为 $K_1||K_2$ </p>
-<p><strong>MITM stage</strong></p>
-<ol>
-<li><p>任取明密文对 $(P,C) $ ，将密钥做以下划分：</p>
-<p>前向轮密钥记为 $K_1$ ，后向轮密钥记为 $K_2$</p>
-</li>
-<li><p>用前向的密钥对明文加密得到中间值 $U$ ；同样的，用后向的密钥对密文解密得到中间值 $V$ </p>
-</li>
-<li><p>匹配中间值，判断 $U\overset{?}{=}V$ 如果是，则将使用的密钥（全部bit）存入候选密钥表中，否则丢弃（在该过程中，可能会有一些随机值也能够匹配）</p>
-</li>
-</ol>
-<p><strong>Testing stage</strong></p>
-<p>再次任选明密文对 $(P_1,C_1)$ 并对候选密钥表进行二次筛查，重复步该过程直至候选密钥表中仅剩 1 个密钥，即为正确密钥。</p>
-<p><strong>NOTE</strong>：</p>
-<ol>
-<li>以上过程如果能够保证前向和后向密钥能够覆盖全密钥空间，则在匹配到 $U=V$ 时即可能得到正确密钥，但不能保证随机值导致的误报不会出现（这里总可能数为 $2^{|K_1|+|K_2|}$ ，但匹配的长度为 $2^{n}$，明显 $|K_1|+|K_2| &gt; n$（安全标准），所以产生的中间值肯定会有很多误报）假设这里能够此处匹配到的概率是 $2^{-n}$ ，而全可能密钥数为 $2^{|K_1|+|K_2|}$ ，所以筛选留下的密钥数为 $2^{|K_1|+|K_2|-n}$，这需要在后续的测试阶段不断筛选；</li>
-<li>能够使用经典中间相遇攻击的前提是子密钥的独立性。</li>
-</ol>
-<p><strong>复杂度分析</strong></p>
-<p>时间复杂度：将更大的密钥拿来查询（内存比时间更贵），所以时间复杂度为：</p>
-<script type="math/tex; mode=display">
-T = max(2^{K_1},2^{K_2})</script><p>空间复杂度：将更小的密钥拿来查询，所以空间复杂度为：</p>
-<script type="math/tex; mode=display">
-M = min(2^{K_1},2^{K_2})</script><p>数据复杂度：留下的候选密钥 $|K_1|+|K_2|-n\ bits$ 而对每个新的明密文对， 理想情况下会筛掉 $n\ bits$ ，所以数据复杂度为：</p>
-<script type="math/tex; mode=display">
-D = \frac{|K_1|+|K_2|-n}{n}</script><p>（这里没有考虑建表和查表的时间，后面也不会考虑，如果考虑，通过较优化的算法如快速排序，二分查找之类，建表并排序的时间大概为 $2^{log(min(2^{K_1},2^{K_2}))}$，查表时间大概为 $2^{log(max(2^{K_1},2^{K_2}))}$）</p>
-<h1 id="MITM-variant-No-OnE-partial-matching"><a href="#MITM-variant-No-OnE-partial-matching" class="headerlink" title="MITM variant No.OnE (partial matching)"></a>MITM variant No.OnE (partial matching)</h1><p>在进行经典 MITM 时，大多数情况不能在中间匹配到等于分组长度的状态，即 $n=s$ 往往不能满足。</p>
-<p>所以更多情况下，往往只对分组长的部分比特进行匹配，也即部分匹配。</p>
-<p>这是一种匹配的技巧，在中间相遇攻击中都会用到，如经典 MITM 的 MITM stage 中，步骤 2. 的得到的 $U\ and\ V$ 的长度往往比分组长度小，但这样部分匹配也引发了一定的问题：</p>
-<p>见经典 MITM NOTE 1. 匹配到的概率会变小，如果状态长度为 $s\ (s&lt;n)$ 那么匹配到的概率就是 $2^{-s}$ ，留下的密钥数量就是$2^{|K_1|+|K_2|-s}$ ，在后面测试阶段就需要更多的明密文对来筛选候选密钥集。当然也可以利用并行搜索的办法，减少留下的候选密钥数量，并行 $N$ 个明密文对来进行 MITM ，留下的密钥数量就是$2^{|K_1|+|K_2|-N*s}$ ，MITM 阶段和测试阶段的操作没有实质性的变换，但复杂度需要重新考虑：</p>
-<p><strong>复杂度分析：</strong></p>
-<p>时间复杂度：并行 N 个明密文对，所以时间复杂度变为：</p>
-<script type="math/tex; mode=display">
-T = max(2^{K_1},2^{K_2})*N</script><p>空间复杂度：同样的，并行 N 个明密文对，所以空间复杂度变为：</p>
-<script type="math/tex; mode=display">
-M = min(2^{K_1},2^{K_2})*N</script><p>数据复杂度：MITM 阶段和测试阶段都使用了多个明密文对，取较大的作为数据复杂度量级：</p>
-<script type="math/tex; mode=display">
-D = max(\frac{|K_1|+|K_2|-s*N}{n},N)</script><h1 id="MITM-variant-No-TwO-3-subset"><a href="#MITM-variant-No-TwO-3-subset" class="headerlink" title="MITM variant No.TwO (3 subset)"></a>MITM variant No.TwO (3 subset)</h1><p>从经典的 MITM 考虑，如果子密钥不能独立，那么建表和穷举部分都无法独立进行，参考文章<a href="https://link.springer.com/chapter/10.1007/978-3-642-19574-7_16">A 3-Subset Meet-in-the-Middle Attack: Cryptanalysis of the Lightweight Block Cipher KTANTAN</a> 和文章<a href="https://link.springer.com/chapter/10.1007/978-3-642-31410-0_9">Three-Subset Meet-in-the-Middle Attack on Reduced XTEA</a> 了解使用 3 子集来构造具有独立性的子密钥集合，并结合穷举和经典 MITM 来进行中间相遇攻击。</p>
-<p><img src="https://ossimg.yzitc.com/2022/05/27/d6d5603020045.png"></p>
-<p>术语解释：</p>
-<p>$K=k_{\ell-1} k_{\ell-2} \ldots k_{1} k_{0} \text { be the } \ell \text {-bit key. }$</p>
-<p>$K_{1}=\left\{k_{i}: k_{i} \text { used by } \varphi_{1, \alpha}\right\}$</p>
-<p>$K_{2}=\left\{k_{i}: k_{i} \text { used by } \varphi_{R-\beta+1, R}\right\}$</p>
-<p>$A_{0}=K_{1} \cap K_{2}$是在前向 $\alpha$ 和后向 $\beta$ 都使用的密钥 <strong>比特</strong></p>
-<p>$K = K_1 \cup K_2$</p>
-<p><strong>NOTE</strong>:明确一点：$K,K_i$ 是以密钥个为单位，$Ai$ 以比特为单位；</p>
-<p>$A_{1}=K_{1} \backslash K_{1} \cap K_{2} \text { and } A_{2}=K_{2} \backslash K_{1} \cap K_{2}$ 就比较好理解，这里 \ 表示除去而非经典数学的除法。例如：</p>
-<p>密钥总位数为 $32\ bits$;相关部分为 $|A_0| = 21\ bits$ 那么 $|A_1|=|A_2|=11\ bits$</p>
-<p><strong>3-subset MITM：</strong><br>有迭代的分组密码，分组长度为 $n$ ，子密钥不独立的分为 $K_1,K_2$，有 $A_0\ bits$ 为公用密钥，$A_{1}=K_{1} \backslash K_{1} \cap K_{2}\ bits\  \text { and }\  A_{2}=K_{2} \backslash K_{1} \cap K_{2}\ bits$</p>
-<p><strong>MITM stage</strong></p>
-<p>对任意一个明密文对 $(P,C)$ </p>
-<ol>
-<li>穷举所有 $A_0\ bits$ ，并对每一种 $A_0$ 情况，进行步骤 2. 3.；</li>
-<li>将 $A_0$ 与 $A_1$ 拼接获得 $K_1$，前向加密得到中间值 $U$，将所有 $U$ 存入表 $T$;</li>
-<li>将 $A_0$ 与 $A_2$ 拼接获得 $K_2$，向后解密得到中间值 $V$，将所有 $V$ 与表 $T$ 中所有值进行匹配（不一定匹配中间值的全部比特），匹配到的值存入候选密钥表 $T_{vc}$ 中;</li>
-</ol>
-<p><strong>Testing Stage</strong></p>
-<p>和经典 MITM 相同，再任选不同的明密文对，对表 $T_{vc}$ 进行筛查，直到仅留下 1 个密钥。这里使用的明密文对数量和 $|A_0|$ 有关，显然是成反比的。</p>
-<p><strong>复杂度分析</strong></p>
-<p>不考虑并行明密文对，这里的 $A_0,A_1,A_2$ 表示密钥的长度$（bits)$：</p>
-<p>时间复杂度：建表时间 $2^{A_0}<em>2^{A_1}$ ，匹配时间 $2^{A_0}</em>2^{A_2}$ ，总时间：</p>
-<script type="math/tex; mode=display">
-T = 2^{A_0}*(2^{A_1}+2^{A_2})</script><p>空间复杂度：</p>
-<script type="math/tex; mode=display">
-M = 2^{A_0}*min(2^{A_1}+2^{A_2})</script><p>数据复杂度：假设中间值匹配的位数为 $m\ :\ 1&lt;=m&lt;=n$ ，则留下的候选密钥为 $A_0(A_1+A_2) - m\ bits$，所以测试需要的明密文对为：</p>
-<script type="math/tex; mode=display">
-D = \frac{A_0(A_1+A_2) - m}{n}</script><h1 id="MITM-variant-No-ThreE-All-Subkey-Recovery"><a href="#MITM-variant-No-ThreE-All-Subkey-Recovery" class="headerlink" title="MITM variant No.ThreE (All Subkey Recovery)"></a>MITM variant No.ThreE (All Subkey Recovery)</h1><p>原始文章： <a href="https://link.springer.com/chapter/10.1007/978-3-642-35999-6_14">All Subkeys Recovery Attack on Block Ciphers: Extending Meet-in-the-Middle Approach</a></p>
-<p>从经典中间相遇攻击而来，考虑到经典中间相遇攻击的局限性：</p>
-<ol>
-<li><p>需要子密钥相互独立，不独立情况见 “MITM variant No.TwO (3 subset)” 部分</p>
-</li>
-<li><p>由于密钥编排算法的限制，可能无法在仅获得部分子密钥的情况下获取主密钥</p>
-</li>
-</ol>
-<p>ASR 攻击注意针对第 2 个局限进行改进，即试图使用中间相遇的思想来恢复全部子密钥，从而忽略密钥编排算法的影响，如果密钥编排可逆，也可以利用所有子密钥恢复主密钥。</p>
-<p><strong>ASR attack</strong></p>
-<p>假设分组密码分组长度为 $n$ ，加密函数为 $E$ ，有 $R$ 轮，且每轮使用不同的加密子密钥，子密钥不需要全部独立（但需要有部分独立的情况存在）</p>
-<p><strong>MITM stage</strong></p>
-<ol>
-<li><p>攻击者确定中间碰撞状态 $S\ (s-bits)$ ；这个过程并不能独立后面的步骤，和 $K_1,K_2$ 的选取有很大关系</p>
-<p>状态 $S$ 可以从两个方向计算得来，即 $S=F_{1}(P,K_1) = F_2^{-1}(C,K_2)$ ，其中 $F_1,F_2$ 分别是前向和后向的（部分）加密函数</p>
-<p>但并不是仅有 $K_1,K_2$ 就可以从明文加密到密文，还有剩余没有用上的密钥 $K_3$ ，所以有 $\left|\mathcal{K}_{(1)}\right|+\left|\mathcal{K}_{(2)}\right|+\left|\mathcal{K}_{(3)}\right|=R \cdot \ell$ </p>
-<p>对于此处的 $K_1,K_2$ ，需要能够保证 $F_{1}(P,K_1) = F_2^{-1}(C,K_2)$ 的计算是独立的；</p>
-</li>
-<li><p>将 $min(K_1,K_2)$ 得到的 $(P/C,S)$ 拿来存表，而另一部分用来做匹配，如果能够在状态 $S$ 匹配到，即 $S=F_{1}(P,K_1) = F_2^{-1}(C,K_2)$ ，则将使用的密钥 $K_1,K_2$ 加入候选密钥表；</p>
-</li>
-<li><p>考虑到并行操作，可以对多个明密文对并行操作进行步骤 2.</p>
-</li>
-</ol>
-<p><strong>Test Stage</strong></p>
-<p>同样的，使用不同明密文对测试，但测试的不是是否能够从明文加密到密文，因为整个过程没有考虑 $K_3$ ，而是测试使用不同的明密文能否找到状态 $S$ 的匹配 ？ 是这样吗？？</p>
-<p><strong>NOTE</strong></p>
-<ol>
-<li><p>在步骤 2. 有 $2^{-s}$ 的概率在状态 $S$ 匹配到，而总可能密钥数为 $2^{R<em>l}$ 所以留下的候选密钥为 $2^{R</em>l-s}$ 个，而并行使用 N 个明密文对留下的候选密钥就为  $2^{R<em>l-N</em>s}$ 个；</p>
-</li>
-<li><p>这里可以并行使用的明密文对数量 N 为，需要有一定的限制：</p>
-<p>$2^{R<em>l-N</em>s} \leq 2^{R*l-(|K_1|+|K_2|)}$ 即 $N\leq(|K_1|+|K_2|)/s$，如果不满足，则意味着使用 $2^{|K_1|+|K_2|}$ 种密钥筛掉了超过大于 $2^{|K_1|+|K_2|}$ 个密钥，这是不合理的；</p>
-</li>
-</ol>
-<p><strong>复杂度分析</strong></p>
-<ul>
-<li>时间复杂度：选 $|K_1|,|K_2|$ 更大的用来做匹配，对 N 个明密文对，就需要 $\max \left(2^{\left|\mathcal{K}_{(1)}\right|}, 2^{\left|\mathcal{K}_{(2)}\right|}\right) \times N$ 的计算，而对剩余的密钥 $K_3$ 就需要穷举，需要 $2^{R \cdot \ell-N \cdot s}$ 的计算，所以总时间复杂度为：</li>
-</ul>
-<script type="math/tex; mode=display">
-T_n = C_{c o m p}=\max \left(2^{\left|\mathcal{K}_{(1)}\right|}, 2^{\left|\mathcal{K}_{(2)}\right|}\right) \times N+2^{R \cdot \ell-N \cdot s} .</script><ul>
-<li>空间复杂度：选 $|K_1|,|K_2|$ 更小的用来建表，对 N 个明密文对，总空间复杂度为：</li>
-</ul>
-<script type="math/tex; mode=display">
-S_n = \min \left(2^{\left|\mathcal{K}_{(1)}\right|}, 2^{\left|\mathcal{K}_{(2)}\right|} \mid\right) \times N</script><ul>
-<li>数据复杂度：并行 N 个不同的明密文对，在测试阶段，留下密钥 $R<em>l-N</em>s$ bits，因为分组长度为 n ，所以每个新的明密文对可以筛掉 n bits（<strong>注意</strong>这个过程：$P \rightarrow E_k \rightarrow C$ ，这里的 $_k$ 会遍历所有留下的候选密钥，而理论上会有 n 个被筛掉）所以需要进行  $\lceil(R \cdot \ell-N \cdot s) / n\rceil$ 次筛查，数据复杂度为：</li>
-</ul>
-<script type="math/tex; mode=display">
-D_n = \max (N,\lceil(R \cdot \ell-N \cdot s) / n\rceil)</script>]]></content>
       <categories>
-        <category>Cryptanalysis</category>
+        <category>MILP_Learning</category>
       </categories>
       <tags>
-        <tag>Crypto</tag>
+        <tag>Gurobi</tag>
       </tags>
   </entry>
   <entry>
-    <title>有限域上的运算</title>
-    <url>/2022/05/27/Cryptanalysis/%E6%9C%89%E9%99%90%E5%9F%9F%E4%B8%8A%E7%9A%84%E8%BF%90%E7%AE%97/</url>
+    <title>Gurobi-2-ex-diet</title>
+    <url>/2022/06/01/Gurobi/Gurobi-2-ex-diet/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>Linear Cryptanalysis</title>
-    <url>/2022/05/25/Cryptanalysis/%E7%BA%BF%E6%80%A7%E5%88%86%E6%9E%90/</url>
-    <content><![CDATA[<h1 id="线性分析"><a href="#线性分析" class="headerlink" title="线性分析"></a>线性分析</h1><h2 id="principle"><a href="#principle" class="headerlink" title="principle"></a>principle</h2><p>线性分析通过寻找明密文与密钥间的线性相关性，构造可能产生线性偏差的掩码（搜索）来构造尽量大的线性逼近，从而逐比特的获取密钥信息。</p>
-<p>$Example\ 1$</p>
-<p>最简单的例子：$plaintext\ m,\ ciphertext\ c,\ key\ k = b\ bits$ ，密码系统 $c = m \oplus k$ ，显然该密码系统在不是一次一密的情况下是不安全的，但现在从另一个方面考虑：</p>
-<p>如果逐比特考虑这该密码系统的 3 个变量，则对应比特也满足关系 $c_i = m_i \oplus k_i$ ，$_i$ 表示对应的比特位。那么对于已知明文攻击，就可以通过 $k_i = m_i \oplus c_i$ 来计算获得 $k_i$ 的每一个比特，并还原成 $k$ .这是一种通过明密文的线性关系来逐比特恢复密钥的一个最简单实例，但其并没有较强的说服力.</p>
-<p>$Example\ 2$</p>
-<p>考虑一个稍微复杂的加密系统，密文比特由部分明文比特和密钥比特确定：同样可以通过直接逐比特的写出明密文与密钥的关系来恢复密钥</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-c_{3} &=m_{3} \oplus m_{1} \oplus m_{0} \oplus k_{3} \oplus k_{1} \oplus k_{0} \\
-c_{2} &=m_{2} \oplus m_{0} \oplus k_{2} \oplus k_{0} \\
-c_{1} &=m_{3} \oplus m_{2} \oplus k_{3} \oplus k_{2}, \text { and } \\
-c_{0} &=m_{1} \oplus m_{0} \oplus k_{1} \oplus k_{0}\\
-i.e.\\
-k_{0} &=m_{0} \oplus c_{0} \oplus c_{3} \\
-k_{1} &=m_{1} \oplus c_{0} \oplus c_{2} \oplus c_{3} \\
-k_{2} &=m_{2} \oplus c_{1} \oplus c_{1} \oplus c_{2}, \text { and } \\
-k_{3} &=m_{3} \oplus c_{0} \oplus c_{1} \oplus c_{2} \oplus c_{3}
-\end{aligned}\\</script><h2 id="CIPHER-A："><a href="#CIPHER-A：" class="headerlink" title="CIPHER_A："></a>CIPHER_A：</h2><p>现在考虑密码系统 CIPHER_A：其中变量均为 4 bits，密钥 8 bits，记为 $k_0||k_1$ ，</p>
-<p><img src="https://ossimg.yzitc.com/2022/05/23/20c5c34e70f97.png"></p>
-<p>该密码系统满足如下关系：$u=m \oplus k_{0}, v=S[u] \text {, and } c=v \oplus k_{1} \text {. }$ 现在需要找到合适的密钥使得 $v=S[u]$ ，试图通过逐比特的恢复密钥，如何能够逐比特的考虑明密文及密钥？将其都做为列向量来考虑，并且用一个行向量来当作<strong>掩码</strong>，表示取或不取该比特：</p>
-<script type="math/tex; mode=display">
-(1,0,0,0) \times\left(\begin{array}{c}
-m_{3} \\
-m_{2} \\
-m_{1} \\
-m_{0}
-\end{array}\right)=m_{3} \text {, and }(0,0,1,0) \times\left(\begin{array}{c}
-m_{3} \\
-m_{2} \\
-m_{1} \\
-m_{0}
-\end{array}\right)=m_{1}</script><p>那么上述的 $Example\ 2$ 就可以表示为：（掩码随机取的，× 表示数量积）</p>
-<script type="math/tex; mode=display">
-(1,0,1,1) \times\left(\begin{array}{l}
-m_{3} \\
-m_{2} \\
-m_{1} \\
-m_{0}
-\end{array}\right) \oplus(1,0,1,1) \times\left(\begin{array}{l}
-k_{3} \\
-k_{2} \\
-k_{1} \\
-k_{0} \\
-\end{array}\right)=m_{3} \oplus m_{1} \oplus m_{0} \oplus k_{3} \oplus k_{1} \oplus k_{0}\\</script><script type="math/tex; mode=display">
-i.e.\ \ \ c_{3}=m_{3} \oplus m_{1} \oplus m_{0} \oplus k_{3} \oplus k_{1} \oplus k_{0}\\</script><script type="math/tex; mode=display">
-i.e.\ \ \ \alpha \cdot c=\beta \cdot m \oplus \beta \cdot k\ \ where\ \alpha=(1,0,0,0) \text { and } \beta=(1,0,1,1)</script><p>也即，可以通过掩码表示明密文相应位和密钥的线性关系（或进行一定的线性变化），掩码为 $\alpha\ and\ \beta$ . 但是仅仅线性的关系对上图的 CIPHER_A 是没有用的，因为存在非线性的 S-box，所以自然的考虑能否通过统计特性，使其逼近该密码系统中的非线性函数，即 S-box ？关系为 $\alpha \cdot x = \beta \cdot S[x]$（注意这里的结果是 0 或 1） 对于一个理想的非线性函数，无论使用任何掩码，该关系满足与否的概率为 $1/2$ ，那又很自然的想到，希望通过穷搜所有掩码来使关系满足的概率偏离 $1/2$ ，即存在<strong>偏差</strong> 。</p>
-<p>以上密码使用掩码表示，并计算其已知偏差：</p>
-<script type="math/tex; mode=display">
-\begin{array}{l}
-(\alpha \cdot m)=\left(\alpha \cdot k_{0}\right) \oplus(\alpha \cdot u) \text { with probability } 1\\
-(\alpha \cdot u)=(\beta \cdot v) \quad \text { with probability } p\\
-(\beta \cdot v)=\left(\beta \cdot k_{1}\right) \oplus(\beta \cdot c) \text { with probability } 1 .
-\end{array}</script><p>只需要考虑中间的式子，进一步，将左边式子和右边式子相乘得到关于明密文及密钥的（化简过）（掩码位）关系式：</p>
-<script type="math/tex; mode=display">
-(\alpha \cdot m) \oplus(\beta \cdot c)=\left(\alpha \cdot k_{0}\right) \oplus\left(\beta \cdot k_{1}\right) \text { with probability } p \text {. }</script><p>也就是，在直到明密文对的情况下，找到  $\alpha \cdot x = \beta \cdot S[x]$ 关系式的相关信息，就能获得关于密钥的信息。</p>
-<p>如果 $p \ne 1/2$ 即存在偏差，那么就有可能在一定的数据量内获得关于密钥的信息，假设 $p = 1/2 + \varepsilon$ ，则 $0&lt;|\boldsymbol{\varepsilon}| \leq \frac{1}{2}$ 为线性偏差，当然会期望偏差尽量大，因为偏差越大就需要越少的数据量。 </p>
-<p>举例对上述非线性关系式  $\alpha \cdot x = \beta \cdot S[x]$ 的简单线性攻击（这里的 x 满足上述 CIPHER_A的 u 或 v)：</p>
-<p><strong>建立区分器</strong></p>
-<ol>
-<li>穷举所有 $x$ ，并计算 $S[x]$ ;</li>
-<li>对所有的 $x\ and\ S[x]$ 穷举所有掩码 $\alpha\ and\ \beta$ ；</li>
-<li>算出 $\alpha \cdot x = \beta \cdot S[x]$ 的概率（或 $\alpha \cdot x \oplus 1= \beta \cdot S[x]$ 的概率）； </li>
-</ol>
-<p>例子：$p(\alpha \cdot x = \beta \cdot S[x]) = 2/16\ \ and\ \ p(\alpha \cdot x \oplus 1= \beta \cdot S[x]) = 14/16$ </p>
-<p>$i.e.\ \ \ \  p((\alpha \cdot m) \oplus(\beta \cdot c) \oplus 1=\left(\alpha \cdot k_{0}\right) \oplus\left(\beta \cdot k_{1}\right))=14/16$ </p>
-<script type="math/tex; mode=display">
-\alpha=(1,0,0,1) \text { and } \beta=(0,0,1,0)</script><script type="math/tex; mode=display">
-\begin{array}{|c|cccccccccccccccc|}
-\hline \mathrm{x} & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & \mathrm{a} & \mathrm{b} & \mathrm{c} & \mathrm{d} & \mathrm{e} & \mathrm{f} \\
-\hline \mathrm{S}[\mathrm{x}] & \mathrm{f} & \mathrm{e} & \mathrm{b} & \mathrm{c} & 6 & \mathrm{~d} & 7 & 8 & 0 & 3 & 9 & \mathrm{a} & 4 & 2 & 1 & 5 \\
-\hline \hline \alpha \cdot x & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 \\
-\hline \beta \cdot S[x] & 1 & 1 & 1 & 0 & 1 & 0 & 1 & 0 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 0 \\
-\hline
-\end{array}</script><p>为了表述清楚：二元域内的运算和比较（module 2）</p>
-<script type="math/tex; mode=display">
-\alpha \cdot x = \beta \cdot S[x] \ \ \rightarrow\ \ (\alpha \cdot m) \oplus(\beta \cdot c)=\left(\alpha \cdot k_{0}\right) \oplus\left(\beta \cdot k_{1}\right)\ ::\ p = \frac{2}{16}</script><script type="math/tex; mode=display">
-\alpha \cdot x \ne \beta \cdot S[x] \ \ \rightarrow\ \ (\alpha \cdot m) \oplus(\beta \cdot c) \oplus 1=\left(\alpha \cdot k_{0}\right) \oplus\left(\beta \cdot k_{1}\right)\ ::\ p = \frac{14}{16}</script><p><strong>恢复密钥</strong></p>
-<ol>
-<li><p>设置计数器 $T_0\ and\ T_1$ ，固定掩码 $\alpha\ and\ \beta$ ，使用多对明密文进行测试，计算 $(\alpha \cdot m) \oplus (\beta \cdot c)$ ：</p>
-<p>为 1 ，$T_1$ 计数器＋1</p>
-<p>为 0 ，$T_0$ 计数器 + 1</p>
-<p>（注意这里使用的明密文对数量和偏差的大小有关）</p>
-</li>
-<li><p>可以先假设密钥值，观察两个计数器，可以获得 $(\alpha \cdot m) \oplus (\beta \cdot c)$ 的值（ 0 或 1）的分布，再根据相等与否的概率得出密钥信息 $(\alpha \cdot k_{0}) \oplus(\beta \cdot k_{1})=0\ or\ 1$ </p>
-<p>注意，并不能确定的获取密钥在该位的取值，只是获取掩码对应的几位之间的信息。</p>
-</li>
-</ol>
-<p>例子：</p>
-<blockquote>
-<ol>
-<li><p>固定掩码 $\alpha=(1,0,0,1) \text { and } \beta=(0,0,1,0)\$ ;</p>
-</li>
-<li><p>假设关系式 $(\alpha \cdot m) \oplus(\beta \cdot c)=\left(\alpha \cdot k_{0}\right) \oplus\left(\beta \cdot k_{1}\right)$ 成立的概率位 $2/16$，则不成立概率 $14/16$ ；</p>
-</li>
-<li><p>假设，密钥关系 $(\alpha \cdot k_{0}) \oplus(\beta \cdot k_{1})=1$ 对 N 个明密文对计算  $(\alpha \cdot m) \oplus (\beta \cdot c)$ ，将预计得到 $2N/16$ 个 1 和  $14N/16$ 个 0，即 $T_0 = \frac{2N}{16}\ and\ T_1 = \frac{14N}{16}$ </p>
-</li>
-<li><p>如果 3. 的计数器满足上面所述，则可以猜测  $(\alpha \cdot k_{0}) \oplus(\beta \cdot k_{1})=1$ 是正确的，否则，其是错误的，也就是  $(\alpha \cdot k_{0}) \oplus(\beta \cdot k_{1})=0$ （这种情况 $T_0$ 和 $T_1$ 的计数应该差不多和 3. 相反）；</p>
-</li>
-<li>如果 3. 的计数器满足上述，就可获得密钥信息  $(\alpha \cdot k_{0}) \oplus(\beta \cdot k_{1})=1\ \ i.e.\ \ k_{0,0}\oplus k_{0,3} \oplus k_{1,2} = 1$ ；</li>
-<li>继续寻找更多关系来尽可能多的恢复密钥比特。</li>
-</ol>
-</blockquote>
+    <title>Gurobi_Outline</title>
+    <url>/2022/05/30/Gurobi/Gurobi_Outline/</url>
+    <content><![CDATA[<h1 id="Gurobi-建模的基本流程"><a href="#Gurobi-建模的基本流程" class="headerlink" title="Gurobi 建模的基本流程"></a>Gurobi 建模的基本流程</h1><p>这样定义会使整个模型易读</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">m = gurobipy.Model(<span class="string">&quot;Model_Name&quot;</span>)	<span class="comment">#模型</span></span><br><span class="line"></span><br><span class="line">var = m.addVar(vtype = var_type,name=<span class="string">&quot;var_name&quot;</span>)	<span class="comment">#增加变量</span></span><br><span class="line"><span class="comment">#...More vars</span></span><br><span class="line"></span><br><span class="line">m.setObject(objective_expression,objective_sense)	<span class="comment">#目标函数</span></span><br><span class="line"></span><br><span class="line">m.addConstr(constraint,constraint_name)	<span class="comment">#约束条件</span></span><br><span class="line"><span class="comment">#...More constraints</span></span><br><span class="line"></span><br><span class="line">m.optimize()	<span class="comment">#优化模型</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://ossimg.yzitc.com/2022/05/30/930c4d13cf906.png"></p>
 ]]></content>
       <categories>
-        <category>Cryptanalysis</category>
+        <category>MILP_Learning</category>
       </categories>
       <tags>
-        <tag>Crypto</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Differential Cryptanalysis</title>
-    <url>/2022/05/25/Cryptanalysis/%E5%B7%AE%E5%88%86%E5%88%86%E6%9E%90/</url>
-    <content><![CDATA[<p><em>有些地方没渲染出来，以后注意</em></p>
-<h1 id="Differential-Cryptanalysis"><a href="#Differential-Cryptanalysis" class="headerlink" title="Differential Cryptanalysis"></a>Differential Cryptanalysis</h1><h3 id="DC-to-ToyCipher"><a href="#DC-to-ToyCipher" class="headerlink" title="DC to ToyCipher"></a>DC to ToyCipher</h3><center>
-  <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650188144391/B9FB9D37BDF15A699BC071CE49BAEA53" width="30%">
-</center>
-
-<h4 id="CIPHER-1"><a href="#CIPHER-1" class="headerlink" title="CIPHER-1"></a>CIPHER-1</h4><p>以一个$toycipher$为例：$CIPHER-1$，其中，$S[·]$ 表示一个公开的 $S-Box$ 置换（可逆)</p>
-  <center>
-  <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650189319128/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
-  </center>
-
-<p>在已知明文 $m_{0} \; m_{1}$ ，密文 $c_{0}\;c_{1}$ 的情况下（已知明文攻击），加密过程如下：</p>
-<p>(已知：$m_{0} \; m_{1}\; c_{0}\;c_{1} ;$<br>未知：$k_{0}\;k_{1}\;u\;v)$</p>
-<center>
-  <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650186751354/D2B5CA33BD970F64A6301FA75AE2EB22" width="60%">
-  </center>
-
-<p>由于两次加密使用的是相同的密钥 $k_{0}$和 $k_{1}$ ，所以对明文以密码最常用操作( $\bigoplus$ )做差分得到：</p>
-  <center>
-    <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650186863109/D2B5CA33BD970F64A6301FA75AE2EB22" width="60%">
-  </center>
-
-<p>即，明文$m_{0} \; m_{1}$差分 == 中间状态 $u_{0}, u_{1}$ 的差分，消去了密钥 $k_{0}$ 的影响；</p>
-<p>所以，跳过 $k_{0}$ 的影响，枚举 $k_{1}$ 的候选值，记 $t$，当$ t$ 满足 </p>
-<script type="math/tex; mode=display">
-\textcolor{red}{S^{-1}  [ t \bigoplus c_{0}] \bigoplus S^{-1} [ t \bigoplus c_{0}] == m_{0} \bigoplus m_{1}}</script><p>时，记 $1$ 次有效的 $t$ 计数，当 $t$ 计数足够多时，则认为 $t$ 有很大可能就是$k_{1}$ ，只需验证即可。</p>
-<p>$ Conclusion\underline{ }\;P_1: $</p>
-<ol>
-<li>即使中间数据未知，仍然可以通过寻找已知数据的差异来断定中间数据的差异；</li>
-<li>差分分析的一种方法(init) ，通过寻找确定的一部分中间状态数据，穷举另一部分未知数据来恢复密钥。</li>
-</ol>
-<p>下面是一个具体的分析的例子:</p>
-  <center>
- <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650189084066/D2B5CA33BD970F64A6301FA75AE2EB22">
-  </center>
-
-  <center>
-  <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650189139457/D2B5CA33BD970F64A6301FA75AE2EB22">
-  </center>
-
-
-<p>简单解释一下以上例子的过程：（已知明文攻击）</p>
-<ol>
-<li><p>选择两对明密文，根据上面推出的公式：中间值差分$(u_{0}\bigoplus u_1)==$ 明文差分 $(m_{0} \bigoplus m_{1})$，计算出$u_{0} \bigoplus u_{1}$的值;</p>
-</li>
-<li><p>计算出$S[·]$的逆$S^{-1}[·]=R[·]$，用来计算核心推导式;</p>
-</li>
-<li><p>穷举所有的 $k_{1}= t$,根据式：$S^{-1}  [ t \bigoplus c_{0}] \bigoplus S^{-1} [ t \bigoplus c_{0}]$计算出中间值差分;</p>
-</li>
-<li><p>将3.中的结果与2.中的结果匹配，对可能使等式$S^{-1}  [ t \bigoplus c_{0}] \bigoplus S^{-1} [ t \bigoplus c_{0}] == m_{0} \bigoplus m_{1}$成立的t计数（或存到一个集合中）需要注意使成立的t值可能<font color = purple>不唯一</font>，这就涉及到差分概率，后面再说;</p>
-</li>
-<li><p>为了找出唯一的$t=k_{1}$，需要更多的明密文对来重复上述1.2.3.4.过程;</p>
-</li>
-<li><p>将多个明密文对产生的可能$t=k_{1}$结果取交集，直到得到最后的唯一的结果，即可以断定其为正确的$k_{1}$</p>
-</li>
-</ol>
-  <center>
-<br>
-  <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650203196847/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
-  <br>
-  </center>
-
-<h4 id="CIPHER-2"><a href="#CIPHER-2" class="headerlink" title="CIPHER-2"></a>CIPHER-2</h4><p>下面考虑一个更复杂的例子，假设$Cipher-2$有两个$S$盒及$3$个密钥：</p>
-<center>
-  <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650203999365/757C75C2BC7E2D8D9493B7FD3FD6BF1F" width="80%">
-</center>
-
-<p>明显，在以上例子中，虽然有关系 $m_{0} \bigoplus m_{1}$，但无法通过$S[·]$的逆找到中间值$w$和$v$，因为再往前传递数据的过程中，$S[·]$会消去已部分差分关系（当然，不是完全消去）</p>
-<p>那么，就需要更进一步的考虑$S$盒对该差分传递的影响</p>
-<p>下面做一个小测试，考虑两个相同$S$盒的输出差分:<br>取i,j分别为进入两个S盒的数据，且i是j的补，即$j=i \bigoplus f$，则有下表$<br></p>
-<blockquote>
-<p><strong>#小知识：二进制数据$i$的补$==i\bigoplus F_{16} ==i\bigoplus \vec{1}$</strong></p>
-</blockquote>
-<p>按照$CIPHER-1$的办法无法获取中间值$v$和$w$，因为经过了非线性的$S$盒，$\bigoplus $的差分无法被传递下去；<br>所以选定明文 $i$，和通过明文 $i$ 可以推出的明文 $j$ ，并将其分别进入 $S$ 盒，拿到其输出 $S$ 盒的差分，建立下表：</p>
-<center>
-  <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650205129825/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
-</center>
-
-
-<p>通过上面发现，在第五列，$d$ 出现的频率更高   ，下面给出以上由 $i$ 到 $j$ 到 $S[i] \bigoplus S[j]$ 的推导过程：</p>
-<script type="math/tex; mode=display">
-i(i.e. message\;or\;plaintext) \rightarrow i \bigoplus F = S[i] \bigoplus S[j]</script><p>所以，我们只需要有一个明文 $i$ 即可；</p>
-<p>根据对 $CIPHER-1$ 的攻击可以知道，$m_{0}\bigoplus m_{1} == u_{0} \bigoplus u_{1} == F$,所以有：*当两个异或等于 $ F $ 的值分别进入该 $ S $ 盒，会有$ \frac{10}{16} $的概率得到输出差分 $ d$ ；</p>
-<p>同时，通过猜测$ k_{2} $可以得到 $w$ 位置的差分，而 $w$ 位置的差分又等于 $v$ 位置的差分。</p>
-<p><strong>所以得到结论：</strong></p>
-<p>通过选择两个输入差分为 F 的明文产生密文（并不是选择明文攻击），猜测 $k_{2}$ 从反向在中间进行对比，如果差分数据十分随机，则猜测的 $k_{2}$ 不对，如果猜测 $k_{2}$ 使得在中间 $v_{0}\bigoplus v_{1}$ 为 $d$，则很大可能猜测的 $k_{2}$ 正确。</p>
-<p>那么更进一步，对任何一对”选择”的明密文，猜测 $k_{2}$ ，并将所有 $k_{2}$ 的猜测记在$hash$表中，如果 $k_{2}$ 使得中间的差分 $ v_{0}\bigoplus v_{1} = $差分分布表中频率出现最高的数据（如 $Table\;6.1$ 的 $d$），则将该$hash$表中对于的 $k_{2}$ 的位置计数 $+1$.(*逆向推 $k_{2}$ 的过程中，正确的 $k_{2}$ 将会使中间值差分出现的频率远高于其他值出现的频率，如上图 $v_{0} \bigoplus v_{1}=d$ 概率为 $ \frac{10}{16} $,而其他为$ \frac{1}{16} $.</p>
-<p>以上的寻找输入差分 $d_{in}$ 及其经过两个 $S-Box$ 之后的输出差分 $d_{out}$ 的值可以建一个差分表 $\textcolor{red}{DDT}$  ,如下：</p>
-<p>从下图可以看出，当输入差分为$f$时，输出差分为$d$出现的频率最高次数为10，所以选择差分 $f$ 从 $plaintext$ 注入，获得一条差分概率最大的路径，概率为$\frac{10}{16}$,路径为$f\rightarrow d$. </p>
-<p><img src="https://uploadfiles.nowcoder.com/images/20220419/629760107_1650360923811/D2B5CA33BD970F64A6301FA75AE2EB22" alt="img"></p>
-<p>对 $CIPHER-2$ 的分析让我们发现了 $S[·]$ 的一些规律，比如：</p>
-<ul>
-<li>如果两对差分输入位上均不同，如 $0001\;and\;1110$，观察上表的 $1\;and\;e$ ，输出差分在各位也均不同；</li>
-<li>在所有位位置不同的十对输入将产生除了第二个最低有效位位置之外的所有不同的输出对；</li>
-<li>$and\;so\;on\;and\;so\;forth$</li>
-</ul>
-<p>那么，如果一对输入输出差分$(\alpha,\beta)$，即输入差分 $\alpha$ 通过 $S[·]$ 可以得到输出差分 $\beta$ ,则称该过程为通过操作 $S[·]$ 的差分特征 $ (differential) \;characteristic\;across\;the\;operation\;S[⋅]$ 记作$\alpha\;\stackrel{S[·]}{\rightarrow}\;\beta$ ,一个特征成立就有与其对应的概率如 $f\;\stackrel{S[·]}{\rightarrow}\;b$ 的概率为$\frac{10}{16}$.</p>
-<h3 id="DC-using-Characteristic"><a href="#DC-using-Characteristic" class="headerlink" title="DC using Characteristic"></a>DC using Characteristic</h3><h4 id="CIPHER-3"><a href="#CIPHER-3" class="headerlink" title="CIPHER-3"></a>CIPHER-3</h4><p>有了上面的规律，可以考虑一个更加复杂的$ToyCipher$：$CIPGERTHREE$在$CIPHER-2$的基础上，又多加了一个$S[·]$及一个密钥$k_3$</p>
-<center>
-<img src="https://uploadfiles.nowcoder.com/images/20220418/629760107_1650291467544/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
-</center>
-
-<p>有了对$CIPHER-2$的分析方法，对$CIPHER-3$分析就容易理解多了：如果考虑通过一个$S[·]$，则给定差分 $f$ 会得到差分 $d$ 的概率时 $\frac{10}{16}$；那么，考虑差分继续往后传播，到第二个$S[·]$，通过查表 $Table 6.2$ 可以得知，概率最高的是特征 $d\;\stackrel{S[·]}{\rightarrow}\;c$，概率为 $\frac{6}{16}$，也就是说，如果我们希望能够通过”猜密钥”的方式（或者是枚举）得到密钥 $k_3$ ，就需要经过两个 $S[·]$ ，而带来的影响是，差分概率降低（<em>我们选取的是差分概率最高的一条特征路径）。很自然的，我们把通过两个$S[·]$的差分特征概率乘起来 $\frac{10}{16}  </em> \frac{6}{16}=\frac{15}{64}$，也就是说，我们猜出正确的$k_3$的概率是$\frac{15}{64}$,但这也是很大的降低了噪声对我们猜测密钥的影响，因为随机猜测密钥的。</p>
-<h4 id="CIPHER-4"><a href="#CIPHER-4" class="headerlink" title="CIPHER-4"></a>CIPHER-4</h4><p>$CIPHER-4$已经十分类似我们现在使用的分组密码（见 $AES$ 算法 $Rijndael$）：使用 $r$ 轮加密，对 $16-bit\;block$ 操作，所有的 $r+1$ 轮的密钥都随机均匀选取，每一轮包含结构 $S[·]\;and\;P[·]$ （都可逆）见下图：</p>
-<p><em>其中，每一轮的输入为 $16-bit$ ，被分为 $4 </em> 4-bit$ 的四个半字节放入 $4 <em> S[·]$ 和 $P[·]$ 中运算，也就是说 $S[·]\;and\;P[·]$ 都是在 $\{0,1\}^4\;\rightarrow(0,f)$ 上的置换</em></p>
-<h1 id="4-轮的-CIPHER-4-实现了充分的扩散（雪崩），这得益于-P-·-的设计；"><a href="#4-轮的-CIPHER-4-实现了充分的扩散（雪崩），这得益于-P-·-的设计；" class="headerlink" title="4 轮的 $CIPHER-4$ 实现了充分的扩散（雪崩），这得益于$P[·]$的设计；"></a>4 轮的 $CIPHER-4$ 实现了充分的扩散（雪崩），这得益于$P[·]$的设计；</h1><h1 id="除-S-·-外，其余运算对二进制上的加法-bigoplus-均是线性的，-P-·-运算可以用一个线性的矩阵表示；"><a href="#除-S-·-外，其余运算对二进制上的加法-bigoplus-均是线性的，-P-·-运算可以用一个线性的矩阵表示；" class="headerlink" title="除 $S[·]$ 外，其余运算对二进制上的加法 $\bigoplus$ 均是线性的，$P[·]$ 运算可以用一个线性的矩阵表示；"></a>除 $S[·]$ 外，其余运算对二进制上的加法 $\bigoplus$ 均是线性的，$P[·]$ 运算可以用一个线性的矩阵表示；</h1><center>
-    <img src="https://uploadfiles.nowcoder.com/images/20220419/629760107_1650357183268/D2B5CA33BD970F64A6301FA75AE2EB22" width = "80%">
-</center>
-<center>
-    <img src="https://uploadfiles.nowcoder.com/images/20220419/629760107_1650357308008/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
-</center>
-
-<p>下面，考虑对$CIPHER-4$分析，继承对$CIPHER-3$的分析方法，寻找前 $r-1$ 轮的差分特征，猜第 $r$ 轮使用的密钥 $k_r$，由于有 4 个 $S[·]$ 所以将差分特征表示为：</p>
-<script type="math/tex; mode=display">
-(\alpha_1,\alpha_2,\alpha_3,\alpha_4)\stackrel{S}{\rightarrow}(\beta_1,\beta_2,\beta_3,\beta_4)</script><p>还有一个 $P[·]$ 作用在 $S[·]$ 之后，而 $P[·]$ 不会影响差分值，只会影响其在下一轮出现的位置， $P[·]$的作用是将差分传播到尽可能多的  $S[·]$ 中，将 $P[·]$过程表示为：</p>
-<script type="math/tex; mode=display">
-(\beta_1,\beta_2,\beta_3,\beta_4)\stackrel{P}{\rightarrow}(\gamma_1,\gamma_2,\gamma_3,\gamma_4)</script><p>所以，$\beta_1||\beta_2||\beta_3||\beta_4$ 就表示输入差分经 $S[·]$ 之后的输出差分，$\gamma_1||\gamma_2||\gamma_3||\gamma_4$ 表示输出差分经 $P[·]$之后该轮最后的输出差分，所以一轮的差分总体表示为：</p>
-<script type="math/tex; mode=display">
-(\alpha_1,\alpha_2,\alpha_3,\alpha_4)\stackrel{\mathcal{R}}{\rightarrow}(\gamma_1,\gamma_2,\gamma_3,\gamma_4)</script><p>通过表$Table\;6.2$ 可以发现，如果输入 $S[·]$ 的差分为 0，则输出差分也为 0 ，所以对于 $16-bit\;block$，可以以没半个字节为单位，构造只在一位（一个 $S[·]$ 输入差分）为非零值的数据。当然，这在分析上是允许的，但变成了*选择明文攻击，因为明文是我们自己构造的。在考虑$S[·]$的活跃性时，相当于构造只有一个$S[·]$活跃的轮。构造的输入差分例如$(0,0,1,0)$，每一个位置进入一个$S[·]$，那么至少在第一轮只有一个$S[·]$的输出会存在差分。</p>
-<p>再考虑到前面对$CIPHER-1,CIPHER-2$分析的时候，得到一个$S[·]$ 存在最大的差分特征 $f\;\stackrel{S[·]}{\rightarrow}\;b$ ，概率为$\frac{10}{16}$，所以将输入差分令为$(0,0,0,f)$，那么对第一轮，就只有第四个$S[·]$ 存在差分，描述经过一轮差分的传递：</p>
-<script type="math/tex; mode=display">
-(0,0,0,f)\stackrel{S}{\rightarrow}(0,0,0,d)</script><p>但是，一个好的$P[·]$置换，会将差分传递到下一轮尽量多的$S[·]$，比如采用 $MDS$ 矩阵的$P[·]$，见<a href="https://blog.nowcoder.net/n/0fbe211a2ff74f00bb960825947903ae">$Matrix_Branch\;and\;MDS$</a>。即使不考虑$P[·]$有足够好的扩散性能，其也可以将差分特征扩散，比如：</p>
-<script type="math/tex; mode=display">
-(0,0,0,d)\stackrel{P}{\rightarrow}(1,1,0,1)</script><p>所以上面整个过程描述下来就是：</p>
-<script type="math/tex; mode=display">
-(0,0,0,f)\stackrel{\mathcal{R}}{\rightarrow}(1,1,0,1)</script><p>因为这是整个一轮，所以其整个过程的概率就是$\frac{10}{16}$.</p>
-<p>继续考虑第二轮，通过表 $Table\;6.2$ 可以看到，$(1,1,0,1)$ 存在差分的三位再经过一次 $S[·]$ 的输出差分特征以概率$(\frac{6}{16})^3$存在（*因为每个输入差分1到输出差分2的特征概率都是$\frac{6}{16}$，所以将其概率相乘才是总体输出差分为$(2,2,0,2)$的概率）且差分特征描述为：</p>
-<script type="math/tex; mode=display">
-(1,1,0,1)\stackrel{\mathcal{S}}{\rightarrow}(2,2,0,2)</script><p>经过一次 $P[·]$ 置换，以概率 1 获得差分$(0,0,d,0)$：</p>
-<center>
-    <img src="https://uploadfiles.nowcoder.com/images/20220419/629760107_1650375507202/0F3B05EDC47049CEB882AF3A187D174E" width="80%">
-</center>
-
-<script type="math/tex; mode=display">
-(2,2,0,2)\stackrel{\mathcal{S}}{\rightarrow}(0,0,d,0)</script><p>所以，两轮的差分传递描述为：</p>
-<script type="math/tex; mode=display">
-\begin{align}
-(0,0,0,f)\stackrel{\mathcal{R_1}}{\rightarrow}(1,1,0,1)\stackrel{\mathcal{R_2}}{\rightarrow}(0,0,d,0)
-\end{align}
-\tag{inherited\;path}</script><p>计算总概率，第一轮概率是 $\frac{10}{16}$，第二轮概率是$(\frac{6}{16})^3$，乘在一起得到 $\frac{10}{16} * (\frac{6}{16})^3=\frac{135}{4096}$，也就意味着我们在枚举密钥时，已经失去了对于穷举的优势。当然，对于这个例子可能不十分合适去解释，因为其用来 4 个 $S[·]$ ，那就假设每个$S[·]$ 前面使用的都是相同密钥，密钥是 4 位 2 进制，也就共有 $2^4=16$种可能。很显然 $\frac{135}{4096}$ 要小于 $\frac{1}{16}$ ，所以对两轮$CIPHER-4$的差分分析失去了消除噪声的优势。</p>
-<p>考虑一下原因，很自然的想到，$P[·]$ 是影响该结构差分传播的一个大问题，在第 2 轮时由于差分特征被 $P[·]$ 扩散开，所有就产生了三条路径，而计算时需要将三条路径的概率相乘，也就造成了经过两轮后差分特征概率变得如此低。同时，在第一轮输入开始就以我们预像的最大差分概率来构造差分，并将其注入明文来构造明文对，这种方法可能并不会给我们带来最佳差分路径（概率最高），因为其在前面 $CIPHER-1,2,3$ 中使用的差分特征仅仅对 $S[·]$ 而这里有 $P[·]$，所有我们应该将 $S[·]\;and\;P[·]$ 一起考虑。给出一个例子：</p>
-<script type="math/tex; mode=display">
-(0,0,2,0)\stackrel{S}{\rightarrow}(0,0,2,0)\stackrel{P}{\rightarrow}(0,0,2,0)</script><p>可能这是将差分扩散性作为优先级考虑的一种路径，但这条路径的差分特征概率确实比上面一条更高，通过表$Table\;6.2$发现，差分特征概率为$\frac{6}{16}$,为一轮的差分特征概率，同时为每一轮的差分特征概率。所有经过 4 轮之后，得到概率为 $(\frac{6}{16})^4$ 的差分特征路径：</p>
-<script type="math/tex; mode=display">
-\begin{align}
-(0,0,2,0)\stackrel{\mathcal{R_1}}{\rightarrow}(0,0,2,0)\stackrel{\mathcal{R_2}}{\rightarrow}(0,0,2,0)\stackrel{\mathcal{R_3}}{\rightarrow}(0,0,2,0)\stackrel{\mathcal{R_4}}{\rightarrow}
-(0,0,2,0)
-\end{align}
-\tag{better\;path}</script><p>以上过程也可以通过寻找满足要求的明密文对来描述，如果要求选择的明密文对对满足在每一轮差分都为一定值,如上面的 $(0,0,2,0)$ ，则在随机密钥的情况下（其实对于我们举例的密码，密钥并没有影响到差分，但为保证其随机性，还是随机选择密钥，选择 5 个种子密钥，没有经过密钥编排，用作 4 轮，每一轮使用一个 4 位 2 进制作为密钥参与密码运算），统计对数并计算平均值，然后与总可能差分数量 $2^16=65536$ 作比，可以得到与计算特征概率几乎相同的结果：</p>
-<center>
-    <img src="https://uploadfiles.nowcoder.com/images/20220420/629760107_1650442599859/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
-</center>
-
-<p>来比较以下，</p>
-<ul>
-<li>$better\;path$ 的差分特征概率：每一轮的都是 $\frac{6}{16}$ 所有4轮之后概率为 $(\frac{6}{16})^4$</li>
-<li>$inherited\;path$ 的差分特征概率：$\frac{10}{16}<em>(\frac{6}{10})^3</em>\frac{6}{10}*\frac{6}{10}$</li>
-</ul>
-<script type="math/tex; mode=display">
-\begin{align}
-(0,0,0,f)\stackrel{\mathcal{R_1}}{\rightarrow}(1,1,0,1)\stackrel{\mathcal{R_2}}{\rightarrow}(0,0,d,0)\stackrel{\mathcal{R_3}}{\rightarrow}(0,0,c,0)\stackrel{\mathcal{R_4}}{\rightarrow}(e,0,0,0)
-\end{align}
-\tag {inherited\;path}</script><p>由上面的对比可以看到，$better\;path$ 拥有更大的差分特征概率。那么考虑以下，在找到 4 轮差分特征之后，是否有相对于穷举的优势来猜第五轮的密钥$k_5$，很明显，$(\frac{6}{16})^4 &lt;\frac{1}{16}$，也就是噪声大于我们猜测的概率。</p>
-<p>这是否意味着差分分析的失败？？（假设上面的$better\;path$ 就是最好的差分特征传播路径）在一定轮数之后就失去了其统计上的意义？？可能差分确实在传递到一定论数之后确实会因为特征概率太小而被噪声淹没，但似乎我们漏掉了一些使概率放大的办法…</p>
-<h3 id="DC-with-Differential"><a href="#DC-with-Differential" class="headerlink" title="DC with Differential"></a>DC with Differential</h3><h4 id="Different-path-to-same-destination"><a href="#Different-path-to-same-destination" class="headerlink" title="Different path to same destination"></a>Different path to same destination</h4><p>在我们上面的分析中，计算了每一轮的路径、特征及概率，但对现实使用的密码进行差分分析时，往往不会这样做，因为拿到每一轮的结果过于复杂，往往使用一定工具，如 <a href="https://blog.nowcoder.net/n/fa9ab4fc67614b9388fd8406195cd2e0">MILP</a>，来搜索达到可提供优势的差分路径的最大长度。而该搜索过程也不会考虑中间差分值，仅仅考虑该路径的输入差分和输出差分，中间值都可以为未知，例如对$CIPHER-4$有：</p>
-<script type="math/tex; mode=display">
-(0,0,2,0)\stackrel{\mathcal{R_1}}{\rightarrow}?\stackrel{\mathcal{R_2}}{\rightarrow}?\stackrel{\mathcal{R_3}}{\rightarrow}?\stackrel{\mathcal{R_4}}{\rightarrow}(0,0,2,0)
-
-\tag{practice\;path}</script><p>假设我们限制特定的输入输出差分，如都为 $(0,0,2,0)$，那么中间值无论是多少，只要能达到这一点就算做 *优势对*，否则算作 *劣势对*。很自然的想到，经过 4 轮且满足条件：输入差分为$(0,0,2,0)$且输出差分为$(0,0,2,0)$ 的优势对远远不止中间值$better\;path$所示的那些，我们将优势对构成的路径记为 $Adv\;paths$：</p>
-<script type="math/tex; mode=display">
-(0,0,2,0)\stackrel{\mathcal{R_1}}{\rightarrow}(0,0,2,0)\stackrel{\mathcal{R_2}}{\rightarrow}(0,0,2,0)\stackrel{\mathcal{R_3}}{\rightarrow}(0,0,2,0)\stackrel{\mathcal{R_4}}{\rightarrow}(0,0,2,0)\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;
-*Adv\;path\;_1*\\
-
-(0,0,2,0)\stackrel{\mathcal{R_1}}{\rightarrow}(0,0,0,2)\stackrel{\mathcal{R_2}}{\rightarrow}(0,0,0,1)\stackrel{\mathcal{R_3}}{\rightarrow}(0,0,1,0)\stackrel{\mathcal{R_4}}{\rightarrow}(0,0,2,0)\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;
-*Adv\;path\;_2*\\
-
-(0,0,2,0)\stackrel{\mathcal{R_1}}{\rightarrow}(0,0,0,2)\stackrel{\mathcal{R_2}}{\rightarrow}(0,0,1,0)\stackrel{\mathcal{R_3}}{\rightarrow}(0,0,2,0)\stackrel{\mathcal{R_4}}{\rightarrow}(0,0,2,0)\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;
-*Adv\;path\;_3*\\
-
-(0,0,2,0)\stackrel{\mathcal{R_1}}{\rightarrow}(0,0,2,0)\stackrel{\mathcal{R_2}}{\rightarrow}(0,0,0,2)\stackrel{\mathcal{R_3}}{\rightarrow}(0,0,1,0)\stackrel{\mathcal{R_4}}{\rightarrow}(0,0,2,0)\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;
-*Adv\;path\;_4*</script><p>可以查表$Table\;6.2$可以验证以上$Adv\;paths$，及查询其特征概率，均为$(\frac{6}{16})^4$ ,所以将其特征概率相加得到 $4*(\frac{6}{16})^4=\frac{81}{1024}$ ，而 $\frac{81}{1024} &gt; \frac{1}{16}$，所以，在不考虑路径中间差分值的时候，差分攻击对分析 4 轮 $CIPHER-4$，来猜测第五轮密钥 $k_5$ 时是有一定优势的。在实践的差分分析中，我们往往也是采用这种办法。</p>
-<p>同样的，类似 $ Fig.\;6.7$ 的描述方式如下：明显的，忽略了中间差分值，使优势对的数量提升了，这对应差分特征概率的提升。</p>
-<center>
-    <img src="https://uploadfiles.nowcoder.com/images/20220420/629760107_1650442831543/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
-</center>
-
-<h4 id="Filtering"><a href="#Filtering" class="headerlink" title="Filtering"></a>Filtering</h4><p>所谓差分密码分析，即识别发生差异的统计特性异常分布，产生比被我们称作噪声的枚举概率更高的猜测概率，从而使我们在猜测时，正确的数据能够从海量的数据中凸显出来，而非被其淹没。</p>
-<p>在前面已经介绍了将差分特征概率尽量提高的办法（当然还会有其他更有效的办法），那现在该把关注点放在猜测密钥上。</p>
-<p>回顾下前面整个过程：</p>
-<ol>
-<li>建$DDT$表并通过密码结果找出最佳差分路径，记录每一轮都满足差分路径的*数据*（明文1：密文1，明文2：密文2 为一对），例子中大概有1296对；</li>
-<li>只考虑输入差分和输出差分，而不需要在每一轮都满足差分路径以提高差分特征概率，将同时满足输入差分和输出差分的数据记录下来，例子中大概有 5310 对；</li>
-<li>枚举所有密文（全空间）因为寻找的差分路径是在一定概率下成立的，所有需要枚举所有密文，才能利用到差分提供的优势（才能达到使正确密钥凸显出的数据量）</li>
-</ol>
-<p>按照这个过程，我们将在最后一轮对每个密文，如果密码设计足够好的话会有 $2^{16}=65536$ 个，考虑对的话就是 $A^2_{65536}$，这将是很庞大的数据量，且对每一对密文都需要枚举 $2^{16}$ 个密钥，与构造的区分器进行对比。显然，虽然我们通过忽略中间差分路径取值来提高了特征概率，但在枚举猜密钥的过程中仍然需要很高的复杂度。</p>
-<p>所有，需要考虑将密文对筛掉一些，只留下满足条件的密文对，在第四轮之后，得到的差分值为$(0,0,2,0)$，通过查表 $Table\;6.2$ 可得，该差分经过一次 $S[·]$ 得到的值可能为 $(0,0,h,0)$ 其中 $h\in{\{1,2,9,a\}}$，而最后一轮没有 $P[·]$ ，那么对所有密文，我们需要留下的仅仅是满足条件：</p>
-<ol>
-<li><p>输入差分为$(0,0,2,0)$的明文加密所得；</p>
-</li>
-<li><p>在 1. 的基础上，将差分的第 0，1，3 半字节位不为全零，且第 2 半字节位不等于 ${\{1,2,9,a\}}$ 的密文对筛掉。</p>
-</li>
-</ol>
-<p>将所以符合上述条件的密文对记录下来，上述例子中大概有 7387 对，也就是说我们仅仅需要对 7387 个密文对，枚举所有可能的最后一轮密钥，这就将数据量降下来很多，同时，找到正确密钥的概率变为 $\frac{5310}{7387} \approx 70\%$  ,使用未经过筛选的密文对猜密钥，得到正确的概率是 $\frac{5310}{56636} \approx 8\%$，可见，筛选给猜密钥提供了很大的优势。书中给出的解释：</p>
-<p><center>
-    <img src="https://uploadfiles.nowcoder.com/images/20220420/629760107_1650456161985/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
-</center></p>
-<h4 id="Key-Recovery"><a href="#Key-Recovery" class="headerlink" title="Key Recovery"></a>Key Recovery</h4><p>在 4 轮之后，差分传递的特征及其概率如下：</p>
-<script type="math/tex; mode=display">
-(0,0,2,0)\stackrel{\mathcal{R_1}}{\rightarrow}?\stackrel{\mathcal{R_2}}{\rightarrow}?\stackrel{\mathcal{R_3}}{\rightarrow}?\stackrel{\mathcal{R_4}}{\rightarrow}(0,0,2,0)
-\tag{practice\;path}</script><p>概率为 $\frac{5310}{65536} \approx(\frac{6}{16})^4\approx0.08$，而筛选之后剩余的对的概率为 $\frac{7387}{65536} \approx0.11$，筛选出的对中可以用来求出正确密钥的对的比率为 $\frac{5310}{7387}\approx0.7$.那么，给出一个例子，如果我们有总共 $t$ 个对，筛选后留下的对为 $t<em>0.11$ 个，可能满足条件的对为 $t</em>0.08$ 个。比如 $t=500$ ，则会筛选出 $55$ 个满足差分特征的对，其中有 $40$ 个是由正确的最后一轮密钥加密所得，$15$ 个为无用对。为什么会有一部分无用对留下？我们筛选留下的是明文差分且密文差分都满足条件的对，而在密文位置满足差分特征的对往回推并不一定能够得到区分器末尾（例子第四轮后）的差分值。</p>
-<p><center>
-    <img src="https://uploadfiles.nowcoder.com/images/20220420/629760107_1650463751096/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
-</center><br>简单陈述这个过程存在的缺陷：</p>
-<ol>
-<li><p>我们只能通过对比，确切的猜出不为零的第 2 个半字节位，即 4 个 $bits$，记作目标比特 $target\;bits$ ，但其他 3 个半字节位由于没有穷尽所有可能的结果，所有无法确定其值。这并未达到分析的目的，甚至连一轮密钥都没有获取到。需要恢复更多 $bits $，需要重复该过程来恢复全 $bits$ 的密钥。</p>
-</li>
-<li><p>每次只能恢复一轮的密钥，想要恢复更多轮，可能需要更多次的重复上述过程，或者根据密钥编排算法来推所有密钥。（往往是拿到足够多轮次的密钥之后再根据密钥编排算法推）</p>
-</li>
-</ol>
-<p>*差分分析中，获得了一部分密钥 $bits$ 之后，会大大提高恢复其余更多 $bits$ 的难度。</p>
-<script type="math/tex; mode=display">
-The\;end</script>]]></content>
-      <categories>
-        <category>Cryptanalysis</category>
-      </categories>
-      <tags>
-        <tag>Crypto</tag>
+        <tag>Gurobi</tag>
       </tags>
   </entry>
 </search>
