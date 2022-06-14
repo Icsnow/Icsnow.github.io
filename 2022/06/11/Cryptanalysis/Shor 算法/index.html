@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.1","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Shor 算法RSA 公钥加密算法RSA(Rivest–Shamir–Adleman) 是基于大因数分解的困难问题，即获取两个大因数的乘积很简单，但通过乘积分解得到两个大因数十分困难。具体过程如下：(更具体的说，对于 768 位的整数，分解它需要花费数百台计算机使用两年的时间不断计算 [2009年的数据]，而现在使用的是 2048 位的整数 (RSA-2048) )              而">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Shor&#96;s Algorithm">
+<meta property="og:url" content="http://example.com/2022/06/11/Cryptanalysis/Shor%20%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="❄">
+<meta property="og:description" content="Shor 算法RSA 公钥加密算法RSA(Rivest–Shamir–Adleman) 是基于大因数分解的困难问题，即获取两个大因数的乘积很简单，但通过乘积分解得到两个大因数十分困难。具体过程如下：(更具体的说，对于 768 位的整数，分解它需要花费数百台计算机使用两年的时间不断计算 [2009年的数据]，而现在使用的是 2048 位的整数 (RSA-2048) )              而">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2021070910564256.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzMjcwNDQ0,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://ossimg.yzitc.com/2022/06/08/53d574e2ab159.png">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-8138e1790aa30fd0e1f4b33fccb01dd3_720w.jpg">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-87762c725eda4641c018a59650219f8c_720w.jpg">
+<meta property="og:image" content="https://pic2.zhimg.com/80/v2-f88da3baeff0d8b3327c2b2623322bd1_720w.jpg">
+<meta property="article:published_time" content="2022-06-11T13:08:40.208Z">
+<meta property="article:modified_time" content="2022-06-13T14:25:40.907Z">
+<meta property="article:author" content="icSnow">
+<meta property="article:tag" content="Math">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/2021070910564256.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzMjcwNDQ0,size_16,color_FFFFFF,t_70">
+
+
+<link rel="canonical" href="http://example.com/2022/06/11/Cryptanalysis/Shor%20%E7%AE%97%E6%B3%95/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/06/11/Cryptanalysis/Shor%20%E7%AE%97%E6%B3%95/","path":"2022/06/11/Cryptanalysis/Shor 算法/","title":"Shor`s Algorithm"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Shor`s Algorithm | ❄</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">❄</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Snow`s Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Shor-%E7%AE%97%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">Shor 算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#RSA-%E5%85%AC%E9%92%A5%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">RSA 公钥加密算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%A7%E6%95%B0%E5%9B%A0%E6%95%B0%E5%88%86%E8%A7%A3%E7%AE%97%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">大数因数分解算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A6%BB%E6%95%A3%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2%EF%BC%88DFT%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">离散傅里叶变换（DFT）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sup-%E6%97%B6%E5%9F%9F%E4%B8%8E%E9%A2%91%E5%9F%9F"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">sup_时域与频域</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sup-%E5%82%85%E9%87%8C%E5%8F%B6%E7%BA%A7%E6%95%B0%EF%BC%9A"><span class="nav-number">1.3.0.2.</span> <span class="nav-text">sup_傅里叶级数：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CORE-%E7%A6%BB%E6%95%A3%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2%EF%BC%88DFT%EF%BC%89%EF%BC%9A"><span class="nav-number">1.3.0.3.</span> <span class="nav-text">CORE_离散傅里叶变换（DFT）：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90"><span class="nav-number">1.4.</span> <span class="nav-text">复杂度分析</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="icSnow"
+      src="https://ossimg.yzitc.com/2022/05/24/f573a763bec76.png">
+  <p class="site-author-name" itemprop="name">icSnow</p>
+  <div class="site-description" itemprop="description">ahhhhhhhhh~~~</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/11/Cryptanalysis/Shor%20%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://ossimg.yzitc.com/2022/05/24/f573a763bec76.png">
+      <meta itemprop="name" content="icSnow">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="❄">
+      <meta itemprop="description" content="ahhhhhhhhh~~~">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Shor`s Algorithm | ❄">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Shor`s Algorithm
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-06-11 21:08:40" itemprop="dateCreated datePublished" datetime="2022-06-11T21:08:40+08:00">2022-06-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-06-13 22:25:40" itemprop="dateModified" datetime="2022-06-13T22:25:40+08:00">2022-06-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Cryptanalysis/" itemprop="url" rel="index"><span itemprop="name">Cryptanalysis</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="Shor-算法"><a href="#Shor-算法" class="headerlink" title="Shor 算法"></a>Shor 算法</h1><h2 id="RSA-公钥加密算法"><a href="#RSA-公钥加密算法" class="headerlink" title="RSA 公钥加密算法"></a>RSA 公钥加密算法</h2><p>RSA(Rivest–Shamir–Adleman) 是基于大因数分解的困难问题，即获取两个大因数的乘积很简单，但通过乘积分解得到两个大因数十分困难。具体过程如下：(更具体的说，对于 768 位的整数，分解它需要花费数百台计算机使用两年的时间不断计算 [2009年的数据]，而现在使用的是 2048 位的整数 (RSA-2048) )</p>
+<center>
+    <img src="https://img-blog.csdnimg.cn/2021070910564256.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzMjcwNDQ0,size_16,color_FFFFFF,t_70" alt="img" style="zoom:80%;" />
+    <img src="https://ossimg.yzitc.com/2022/06/08/53d574e2ab159.png" width=86%>
+</center>
+
+<p>而 1994 年，Peter Shor 发现了 Shor 算法，能够在多项式时间内实现大整数分解。</p>
+<hr>
+<h2 id="大数因数分解算法"><a href="#大数因数分解算法" class="headerlink" title="大数因数分解算法"></a>大数因数分解算法</h2><p>目的是将一个大数 $N$ 分解为两个质因子 $P, Q$ 的乘积。步骤：</p>
+<blockquote>
+<ol>
+<li>随机寻找一个数 $a&lt;N$ ；</li>
+<li>计算 $gcd(a,N)$ ，如果 $gcd(a,N) \ne 1$ ，就得到了一个非平凡因子，提前结束了该算法，即可以对 $N$ 进行因数分解；如果 $gcd(a,N)=1$ 执行步骤 3；</li>
+<li><strong>[CORE]</strong>计算函数 $f(x)=a^xmodN$ 的周期 $r$ 使 $f(x+r)=f(x)$（找出 $a$ 在 $Z_N$ 里的阶）；</li>
+<li>如果 $r$ 是奇数，或 $a^{r/2} \equiv -1(modN)$ 则返回步骤 1. 重新寻找随机的 $a$ ；</li>
+<li>否则，$r$ 为寻找到的所需的周期，且 $gcd(a^{r/2}+1,N)$ 和  $gcd(a^{r/2}-1,N)$ 至少有一个是 $N$ 的非平凡因子，也就完成了大数的因数分解。</li>
+</ol>
+</blockquote>
+<p>上述过程中，步骤 3. 是核心，通过经典的方法计算周期 $r$ 可能需要消耗很多资源，所以需要后面的量子层面的加速，先对上述过程举一个小例子，便于理解：</p>
+<blockquote>
+<p>假设 $N=15,\ (P<em>Q=5</em>3)\$ ，尝试对 15 进行因数分解</p>
+<ol>
+<li><p>随机选择比 15 小的整数，比如 $a=7$ ,$gcd(7,15)=1$</p>
+</li>
+<li><p>计算函数  $f(x)=a^xmodN$ 的周期，遍历 $x=0,1,2,3…$  得到以下结果</p>
+<script type="math/tex; mode=display">
+7^{0} \bmod 15,7^{1} \bmod 15,7^{2} \bmod 15,7^{3} \bmod 15 ,\\  7^{4} \bmod 15,7^{5} \bmod 15,7^{6} \bmod 15,7^{7} \bmod 15, \ldots\\   =1,7,4,13,1,7,4,13, \ldots</script><p>可以发现， $f(x+4)=f(x)$ 即 $r=4$ 为周期</p>
+</li>
+<li><p>$r$ 不是奇数，计算 $7^{4/2}=49=4\ne-1(mod15)$  ，所以求得的 $r$ 可用；</p>
+</li>
+<li><p>计算  $gcd(7^{4/2}+1,15)=5$，  $gcd(7^{4/2}-1,15)=3$，刚好这两个因子为整数 $N$ 的两个因子。</p>
+</li>
+</ol>
+</blockquote>
+<p>上述过程将大数因数分解问题转化为寻找周期问题，问题得到了简化，但一般(RSA-2048)的周期都非常大，经典计算机往往没有足够的运算力能够达到穷举得到周期，即使<strong>生日悖论</strong>将碰撞的产生需要的数据量进行了开方。</p>
+<p>在此，将周期查找 <strong>[CORE]</strong> 步骤3. 记为周期查找程序 (Period-finding subroutine)</p>
+<hr>
+<h2 id="离散傅里叶变换（DFT）"><a href="#离散傅里叶变换（DFT）" class="headerlink" title="离散傅里叶变换（DFT）"></a>离散傅里叶变换（DFT）</h2><p>自然界存在的波可以使用<strong>傅里叶级数展开</strong>将其转换为有限或无限个正弦波的线性组合</p>
+<h4 id="sup-时域与频域"><a href="#sup-时域与频域" class="headerlink" title="sup_时域与频域"></a>sup_时域与频域</h4><p>Re: <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/428783752">时域、频域、空间域的基本概念</a></p>
+<ol>
+<li>时域 (Time Domine)：</li>
+</ol>
+<blockquote>
+<p>自变量：<strong>时间 t</strong>；因变量：<strong>振幅 V</strong> ；</p>
+<p>时域图反映的是振幅随时间变化的关系，<strong>频率 f</strong> =6Hz （在 1s 内发生 6 次完整周期震动）</p>
+<p><img src="https://pic4.zhimg.com/80/v2-8138e1790aa30fd0e1f4b33fccb01dd3_720w.jpg" alt="img"></p>
+</blockquote>
+<ol>
+<li>频域 (Frequency Domine)</li>
+</ol>
+<blockquote>
+<p>自变量：<strong>频率 f</strong>； 因变量：<strong>幅度 V</strong>；</p>
+<p>频域图反映的是振幅随频率变化的关系，因为上面波形只是一个正弦波， 其频率是 6 Hz，所有转换到频域图上就只在 6 Hz 处有振幅。（如果波形是多个频率波的叠加，在频域图上就能看到在多个频率处对应有振幅）</p>
+<p><img src="https://pic1.zhimg.com/80/v2-87762c725eda4641c018a59650219f8c_720w.jpg" alt="img"></p>
+</blockquote>
+<ol>
+<li><p>频域与时域的关系（浅层理解）</p>
+<p>用下面这张图来看非常直观：（尝试在多个波形叠加的情况下理解）</p>
+<p>时域图表示在一定时间内（可能是无限的时间）波的振幅随时间的变化，而多个波的叠加（增强或抵消）使我们无法直观的看出波的频率，使用<strong>傅里叶变换</strong>，拉普拉斯变换之类的转换方法将波转换到频域图上，就可以清晰的分辨出波的频率和最大振幅。</p>
+<p><img src="https://pic2.zhimg.com/80/v2-f88da3baeff0d8b3327c2b2623322bd1_720w.jpg" alt="img"></p>
+</li>
+</ol>
+<hr>
+<h4 id="sup-傅里叶级数："><a href="#sup-傅里叶级数：" class="headerlink" title="sup_傅里叶级数："></a>sup_傅里叶级数：</h4><blockquote>
+<p><strong>任何周期信号都可以化简为正弦信号或余弦信号的和</strong> —— Fourier</p>
+</blockquote>
+<p>傅里叶级数的三种表示方法：</p>
+<blockquote>
+<ol>
+<li>三角函数表示：由于 $sin$ 和 $cos$ 可以相互转换，所有这两种表示方式可以通过三角函数的转换化为相同</li>
+</ol>
+</blockquote>
+<script type="math/tex; mode=display">
+\begin{aligned}
+f(t) &=\sum_{n=0}^{\infty} A_{n} \sin \left(n \omega_{0} t+\theta_{n}\right)
+\\
+f(t) &=\frac{a_{0}}{2}+\sum_{n=1}^{\infty} a_{n} \sin \left(n \omega_{0} t\right)+b_{n} \cos \left(n \omega_{0} t\right)
+\end{aligned}</script><blockquote>
+<ol>
+<li>复指数表示：</li>
+</ol>
+</blockquote>
+<script type="math/tex; mode=display">
+f(t)=\sum_{n=-\infty}^{+\infty} c_{n} e^{i n \omega_{0} t}, \quad c_{n}=\frac{1}{T} \int_{0}^{T} f(t) e^{-i n \omega_{0} t} d t, \omega_{0}=\frac{2 \pi}{T}</script><p>傅里叶级数推导 <a target="_blank" rel="noopener" href="https://www.zhihu.com/column/c_1060594486161293312">深入理解傅立叶变换</a> , <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/41455378">傅里叶系列（一）傅里叶级数的推导</a> </p>
+<hr>
+<h4 id="CORE-离散傅里叶变换（DFT）："><a href="#CORE-离散傅里叶变换（DFT）：" class="headerlink" title="CORE_离散傅里叶变换（DFT）："></a>CORE_离散傅里叶变换（DFT）：</h4><p>傅里叶变换实现信号从时域到频域的表示，从上面可以看出，在频域上表示的信号比在时域上表示的更加直观；</p>
+<font color=red>离散傅里叶变换</font>作用于离散数据集，$x_j$ ，$j = 0,1,...,N-1$ ：
+
+$$
+y_{k}=\frac{1}{\sqrt{N}} \sum_{j=0}^{N-1} x_{j} \mathrm{e}^{2 \pi i j k / N}
+$$
+
+解释：
+
+<br>
+
+$j,k$ 是从 $0\ to\ N-1$ 的索引，$i$ 是复数 $\sqrt{-1} $ ；
+
+$j=0,1,...,N-1\ \ \longrightarrow\ \ x_j\ are\ complex\ numbers$ 
+
+$k=0,1,...,N-1\ \ \longrightarrow\ \ y_k\ are\ complex\ numbers$ 
+
+<br>
+
+例子：
+
+数据集：$x_{j}=\{1,3\}\ i.e.\ x_0 = 1,x_1 = 3\ \ ,N=2$
+$$
+For\  k=0,\ y_{0}=\frac{1}{\sqrt{2}} \sum_{j=0}^{1} x_{j} \mathrm{e}^{2 \pi i j * 0 / 2}=\frac{1}{\sqrt{2}}(1+3)=\frac{4}{\sqrt{2}} \\
+
+For\  k=1,\ y_{1}=\frac{1}{\sqrt{2}} \sum_{j=0}^{1} x_{j} \mathrm{e}^{2 \pi i j * 1 / 2}=\frac{1}{\sqrt{2}}\left(1+3 \mathrm{e}^{\pi i}\right)=-\frac{2}{\sqrt{2}}
+$$
+$k=1$ 时，使用了<font color=red>欧拉公式：</font>
+$$
+e^{i x}=\cos x+i \sin x
+$$
+
+---
+
+<br>
+
+## 量子傅里叶变换（QFT）
+
+
+一个量子态经过 Hadamard 门变换成均匀的量子态，可以写作：
+$$
+|\psi\rangle=\sum_{j=0}^{N-1} \alpha_{j}|j\rangle \rightarrow\left(\begin{array}{c}
+\alpha_{0} \\
+\cdot \\
+\cdot \\
+\cdot \\
+\alpha_{N-1}
+\end{array}\right)
+$$
+其中，$\alpha_j$ 表示幅度，$|j>$ 表示均匀产生的叠加态，可以写作右边的 $N$ 维列向量形式；
+
+经过量子傅里叶变换，幅度会发生改变：
+$$
+\left|\psi^{\prime}\right\rangle=\mathrm{QFT}_{N}|\psi\rangle=\sum_{k=0}^{N-1} \beta_{k}|k\rangle \rightarrow\left(\begin{array}{c}
+\beta_{0} \\
+\cdot \\
+\cdot \\
+\cdot \\
+\beta_{N-1}
+\end{array}\right)
+$$
+其中，每个<font color=red>幅度</font>为 $\beta_{k}=\frac{1}{\sqrt{N}} \sum_{j=0}^{N-1} \alpha_{j} \mathrm{e}^{2 \pi i j k / N}$
+
+例子：$n=2\ \ i.e.\ N=2^2=4$  ，所以， $|\psi\rangle=\alpha_{0}|00\rangle+\alpha_{1}|01\rangle+\alpha_{2}|10\rangle+\alpha_{3}|11\rangle$ 经过 $QFT$ 变换，幅度发生变化，每个幅度 $\alpha_k$ 变为 $\beta_k$ ，
+$$
+\beta_{k}=\frac{1}{\sqrt{N}} \sum_{j=0}^{N-1} \alpha_{j} \mathrm{e}^{\frac{2 \pi i j k}{N}}=\frac{1}{2} \sum_{j=0}^{3} \alpha_{j} \mathrm{e}^{2 \pi i j k / 4}
+$$
+
+$$
+\begin{aligned}
+k=0:\ \ & \beta_{0}=\frac{1}{2} \sum_{j=0}^{3} \alpha_{j}=\frac{1}{2}\left(\alpha_{0}+\alpha_{1}+\alpha_{2}+\alpha_{3}\right) \\
+\end{aligned}
+$$
+
+$$
+k=1:\ \ \begin{aligned}
+\beta_{1}=& \frac{1}{2} \sum_{j=0}^{3} \alpha_{j} \mathrm{e}^{\pi i j / 2}=\frac{1}{2}\left(\alpha_{0}+\alpha_{1} \mathrm{e}^{\frac{i \pi}{2}}+\alpha_{2} \mathrm{e}^{i \pi}+\alpha_{3} \mathrm{e}^{\frac{3 i \pi}{2}}\right) \\
+\stackrel{Euler-e^{i x}=\cos x+i \sin x}{\longrightarrow}
+=& \frac{1}{2}\left(\alpha_{0}+\alpha_{1} i-\alpha_{2}-\alpha_{3} i\right) \\
+\end{aligned}
+$$
+
+$$
+k=2:\ \ \begin{aligned}
+\beta_{2} &=\frac{1}{2} \sum_{j=0}^{3} \alpha_{j} \mathrm{e}^{\pi i j}=\frac{1}{2}\left(\alpha_{0}+\alpha_{1} \mathrm{e}^{i \pi}+\alpha_{2} \mathrm{e}^{2 i \pi}+\alpha_{3} \mathrm{e}^{3 i \pi}\right) \\
+\stackrel{Euler-e^{i x}=\cos x+i \sin x}{\longrightarrow}
+&=\frac{1}{2}\left(\alpha_{0}-\alpha_{1}+\alpha_{2}-\alpha_{3}\right)
+\end{aligned}
+$$
+
+$$
+k=3:\ \ \begin{aligned}
+\beta_{3} &=\frac{1}{2} \sum_{j=0}^{3} \alpha_{j} \mathrm{e}^{3 \pi i j / 2}=\frac{1}{2}\left(\alpha_{0}+\alpha_{1} \mathrm{e}^{\frac{3 i \pi}{2}}+\alpha_{2} \mathrm{e}^{3 i \pi}+\alpha_{3} \mathrm{e}^{\frac{9 i \pi}{2}}\right) \\
+\stackrel{Euler-e^{i x}=\cos x+i \sin x}{\longrightarrow}
+&=\frac{1}{2}\left(\alpha_{0}-\alpha_{1} i-\alpha_{2}+\alpha_{3} i\right)
+\end{aligned}
+$$
+
+可以发现，所以 $\alpha_i$ 的系数都是 $\pm1.\pm{i}$ ，将其表示为矩阵：(矩阵可逆)
+$$
+\mathrm{QFT}_{4}=\frac{1}{2}\left(\begin{array}{cccc}
+1 & 1 & 1 & 1 \\
+1 & i & -1 & -i \\
+1 & -1 & 1 & -1 \\
+1 & -i & -1 & i
+\end{array}\right)\stackrel{det}{\longrightarrow}-16i\ne0
+$$
+所以该矩阵是一个酉矩阵，$QFT$ 变换是一个酉变换，将该矩阵广义化，得到：
+$$
+\mathrm{QFT}_{N}=\frac{1}{\sqrt{N}}\left(\begin{array}{cccccc}
+1 & 1 & 1 & 1 & \cdots & 1 \\
+1 & \omega & \omega^{2} & \omega^{3} & \cdots & \omega^{N-1} \\
+1 & \omega^{2} & \omega^{4} & \omega^{6} & \cdots & \omega^{2(N-1)} \\
+\vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\
+1 & \omega^{N-1} & \omega^{2(N-1)} & \omega^{3(N-1)} & \ldots & \omega^{(N-1)(N-1)}
+\end{array}\right)
+$$
+
+其中 $\omega^i$ 是幅度 $\omega^i=e^{i\pi/2}$，即上面的 $\alpha_i$ ，根据 Euler 公式可以算出：
+$$
+\omega^0=1\\
+\omega^1=e^{\pi/2}=cos(\pi/2)+i*sin(\pi/2)=i\\
+\omega^2=e^{2\pi/2}=cos(\pi)+i*sin(\pi)=-1\\
+\omega^3=e^{3\pi/2}=cos(3\pi/2)+i*sin(3\pi/2)=-i\\
+\omega^4=1,\omega^5=i,\omega^6=-1,\omega^7=-i,...
+$$
+总结上面的过程发现：
+
+一个波函数，表示为一个量子状态 $|k\rangle$ （N位），经过一次 $QFT$ 变换：（公式化表示）
+
+$$
+|k\rangle\ \ \stackrel{QFT}{\rightarrow}\ \ \frac{1}{\sqrt{N}}\sum_{y=0}^{N-1} e^{2\pi i*(ky/N)}|y\rangle
+$$
+
+---
+
+
+
+## 周期查找子程序
+
+
+从原理上理解，傅里叶变换能够将时域信号转换到频域，从而将不同频段的信号分辨出来，而频域的参照是频率，在频域上每过一个周期图像上就会以其幅度凸显出来。（好像不对）
+
+---
+
+
+
+## shor算法流程
+
+
+1. 构造 N 位($2^n=N$) 量子寄存器：
+
+$$
+|0^n\rangle|0^n\rangle
+$$
+
+2. 对第 1 个寄存器进行 N 次 Hadmard 变换，得到：
+
+$$
+\frac{1}{\sqrt{2^n}}\sum_{k=0}^{2^n-1}|x\rangle|0^n\rangle
+$$
+
+3. 作用 $U_f$ 变换到第 2 个量子寄存器上：
+
+$$
+\frac{1}{\sqrt{2^n}}\sum_{k=0}^{2^n-1}|x\rangle|f(x)\rangle=\frac{1}{\sqrt{2^n}}\sum_{k=0}^{2^n-1}|x\rangle|a^xmodN\rangle
+$$
+
+4. 测量第 2 个量子寄存器，此时整个量子态坍缩，第 2 个寄存器得到值 $f(x)=value$ ，此时第一个量子寄存器可以预测是哪些值 $|x_0+jr\rangle$ ，其中 $r$ 是函数 $f(x)=a^xmodN$ 的周期（注意这里 $|x_0+jr\rangle$ 只能取到 1 个值，概率为$|\sqrt{\frac{1}{2^n}}|^2$，只不过可以预测是哪些值令 $f(x)=value$ ）
+5. 再对第 1 个量子寄存器进行量子傅里叶变换，又会得到叠加态：
+
+$$
+|x_0+jr\rangle\ \ \stackrel{QFT}{\rightarrow}\ \ \frac{1}{\sqrt{m}}\sum_{y=0}^{m-1} e^{2\pi i*((x_0+jr)y/N)}|y\rangle=\frac{1}{\sqrt{m}}\sum_{y=0}^{m-1} e^{2\pi i*((x_0)y/N)}\sum_{y=0}^{m-1} e^{2\pi i*((jr)y/N)}|y\rangle
+$$
+
+​    这里由于 $\sum_{y=0}^{N-1} e^{2\pi i*((x_0)y/N)}$ 是全局变量，这里忽略，（$\sqrt{\frac{1}{2^n}}$ 同样可以忽略）只考虑后面的部分测得的概率：
+$$
+|\frac{1}{\sqrt{m}}\sum_{y=0}^{m-1} e^{2\pi i*((jr)y/N)}|^2
+$$
+根据 $Euler$ 公式$(e^{xi}=cosx+isinx)$ 当且仅当 $x$ 取到整数时，该值最大，带入上式就是当 $y$ 是 $\frac{r}{N}$ 的倍数时幅度最大，这正是我们想要的。
+
+<font color=green>（这里是为什么我还没懂qwq）</font>
+
+<hr>
+<h2 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h2><p>$m_{(2)}$ 位的数字需要 $n&gt;2m$ 个 $qubits$ 来进行分解，现在最大的量子计算机可用 $50$ 个量子比特(2020)，所以破解 RSA 还只是处于理论阶段。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Math/" rel="tag"># Math</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/06/09/Algorithm/%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E4%B8%89%E7%82%B9%E6%98%AF%E5%90%A6%E5%85%B1%E7%BA%BF%EF%BC%9F/" rel="prev" title="如何判断三点是否共线？">
+                  <i class="fa fa-chevron-left"></i> 如何判断三点是否共线？
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/06/14/Cryptanalysis/Piling-up%20lemmA/" rel="next" title="piling-up lemma">
+                  piling-up lemma <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">icSnow</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="https://cdn.jsdelivr.net/npm/ribbon.js@1.0.2/dist/ribbon.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@next-theme/pjax@0.5.0/pjax.min.js" integrity="sha256-3NkoLDrmHLTYj7csHIZSr0MHAFTXth7Ua/DDt4MRUAg=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":100,"height":200},"mobile":{"show":true},"log":false});</script></body>
+</html>
