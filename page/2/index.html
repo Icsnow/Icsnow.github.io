@@ -156,7 +156,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -196,6 +196,192 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/27/CS/%E7%BD%91%E5%AE%89%E5%AD%A6%E4%B9%A0-D-2-ip%E5%8F%8A%E4%B8%80%E4%BA%9B%E5%91%BD%E4%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://ossimg.yzitc.com/2022/05/24/f573a763bec76.png">
+      <meta itemprop="name" content="icSnow">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="❄">
+      <meta itemprop="description" content="ahhhhhhhhh~~~">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | ❄">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/05/27/CS/%E7%BD%91%E5%AE%89%E5%AD%A6%E4%B9%A0-D-2-ip%E5%8F%8A%E4%B8%80%E4%BA%9B%E5%91%BD%E4%BB%A4/" class="post-title-link" itemprop="url">网安学习-D-2-ip及一些命令</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-05-27 14:55:26 / 修改时间：16:40:57" itemprop="dateCreated datePublished" datetime="2022-05-27T14:55:26+08:00">2022-05-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/CS/" itemprop="url" rel="index"><span itemprop="name">CS</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>ip 相关知识复习及常用 win 系统下的命令</p>
+<h2 id="局域网"><a href="#局域网" class="headerlink" title="局域网"></a>局域网</h2><p>局域网：一般称为内网，同一个局域网中，所有IP必须在同一个网段才可以互相通信</p>
+<p>单局域网构成：交换机，网线，pc</p>
+<p>交换机：用来组建内网的局域网的设备</p>
+<h2 id="ip"><a href="#ip" class="headerlink" title="ip"></a>ip</h2><p>网络号（识别主机所在网络） + 主机号（识别网络中的主机）</p>
+<p>position_1.position_2.position_3.position_4  where  position  in [0,255]</p>
+<p>ISO定义五大类：（是以IP地址的第一位进行区分的）</p>
+<ul>
+<li><p>A类：（政府用）</p>
+<p>position_1 网络地址，position_2.position_3.position_4 主机地址</p>
+<p>范围：1.0.0.1—126.155.255.254</p>
+<p>私有地址和保留地址：</p>
+<p>① 10.X.X.X是私有地址（所谓的私有地址就是在互联网上不使用，而被用在局域网络中的地址）<br>② 127.X.X.X是保留地址，用做循环测试用</p>
+</li>
+<li><p>B类：（大中型企业用）</p>
+<p>position_1.position_2 网络地址，position_3.position_4 主机地址</p>
+<p>范围：128.0.0.1—191.255.255.254</p>
+<p>私有地址和保留地址：<br>① 172.16.0.0—172.31.255.255是私有地址<br>② 169.254.X.X是保留地址（如果你的IP地址是自动获取IP地址，而你在网络上又没有找到可用的<strong>DHCP服务器</strong>，就会得到其中一个IP）</p>
+</li>
+<li><p>C类：(个人使用，最常见)</p>
+<p>position_1.position_2.position_3 网络地址，position_4 主机地址</p>
+<p>范围：192.0.0.1—223.255.255.254</p>
+<p>私有地址：<br>192.168.X.X是私有地址</p>
+</li>
+<li><p>D类：（组播地址）</p>
+<p>不分网络地址和主机地址，它的第1个字节的前四位固定为1110</p>
+</li>
+<li><p>E类：（科研使用）<br>不分网络地址和主机地址，它的第1个字节的前四位固定为11110</p>
+</li>
+</ul>
+<h2 id="子网掩码"><a href="#子网掩码" class="headerlink" title="子网掩码"></a>子网掩码</h2><p>规定 ip 在哪个网段，如 ip ： 192.168.1.1 子网掩码：255.255.240.0</p>
+<p>二进制表示：</p>
+<p>11000000.10101000.00000001.00000001 ip</p>
+<p>11111111.11111111.11110000.00000000 子网掩码 （not = 00000000.00000000.00001111.11111111）</p>
+<p><strong>在子网掩码非 1 的部分为该网段可用地址</strong></p>
+<ul>
+<li>ip 与 子网掩码之间的关系：（保留地址）</li>
+</ul>
+<p>ip and 子网掩码 = 11000000.10101000.00000000.00000000 = 192.168.0.0 为<strong>网络号</strong></p>
+<p>ip or not 子网掩码 =  11000000.10101000.00001111.11111111 = 192.168.15.255 为<strong>广播地址</strong></p>
+<p>所以也可表示为 192.168.1.1/24 （表示该ip子网掩码长度24位1）</p>
+<p>参考： </p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wujiafei_njgcxy/article/details/53672410">5类ip地址</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1v44y1g7Hf?p=1&amp;share_medium=iphone&amp;share_plat=ios&amp;share_session_id=791F56D7-CDA5-44B3-87C0-0ECC2828078D&amp;share_source=WEIXIN&amp;share_tag=s_i&amp;timestamp=1653636322&amp;unique_k=GzxogMD">什么是子网掩码</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.huaweicloud.com/zhishi/edits-15756158.html">ip地址和子网掩码的关系</a></p>
+</blockquote>
+<h2 id="网关（简单理解）"><a href="#网关（简单理解）" class="headerlink" title="网关（简单理解）"></a>网关（简单理解）</h2><p>相当于一个转换器，用于寻找要通信的另一方：</p>
+<p>pc向外发包</p>
+<p>1、首先判断目标IP与自己是否在 同一个网段</p>
+<p>2、如在同一个网段，则直接发出去，不找网关</p>
+<p>3、<strong>如不在同一个网段，则发包给网关</strong></p>
+<blockquote>
+<p>ping 命令：</p>
+<p>ping 目标IP地址                       #测试网络连通性，有去有回即为可以成功通路</p>
+<p>ping -t 目标IP地址                    #一直ping</p>
+<p>ping -n 数字 目标ip地址           #修改ping包的数量（默认4）</p>
+<p>ping -l 数字 目标ip地址            #修改ping 包的大小</p>
+<p>ipconfig      #查看ip基本信息</p>
+<p>ipconfig /all   #查看ip所有信息</p>
+</blockquote>
+<h2 id="DNS-域名系统-Domain-Name-System"><a href="#DNS-域名系统-Domain-Name-System" class="headerlink" title="DNS 域名系统 Domain Name System"></a>DNS 域名系统 <strong>D</strong>omain <strong>N</strong>ame <strong>S</strong>ystem</h2><p>它作为将<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/域名/86062">域名</a>和<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/IP地址/150859">IP地址</a>相互<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/映射/20402620">映射</a>的一个<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/分布式数据库/1238109">分布式数据库</a>，能够使人更方便地访问互联网</p>
+<blockquote>
+<p>手工解析域名</p>
+<p>nslookup www.baidu.com</p>
+</blockquote>
+<h2 id="DOS命令"><a href="#DOS命令" class="headerlink" title="DOS命令"></a>DOS命令</h2><blockquote>
+<p>cd..               返回上级目录</p>
+<p>cd\                返回根目录</p>
+<p>d:                 进入D盘</p>
+<p>cls                清空所有dos操作</p>
+<p>dir                显示当前盘符文件信息</p>
+<p>rd . /s/q        清空磁盘</p>
+<p><strong>浏览文件</strong></p>
+<p>type 文件名.扩展名                 显示</p>
+<p>type 文件名.扩展名 |more       分页显示</p>
+<p>例如：dir c:\windows |more</p>
+<p><strong>创建文件</strong></p>
+<p>md 文件夹名称                创建文件夹</p>
+<p>echo “内容”&gt;文件名         创建文件</p>
+<p><em>还要其他方式</em></p>
+<p><strong>删除文件</strong></p>
+<p>del *.txt                  删除所有txt结尾的文件</p>
+<p>del <em>.</em>                    删除文件</p>
+<p>del <em>.</em> /s/q             无提示删除</p>
+<p>attrib +h 文件名         隐藏文件夹</p>
+<p>attrib -h 文件名          取消文件夹</p>
+<p>attrib +h +s +a 文件名              将文件夹隐藏设为系统文件</p>
+<p>dir /a                          显示当前磁盘所有包括系统文件</p>
+<p>快速生成一个空文件（有大小）</p>
+<p>fsutil file createnew c:\system.ini 数字       在c盘创建文件指定文件大小</p>
+<p><strong>修改关联</strong></p>
+<p>参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/news/682376">assoc 修改文件关联</a></p>
+<p>assoc .txt=exefile         修改打开txt文件的程序 使其无法打开</p>
+<p>assoc .txt=txtfile           恢复</p>
+<p>(未成功)</p>
+<p><strong>shutdown</strong></p>
+<p>shutdown -s -t 100 定时关机</p>
+<p>shutdown -s -f -t 100 定时强制关机</p>
+<p>shutdown -r -t 秒 定时重启</p>
+<p>shutdown -a 取消定时</p>
+<p>shutdown -l 注销，同logoff命令相同</p>
+<p>shutdown -s -f -t 100 -c “haah”</p>
+<p><strong>文件操作</strong></p>
+<p>ren 旧名 新名                      重命名</p>
+<p>move 原地址 新地址           移动</p>
+<p>copy 原地址 目的地址         复制粘贴</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1457,98 +1643,6 @@ or\\
           <h1 id="约瑟夫环"><a href="#约瑟夫环" class="headerlink" title="约瑟夫环"></a>约瑟夫环</h1><p>参见：</p>
 <p> <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/find-the-winner-of-the-circular-game/">1823. 找出游戏的获胜者</a></p>
 <h4 id="剑指-Offer-62-圆圈中最后剩下的数字"><a href="#剑指-Offer-62-圆圈中最后剩下的数字" class="headerlink" title="剑指 Offer 62. 圆圈中最后剩下的数字"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/">剑指 Offer 62. 圆圈中最后剩下的数字</a></h4>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/25/Algorithm/%E7%B4%A0%E6%95%B0%E7%AD%9B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://ossimg.yzitc.com/2022/05/24/f573a763bec76.png">
-      <meta itemprop="name" content="icSnow">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="❄">
-      <meta itemprop="description" content="ahhhhhhhhh~~~">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | ❄">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/05/25/Algorithm/%E7%B4%A0%E6%95%B0%E7%AD%9B/" class="post-title-link" itemprop="url">素数筛</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-05-25 19:23:36" itemprop="dateCreated datePublished" datetime="2022-05-25T19:23:36+08:00">2022-05-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-05-22 12:10:48" itemprop="dateModified" datetime="2022-05-22T12:10:48+08:00">2022-05-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Code-Algo/" itemprop="url" rel="index"><span itemprop="name">Code_Algo</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="素数筛"><a href="#素数筛" class="headerlink" title="素数筛"></a>素数筛</h1><h2 id="艾氏筛"><a href="#艾氏筛" class="headerlink" title="艾氏筛"></a>艾氏筛</h2><p>筛出小于 n 的所有素数</p>
-<ol>
-<li>建立数组记录每个值是否为素数，初始化全是素数；</li>
-<li>遍历数组（<strong>遍历到 sqrt(n) 就够了</strong>），将当前值 i 的倍数全部划为合数类；</li>
-<li>得到一个划分和素数与合数的数组</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">countPrimes</span>(<span class="params">self, n: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        <span class="keyword">if</span> n &lt; <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        isPrime = [<span class="number">1</span>] * n</span><br><span class="line">        isPrime[<span class="number">0</span>] = isPrime[<span class="number">1</span>] = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, <span class="built_in">int</span>(n ** <span class="number">0.5</span>) + <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> isPrime[i]:</span><br><span class="line">                <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i*i,n,i):</span><br><span class="line">                    isPrime[j] = <span class="number">0</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">sum</span>(isPrime)</span><br></pre></td></tr></table></figure>
-<p>例子： <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/count-primes/">204. 计数质数</a></p>
-
       
     </div>
 

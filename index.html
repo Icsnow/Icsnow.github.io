@@ -156,7 +156,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -196,6 +196,109 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/06/Cryptanalysis/PRF%20and%20PRP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://ossimg.yzitc.com/2022/05/24/f573a763bec76.png">
+      <meta itemprop="name" content="icSnow">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="❄">
+      <meta itemprop="description" content="ahhhhhhhhh~~~">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | ❄">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/06/Cryptanalysis/PRF%20and%20PRP/" class="post-title-link" itemprop="url">PRF and PRP</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-07-06 15:25:30 / 修改时间：20:51:10" itemprop="dateCreated datePublished" datetime="2022-07-06T15:25:30+08:00">2022-07-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Cryptanalysis/" itemprop="url" rel="index"><span itemprop="name">Cryptanalysis</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="伪随机函数-PRF-和-伪随机置换-PRP"><a href="#伪随机函数-PRF-和-伪随机置换-PRP" class="headerlink" title="伪随机函数 PRF 和 伪随机置换 PRP"></a>伪随机函数 PRF 和 伪随机置换 PRP</h1><h2 id="PRF-pseudorandom-function"><a href="#PRF-pseudorandom-function" class="headerlink" title="PRF (pseudorandom function)"></a>PRF (pseudorandom function)</h2><p><strong>1. 场景：</strong></p>
+<p>攻击者进行区分的优势为 $Adv$ ，攻击者记为 $A$ ，挑战者有两个，记为 $b=\{0,1\}$ ，一个挑战者（EXP）持有随机函数，$Funs=(x,y)$ ；另一个挑战者持有伪随机函数 $F=(k,\cdot)$ 。现在，攻击者<strong>在不知道与哪个挑战者通信的情况下，向挑战者发生消息，挑战者给其返回运算过的消息</strong>（攻击者可以发送多条消息，但至少比全消息空间少），如果攻击者能够区分出消息发送到哪个挑战者，即给出 $b=0\ or\ 1$ ，如果以高概率区分正确，则该 PRF 不安全（可区分），反之安全。</p>
+<p><strong>2. 随机函数：</strong></p>
+<p>从集合 X 到 Y 的函数，不是双射的，即，可以一对多的进行 $X \rightarrow Y$ 过程。所以，X 集合中的每个元素可以对应 Y 中的所有元素，所以该随机函数 $f$ 的可能性很大，即存在 $Y^X$ 种。如，从 $2^n \rightarrow 2^n$ 的函数，共可能有 $2^{n \cdot 2^n}$ 个，这是一个非常大的集合。从这个巨大的集合中随机的选择一个函数 $f$ ，该函数就是随机函数。</p>
+<p>随机函数<strong>并不表示输出随机，而表示挑选空间的全面性和挑选过程的随机性。</strong></p>
+<p><strong>3. 安全伪随机函数的定义：</strong></p>
+<blockquote>
+<p>一个确定的函数，当其与对于相同的输入输出的随机函数，无法以<strong>较高概率</strong>将其与真正随机的函数区分开。</p>
+</blockquote>
+<p>这里的高概率指一个不能被忽略的概率。公式化的定义为：</p>
+<script type="math/tex; mode=display">
+Adv_{PRF}[A,F] = |Pr[EXP(0)=1]-Pr[EXP(1)=1]|</script><p>如果以上 $Adv$ 是可忽略的，则该 PRF 是一个安全伪随机函数。</p>
+<p><img src="https://s1.ax1x.com/2022/07/06/jaNmr9.jpg"></p>
+<hr>
+<h2 id="PRP-pseudorandom-function"><a href="#PRP-pseudorandom-function" class="headerlink" title="PRP (pseudorandom function)"></a>PRP (pseudorandom function)</h2><p>如果简单的将函数理解为一个域到另一个域的映射，那么置换便理解为一个域到其自身的<strong>双射</strong></p>
+<p>也就是说，函数和置换的主要区别是，是否为双射，也就是是否有逆。</p>
+<p><strong>1. 场景：</strong></p>
+<p>攻击者进行区分的优势为 $Adv$ ，攻击者记为 $A$ ，挑战者有两个，记为 $b=\{0,1\}$ ，一个挑战者（EXP）持有随机置换，$Perms=(x,y)$ ；另一个挑战者持有伪随机置换 $P=(k,\cdot)$ 。现在，攻击者<strong>在不知道与哪个挑战者通信的情况下，向挑战者发生消息，挑战者给其返回运算过的消息</strong>（攻击者可以发送多条消息，但至少比全消息空间少），如果攻击者能够区分出消息发送到哪个挑战者，即给出 $b=0\ or\ 1$ ，如果以高概率区分正确，则该 PRP 不安全（可区分），反之安全。</p>
+<p>随机置换的概念与随机函数概念相似（没找到佐证资料）</p>
+<p><strong>2. 安全伪随机置换</strong></p>
+<p>如果在上述场景下，攻击者<strong>不能以不可忽略的概率</strong>将随即置换和伪随机转换区分开，那么该 PRP 是一个安全的 PRP，公式化的描述为：</p>
+<script type="math/tex; mode=display">
+Adv_{PRP}[A,P] = |Pr[EXP(0)=1]-Pr[EXP(1)=1]|</script><p>如果该优势是可忽略的，那么该置换是一个安全 PRP</p>
+<p><img src="https://s1.ax1x.com/2022/07/06/jazNCQ.jpg"></p>
+<p>关于 PRP 与 PRF 之间的关系，见 <a target="_blank" rel="noopener" href="https://www.bilibili.com/read/cv10277489">https://www.bilibili.com/read/cv10277489</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -371,7 +474,7 @@ P_r(X_1 \oplus X_2 \oplus...\oplus X_n=0)=\frac{1}{2} + 2^{n-1}\prod_{i=1}^{n}\v
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-06-15 23:20:37" itemprop="dateModified" datetime="2022-06-15T23:20:37+08:00">2022-06-15</time>
+      <time title="修改时间：2022-06-16 17:00:35" itemprop="dateModified" datetime="2022-06-16T17:00:35+08:00">2022-06-16</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1344,192 +1447,6 @@ x 3 & y 3 & 1
 <li>修改文件关联，使无法打开（前一章写过）</li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">assoc.exe=txtfile</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/27/CS/%E7%BD%91%E5%AE%89%E5%AD%A6%E4%B9%A0-D-2-ip%E5%8F%8A%E4%B8%80%E4%BA%9B%E5%91%BD%E4%BB%A4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://ossimg.yzitc.com/2022/05/24/f573a763bec76.png">
-      <meta itemprop="name" content="icSnow">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="❄">
-      <meta itemprop="description" content="ahhhhhhhhh~~~">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | ❄">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/05/27/CS/%E7%BD%91%E5%AE%89%E5%AD%A6%E4%B9%A0-D-2-ip%E5%8F%8A%E4%B8%80%E4%BA%9B%E5%91%BD%E4%BB%A4/" class="post-title-link" itemprop="url">网安学习-D-2-ip及一些命令</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-05-27 14:55:26 / 修改时间：16:40:57" itemprop="dateCreated datePublished" datetime="2022-05-27T14:55:26+08:00">2022-05-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/CS/" itemprop="url" rel="index"><span itemprop="name">CS</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>ip 相关知识复习及常用 win 系统下的命令</p>
-<h2 id="局域网"><a href="#局域网" class="headerlink" title="局域网"></a>局域网</h2><p>局域网：一般称为内网，同一个局域网中，所有IP必须在同一个网段才可以互相通信</p>
-<p>单局域网构成：交换机，网线，pc</p>
-<p>交换机：用来组建内网的局域网的设备</p>
-<h2 id="ip"><a href="#ip" class="headerlink" title="ip"></a>ip</h2><p>网络号（识别主机所在网络） + 主机号（识别网络中的主机）</p>
-<p>position_1.position_2.position_3.position_4  where  position  in [0,255]</p>
-<p>ISO定义五大类：（是以IP地址的第一位进行区分的）</p>
-<ul>
-<li><p>A类：（政府用）</p>
-<p>position_1 网络地址，position_2.position_3.position_4 主机地址</p>
-<p>范围：1.0.0.1—126.155.255.254</p>
-<p>私有地址和保留地址：</p>
-<p>① 10.X.X.X是私有地址（所谓的私有地址就是在互联网上不使用，而被用在局域网络中的地址）<br>② 127.X.X.X是保留地址，用做循环测试用</p>
-</li>
-<li><p>B类：（大中型企业用）</p>
-<p>position_1.position_2 网络地址，position_3.position_4 主机地址</p>
-<p>范围：128.0.0.1—191.255.255.254</p>
-<p>私有地址和保留地址：<br>① 172.16.0.0—172.31.255.255是私有地址<br>② 169.254.X.X是保留地址（如果你的IP地址是自动获取IP地址，而你在网络上又没有找到可用的<strong>DHCP服务器</strong>，就会得到其中一个IP）</p>
-</li>
-<li><p>C类：(个人使用，最常见)</p>
-<p>position_1.position_2.position_3 网络地址，position_4 主机地址</p>
-<p>范围：192.0.0.1—223.255.255.254</p>
-<p>私有地址：<br>192.168.X.X是私有地址</p>
-</li>
-<li><p>D类：（组播地址）</p>
-<p>不分网络地址和主机地址，它的第1个字节的前四位固定为1110</p>
-</li>
-<li><p>E类：（科研使用）<br>不分网络地址和主机地址，它的第1个字节的前四位固定为11110</p>
-</li>
-</ul>
-<h2 id="子网掩码"><a href="#子网掩码" class="headerlink" title="子网掩码"></a>子网掩码</h2><p>规定 ip 在哪个网段，如 ip ： 192.168.1.1 子网掩码：255.255.240.0</p>
-<p>二进制表示：</p>
-<p>11000000.10101000.00000001.00000001 ip</p>
-<p>11111111.11111111.11110000.00000000 子网掩码 （not = 00000000.00000000.00001111.11111111）</p>
-<p><strong>在子网掩码非 1 的部分为该网段可用地址</strong></p>
-<ul>
-<li>ip 与 子网掩码之间的关系：（保留地址）</li>
-</ul>
-<p>ip and 子网掩码 = 11000000.10101000.00000000.00000000 = 192.168.0.0 为<strong>网络号</strong></p>
-<p>ip or not 子网掩码 =  11000000.10101000.00001111.11111111 = 192.168.15.255 为<strong>广播地址</strong></p>
-<p>所以也可表示为 192.168.1.1/24 （表示该ip子网掩码长度24位1）</p>
-<p>参考： </p>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wujiafei_njgcxy/article/details/53672410">5类ip地址</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1v44y1g7Hf?p=1&amp;share_medium=iphone&amp;share_plat=ios&amp;share_session_id=791F56D7-CDA5-44B3-87C0-0ECC2828078D&amp;share_source=WEIXIN&amp;share_tag=s_i&amp;timestamp=1653636322&amp;unique_k=GzxogMD">什么是子网掩码</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.huaweicloud.com/zhishi/edits-15756158.html">ip地址和子网掩码的关系</a></p>
-</blockquote>
-<h2 id="网关（简单理解）"><a href="#网关（简单理解）" class="headerlink" title="网关（简单理解）"></a>网关（简单理解）</h2><p>相当于一个转换器，用于寻找要通信的另一方：</p>
-<p>pc向外发包</p>
-<p>1、首先判断目标IP与自己是否在 同一个网段</p>
-<p>2、如在同一个网段，则直接发出去，不找网关</p>
-<p>3、<strong>如不在同一个网段，则发包给网关</strong></p>
-<blockquote>
-<p>ping 命令：</p>
-<p>ping 目标IP地址                       #测试网络连通性，有去有回即为可以成功通路</p>
-<p>ping -t 目标IP地址                    #一直ping</p>
-<p>ping -n 数字 目标ip地址           #修改ping包的数量（默认4）</p>
-<p>ping -l 数字 目标ip地址            #修改ping 包的大小</p>
-<p>ipconfig      #查看ip基本信息</p>
-<p>ipconfig /all   #查看ip所有信息</p>
-</blockquote>
-<h2 id="DNS-域名系统-Domain-Name-System"><a href="#DNS-域名系统-Domain-Name-System" class="headerlink" title="DNS 域名系统 Domain Name System"></a>DNS 域名系统 <strong>D</strong>omain <strong>N</strong>ame <strong>S</strong>ystem</h2><p>它作为将<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/域名/86062">域名</a>和<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/IP地址/150859">IP地址</a>相互<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/映射/20402620">映射</a>的一个<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/分布式数据库/1238109">分布式数据库</a>，能够使人更方便地访问互联网</p>
-<blockquote>
-<p>手工解析域名</p>
-<p>nslookup www.baidu.com</p>
-</blockquote>
-<h2 id="DOS命令"><a href="#DOS命令" class="headerlink" title="DOS命令"></a>DOS命令</h2><blockquote>
-<p>cd..               返回上级目录</p>
-<p>cd\                返回根目录</p>
-<p>d:                 进入D盘</p>
-<p>cls                清空所有dos操作</p>
-<p>dir                显示当前盘符文件信息</p>
-<p>rd . /s/q        清空磁盘</p>
-<p><strong>浏览文件</strong></p>
-<p>type 文件名.扩展名                 显示</p>
-<p>type 文件名.扩展名 |more       分页显示</p>
-<p>例如：dir c:\windows |more</p>
-<p><strong>创建文件</strong></p>
-<p>md 文件夹名称                创建文件夹</p>
-<p>echo “内容”&gt;文件名         创建文件</p>
-<p><em>还要其他方式</em></p>
-<p><strong>删除文件</strong></p>
-<p>del *.txt                  删除所有txt结尾的文件</p>
-<p>del <em>.</em>                    删除文件</p>
-<p>del <em>.</em> /s/q             无提示删除</p>
-<p>attrib +h 文件名         隐藏文件夹</p>
-<p>attrib -h 文件名          取消文件夹</p>
-<p>attrib +h +s +a 文件名              将文件夹隐藏设为系统文件</p>
-<p>dir /a                          显示当前磁盘所有包括系统文件</p>
-<p>快速生成一个空文件（有大小）</p>
-<p>fsutil file createnew c:\system.ini 数字       在c盘创建文件指定文件大小</p>
-<p><strong>修改关联</strong></p>
-<p>参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/news/682376">assoc 修改文件关联</a></p>
-<p>assoc .txt=exefile         修改打开txt文件的程序 使其无法打开</p>
-<p>assoc .txt=txtfile           恢复</p>
-<p>(未成功)</p>
-<p><strong>shutdown</strong></p>
-<p>shutdown -s -t 100 定时关机</p>
-<p>shutdown -s -f -t 100 定时强制关机</p>
-<p>shutdown -r -t 秒 定时重启</p>
-<p>shutdown -a 取消定时</p>
-<p>shutdown -l 注销，同logoff命令相同</p>
-<p>shutdown -s -f -t 100 -c “haah”</p>
-<p><strong>文件操作</strong></p>
-<p>ren 旧名 新名                      重命名</p>
-<p>move 原地址 新地址           移动</p>
-<p>copy 原地址 目的地址         复制粘贴</p>
-</blockquote>
 
       
     </div>
