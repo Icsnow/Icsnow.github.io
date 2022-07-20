@@ -24,6 +24,36 @@
       </tags>
   </entry>
   <entry>
+    <title>二分查找</title>
+    <url>/2022/07/15/Algorithm/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/</url>
+    <content><![CDATA[<h2 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a>二分查找</h2><p>二分查找最关键的点在于<strong>区间的划分</strong></p>
+<p>设置一般有两种区间：</p>
+<ol>
+<li><p><code>[left,right]</code> 对应 <code>while(left&lt;=right)</code>  表示 <code>right</code> 有意义</p>
+</li>
+<li><p><code>[left,right)</code>对应 <code>while(left&lt;right)</code> 表示 <code>right</code> 无意义</p>
+</li>
+</ol>
+<p>如果是 <code>&gt;</code> 情况就反过来</p>
+<p>而在判断时，显然当 <code>while(left&lt;=right)</code> 时，<code>right</code> 有意义，区间为<code>[left,right]</code>，下一次查找的区间变成<code>[left,mid-1]</code>（<code>mid</code>已经判断过不是<code>target</code>）所以在移动 <code>right</code> 时，使用 <code>right=mid-1</code> 。</p>
+<p>当<code>while(left&lt;right)</code>时，<code>right</code>无意义，区间为<code>[left,right)</code>，下一次查找的区间变成<code>[left,mid)</code> ，<code>mid</code>已经判断过不是<code>target</code>，但<code>right</code>不会取到，所以不需要<code>right=mid-1</code> 。</p>
+<p>题目：（这题用区间 <code>[left,right]</code> 更好）</p>
+<h4 id="704-二分查找"><a href="#704-二分查找" class="headerlink" title="704. 二分查找"></a><a href="https://leetcode.cn/problems/binary-search/">704. 二分查找</a></h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">search</span><span class="params">(<span class="type">int</span>* nums, <span class="type">int</span> numsSize, <span class="type">int</span> target)</span>&#123;</span><br><span class="line">    <span class="type">int</span> left=<span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> right=numsSize<span class="number">-1</span>;</span><br><span class="line">    <span class="comment">//区间设置[left,right)</span></span><br><span class="line">    <span class="type">int</span> mid;</span><br><span class="line">    <span class="keyword">while</span>(left&lt;right)&#123;</span><br><span class="line">        mid = (left+right)/<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(nums[mid] == target)</span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(nums[mid] &lt; target)</span><br><span class="line">            left = mid + <span class="number">1</span>; <span class="comment">//左区间能取到</span></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            right = mid; <span class="comment">//右区间取不到</span></span><br><span class="line">        <span class="comment">//printf(&quot;%d,%d,%d\n&quot;,left,right,mid);</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(left == right &amp;&amp; nums[left] == target)</span><br><span class="line">        <span class="keyword">return</span> left;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">search</span><span class="params">(<span class="type">int</span>* nums, <span class="type">int</span> numsSize, <span class="type">int</span> target)</span>&#123;</span><br><span class="line">    <span class="comment">//区间[left,right]</span></span><br><span class="line">    <span class="type">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> right = numsSize<span class="number">-1</span>;</span><br><span class="line">    <span class="type">int</span> mid;</span><br><span class="line">    <span class="keyword">while</span>(left &lt;= right)&#123;</span><br><span class="line">        mid = (left + right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(nums[mid] == target)</span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(nums[mid] &lt; target)</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span>   </span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="35-搜索插入位置"><a href="#35-搜索插入位置" class="headerlink" title="35. 搜索插入位置"></a><a href="https://leetcode.cn/problems/search-insert-position/">35. 搜索插入位置</a></h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    def <span class="title function_">searchInsert</span><span class="params">(self, nums: List[<span class="type">int</span>], target: <span class="type">int</span>)</span> -&gt; <span class="type">int</span>:</span><br><span class="line">        l,r = <span class="number">0</span>,len(nums)<span class="number">-1</span></span><br><span class="line">        <span class="keyword">while</span> l &lt;= r:</span><br><span class="line">            #小于或等于 NOTE</span><br><span class="line">            m = (l+r) <span class="comment">// 2</span></span><br><span class="line">            <span class="meta">#print(l,r,m)</span></span><br><span class="line">            <span class="keyword">if</span> nums[m] == target:</span><br><span class="line">                <span class="keyword">return</span> m</span><br><span class="line">            elif nums[m] &lt; target:</span><br><span class="line">                l = m+<span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                r = m<span class="number">-1</span></span><br><span class="line">        <span class="keyword">return</span> l</span><br></pre></td></tr></table></figure>
+<h4 id="34-在排序数组中查找元素的第一个和最后一个位置"><a href="#34-在排序数组中查找元素的第一个和最后一个位置" class="headerlink" title="34. 在排序数组中查找元素的第一个和最后一个位置"></a><a href="https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/">34. 在排序数组中查找元素的第一个和最后一个位置</a></h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Note: The returned array must be malloced, assume caller calls free().</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="type">int</span>* <span class="title function_">searchRange</span><span class="params">(<span class="type">int</span>* nums, <span class="type">int</span> numsSize, <span class="type">int</span> target, <span class="type">int</span>* returnSize)</span>&#123;</span><br><span class="line">    <span class="type">int</span> left = <span class="number">0</span>, right = numsSize<span class="number">-1</span>, mid;</span><br><span class="line">    <span class="comment">// 分配一个结果数组</span></span><br><span class="line">    <span class="type">int</span> *res = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">int</span>) * <span class="number">2</span>);</span><br><span class="line">    * returnSize = <span class="number">2</span>;</span><br><span class="line">    res[<span class="number">0</span>] = <span class="number">-1</span>;</span><br><span class="line">    res[<span class="number">1</span>] = <span class="number">-1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 判断1：nums 数组是否有值？</span></span><br><span class="line">    <span class="keyword">if</span>(numsSize == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 找到第一个 target 位置</span></span><br><span class="line">    <span class="keyword">while</span>(left &lt; right)&#123;</span><br><span class="line">        mid = (left + right) / <span class="number">2</span>;</span><br><span class="line">        <span class="comment">// 这里去掉 nums[mid] == target 判断的跳出，仅移动 right</span></span><br><span class="line">        <span class="comment">// 为了使left指针能落到第一个 target </span></span><br><span class="line">        <span class="keyword">if</span>(nums[mid] &lt; target)&#123;</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            right = mid;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// printf(&quot;%d %d&quot;,left,right);</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 判断2：target不存在于nums</span></span><br><span class="line">    <span class="keyword">if</span>(nums[left] != target)&#123;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 找到首尾位置</span></span><br><span class="line">    res[<span class="number">0</span>] = left;</span><br><span class="line">    <span class="keyword">while</span>(left &lt; numsSize &amp;&amp; nums[left] == target)&#123;</span><br><span class="line">        left ++;</span><br><span class="line">    &#125;</span><br><span class="line">    res[<span class="number">1</span>] = left - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="69-x-的平方根"><a href="#69-x-的平方根" class="headerlink" title="69. x 的平方根 "></a><a href="https://leetcode.cn/problems/sqrtx/">69. x 的平方根 </a></h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">mySqrt</span><span class="params">(<span class="type">int</span> x)</span>&#123;</span><br><span class="line">    <span class="type">int</span> left = <span class="number">1</span>,right = x / <span class="number">2</span> + <span class="number">1</span>,mid;</span><br><span class="line">    <span class="keyword">while</span>(left &lt;= right)&#123;</span><br><span class="line">        mid = (left + right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(mid &gt; x / mid)&#123;</span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(mid &lt; x / mid)&#123;</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//为什么返回right</span></span><br><span class="line">    <span class="comment">//while结束时，right取到的是不大于result的整数</span></span><br><span class="line">    <span class="keyword">return</span> right;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="367-有效的完全平方数"><a href="#367-有效的完全平方数" class="headerlink" title="367. 有效的完全平方数"></a><a href="https://leetcode.cn/problems/valid-perfect-square/">367. 有效的完全平方数</a></h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">mySqrt</span><span class="params">(<span class="type">int</span> x)</span>&#123;</span><br><span class="line">    <span class="type">int</span> left = <span class="number">1</span>,right = x / <span class="number">2</span> + <span class="number">1</span>,mid;</span><br><span class="line">    <span class="keyword">while</span>(left &lt;= right)&#123;</span><br><span class="line">        mid = (left + right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(mid &gt; x / mid)&#123;</span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(mid &lt; x / mid)&#123;</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> right;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">bool</span> <span class="title function_">isPerfectSquare</span><span class="params">(<span class="type">int</span> num)</span>&#123;</span><br><span class="line">    <span class="comment">//偷懒</span></span><br><span class="line">    <span class="keyword">if</span>(mySqrt(num) * mySqrt(num) == num)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>RE：<a href="https://www.programmercarl.com/0704.%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE.html#_704-%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE">https://www.programmercarl.com/0704.%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE.html#_704-%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE</a></p>
+]]></content>
+      <categories>
+        <category>Code_Algo</category>
+      </categories>
+      <tags>
+        <tag>Math</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>如何判断三点是否共线？</title>
     <url>/2022/06/09/Algorithm/%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E4%B8%89%E7%82%B9%E6%98%AF%E5%90%A6%E5%85%B1%E7%BA%BF%EF%BC%9F/</url>
     <content><![CDATA[<h2 id="判断三点共线"><a href="#判断三点共线" class="headerlink" title="判断三点共线"></a>判断三点共线</h2><p>判断三点是否共线，有三种方法（其实实质上是两种）</p>
@@ -178,33 +208,22 @@ M = \left[ \begin{matrix} 1 & 1 \\ 1 & 0 \end{matrix} \right]</script><figure cl
       </tags>
   </entry>
   <entry>
-    <title>二分查找</title>
-    <url>/2022/07/15/Algorithm/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/</url>
-    <content><![CDATA[<h2 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a>二分查找</h2><p>二分查找最关键的点在于<strong>区间的划分</strong></p>
-<p>设置一般有两种区间：</p>
-<ol>
-<li><p><code>[left,right]</code> 对应 <code>while(left&lt;=right)</code>  表示 <code>right</code> 有意义</p>
-</li>
-<li><p><code>[left,right)</code>对应 <code>while(left&lt;right)</code> 表示 <code>right</code> 无意义</p>
-</li>
-</ol>
-<p>如果是 <code>&gt;</code> 情况就反过来</p>
-<p>而在判断时，显然当 <code>while(left&lt;=right)</code> 时，<code>right</code> 有意义，区间为<code>[left,right]</code>，下一次查找的区间变成<code>[left,mid-1]</code>（<code>mid</code>已经判断过不是<code>target</code>）所以在移动 <code>right</code> 时，使用 <code>right=mid-1</code> 。</p>
-<p>当<code>while(left&lt;right)</code>时，<code>right</code>无意义，区间为<code>[left,right)</code>，下一次查找的区间变成<code>[left,mid)</code> ，<code>mid</code>已经判断过不是<code>target</code>，但<code>right</code>不会取到，所以不需要<code>right=mid-1</code> 。</p>
-<p>题目：（这题用区间 <code>[left,right]</code> 更好）</p>
-<h4 id="704-二分查找"><a href="#704-二分查找" class="headerlink" title="704. 二分查找"></a><a href="https://leetcode.cn/problems/binary-search/">704. 二分查找</a></h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">search</span><span class="params">(<span class="type">int</span>* nums, <span class="type">int</span> numsSize, <span class="type">int</span> target)</span>&#123;</span><br><span class="line">    <span class="type">int</span> left=<span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> right=numsSize<span class="number">-1</span>;</span><br><span class="line">    <span class="comment">//区间设置[left,right)</span></span><br><span class="line">    <span class="type">int</span> mid;</span><br><span class="line">    <span class="keyword">while</span>(left&lt;right)&#123;</span><br><span class="line">        mid = (left+right)/<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(nums[mid] == target)</span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(nums[mid] &lt; target)</span><br><span class="line">            left = mid + <span class="number">1</span>; <span class="comment">//左区间能取到</span></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            right = mid; <span class="comment">//右区间取不到</span></span><br><span class="line">        <span class="comment">//printf(&quot;%d,%d,%d\n&quot;,left,right,mid);</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(left == right &amp;&amp; nums[left] == target)</span><br><span class="line">        <span class="keyword">return</span> left;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">search</span><span class="params">(<span class="type">int</span>* nums, <span class="type">int</span> numsSize, <span class="type">int</span> target)</span>&#123;</span><br><span class="line">    <span class="comment">//区间[left,right]</span></span><br><span class="line">    <span class="type">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> right = numsSize<span class="number">-1</span>;</span><br><span class="line">    <span class="type">int</span> mid;</span><br><span class="line">    <span class="keyword">while</span>(left &lt;= right)&#123;</span><br><span class="line">        mid = (left + right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(nums[mid] == target)</span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(nums[mid] &lt; target)</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span>   </span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="35-搜索插入位置"><a href="#35-搜索插入位置" class="headerlink" title="35. 搜索插入位置"></a><a href="https://leetcode.cn/problems/search-insert-position/">35. 搜索插入位置</a></h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    def <span class="title function_">searchInsert</span><span class="params">(self, nums: List[<span class="type">int</span>], target: <span class="type">int</span>)</span> -&gt; <span class="type">int</span>:</span><br><span class="line">        l,r = <span class="number">0</span>,len(nums)<span class="number">-1</span></span><br><span class="line">        <span class="keyword">while</span> l &lt;= r:</span><br><span class="line">            #小于或等于 NOTE</span><br><span class="line">            m = (l+r) <span class="comment">// 2</span></span><br><span class="line">            <span class="meta">#print(l,r,m)</span></span><br><span class="line">            <span class="keyword">if</span> nums[m] == target:</span><br><span class="line">                <span class="keyword">return</span> m</span><br><span class="line">            elif nums[m] &lt; target:</span><br><span class="line">                l = m+<span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                r = m<span class="number">-1</span></span><br><span class="line">        <span class="keyword">return</span> l</span><br></pre></td></tr></table></figure>
-<h4 id="34-在排序数组中查找元素的第一个和最后一个位置"><a href="#34-在排序数组中查找元素的第一个和最后一个位置" class="headerlink" title="34. 在排序数组中查找元素的第一个和最后一个位置"></a><a href="https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/">34. 在排序数组中查找元素的第一个和最后一个位置</a></h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Note: The returned array must be malloced, assume caller calls free().</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="type">int</span>* <span class="title function_">searchRange</span><span class="params">(<span class="type">int</span>* nums, <span class="type">int</span> numsSize, <span class="type">int</span> target, <span class="type">int</span>* returnSize)</span>&#123;</span><br><span class="line">    <span class="type">int</span> left = <span class="number">0</span>, right = numsSize<span class="number">-1</span>, mid;</span><br><span class="line">    <span class="comment">// 分配一个结果数组</span></span><br><span class="line">    <span class="type">int</span> *res = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">int</span>) * <span class="number">2</span>);</span><br><span class="line">    * returnSize = <span class="number">2</span>;</span><br><span class="line">    res[<span class="number">0</span>] = <span class="number">-1</span>;</span><br><span class="line">    res[<span class="number">1</span>] = <span class="number">-1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 判断1：nums 数组是否有值？</span></span><br><span class="line">    <span class="keyword">if</span>(numsSize == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 找到第一个 target 位置</span></span><br><span class="line">    <span class="keyword">while</span>(left &lt; right)&#123;</span><br><span class="line">        mid = (left + right) / <span class="number">2</span>;</span><br><span class="line">        <span class="comment">// 这里去掉 nums[mid] == target 判断的跳出，仅移动 right</span></span><br><span class="line">        <span class="comment">// 为了使left指针能落到第一个 target </span></span><br><span class="line">        <span class="keyword">if</span>(nums[mid] &lt; target)&#123;</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            right = mid;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// printf(&quot;%d %d&quot;,left,right);</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 判断2：target不存在于nums</span></span><br><span class="line">    <span class="keyword">if</span>(nums[left] != target)&#123;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 找到首尾位置</span></span><br><span class="line">    res[<span class="number">0</span>] = left;</span><br><span class="line">    <span class="keyword">while</span>(left &lt; numsSize &amp;&amp; nums[left] == target)&#123;</span><br><span class="line">        left ++;</span><br><span class="line">    &#125;</span><br><span class="line">    res[<span class="number">1</span>] = left - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="69-x-的平方根"><a href="#69-x-的平方根" class="headerlink" title="69. x 的平方根 "></a><a href="https://leetcode.cn/problems/sqrtx/">69. x 的平方根 </a></h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">mySqrt</span><span class="params">(<span class="type">int</span> x)</span>&#123;</span><br><span class="line">    <span class="type">int</span> left = <span class="number">1</span>,right = x / <span class="number">2</span> + <span class="number">1</span>,mid;</span><br><span class="line">    <span class="keyword">while</span>(left &lt;= right)&#123;</span><br><span class="line">        mid = (left + right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(mid &gt; x / mid)&#123;</span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(mid &lt; x / mid)&#123;</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//为什么返回right</span></span><br><span class="line">    <span class="comment">//while结束时，right取到的是不大于result的整数</span></span><br><span class="line">    <span class="keyword">return</span> right;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="367-有效的完全平方数"><a href="#367-有效的完全平方数" class="headerlink" title="367. 有效的完全平方数"></a><a href="https://leetcode.cn/problems/valid-perfect-square/">367. 有效的完全平方数</a></h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">mySqrt</span><span class="params">(<span class="type">int</span> x)</span>&#123;</span><br><span class="line">    <span class="type">int</span> left = <span class="number">1</span>,right = x / <span class="number">2</span> + <span class="number">1</span>,mid;</span><br><span class="line">    <span class="keyword">while</span>(left &lt;= right)&#123;</span><br><span class="line">        mid = (left + right) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(mid &gt; x / mid)&#123;</span><br><span class="line">            right = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(mid &lt; x / mid)&#123;</span><br><span class="line">            left = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> right;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">bool</span> <span class="title function_">isPerfectSquare</span><span class="params">(<span class="type">int</span> num)</span>&#123;</span><br><span class="line">    <span class="comment">//偷懒</span></span><br><span class="line">    <span class="keyword">if</span>(mySqrt(num) * mySqrt(num) == num)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>RE：<a href="https://www.programmercarl.com/0704.%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE.html#_704-%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE">https://www.programmercarl.com/0704.%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE.html#_704-%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE</a></p>
+    <title>移动元素</title>
+    <url>/2022/07/20/Algorithm/%E7%A7%BB%E5%8A%A8%E5%85%83%E7%B4%A0/</url>
+    <content><![CDATA[<h1 id="移除元素"><a href="#移除元素" class="headerlink" title="移除元素"></a>移除元素</h1><p>移除元素最先想到的是暴力法，但使用双指针往往能提高效率。</p>
+<p>但这里的双指针并不一定为了查找到 target ，而是在每次移动指针时做对所指元素做相应的操作。</p>
+<p>Lc：</p>
+<h4 id="27-移除元素"><a href="#27-移除元素" class="headerlink" title="27. 移除元素"></a><a href="https://leetcode.cn/problems/remove-element/">27. 移除元素</a></h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">removeElement</span><span class="params">(<span class="type">int</span>* nums, <span class="type">int</span> numsSize, <span class="type">int</span> val)</span>&#123;</span><br><span class="line">    <span class="type">int</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> right = numsSize<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">while</span>(left &lt;= right)&#123;</span><br><span class="line">        <span class="keyword">if</span>(nums[left] == val)&#123;</span><br><span class="line">        <span class="comment">//这里不需要考虑右侧元素的值</span></span><br><span class="line">            nums[left] = nums[right];</span><br><span class="line">            right --;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            left ++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> left;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="26-删除有序数组中的重复项"><a href="#26-删除有序数组中的重复项" class="headerlink" title="26. 删除有序数组中的重复项"></a><a href="https://leetcode.cn/problems/remove-duplicates-from-sorted-array/">26. 删除有序数组中的重复项</a></h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">removeDuplicates</span><span class="params">(<span class="type">int</span>* nums, <span class="type">int</span> numsSize)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(numsSize == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> slow = <span class="number">1</span>, fast = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(fast &lt; numsSize)&#123;</span><br><span class="line">        <span class="keyword">if</span> (nums[fast] != nums[fast - <span class="number">1</span>])&#123;</span><br><span class="line">            nums[slow] = nums[fast];</span><br><span class="line">            ++slow;</span><br><span class="line">        &#125;</span><br><span class="line">        ++fast;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> slow;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="283-移动零"><a href="#283-移动零" class="headerlink" title="283. 移动零"></a><a href="https://leetcode.cn/problems/move-zeroes/">283. 移动零</a></h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">swap</span><span class="params">(<span class="type">int</span> *a, <span class="type">int</span> *b)</span> &#123;</span><br><span class="line">    <span class="comment">//传入值为指针！！</span></span><br><span class="line">    <span class="type">int</span> t = *a;</span><br><span class="line">    *a = *b, *b = t;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">moveZeroes</span><span class="params">(<span class="type">int</span> *nums, <span class="type">int</span> numsSize)</span> &#123;</span><br><span class="line">    <span class="comment">// 原地修改，双指针</span></span><br><span class="line">    <span class="type">int</span> left = <span class="number">0</span>,right = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(right &lt; numsSize)&#123;</span><br><span class="line">        <span class="keyword">if</span>(nums[right] != <span class="number">0</span>)&#123;</span><br><span class="line">            swap(nums+left,nums+right);</span><br><span class="line">            <span class="comment">// puts(nums);</span></span><br><span class="line">            left++;</span><br><span class="line">        &#125;</span><br><span class="line">        right++;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="844-比较含退格的字符串"><a href="#844-比较含退格的字符串" class="headerlink" title="844. 比较含退格的字符串"></a><a href="https://leetcode.cn/problems/backspace-string-compare/">844. 比较含退格的字符串</a></h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">bool</span> <span class="title function_">backspaceCompare</span><span class="params">(<span class="type">char</span>* S, <span class="type">char</span>* T)</span> &#123;</span><br><span class="line">    <span class="type">int</span> i = <span class="built_in">strlen</span>(S) - <span class="number">1</span>, j = <span class="built_in">strlen</span>(T) - <span class="number">1</span>;</span><br><span class="line">    <span class="comment">//用Skip表示需要退的格数</span></span><br><span class="line">    <span class="type">int</span> skipS = <span class="number">0</span>, skipT = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//分别对 s 和 t 进行退格</span></span><br><span class="line">    <span class="keyword">while</span> (i &gt;= <span class="number">0</span> || j &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">while</span> (i &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (S[i] == <span class="string">&#x27;#&#x27;</span>) &#123;</span><br><span class="line">                skipS++, i--;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (skipS &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                skipS--, i--;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d,&quot;</span>,i);</span><br><span class="line">        <span class="keyword">while</span> (j &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (T[j] == <span class="string">&#x27;#&#x27;</span>) &#123;</span><br><span class="line">                skipT++, j--;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (skipT &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                skipT--, j--;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (i &gt;= <span class="number">0</span> &amp;&amp; j &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (S[i] != T[j]) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (i &gt;= <span class="number">0</span> || j &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//正常遍历</span></span><br><span class="line">        i--, j--;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="977-有序数组的平方"><a href="#977-有序数组的平方" class="headerlink" title="977. 有序数组的平方"></a><a href="https://leetcode.cn/problems/squares-of-a-sorted-array/">977. 有序数组的平方</a></h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span>* <span class="title function_">sortedSquares</span><span class="params">(<span class="type">int</span>* nums, <span class="type">int</span> numsSize, <span class="type">int</span>* returnSize)</span> &#123;</span><br><span class="line">    <span class="type">int</span>* ans = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">int</span>) * numsSize);<span class="comment">//是否能够不使用额外的数组空间？</span></span><br><span class="line">    *returnSize = numsSize;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>, j = numsSize - <span class="number">1</span>, pos = numsSize - <span class="number">1</span>; i &lt;= j;) &#123;</span><br><span class="line">        <span class="keyword">if</span> (nums[i] * nums[i] &gt; nums[j] * nums[j]) &#123;</span><br><span class="line">            ans[pos] = nums[i] * nums[i];</span><br><span class="line">            ++i;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            ans[pos] = nums[j] * nums[j];</span><br><span class="line">            --j;</span><br><span class="line">        &#125;</span><br><span class="line">        --pos;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>Code_Algo</category>
       </categories>
       <tags>
-        <tag>Math</tag>
+        <tag>C program</tag>
       </tags>
   </entry>
   <entry>
@@ -219,19 +238,6 @@ M = \left[ \begin{matrix} 1 & 1 \\ 1 & 0 \end{matrix} \right]</script><figure cl
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">countPrimes</span>(<span class="params">self, n: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        <span class="keyword">if</span> n &lt; <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        isPrime = [<span class="number">1</span>] * n</span><br><span class="line">        isPrime[<span class="number">0</span>] = isPrime[<span class="number">1</span>] = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, <span class="built_in">int</span>(n ** <span class="number">0.5</span>) + <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> isPrime[i]:</span><br><span class="line">                <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i*i,n,i):</span><br><span class="line">                    isPrime[j] = <span class="number">0</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">sum</span>(isPrime)</span><br></pre></td></tr></table></figure>
 <p>例子： <a href="https://leetcode.cn/problems/count-primes/">204. 计数质数</a></p>
 ]]></content>
-      <categories>
-        <category>Code_Algo</category>
-      </categories>
-      <tags>
-        <tag>Math</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>约瑟夫环</title>
-    <url>/2022/05/25/Algorithm/%E7%BA%A6%E7%91%9F%E5%A4%AB%E7%8E%AF/</url>
-    <content><![CDATA[<h1 id="约瑟夫环"><a href="#约瑟夫环" class="headerlink" title="约瑟夫环"></a>约瑟夫环</h1><p>参见：</p>
-<p> <a href="https://leetcode-cn.com/problems/find-the-winner-of-the-circular-game/">1823. 找出游戏的获胜者</a></p>
-<h4 id="剑指-Offer-62-圆圈中最后剩下的数字"><a href="#剑指-Offer-62-圆圈中最后剩下的数字" class="headerlink" title="剑指 Offer 62. 圆圈中最后剩下的数字"></a><a href="https://leetcode-cn.com/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/">剑指 Offer 62. 圆圈中最后剩下的数字</a></h4>]]></content>
       <categories>
         <category>Code_Algo</category>
       </categories>
@@ -262,6 +268,19 @@ M = \left[ \begin{matrix} 1 & 1 \\ 1 & 0 \end{matrix} \right]</script><figure cl
       </categories>
       <tags>
         <tag>CS_OP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>约瑟夫环</title>
+    <url>/2022/05/25/Algorithm/%E7%BA%A6%E7%91%9F%E5%A4%AB%E7%8E%AF/</url>
+    <content><![CDATA[<h1 id="约瑟夫环"><a href="#约瑟夫环" class="headerlink" title="约瑟夫环"></a>约瑟夫环</h1><p>参见：</p>
+<p> <a href="https://leetcode-cn.com/problems/find-the-winner-of-the-circular-game/">1823. 找出游戏的获胜者</a></p>
+<h4 id="剑指-Offer-62-圆圈中最后剩下的数字"><a href="#剑指-Offer-62-圆圈中最后剩下的数字" class="headerlink" title="剑指 Offer 62. 圆圈中最后剩下的数字"></a><a href="https://leetcode-cn.com/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/">剑指 Offer 62. 圆圈中最后剩下的数字</a></h4>]]></content>
+      <categories>
+        <category>Code_Algo</category>
+      </categories>
+      <tags>
+        <tag>Math</tag>
       </tags>
   </entry>
   <entry>
@@ -417,6 +436,226 @@ or\\
       </tags>
   </entry>
   <entry>
+    <title>网安学习-D-3-批处理，脚本，过时小病毒</title>
+    <url>/2022/05/27/CS/%E7%BD%91%E5%AE%89%E5%AD%A6%E4%B9%A0-D-3-%E6%89%B9%E5%A4%84%E7%90%86%EF%BC%8C%E8%84%9A%E6%9C%AC%EF%BC%8C%E8%BF%87%E6%97%B6%E5%B0%8F%E7%97%85%E6%AF%92/</url>
+    <content><![CDATA[<p>环境：win2003 虚拟机</p>
+<p>只做简单了解，并不深究…</p>
+<h2 id="批处理"><a href="#批处理" class="headerlink" title="批处理"></a>批处理</h2><p>建一个 txt 文件，后缀名改成 bat 变成批处理文件</p>
+<p>使用的是 <a href="https://www.jianshu.com/p/02f6fe974cfd">DOS 命令语法</a> </p>
+<p><strong>发布博客的批处理文件</strong></p>
+<p>我自己的：</p>
+<ol>
+<li>push</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">d:</span><br><span class="line"><span class="built_in">cd</span> D:\Docc\GitBlog</span><br><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure>
+<ol>
+<li>check</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">d:</span><br><span class="line"><span class="built_in">cd</span> D:\Docc\GitBlog</span><br><span class="line">start <span class="string">&quot;C:\Program Files\Google\Chrome\Application&quot;</span> http://localhost:4000/</span><br><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo s</span><br></pre></td></tr></table></figure>
+<p>3.NewBlog</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">d:</span><br><span class="line"><span class="built_in">cd</span> D:\Docc\GitBlog</span><br><span class="line"><span class="built_in">set</span> /p title=Input_NewBlog`s title:</span><br><span class="line">hexo n %title%</span><br></pre></td></tr></table></figure>
+<p><strong>一个小例子</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">@echo off         </span><br><span class="line">color <span class="number">0</span>a             </span><br><span class="line">title 飞哥小程序v1<span class="number">.0</span> </span><br><span class="line"> </span><br><span class="line">:menu</span><br><span class="line">cls</span><br><span class="line">echo ==========================</span><br><span class="line">echo               菜单</span><br><span class="line">echo         <span class="number">1</span>、修改管理员密码</span><br><span class="line">echo         <span class="number">2</span>、定时关机</span><br><span class="line">echo         <span class="number">3</span>、退出本程序</span><br><span class="line">echo ===========================</span><br><span class="line"> </span><br><span class="line"><span class="built_in">set</span> /p num=您的选择是：   </span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%num%&quot;</span>==<span class="string">&quot;1&quot;</span> <span class="keyword">goto</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%num%&quot;</span>==<span class="string">&quot;2&quot;</span> <span class="keyword">goto</span> <span class="number">2</span></span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%num%&quot;</span>==<span class="string">&quot;3&quot;</span> <span class="keyword">goto</span> <span class="number">3</span></span><br><span class="line">echo 被闹，好好输！</span><br><span class="line">pause	<span class="comment">//暂停</span></span><br><span class="line"><span class="keyword">goto</span> menu	<span class="comment">//跳转</span></span><br><span class="line"> </span><br><span class="line">:<span class="number">1</span></span><br><span class="line"><span class="built_in">set</span> /p u=请输入用户名:	<span class="comment">//set /p 等待变量输入 u 变量</span></span><br><span class="line"><span class="built_in">set</span> /p p=请输入新密码:</span><br><span class="line">net user %u% %p%   &gt;nul		<span class="comment">// &gt;nul 清楚命令执行后系统反馈</span></span><br><span class="line">echo 您的密码已经设置成功!</span><br><span class="line">pause</span><br><span class="line"><span class="keyword">goto</span> menu</span><br><span class="line"> </span><br><span class="line">:<span class="number">2</span></span><br><span class="line"><span class="built_in">set</span> /p time=请输入时间：</span><br><span class="line">shutdown -s -t %time%  </span><br><span class="line"><span class="built_in">set</span> /p x=是否取消（<span class="number">1</span>：是，<span class="number">0</span>：否）：</span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%x%&quot;</span>==<span class="string">&quot;1&quot;</span> shutdown -a</span><br><span class="line"><span class="keyword">goto</span> menu</span><br><span class="line">pause</span><br><span class="line"> </span><br><span class="line">:<span class="number">3</span></span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://ossimg.yzitc.com/2022/05/27/ff1fe64a50f38.png"></p>
+<h2 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h2><p>新建 txt 文件，后缀名改为 vbs（Microsoft <strong>Visual Basic Script</strong> Edition） 即为简单的脚本</p>
+<p>如：</p>
+<figure class="highlight vbscript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">do</span></span><br><span class="line"> msgbox <span class="string">&quot;I am a script!!&quot;</span></span><br><span class="line"><span class="keyword">loop</span></span><br></pre></td></tr></table></figure>
+<p>效果：(一直循环，关不掉，需要在任务管理器中找到进程 wscript.exe 强制关掉)</p>
+<p><img src="https://ossimg.yzitc.com/2022/05/27/80cf40b1595db.png"></p>
+<p>参考：</p>
+<p><a href="https://baike.baidu.com/item/vbs/1700748?fr=aladdin">vbs脚本语言</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/367897802">vbs基本语法1</a></p>
+<p><a href="https://blog.csdn.net/xiaozhi_95/article/details/81669270">vbs基本语法2</a></p>
+<h2 id="过时小病毒"><a href="#过时小病毒" class="headerlink" title="过时小病毒"></a>过时小病毒</h2><p>几个想法：</p>
+<ul>
+<li>添加 开机自启动项，无限弹窗</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line">title 系统垃圾清理</span><br><span class="line">color 2f</span><br><span class="line"><span class="built_in">echo</span> =======若杀毒软件恶意拦截，请选择【允许程序的所有操作】========</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span> :start&gt;c:\windows\windows.bat</span><br><span class="line"><span class="built_in">echo</span> start cmd&gt;&gt;c:\windows\windows.bat</span><br><span class="line"><span class="built_in">echo</span> goto start&gt;&gt;c:\windows\windows.bat</span><br><span class="line">copy c:\windows\windows.bat <span class="string">&quot;%USERPROFILE%&quot;</span>\AppData\Roaming\Microsoft\Windows\StartMenu\Programs\Startup\&quot; &gt;nul</span><br><span class="line"><span class="keyword">if</span> %errorlevel%==0 goto next </span><br><span class="line">copy c:\windows\windows.bat <span class="string">&quot;%USERPROFILE%\「开始」菜单\程序\启动&quot;</span> &gt;nul</span><br><span class="line"><span class="keyword">if</span> %errorlevel%==1 goto error</span><br><span class="line">:next</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 垃圾清理中，请不要关闭窗口======</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line">ping -n 5 127.0.0.1 &gt;nul</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 垃圾清理完毕，共清理垃圾500M===</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 建议立即重启电脑</span><br><span class="line">pause</span><br><span class="line">goto ex</span><br><span class="line"> </span><br><span class="line">:error</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 程序运行失败，请使用【管理员权限】重新运行！======</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line">pause</span><br><span class="line">goto ex</span><br><span class="line"> </span><br><span class="line">:ex</span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>杀死不能杀死的进程，导致蓝屏 （win2003）</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ntsd -c q -pn winlogon.ex</span><br></pre></td></tr></table></figure>
+<p>ntsd    ：杀死进程</p>
+<p>ntsd -c q -pn 进程名   ：强制杀死进程</p>
+<p>winlogon.exe    ：<a href="https://baike.baidu.com/item/winlogon/11002823?fromtitle=winlogon.exe&amp;fromid=8198444&amp;fr=aladdin">baike</a>    </p>
+<ul>
+<li>修改文件关联，使无法打开（前一章写过）</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">assoc.exe=txtfile</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>CS</category>
+      </categories>
+      <tags>
+        <tag>CS_OP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>网安学习-D-4-用户，组管理</title>
+    <url>/2022/05/29/CS/%E7%BD%91%E5%AE%89%E5%AD%A6%E4%B9%A0-D-4-%E7%94%A8%E6%88%B7%EF%BC%8C%E7%BB%84%E7%AE%A1%E7%90%86/</url>
+    <content><![CDATA[<h2 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h2><p>每个用户有自己唯一的 SID（安全标识符），window 系统，通过命令 ：<code>wmic useraccount get name,sid</code> 查看</p>
+<blockquote>
+<p>windows 管理员 administrator 的 UID 是 500，普通用户 1000 开始</p>
+<p>linux 管理员 root 的UID是 0 ，普通用户是1000开始</p>
+</blockquote>
+<p><img src="https://ossimg.yzitc.com/2022/05/29/15a458e7e437a.png"></p>
+<p>windows ，账号密码存储的位置 ：<code>C:\windows\system32\config\SAM</code> 如果通过一定办法拿到 SAM 文件，并暴力搜索可以获得账号密码。</p>
+<h3 id="插曲"><a href="#插曲" class="headerlink" title="插曲"></a>插曲</h3><p>0..0 本机尝试使用 mimikatz来读取SAM数据库，但win7虚拟机下无法下载 mimikatz，尝试使用 Vmware tools 但 win7 由于 认证问题无法安装，尝试办法 <a href="https://blog.csdn.net/teisite/article/details/117675403">解决VMware16在虚拟机Windows7下安装VMware tools问题</a> 未成功；尝试将搭建 win7 与 主机的 ftp 连接，传输 mimikatz 压缩包，待续…</p>
+<p>以上所需步骤：</p>
+<ol>
+<li>搭建主机与虚拟机（win7+）ftp连接；</li>
+<li>将 mimikatz 传输至虚拟机；</li>
+<li>使用 mimikatz 通过以下参考获取账户密码。</li>
+</ol>
+<p>参考：</p>
+<p><a href="https://blog.csdn.net/SHENNONGZHAIZHU/article/details/52435519">Windows中的SAM文件</a></p>
+<p><a href="https://blog.csdn.net/qq_41874930/article/details/108149449?ops_request_misc=&amp;request_id=&amp;biz_id=102&amp;utm_term=%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96%E5%88%B0%20SAM%20%E6%96%87%E4%BB%B6&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-0-108149449.142^v11^pc_search_result_control_group,157^v12^control&amp;spm=1018.2226.3001.4187">sam文件获取与解密</a></p>
+<p><a href="https://blog.csdn.net/xddtrue/article/details/116596500?spm=1001.2101.3001.6650.2&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-2-116596500-blog-52435519.pc_relevant_antiscanv3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-2-116596500-blog-52435519.pc_relevant_antiscanv3&amp;utm_relevant_index=5">通过SAM文件获取windows7密码</a></p>
+<blockquote>
+<p>system 系统账户，权限至高无上</p>
+<p>local services 本地服务账户 普通权限</p>
+<p>network services 网络服务账户 普通权限</p>
+</blockquote>
+<p>关于用户的一些简单 dos 命令：(切换到管理员用户下CMD)</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">net user</span><br><span class="line">net user 账户名 字符串   <span class="comment">#修改密码</span></span><br><span class="line">net user 账户名         <span class="comment">#查看账户信息</span></span><br><span class="line">net user 账户名 密码 /add  <span class="comment">#新建账户</span></span><br><span class="line">net user 账户名 /del  <span class="comment">#删除账户</span></span><br><span class="line">net user 账户名 /active:<span class="built_in">yes</span>/no  <span class="comment">#激活或禁用账户</span></span><br></pre></td></tr></table></figure>
+<h2 id="组"><a href="#组" class="headerlink" title="组"></a>组</h2><p>组的作用：简化权限赋予</p>
+<p>赋权限方式：</p>
+<p>1)用户 - 组-赋权限</p>
+<p>2)用户-赋权限</p>
+<p>内置组（系统自带组）</p>
+<p>内置组的权限已经被系统赋予</p>
+<blockquote>
+<p>administrators      #管理员组<br>guests             #来宾组<br>users              #普通用户组<br>network            #网络配置组<br>print              #打印机组<br>Remote Desktop     #远程桌面组</p>
+</blockquote>
+<p>简单的关于组的 dos 命令:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">net localgroup     <span class="comment">#查看组</span></span><br><span class="line">net localgroup 组名    <span class="comment">#查看组</span></span><br><span class="line">net localgroup 组名 /add     <span class="comment">#创建组</span></span><br><span class="line">net localgroup 组名 用户名 /add   <span class="comment">#添加组成员	(成员需要存在，net user new_user /add)</span></span><br><span class="line">net localgroup 组名 用户名 /del   <span class="comment">#删除组成员</span></span><br><span class="line">net localgroup 组名 /del       <span class="comment">#删除组</span></span><br></pre></td></tr></table></figure>
+<p>@@</p>
+<p>服务器远程管理</p>
+<p>图形化远程管理</p>
+<p>运行 ：“mstsc”</p>
+<p>telnet（命令行）\</p>
+<p>查看本地上所有开放的端口 cmd “netstat -an”</p>
+<p>telnet：23</p>
+<p>远程桌面协议RDP：3389</p>
+<p>@@</p>
+<p>//没做呢//</p>
+<h2 id="5-次-shift-的-win7-小漏洞"><a href="#5-次-shift-的-win7-小漏洞" class="headerlink" title="5 次 shift 的 win7 小漏洞"></a>5 次 shift 的 win7 小漏洞</h2><p>基本思路：</p>
+<p>在 win 7 登录界面按 5 次 shift 可以会启动 sethc 程序，尝试将该程序换成 cmd.exe 就可以使用命令更改用户密码。</p>
+<p>步骤：</p>
+<blockquote>
+<ol>
+<li>win 7 断电</li>
+<li>启动时进入系统修复界面（如果没出现修复选项，启动时按 F8）</li>
+<li>修复是出现系统还原选择取消，出现“无法修复”的弹窗时，点击查看问题详情会出现一个内部声明（该声明在系统磁盘内，是一个进入系统修改文件的口子。</li>
+<li>点进文档，另存为会出现文件目录，找到 <code>c:\windows\system32</code>目录，将 sethc 程序改名，cmd 程序复制改成 sethc。</li>
+<li>重启系统，在输密码界面再次 5 次 shift，就会启动 cmd（管理员） 而非 sethc，通过命令修改用户密码</li>
+</ol>
+</blockquote>
+]]></content>
+      <categories>
+        <category>CS</category>
+      </categories>
+      <tags>
+        <tag>CS_OP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LC 5.23 t.675 Cut Off Trees for Golf Event</title>
+    <url>/2022/05/25/Lc_daily/LC-5.23-t.675-Cut-Off-Trees-for-Golf-Event/</url>
+    <content><![CDATA[<h4 id="5-23-675-为高尔夫比赛砍树"><a href="#5-23-675-为高尔夫比赛砍树" class="headerlink" title="5.23  675. 为高尔夫比赛砍树"></a>5.23  <a href="https://leetcode.cn/problems/cut-off-trees-for-golf-event/">675. 为高尔夫比赛砍树</a></h4><p>难度：困难</p>
+<p>你被请来给一个要举办高尔夫比赛的树林砍树。树林由一个 <code>m x n</code> 的矩阵表示， 在这个矩阵中：</p>
+<ul>
+<li><code>0</code> 表示障碍，无法触碰</li>
+<li><code>1</code> 表示地面，可以行走</li>
+<li><code>比 1 大的数</code> 表示有树的单元格，可以行走，数值表示树的高度</li>
+</ul>
+<p>每一步，你都可以向上、下、左、右四个方向之一移动一个单位，如果你站的地方有一棵树，那么你可以决定是否要砍倒它。</p>
+<p>你需要按照树的高度从低向高砍掉所有的树，每砍过一颗树，该单元格的值变为 <code>1</code>（即变为地面）。</p>
+<p>你将从 <code>(0, 0)</code> 点开始工作，返回你砍完所有树需要走的最小步数。 如果你无法砍完所有的树，返回 <code>-1</code> 。</p>
+<p>可以保证的是，没有两棵树的高度是相同的，并且你至少需要砍倒一棵树。</p>
+<p><strong>示例 1：</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/11/26/trees1.jpg" alt="img"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：forest = [[1,2,3],[0,0,4],[7,6,5]]</span><br><span class="line">输出：6</span><br><span class="line">解释：沿着上面的路径，你可以用 6 步，按从最矮到最高的顺序砍掉这些树。</span><br></pre></td></tr></table></figure>
+<p><strong>示例 2：</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/11/26/trees2.jpg" alt="img"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：forest = [[1,2,3],[0,0,0],[7,6,5]]</span><br><span class="line">输出：-1</span><br><span class="line">解释：由于中间一行被障碍阻塞，无法访问最下面一行中的树。</span><br></pre></td></tr></table></figure>
+<p><strong>示例 3：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：forest = [[2,3,4],[0,0,5],[8,7,6]]</span><br><span class="line">输出：6</span><br><span class="line">解释：可以按与示例 1 相同的路径来砍掉所有的树。</span><br><span class="line">(0,0) 位置的树，可以直接砍去，不用算步数。</span><br></pre></td></tr></table></figure>
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>m == forest.length</code></li>
+<li><code>n == forest[i].length</code></li>
+<li><code>1 &lt;= m, n &lt;= 50</code></li>
+<li><code>0 &lt;= forest[i][j] &lt;= 109</code></li>
+</ul>
+<h5 id="思路1：排序＋广搜"><a href="#思路1：排序＋广搜" class="headerlink" title="思路1：排序＋广搜"></a>思路1：排序＋广搜</h5><blockquote>
+<p>类似 <a href="https://leetcode.cn/problems/pacific-atlantic-water-flow/">417. 太平洋大西洋水流问题</a> 都是四个方向的广搜，但限制条件不同</p>
+<p>先将需要砍掉的树按照树高度排序，需要记录坐标和高度 <code>(index_x,index_y,height)</code>，然后使用广度优先从四个方向搜索，搜索之前建立<code>visit[]</code>数组记录是否搜索过，可以先建立方向列表或直接遍历，原理是 <code>((x+1,y),(x-1,y),(x,y+1),(x,y-1))</code> 将满足限制条件的点再次入队。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">cutOffTree</span>(<span class="params">self, forest: <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]</span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line"></span><br><span class="line">        <span class="comment">#广度优先搜素</span></span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">bfs</span>(<span class="params">sx,sy,tx,ty</span>):</span><br><span class="line">            row = <span class="built_in">len</span>(forest)</span><br><span class="line">            col = <span class="built_in">len</span>(forest[<span class="number">0</span>])</span><br><span class="line">            queue = deque([(<span class="number">0</span>,sx,sy)])</span><br><span class="line">            visit = &#123;(sx,sy)&#125;</span><br><span class="line">            <span class="keyword">while</span> queue:</span><br><span class="line">                distance,x,y = queue.popleft()</span><br><span class="line">                <span class="keyword">if</span> x == tx <span class="keyword">and</span> y == ty:</span><br><span class="line">                    <span class="keyword">return</span> distance</span><br><span class="line">                <span class="keyword">for</span> nx,ny <span class="keyword">in</span> ((x+<span class="number">1</span>,y),(x-<span class="number">1</span>,y),(x,y+<span class="number">1</span>),(x,y-<span class="number">1</span>)):</span><br><span class="line">                    <span class="keyword">if</span> <span class="number">0</span>&lt;=nx&lt;row <span class="keyword">and</span> <span class="number">0</span>&lt;=ny&lt;col <span class="keyword">and</span> forest[nx][ny] <span class="keyword">and</span> (nx,ny) <span class="keyword">not</span> <span class="keyword">in</span> visit:</span><br><span class="line">                        visit.add((nx,ny))</span><br><span class="line">                        queue.append((distance+<span class="number">1</span>,nx,ny))</span><br><span class="line">                    <span class="comment">#print(&quot;queue:&quot;,queue)</span></span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">#按照树的高度排序(indx_x,indx_y,height)</span></span><br><span class="line">        sort_trees = []</span><br><span class="line">        <span class="keyword">for</span> row,tree <span class="keyword">in</span> <span class="built_in">enumerate</span>(forest):</span><br><span class="line">            <span class="keyword">for</span> col,h <span class="keyword">in</span> <span class="built_in">enumerate</span>(tree):</span><br><span class="line">                <span class="keyword">if</span> h &gt; <span class="number">1</span>:</span><br><span class="line">                    sort_trees.append((row,col,h))</span><br><span class="line">        sort_trees = <span class="built_in">sorted</span>(sort_trees,key = <span class="keyword">lambda</span> x : x[<span class="number">2</span>])</span><br><span class="line">        <span class="built_in">print</span>(sort_trees)</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line">        res = pre_x = pre_y = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> x,y,h <span class="keyword">in</span> sort_trees:</span><br><span class="line">            d = bfs(pre_x,pre_y,x,y)</span><br><span class="line">            <span class="keyword">if</span> d &lt; <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line">            res += d</span><br><span class="line">            pre_x,pre_y = x,y</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+<h5 id="矩阵类-BFS-的-demo"><a href="#矩阵类-BFS-的-demo" class="headerlink" title="矩阵类 BFS 的 demo"></a>矩阵类 BFS 的 demo</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">BFS</span>(<span class="params">sorce_val,target_val</span>):</span><br><span class="line">    row = <span class="built_in">len</span>(Matrix)</span><br><span class="line">    col = <span class="built_in">len</span>(Matrix[<span class="number">0</span>])</span><br><span class="line">    queue = deque([(need_val,indexs)])</span><br><span class="line">    visit = &#123;(pointer_index)&#125;</span><br><span class="line">    <span class="keyword">while</span> queue:</span><br><span class="line">        <span class="comment">#Limit the values stored in the queue based on conditions</span></span><br><span class="line">        need_val,indexs = queue.popleft()	</span><br><span class="line">        <span class="keyword">if</span> get_the_target_pointer:</span><br><span class="line">            <span class="comment">#conditions of return</span></span><br><span class="line">            <span class="keyword">return</span> need_val	</span><br><span class="line">        <span class="keyword">for</span> next_pointer <span class="keyword">in</span> all_directions:</span><br><span class="line">        <span class="comment">#eg: for nx,ny in ((x+1,y),(x-1,y),(x,y+1),(x,y-1)):</span></span><br><span class="line">        	<span class="comment">#search in all directions</span></span><br><span class="line">            <span class="keyword">if</span> fulfillment_of_conditions:</span><br><span class="line">            <span class="comment">#eg: if 0&lt;=nx&lt;row and 0&lt;=ny&lt;col and forest[nx][ny] and (nx,ny) not in visit:</span></span><br><span class="line">            	<span class="comment">#**Judgment Conditions**</span></span><br><span class="line">                visit.add((next_pointer))</span><br><span class="line">                queue.append((changed_need_val,indexs))</span><br><span class="line">    <span class="keyword">return</span> situation_of_ERR_or_boundary</span><br></pre></td></tr></table></figure>
+<h5 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h5><p>还可以用 Dijkstra 和 A*启发式算法求解，待续…</p>
+]]></content>
+      <categories>
+        <category>LeetCode_daily</category>
+      </categories>
+      <tags>
+        <tag>BFS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LC 5.24 t.965. Univalued Binary Tree</title>
+    <url>/2022/05/25/Lc_daily/LC-5.24-t.965.-Univalued-Binary-Tree/</url>
+    <content><![CDATA[<h4 id="965-单值二叉树"><a href="#965-单值二叉树" class="headerlink" title="965. 单值二叉树"></a><a href="https://leetcode.cn/problems/univalued-binary-tree/">965. 单值二叉树</a></h4><p>难度：简单</p>
+<p>如果二叉树每个节点都具有相同的值，那么该二叉树就是<em>单值</em>二叉树。</p>
+<p>只有给定的树是单值二叉树时，才返回 <code>true</code>；否则返回 <code>false</code>。</p>
+<p><strong>示例 1：</strong></p>
+<p><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/29/screen-shot-2018-12-25-at-50104-pm.png" alt="img"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：[1,1,1,1,1,null,1]</span><br><span class="line">输出：true</span><br></pre></td></tr></table></figure>
+<p><strong>示例 2：</strong></p>
+<p><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/29/screen-shot-2018-12-25-at-50050-pm.png" alt="img"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：[2,2,2,5,2]</span><br><span class="line">输出：false</span><br></pre></td></tr></table></figure>
+<p><strong>提示：</strong></p>
+<ol>
+<li>给定树的节点数范围是 <code>[1, 100]</code>。</li>
+<li>每个节点的值都是整数，范围为 <code>[0, 99]</code> 。</li>
+</ol>
+<h5 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h5><ol>
+<li><p>深度优先，在判断到不等值时返回 False，一直相等，到遍历完返回 True</p>
+</li>
+<li><p>使用集合，无论采取哪种遍历方式，将所有值加入集合，并在最后判断集合的长度是否为 1 即可</p>
+</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"># class TreeNode:</span></span><br><span class="line"><span class="comment">#     def __init__(self, val=0, left=None, right=None):</span></span><br><span class="line"><span class="comment">#         self.val = val</span></span><br><span class="line"><span class="comment">#         self.left = left</span></span><br><span class="line"><span class="comment">#         self.right = right</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">isUnivalTree</span>(<span class="params">self, root: TreeNode</span>) -&gt; <span class="built_in">bool</span>:</span><br><span class="line">        <span class="comment">#3 traverse</span></span><br><span class="line">        ttval = <span class="built_in">set</span>()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">preorder</span>(<span class="params">root</span>):</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> root:</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            ttval.add(root.val)</span><br><span class="line">            preorder(root.left)</span><br><span class="line">            preorder(root.right)</span><br><span class="line"></span><br><span class="line">        preorder(root)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(ttval) == <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">        #DFS</span></span><br><span class="line"><span class="string">        if not root:</span></span><br><span class="line"><span class="string">            return True</span></span><br><span class="line"><span class="string">        if root.left:</span></span><br><span class="line"><span class="string">            if root.val != root.left.val or not self.isUnivalTree(root.left):</span></span><br><span class="line"><span class="string">                return False</span></span><br><span class="line"><span class="string">        if root.right:</span></span><br><span class="line"><span class="string">            if root.val != root.right.val or not self.isUnivalTree(root.right):</span></span><br><span class="line"><span class="string">                return False</span></span><br><span class="line"><span class="string">        return True</span></span><br><span class="line"><span class="string">        &#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+<h5 id="前中后序遍历的-demo"><a href="#前中后序遍历的-demo" class="headerlink" title="前中后序遍历的 demo"></a>前中后序遍历的 demo</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">order</span>(<span class="params">root</span>):</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> root:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    <span class="comment">#preorder(root)</span></span><br><span class="line">    order(root.left)</span><br><span class="line">    <span class="comment">#inorder(root)</span></span><br><span class="line">    order(root.right)</span><br><span class="line">    <span class="comment">#postorder(root)</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>LeetCode_daily</category>
+      </categories>
+      <tags>
+        <tag>DFS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Diffusion Basic</title>
+    <url>/2022/05/26/Cryptanalysis/Basic-Diffusion/</url>
+    <content><![CDATA[<p>香农提出了密码设计的两种基本方法即 混淆和扩散。</p>
+<p>分组密码系统包括 线性部分 和 非线性部分，其对应功能分别是 扩散和混淆。</p>
+<p>扩散性往往由线性函数提供，如 rotation ，shift ，或更复杂的 MDS matrix（但其本质也是 rotation and shift）。</p>
+<p>在研究扩散性时，如果往其最基本单元考虑：</p>
+<p>线性运算时一般是 位切片操作，即对每一个 bit 进行运算。那么总体来看就是一个面向 GPU 友好型的 <a href="https://baike.baidu.com/item/%E5%8D%95%E6%8C%87%E4%BB%A4%E6%B5%81%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%B5%81/257612">SIMD</a> 操作 ，对一个 bit 的操作不会影响到其他 bits，显然这是不能够满足扩散性的，那么就需要一些 rotation，shift… 来将 bit 打散，使其能够更多的参与到非线性运算。</p>
+<p>由于 扩散主要是用来使用明文和密文的关系变得尽可能的复杂，明文中任何一点小更动都会使得密文有很大的差异，即达到雪崩效应。</p>
+<blockquote>
+<p>雪崩效应：对于密码而言，要求输入位的 1 bit 变化导致每个输出位 bit 有 50% 的概率发生反转</p>
+</blockquote>
+<p><a href="https://crypto.stackexchange.com/questions/19000/shannon-confusion-and-diffusion-concept/44659#44659">The job of the linear diffusion layer is to ensure that each successive input to the non-linear function consists of a balanced and maximum number of super-positioned input bits.</a></p>
+<p>而验证扩散性是否能够尽可能地达到使密码系统安全的办法，除建立相关性方程，利用如 Mathmatica 等工具来搜索之外，可能还需要考虑由于扩散不全而造成的分支代数次数低，差分线性分析等等。</p>
+]]></content>
+      <tags>
+        <tag>Crypto</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>MITM AttacK</title>
     <url>/2022/05/27/Cryptanalysis/About%20MITM%20and%20variants/</url>
     <content><![CDATA[<h1 id="Classical-MITM"><a href="#Classical-MITM" class="headerlink" title="Classical MITM"></a>Classical MITM</h1><p>在 Hellman 的文章<a href="https://www.computer.org/csdl/magazine/co/1977/06/01646525/13rRUwInvDu">Special Feature Exhaustive Cryptanalysis of the NBS Data Encryption Standard</a>中给出了中间相遇攻击的基本概念。</p>
@@ -537,149 +776,6 @@ D_n = \max (N,\lceil(R \cdot \ell-N \cdot s) / n\rceil)</script>]]></content>
       <categories>
         <category>Cryptanalysis</category>
       </categories>
-      <tags>
-        <tag>Crypto</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>网安学习-D-4-用户，组管理</title>
-    <url>/2022/05/29/CS/%E7%BD%91%E5%AE%89%E5%AD%A6%E4%B9%A0-D-4-%E7%94%A8%E6%88%B7%EF%BC%8C%E7%BB%84%E7%AE%A1%E7%90%86/</url>
-    <content><![CDATA[<h2 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h2><p>每个用户有自己唯一的 SID（安全标识符），window 系统，通过命令 ：<code>wmic useraccount get name,sid</code> 查看</p>
-<blockquote>
-<p>windows 管理员 administrator 的 UID 是 500，普通用户 1000 开始</p>
-<p>linux 管理员 root 的UID是 0 ，普通用户是1000开始</p>
-</blockquote>
-<p><img src="https://ossimg.yzitc.com/2022/05/29/15a458e7e437a.png"></p>
-<p>windows ，账号密码存储的位置 ：<code>C:\windows\system32\config\SAM</code> 如果通过一定办法拿到 SAM 文件，并暴力搜索可以获得账号密码。</p>
-<h3 id="插曲"><a href="#插曲" class="headerlink" title="插曲"></a>插曲</h3><p>0..0 本机尝试使用 mimikatz来读取SAM数据库，但win7虚拟机下无法下载 mimikatz，尝试使用 Vmware tools 但 win7 由于 认证问题无法安装，尝试办法 <a href="https://blog.csdn.net/teisite/article/details/117675403">解决VMware16在虚拟机Windows7下安装VMware tools问题</a> 未成功；尝试将搭建 win7 与 主机的 ftp 连接，传输 mimikatz 压缩包，待续…</p>
-<p>以上所需步骤：</p>
-<ol>
-<li>搭建主机与虚拟机（win7+）ftp连接；</li>
-<li>将 mimikatz 传输至虚拟机；</li>
-<li>使用 mimikatz 通过以下参考获取账户密码。</li>
-</ol>
-<p>参考：</p>
-<p><a href="https://blog.csdn.net/SHENNONGZHAIZHU/article/details/52435519">Windows中的SAM文件</a></p>
-<p><a href="https://blog.csdn.net/qq_41874930/article/details/108149449?ops_request_misc=&amp;request_id=&amp;biz_id=102&amp;utm_term=%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96%E5%88%B0%20SAM%20%E6%96%87%E4%BB%B6&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-0-108149449.142^v11^pc_search_result_control_group,157^v12^control&amp;spm=1018.2226.3001.4187">sam文件获取与解密</a></p>
-<p><a href="https://blog.csdn.net/xddtrue/article/details/116596500?spm=1001.2101.3001.6650.2&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-2-116596500-blog-52435519.pc_relevant_antiscanv3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-2-116596500-blog-52435519.pc_relevant_antiscanv3&amp;utm_relevant_index=5">通过SAM文件获取windows7密码</a></p>
-<blockquote>
-<p>system 系统账户，权限至高无上</p>
-<p>local services 本地服务账户 普通权限</p>
-<p>network services 网络服务账户 普通权限</p>
-</blockquote>
-<p>关于用户的一些简单 dos 命令：(切换到管理员用户下CMD)</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">net user</span><br><span class="line">net user 账户名 字符串   <span class="comment">#修改密码</span></span><br><span class="line">net user 账户名         <span class="comment">#查看账户信息</span></span><br><span class="line">net user 账户名 密码 /add  <span class="comment">#新建账户</span></span><br><span class="line">net user 账户名 /del  <span class="comment">#删除账户</span></span><br><span class="line">net user 账户名 /active:<span class="built_in">yes</span>/no  <span class="comment">#激活或禁用账户</span></span><br></pre></td></tr></table></figure>
-<h2 id="组"><a href="#组" class="headerlink" title="组"></a>组</h2><p>组的作用：简化权限赋予</p>
-<p>赋权限方式：</p>
-<p>1)用户 - 组-赋权限</p>
-<p>2)用户-赋权限</p>
-<p>内置组（系统自带组）</p>
-<p>内置组的权限已经被系统赋予</p>
-<blockquote>
-<p>administrators      #管理员组<br>guests             #来宾组<br>users              #普通用户组<br>network            #网络配置组<br>print              #打印机组<br>Remote Desktop     #远程桌面组</p>
-</blockquote>
-<p>简单的关于组的 dos 命令:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">net localgroup     <span class="comment">#查看组</span></span><br><span class="line">net localgroup 组名    <span class="comment">#查看组</span></span><br><span class="line">net localgroup 组名 /add     <span class="comment">#创建组</span></span><br><span class="line">net localgroup 组名 用户名 /add   <span class="comment">#添加组成员	(成员需要存在，net user new_user /add)</span></span><br><span class="line">net localgroup 组名 用户名 /del   <span class="comment">#删除组成员</span></span><br><span class="line">net localgroup 组名 /del       <span class="comment">#删除组</span></span><br></pre></td></tr></table></figure>
-<p>@@</p>
-<p>服务器远程管理</p>
-<p>图形化远程管理</p>
-<p>运行 ：“mstsc”</p>
-<p>telnet（命令行）\</p>
-<p>查看本地上所有开放的端口 cmd “netstat -an”</p>
-<p>telnet：23</p>
-<p>远程桌面协议RDP：3389</p>
-<p>@@</p>
-<p>//没做呢//</p>
-<h2 id="5-次-shift-的-win7-小漏洞"><a href="#5-次-shift-的-win7-小漏洞" class="headerlink" title="5 次 shift 的 win7 小漏洞"></a>5 次 shift 的 win7 小漏洞</h2><p>基本思路：</p>
-<p>在 win 7 登录界面按 5 次 shift 可以会启动 sethc 程序，尝试将该程序换成 cmd.exe 就可以使用命令更改用户密码。</p>
-<p>步骤：</p>
-<blockquote>
-<ol>
-<li>win 7 断电</li>
-<li>启动时进入系统修复界面（如果没出现修复选项，启动时按 F8）</li>
-<li>修复是出现系统还原选择取消，出现“无法修复”的弹窗时，点击查看问题详情会出现一个内部声明（该声明在系统磁盘内，是一个进入系统修改文件的口子。</li>
-<li>点进文档，另存为会出现文件目录，找到 <code>c:\windows\system32</code>目录，将 sethc 程序改名，cmd 程序复制改成 sethc。</li>
-<li>重启系统，在输密码界面再次 5 次 shift，就会启动 cmd（管理员） 而非 sethc，通过命令修改用户密码</li>
-</ol>
-</blockquote>
-]]></content>
-      <categories>
-        <category>CS</category>
-      </categories>
-      <tags>
-        <tag>CS_OP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>网安学习-D-3-批处理，脚本，过时小病毒</title>
-    <url>/2022/05/27/CS/%E7%BD%91%E5%AE%89%E5%AD%A6%E4%B9%A0-D-3-%E6%89%B9%E5%A4%84%E7%90%86%EF%BC%8C%E8%84%9A%E6%9C%AC%EF%BC%8C%E8%BF%87%E6%97%B6%E5%B0%8F%E7%97%85%E6%AF%92/</url>
-    <content><![CDATA[<p>环境：win2003 虚拟机</p>
-<p>只做简单了解，并不深究…</p>
-<h2 id="批处理"><a href="#批处理" class="headerlink" title="批处理"></a>批处理</h2><p>建一个 txt 文件，后缀名改成 bat 变成批处理文件</p>
-<p>使用的是 <a href="https://www.jianshu.com/p/02f6fe974cfd">DOS 命令语法</a> </p>
-<p><strong>发布博客的批处理文件</strong></p>
-<p>我自己的：</p>
-<ol>
-<li>push</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">d:</span><br><span class="line"><span class="built_in">cd</span> D:\Docc\GitBlog</span><br><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure>
-<ol>
-<li>check</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">d:</span><br><span class="line"><span class="built_in">cd</span> D:\Docc\GitBlog</span><br><span class="line">start <span class="string">&quot;C:\Program Files\Google\Chrome\Application&quot;</span> http://localhost:4000/</span><br><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo s</span><br></pre></td></tr></table></figure>
-<p>3.NewBlog</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">d:</span><br><span class="line"><span class="built_in">cd</span> D:\Docc\GitBlog</span><br><span class="line"><span class="built_in">set</span> /p title=Input_NewBlog`s title:</span><br><span class="line">hexo n %title%</span><br></pre></td></tr></table></figure>
-<p><strong>一个小例子</strong></p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">@echo off         </span><br><span class="line">color <span class="number">0</span>a             </span><br><span class="line">title 飞哥小程序v1<span class="number">.0</span> </span><br><span class="line"> </span><br><span class="line">:menu</span><br><span class="line">cls</span><br><span class="line">echo ==========================</span><br><span class="line">echo               菜单</span><br><span class="line">echo         <span class="number">1</span>、修改管理员密码</span><br><span class="line">echo         <span class="number">2</span>、定时关机</span><br><span class="line">echo         <span class="number">3</span>、退出本程序</span><br><span class="line">echo ===========================</span><br><span class="line"> </span><br><span class="line"><span class="built_in">set</span> /p num=您的选择是：   </span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%num%&quot;</span>==<span class="string">&quot;1&quot;</span> <span class="keyword">goto</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%num%&quot;</span>==<span class="string">&quot;2&quot;</span> <span class="keyword">goto</span> <span class="number">2</span></span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%num%&quot;</span>==<span class="string">&quot;3&quot;</span> <span class="keyword">goto</span> <span class="number">3</span></span><br><span class="line">echo 被闹，好好输！</span><br><span class="line">pause	<span class="comment">//暂停</span></span><br><span class="line"><span class="keyword">goto</span> menu	<span class="comment">//跳转</span></span><br><span class="line"> </span><br><span class="line">:<span class="number">1</span></span><br><span class="line"><span class="built_in">set</span> /p u=请输入用户名:	<span class="comment">//set /p 等待变量输入 u 变量</span></span><br><span class="line"><span class="built_in">set</span> /p p=请输入新密码:</span><br><span class="line">net user %u% %p%   &gt;nul		<span class="comment">// &gt;nul 清楚命令执行后系统反馈</span></span><br><span class="line">echo 您的密码已经设置成功!</span><br><span class="line">pause</span><br><span class="line"><span class="keyword">goto</span> menu</span><br><span class="line"> </span><br><span class="line">:<span class="number">2</span></span><br><span class="line"><span class="built_in">set</span> /p time=请输入时间：</span><br><span class="line">shutdown -s -t %time%  </span><br><span class="line"><span class="built_in">set</span> /p x=是否取消（<span class="number">1</span>：是，<span class="number">0</span>：否）：</span><br><span class="line"><span class="keyword">if</span> <span class="string">&quot;%x%&quot;</span>==<span class="string">&quot;1&quot;</span> shutdown -a</span><br><span class="line"><span class="keyword">goto</span> menu</span><br><span class="line">pause</span><br><span class="line"> </span><br><span class="line">:<span class="number">3</span></span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
-<p><img src="https://ossimg.yzitc.com/2022/05/27/ff1fe64a50f38.png"></p>
-<h2 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h2><p>新建 txt 文件，后缀名改为 vbs（Microsoft <strong>Visual Basic Script</strong> Edition） 即为简单的脚本</p>
-<p>如：</p>
-<figure class="highlight vbscript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">do</span></span><br><span class="line"> msgbox <span class="string">&quot;I am a script!!&quot;</span></span><br><span class="line"><span class="keyword">loop</span></span><br></pre></td></tr></table></figure>
-<p>效果：(一直循环，关不掉，需要在任务管理器中找到进程 wscript.exe 强制关掉)</p>
-<p><img src="https://ossimg.yzitc.com/2022/05/27/80cf40b1595db.png"></p>
-<p>参考：</p>
-<p><a href="https://baike.baidu.com/item/vbs/1700748?fr=aladdin">vbs脚本语言</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/367897802">vbs基本语法1</a></p>
-<p><a href="https://blog.csdn.net/xiaozhi_95/article/details/81669270">vbs基本语法2</a></p>
-<h2 id="过时小病毒"><a href="#过时小病毒" class="headerlink" title="过时小病毒"></a>过时小病毒</h2><p>几个想法：</p>
-<ul>
-<li>添加 开机自启动项，无限弹窗</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line">title 系统垃圾清理</span><br><span class="line">color 2f</span><br><span class="line"><span class="built_in">echo</span> =======若杀毒软件恶意拦截，请选择【允许程序的所有操作】========</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span> :start&gt;c:\windows\windows.bat</span><br><span class="line"><span class="built_in">echo</span> start cmd&gt;&gt;c:\windows\windows.bat</span><br><span class="line"><span class="built_in">echo</span> goto start&gt;&gt;c:\windows\windows.bat</span><br><span class="line">copy c:\windows\windows.bat <span class="string">&quot;%USERPROFILE%&quot;</span>\AppData\Roaming\Microsoft\Windows\StartMenu\Programs\Startup\&quot; &gt;nul</span><br><span class="line"><span class="keyword">if</span> %errorlevel%==0 goto next </span><br><span class="line">copy c:\windows\windows.bat <span class="string">&quot;%USERPROFILE%\「开始」菜单\程序\启动&quot;</span> &gt;nul</span><br><span class="line"><span class="keyword">if</span> %errorlevel%==1 goto error</span><br><span class="line">:next</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 垃圾清理中，请不要关闭窗口======</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line">ping -n 5 127.0.0.1 &gt;nul</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 垃圾清理完毕，共清理垃圾500M===</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 建议立即重启电脑</span><br><span class="line">pause</span><br><span class="line">goto ex</span><br><span class="line"> </span><br><span class="line">:error</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line"><span class="built_in">echo</span>   ====== 程序运行失败，请使用【管理员权限】重新运行！======</span><br><span class="line"><span class="built_in">echo</span>.</span><br><span class="line">pause</span><br><span class="line">goto ex</span><br><span class="line"> </span><br><span class="line">:ex</span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>杀死不能杀死的进程，导致蓝屏 （win2003）</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ntsd -c q -pn winlogon.ex</span><br></pre></td></tr></table></figure>
-<p>ntsd    ：杀死进程</p>
-<p>ntsd -c q -pn 进程名   ：强制杀死进程</p>
-<p>winlogon.exe    ：<a href="https://baike.baidu.com/item/winlogon/11002823?fromtitle=winlogon.exe&amp;fromid=8198444&amp;fr=aladdin">baike</a>    </p>
-<ul>
-<li>修改文件关联，使无法打开（前一章写过）</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">assoc.exe=txtfile</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>CS</category>
-      </categories>
-      <tags>
-        <tag>CS_OP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Diffusion Basic</title>
-    <url>/2022/05/26/Cryptanalysis/Basic-Diffusion/</url>
-    <content><![CDATA[<p>香农提出了密码设计的两种基本方法即 混淆和扩散。</p>
-<p>分组密码系统包括 线性部分 和 非线性部分，其对应功能分别是 扩散和混淆。</p>
-<p>扩散性往往由线性函数提供，如 rotation ，shift ，或更复杂的 MDS matrix（但其本质也是 rotation and shift）。</p>
-<p>在研究扩散性时，如果往其最基本单元考虑：</p>
-<p>线性运算时一般是 位切片操作，即对每一个 bit 进行运算。那么总体来看就是一个面向 GPU 友好型的 <a href="https://baike.baidu.com/item/%E5%8D%95%E6%8C%87%E4%BB%A4%E6%B5%81%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%B5%81/257612">SIMD</a> 操作 ，对一个 bit 的操作不会影响到其他 bits，显然这是不能够满足扩散性的，那么就需要一些 rotation，shift… 来将 bit 打散，使其能够更多的参与到非线性运算。</p>
-<p>由于 扩散主要是用来使用明文和密文的关系变得尽可能的复杂，明文中任何一点小更动都会使得密文有很大的差异，即达到雪崩效应。</p>
-<blockquote>
-<p>雪崩效应：对于密码而言，要求输入位的 1 bit 变化导致每个输出位 bit 有 50% 的概率发生反转</p>
-</blockquote>
-<p><a href="https://crypto.stackexchange.com/questions/19000/shannon-confusion-and-diffusion-concept/44659#44659">The job of the linear diffusion layer is to ensure that each successive input to the non-linear function consists of a balanced and maximum number of super-positioned input bits.</a></p>
-<p>而验证扩散性是否能够尽可能地达到使密码系统安全的办法，除建立相关性方程，利用如 Mathmatica 等工具来搜索之外，可能还需要考虑由于扩散不全而造成的分支代数次数低，差分线性分析等等。</p>
-]]></content>
       <tags>
         <tag>Crypto</tag>
       </tags>
@@ -1011,24 +1107,9 @@ The\;end</script>]]></content>
       </tags>
   </entry>
   <entry>
-    <title>Gurobi_1_ex_mip1</title>
-    <url>/2022/05/30/Gurobi/Gurobi-1-ex-mip1/</url>
-    <content><![CDATA[<h1 id="ex-mip1"><a href="#ex-mip1" class="headerlink" title="ex_mip1"></a>ex_mip1</h1><h2 id="求解问题"><a href="#求解问题" class="headerlink" title="求解问题"></a>求解问题</h2><script type="math/tex; mode=display">
-\begin{array}{cl}
-\max & x+y+2 z \\
-\text { s.t. } & x+2 y+3 z \leq 4 \\
-& x+y \geq 1 \\
-& x, y, z \in\{0,1\}
-\end{array}</script><h2 id="代码解释"><a href="#代码解释" class="headerlink" title="代码解释"></a>代码解释</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> gurobipy</span><br><span class="line"><span class="keyword">from</span> gurobipy <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="comment">#需要对出错情况进行反馈，所以用 try</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#建一个模型</span></span><br><span class="line">    m = gurobipy.Model(<span class="string">&quot;mip1&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Model=&#x27;</span>,m)   <span class="comment">#Model= &lt;gurobi.Model Continuous instance mip1: 0 constrs, 0 vars, No parameter changes&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#定义变量</span></span><br><span class="line">    x = m.addVar(vtype=GRB.BINARY, name=<span class="string">&quot;x&quot;</span>)</span><br><span class="line">    y = m.addVar(vtype=GRB.BINARY, name=<span class="string">&quot;y&quot;</span>)</span><br><span class="line">    z = m.addVar(vtype=GRB.BINARY, name=<span class="string">&quot;z&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#目标函数</span></span><br><span class="line">    m.setObjective(x+y+<span class="number">2</span>*z, GRB.MAXIMIZE)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#约束条件</span></span><br><span class="line">    m.addConstr(x+<span class="number">2</span>*y+<span class="number">3</span>*z &lt;= <span class="number">4</span>, <span class="string">&#x27;c0&#x27;</span>)</span><br><span class="line">    m.addConstr(x+y &gt;= <span class="number">1</span>, <span class="string">&#x27;c1&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#优化模型</span></span><br><span class="line">    m.optimize()</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;new_Model=&#x27;</span>, m)  <span class="comment">#new_Model= &lt;gurobi.Model MIP instance mip1: 2 constrs, 3 vars, No parameter changes&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> v <span class="keyword">in</span> m.getVars():</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;%s %g&#x27;</span> % (v.VarName, v.X))</span><br><span class="line">    <span class="comment">#x 1</span></span><br><span class="line">    <span class="comment">#y 0</span></span><br><span class="line">    <span class="comment">#z 1</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Obj: %g&#x27;</span> % m.ObjVal) <span class="comment">#Obj: 3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">except</span> gurobipy.GurobiError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Error code &#x27;</span> + <span class="built_in">str</span>(e.errno) + <span class="string">&#x27;: &#x27;</span> + <span class="built_in">str</span>(e))</span><br><span class="line"></span><br><span class="line"><span class="keyword">except</span> AttributeError:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Encountered an attribute error&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>参考：</p>
-<p><a href="https://blog.csdn.net/WASEFADG/article/details/105261808">https://blog.csdn.net/WASEFADG/article/details/105261808</a></p>
-]]></content>
-      <categories>
-        <category>MILP_Learning</category>
-      </categories>
-      <tags>
-        <tag>Gurobi</tag>
-      </tags>
+    <title>有限域上的运算</title>
+    <url>/2022/05/27/Cryptanalysis/%E6%9C%89%E9%99%90%E5%9F%9F%E4%B8%8A%E7%9A%84%E8%BF%90%E7%AE%97/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>Shor`s Algorithm</title>
@@ -1312,25 +1393,6 @@ $$
       </tags>
   </entry>
   <entry>
-    <title>Gurobi-2-ex-diet</title>
-    <url>/2022/06/01/Gurobi/Gurobi-2-ex-diet/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>Gurobi_Outline</title>
-    <url>/2022/05/30/Gurobi/Gurobi_Outline/</url>
-    <content><![CDATA[<h1 id="Gurobi-建模的基本流程"><a href="#Gurobi-建模的基本流程" class="headerlink" title="Gurobi 建模的基本流程"></a>Gurobi 建模的基本流程</h1><p>这样定义会使整个模型易读</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">m = gurobipy.Model(<span class="string">&quot;Model_Name&quot;</span>)	<span class="comment">#模型</span></span><br><span class="line"></span><br><span class="line">var = m.addVar(vtype = var_type,name=<span class="string">&quot;var_name&quot;</span>)	<span class="comment">#增加变量</span></span><br><span class="line"><span class="comment">#...More vars</span></span><br><span class="line"></span><br><span class="line">m.setObject(objective_expression,objective_sense)	<span class="comment">#目标函数</span></span><br><span class="line"></span><br><span class="line">m.addConstr(constraint,constraint_name)	<span class="comment">#约束条件</span></span><br><span class="line"><span class="comment">#...More constraints</span></span><br><span class="line"></span><br><span class="line">m.optimize()	<span class="comment">#优化模型</span></span><br></pre></td></tr></table></figure>
-<p><img src="https://ossimg.yzitc.com/2022/05/30/930c4d13cf906.png"></p>
-]]></content>
-      <categories>
-        <category>MILP_Learning</category>
-      </categories>
-      <tags>
-        <tag>Gurobi</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linear Cryptanalysis</title>
     <url>/2022/05/25/Cryptanalysis/%E7%BA%BF%E6%80%A7%E5%88%86%E6%9E%90/</url>
     <content><![CDATA[<h1 id="线性分析"><a href="#线性分析" class="headerlink" title="线性分析"></a>线性分析</h1><h2 id="principle"><a href="#principle" class="headerlink" title="principle"></a>principle</h2><p>线性分析通过寻找明密文与密钥间的线性相关性，构造可能产生线性偏差的掩码（搜索）来构造尽量大的线性逼近，从而逐比特的获取密钥信息。</p>
@@ -1444,85 +1506,42 @@ i.e.\ \ \ \alpha \cdot c=\beta \cdot m \oplus \beta \cdot k\ \ where\ \alpha=(1,
       </tags>
   </entry>
   <entry>
-    <title>LC 5.23 t.675 Cut Off Trees for Golf Event</title>
-    <url>/2022/05/25/Lc_daily/LC-5.23-t.675-Cut-Off-Trees-for-Golf-Event/</url>
-    <content><![CDATA[<h4 id="5-23-675-为高尔夫比赛砍树"><a href="#5-23-675-为高尔夫比赛砍树" class="headerlink" title="5.23  675. 为高尔夫比赛砍树"></a>5.23  <a href="https://leetcode.cn/problems/cut-off-trees-for-golf-event/">675. 为高尔夫比赛砍树</a></h4><p>难度：困难</p>
-<p>你被请来给一个要举办高尔夫比赛的树林砍树。树林由一个 <code>m x n</code> 的矩阵表示， 在这个矩阵中：</p>
-<ul>
-<li><code>0</code> 表示障碍，无法触碰</li>
-<li><code>1</code> 表示地面，可以行走</li>
-<li><code>比 1 大的数</code> 表示有树的单元格，可以行走，数值表示树的高度</li>
-</ul>
-<p>每一步，你都可以向上、下、左、右四个方向之一移动一个单位，如果你站的地方有一棵树，那么你可以决定是否要砍倒它。</p>
-<p>你需要按照树的高度从低向高砍掉所有的树，每砍过一颗树，该单元格的值变为 <code>1</code>（即变为地面）。</p>
-<p>你将从 <code>(0, 0)</code> 点开始工作，返回你砍完所有树需要走的最小步数。 如果你无法砍完所有的树，返回 <code>-1</code> 。</p>
-<p>可以保证的是，没有两棵树的高度是相同的，并且你至少需要砍倒一棵树。</p>
-<p><strong>示例 1：</strong></p>
-<p><img src="https://assets.leetcode.com/uploads/2020/11/26/trees1.jpg" alt="img"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：forest = [[1,2,3],[0,0,4],[7,6,5]]</span><br><span class="line">输出：6</span><br><span class="line">解释：沿着上面的路径，你可以用 6 步，按从最矮到最高的顺序砍掉这些树。</span><br></pre></td></tr></table></figure>
-<p><strong>示例 2：</strong></p>
-<p><img src="https://assets.leetcode.com/uploads/2020/11/26/trees2.jpg" alt="img"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：forest = [[1,2,3],[0,0,0],[7,6,5]]</span><br><span class="line">输出：-1</span><br><span class="line">解释：由于中间一行被障碍阻塞，无法访问最下面一行中的树。</span><br></pre></td></tr></table></figure>
-<p><strong>示例 3：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：forest = [[2,3,4],[0,0,5],[8,7,6]]</span><br><span class="line">输出：6</span><br><span class="line">解释：可以按与示例 1 相同的路径来砍掉所有的树。</span><br><span class="line">(0,0) 位置的树，可以直接砍去，不用算步数。</span><br></pre></td></tr></table></figure>
-<p><strong>提示：</strong></p>
-<ul>
-<li><code>m == forest.length</code></li>
-<li><code>n == forest[i].length</code></li>
-<li><code>1 &lt;= m, n &lt;= 50</code></li>
-<li><code>0 &lt;= forest[i][j] &lt;= 109</code></li>
-</ul>
-<h5 id="思路1：排序＋广搜"><a href="#思路1：排序＋广搜" class="headerlink" title="思路1：排序＋广搜"></a>思路1：排序＋广搜</h5><blockquote>
-<p>类似 <a href="https://leetcode.cn/problems/pacific-atlantic-water-flow/">417. 太平洋大西洋水流问题</a> 都是四个方向的广搜，但限制条件不同</p>
-<p>先将需要砍掉的树按照树高度排序，需要记录坐标和高度 <code>(index_x,index_y,height)</code>，然后使用广度优先从四个方向搜索，搜索之前建立<code>visit[]</code>数组记录是否搜索过，可以先建立方向列表或直接遍历，原理是 <code>((x+1,y),(x-1,y),(x,y+1),(x,y-1))</code> 将满足限制条件的点再次入队。</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">cutOffTree</span>(<span class="params">self, forest: <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]</span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line"></span><br><span class="line">        <span class="comment">#广度优先搜素</span></span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">bfs</span>(<span class="params">sx,sy,tx,ty</span>):</span><br><span class="line">            row = <span class="built_in">len</span>(forest)</span><br><span class="line">            col = <span class="built_in">len</span>(forest[<span class="number">0</span>])</span><br><span class="line">            queue = deque([(<span class="number">0</span>,sx,sy)])</span><br><span class="line">            visit = &#123;(sx,sy)&#125;</span><br><span class="line">            <span class="keyword">while</span> queue:</span><br><span class="line">                distance,x,y = queue.popleft()</span><br><span class="line">                <span class="keyword">if</span> x == tx <span class="keyword">and</span> y == ty:</span><br><span class="line">                    <span class="keyword">return</span> distance</span><br><span class="line">                <span class="keyword">for</span> nx,ny <span class="keyword">in</span> ((x+<span class="number">1</span>,y),(x-<span class="number">1</span>,y),(x,y+<span class="number">1</span>),(x,y-<span class="number">1</span>)):</span><br><span class="line">                    <span class="keyword">if</span> <span class="number">0</span>&lt;=nx&lt;row <span class="keyword">and</span> <span class="number">0</span>&lt;=ny&lt;col <span class="keyword">and</span> forest[nx][ny] <span class="keyword">and</span> (nx,ny) <span class="keyword">not</span> <span class="keyword">in</span> visit:</span><br><span class="line">                        visit.add((nx,ny))</span><br><span class="line">                        queue.append((distance+<span class="number">1</span>,nx,ny))</span><br><span class="line">                    <span class="comment">#print(&quot;queue:&quot;,queue)</span></span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">#按照树的高度排序(indx_x,indx_y,height)</span></span><br><span class="line">        sort_trees = []</span><br><span class="line">        <span class="keyword">for</span> row,tree <span class="keyword">in</span> <span class="built_in">enumerate</span>(forest):</span><br><span class="line">            <span class="keyword">for</span> col,h <span class="keyword">in</span> <span class="built_in">enumerate</span>(tree):</span><br><span class="line">                <span class="keyword">if</span> h &gt; <span class="number">1</span>:</span><br><span class="line">                    sort_trees.append((row,col,h))</span><br><span class="line">        sort_trees = <span class="built_in">sorted</span>(sort_trees,key = <span class="keyword">lambda</span> x : x[<span class="number">2</span>])</span><br><span class="line">        <span class="built_in">print</span>(sort_trees)</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line">        res = pre_x = pre_y = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> x,y,h <span class="keyword">in</span> sort_trees:</span><br><span class="line">            d = bfs(pre_x,pre_y,x,y)</span><br><span class="line">            <span class="keyword">if</span> d &lt; <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line">            res += d</span><br><span class="line">            pre_x,pre_y = x,y</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
-<h5 id="矩阵类-BFS-的-demo"><a href="#矩阵类-BFS-的-demo" class="headerlink" title="矩阵类 BFS 的 demo"></a>矩阵类 BFS 的 demo</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">BFS</span>(<span class="params">sorce_val,target_val</span>):</span><br><span class="line">    row = <span class="built_in">len</span>(Matrix)</span><br><span class="line">    col = <span class="built_in">len</span>(Matrix[<span class="number">0</span>])</span><br><span class="line">    queue = deque([(need_val,indexs)])</span><br><span class="line">    visit = &#123;(pointer_index)&#125;</span><br><span class="line">    <span class="keyword">while</span> queue:</span><br><span class="line">        <span class="comment">#Limit the values stored in the queue based on conditions</span></span><br><span class="line">        need_val,indexs = queue.popleft()	</span><br><span class="line">        <span class="keyword">if</span> get_the_target_pointer:</span><br><span class="line">            <span class="comment">#conditions of return</span></span><br><span class="line">            <span class="keyword">return</span> need_val	</span><br><span class="line">        <span class="keyword">for</span> next_pointer <span class="keyword">in</span> all_directions:</span><br><span class="line">        <span class="comment">#eg: for nx,ny in ((x+1,y),(x-1,y),(x,y+1),(x,y-1)):</span></span><br><span class="line">        	<span class="comment">#search in all directions</span></span><br><span class="line">            <span class="keyword">if</span> fulfillment_of_conditions:</span><br><span class="line">            <span class="comment">#eg: if 0&lt;=nx&lt;row and 0&lt;=ny&lt;col and forest[nx][ny] and (nx,ny) not in visit:</span></span><br><span class="line">            	<span class="comment">#**Judgment Conditions**</span></span><br><span class="line">                visit.add((next_pointer))</span><br><span class="line">                queue.append((changed_need_val,indexs))</span><br><span class="line">    <span class="keyword">return</span> situation_of_ERR_or_boundary</span><br></pre></td></tr></table></figure>
-<h5 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h5><p>还可以用 Dijkstra 和 A*启发式算法求解，待续…</p>
+    <title>Gurobi_1_ex_mip1</title>
+    <url>/2022/05/30/Gurobi/Gurobi-1-ex-mip1/</url>
+    <content><![CDATA[<h1 id="ex-mip1"><a href="#ex-mip1" class="headerlink" title="ex_mip1"></a>ex_mip1</h1><h2 id="求解问题"><a href="#求解问题" class="headerlink" title="求解问题"></a>求解问题</h2><script type="math/tex; mode=display">
+\begin{array}{cl}
+\max & x+y+2 z \\
+\text { s.t. } & x+2 y+3 z \leq 4 \\
+& x+y \geq 1 \\
+& x, y, z \in\{0,1\}
+\end{array}</script><h2 id="代码解释"><a href="#代码解释" class="headerlink" title="代码解释"></a>代码解释</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> gurobipy</span><br><span class="line"><span class="keyword">from</span> gurobipy <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="comment">#需要对出错情况进行反馈，所以用 try</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#建一个模型</span></span><br><span class="line">    m = gurobipy.Model(<span class="string">&quot;mip1&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Model=&#x27;</span>,m)   <span class="comment">#Model= &lt;gurobi.Model Continuous instance mip1: 0 constrs, 0 vars, No parameter changes&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#定义变量</span></span><br><span class="line">    x = m.addVar(vtype=GRB.BINARY, name=<span class="string">&quot;x&quot;</span>)</span><br><span class="line">    y = m.addVar(vtype=GRB.BINARY, name=<span class="string">&quot;y&quot;</span>)</span><br><span class="line">    z = m.addVar(vtype=GRB.BINARY, name=<span class="string">&quot;z&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#目标函数</span></span><br><span class="line">    m.setObjective(x+y+<span class="number">2</span>*z, GRB.MAXIMIZE)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#约束条件</span></span><br><span class="line">    m.addConstr(x+<span class="number">2</span>*y+<span class="number">3</span>*z &lt;= <span class="number">4</span>, <span class="string">&#x27;c0&#x27;</span>)</span><br><span class="line">    m.addConstr(x+y &gt;= <span class="number">1</span>, <span class="string">&#x27;c1&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#优化模型</span></span><br><span class="line">    m.optimize()</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;new_Model=&#x27;</span>, m)  <span class="comment">#new_Model= &lt;gurobi.Model MIP instance mip1: 2 constrs, 3 vars, No parameter changes&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> v <span class="keyword">in</span> m.getVars():</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;%s %g&#x27;</span> % (v.VarName, v.X))</span><br><span class="line">    <span class="comment">#x 1</span></span><br><span class="line">    <span class="comment">#y 0</span></span><br><span class="line">    <span class="comment">#z 1</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Obj: %g&#x27;</span> % m.ObjVal) <span class="comment">#Obj: 3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">except</span> gurobipy.GurobiError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Error code &#x27;</span> + <span class="built_in">str</span>(e.errno) + <span class="string">&#x27;: &#x27;</span> + <span class="built_in">str</span>(e))</span><br><span class="line"></span><br><span class="line"><span class="keyword">except</span> AttributeError:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Encountered an attribute error&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>参考：</p>
+<p><a href="https://blog.csdn.net/WASEFADG/article/details/105261808">https://blog.csdn.net/WASEFADG/article/details/105261808</a></p>
 ]]></content>
       <categories>
-        <category>LeetCode_daily</category>
+        <category>MILP_Learning</category>
       </categories>
       <tags>
-        <tag>BFS</tag>
+        <tag>Gurobi</tag>
       </tags>
   </entry>
   <entry>
-    <title>有限域上的运算</title>
-    <url>/2022/05/27/Cryptanalysis/%E6%9C%89%E9%99%90%E5%9F%9F%E4%B8%8A%E7%9A%84%E8%BF%90%E7%AE%97/</url>
+    <title>Gurobi_Outline</title>
+    <url>/2022/05/30/Gurobi/Gurobi_Outline/</url>
+    <content><![CDATA[<h1 id="Gurobi-建模的基本流程"><a href="#Gurobi-建模的基本流程" class="headerlink" title="Gurobi 建模的基本流程"></a>Gurobi 建模的基本流程</h1><p>这样定义会使整个模型易读</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">m = gurobipy.Model(<span class="string">&quot;Model_Name&quot;</span>)	<span class="comment">#模型</span></span><br><span class="line"></span><br><span class="line">var = m.addVar(vtype = var_type,name=<span class="string">&quot;var_name&quot;</span>)	<span class="comment">#增加变量</span></span><br><span class="line"><span class="comment">#...More vars</span></span><br><span class="line"></span><br><span class="line">m.setObject(objective_expression,objective_sense)	<span class="comment">#目标函数</span></span><br><span class="line"></span><br><span class="line">m.addConstr(constraint,constraint_name)	<span class="comment">#约束条件</span></span><br><span class="line"><span class="comment">#...More constraints</span></span><br><span class="line"></span><br><span class="line">m.optimize()	<span class="comment">#优化模型</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://ossimg.yzitc.com/2022/05/30/930c4d13cf906.png"></p>
+]]></content>
+      <categories>
+        <category>MILP_Learning</category>
+      </categories>
+      <tags>
+        <tag>Gurobi</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Gurobi-2-ex-diet</title>
+    <url>/2022/06/01/Gurobi/Gurobi-2-ex-diet/</url>
     <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>LC 5.24 t.965. Univalued Binary Tree</title>
-    <url>/2022/05/25/Lc_daily/LC-5.24-t.965.-Univalued-Binary-Tree/</url>
-    <content><![CDATA[<h4 id="965-单值二叉树"><a href="#965-单值二叉树" class="headerlink" title="965. 单值二叉树"></a><a href="https://leetcode.cn/problems/univalued-binary-tree/">965. 单值二叉树</a></h4><p>难度：简单</p>
-<p>如果二叉树每个节点都具有相同的值，那么该二叉树就是<em>单值</em>二叉树。</p>
-<p>只有给定的树是单值二叉树时，才返回 <code>true</code>；否则返回 <code>false</code>。</p>
-<p><strong>示例 1：</strong></p>
-<p><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/29/screen-shot-2018-12-25-at-50104-pm.png" alt="img"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：[1,1,1,1,1,null,1]</span><br><span class="line">输出：true</span><br></pre></td></tr></table></figure>
-<p><strong>示例 2：</strong></p>
-<p><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/29/screen-shot-2018-12-25-at-50050-pm.png" alt="img"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：[2,2,2,5,2]</span><br><span class="line">输出：false</span><br></pre></td></tr></table></figure>
-<p><strong>提示：</strong></p>
-<ol>
-<li>给定树的节点数范围是 <code>[1, 100]</code>。</li>
-<li>每个节点的值都是整数，范围为 <code>[0, 99]</code> 。</li>
-</ol>
-<h5 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h5><ol>
-<li><p>深度优先，在判断到不等值时返回 False，一直相等，到遍历完返回 True</p>
-</li>
-<li><p>使用集合，无论采取哪种遍历方式，将所有值加入集合，并在最后判断集合的长度是否为 1 即可</p>
-</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"># class TreeNode:</span></span><br><span class="line"><span class="comment">#     def __init__(self, val=0, left=None, right=None):</span></span><br><span class="line"><span class="comment">#         self.val = val</span></span><br><span class="line"><span class="comment">#         self.left = left</span></span><br><span class="line"><span class="comment">#         self.right = right</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">isUnivalTree</span>(<span class="params">self, root: TreeNode</span>) -&gt; <span class="built_in">bool</span>:</span><br><span class="line">        <span class="comment">#3 traverse</span></span><br><span class="line">        ttval = <span class="built_in">set</span>()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">preorder</span>(<span class="params">root</span>):</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> root:</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            ttval.add(root.val)</span><br><span class="line">            preorder(root.left)</span><br><span class="line">            preorder(root.right)</span><br><span class="line"></span><br><span class="line">        preorder(root)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(ttval) == <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">        #DFS</span></span><br><span class="line"><span class="string">        if not root:</span></span><br><span class="line"><span class="string">            return True</span></span><br><span class="line"><span class="string">        if root.left:</span></span><br><span class="line"><span class="string">            if root.val != root.left.val or not self.isUnivalTree(root.left):</span></span><br><span class="line"><span class="string">                return False</span></span><br><span class="line"><span class="string">        if root.right:</span></span><br><span class="line"><span class="string">            if root.val != root.right.val or not self.isUnivalTree(root.right):</span></span><br><span class="line"><span class="string">                return False</span></span><br><span class="line"><span class="string">        return True</span></span><br><span class="line"><span class="string">        &#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
-<h5 id="前中后序遍历的-demo"><a href="#前中后序遍历的-demo" class="headerlink" title="前中后序遍历的 demo"></a>前中后序遍历的 demo</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">order</span>(<span class="params">root</span>):</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> root:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    <span class="comment">#preorder(root)</span></span><br><span class="line">    order(root.left)</span><br><span class="line">    <span class="comment">#inorder(root)</span></span><br><span class="line">    order(root.right)</span><br><span class="line">    <span class="comment">#postorder(root)</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>LeetCode_daily</category>
-      </categories>
-      <tags>
-        <tag>DFS</tag>
-      </tags>
   </entry>
 </search>
