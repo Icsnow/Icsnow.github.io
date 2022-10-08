@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Diffusion Basic</title>
+    <url>/2022/05/26/Cryptanalysis/Basic-Diffusion/</url>
+    <content><![CDATA[<p>香农提出了密码设计的两种基本方法即 混淆和扩散。</p>
+<p>分组密码系统包括 线性部分 和 非线性部分，其对应功能分别是 扩散和混淆。</p>
+<p>扩散性往往由线性函数提供，如 rotation ，shift ，或更复杂的 MDS matrix（但其本质也是 rotation and shift）。</p>
+<p>在研究扩散性时，如果往其最基本单元考虑：</p>
+<p>线性运算时一般是 位切片操作，即对每一个 bit 进行运算。那么总体来看就是一个面向 GPU 友好型的 <a href="https://baike.baidu.com/item/%E5%8D%95%E6%8C%87%E4%BB%A4%E6%B5%81%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%B5%81/257612">SIMD</a> 操作 ，对一个 bit 的操作不会影响到其他 bits，显然这是不能够满足扩散性的，那么就需要一些 rotation，shift… 来将 bit 打散，使其能够更多的参与到非线性运算。</p>
+<p>由于 扩散主要是用来使用明文和密文的关系变得尽可能的复杂，明文中任何一点小更动都会使得密文有很大的差异，即达到雪崩效应。</p>
+<blockquote>
+<p>雪崩效应：对于密码而言，要求输入位的 1 bit 变化导致每个输出位 bit 有 50% 的概率发生反转</p>
+</blockquote>
+<p><a href="https://crypto.stackexchange.com/questions/19000/shannon-confusion-and-diffusion-concept/44659#44659">The job of the linear diffusion layer is to ensure that each successive input to the non-linear function consists of a balanced and maximum number of super-positioned input bits.</a></p>
+<p>而验证扩散性是否能够尽可能地达到使密码系统安全的办法，除建立相关性方程，利用如 Mathmatica 等工具来搜索之外，可能还需要考虑由于扩散不全而造成的分支代数次数低，差分线性分析等等。</p>
+]]></content>
+      <tags>
+        <tag>Crypto</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>PRF and PRP</title>
     <url>/2022/07/06/Cryptanalysis/PRF%20and%20PRP/</url>
     <content><![CDATA[<h1 id="伪随机函数-PRF-和-伪随机置换-PRP"><a href="#伪随机函数-PRF-和-伪随机置换-PRP" class="headerlink" title="伪随机函数 PRF 和 伪随机置换 PRP"></a>伪随机函数 PRF 和 伪随机置换 PRP</h1><h2 id="PRF-pseudorandom-function"><a href="#PRF-pseudorandom-function" class="headerlink" title="PRF (pseudorandom function)"></a>PRF (pseudorandom function)</h2><p><strong>1. 场景：</strong></p>
@@ -37,22 +56,60 @@ Adv_{PRP}[A,P] = |Pr[EXP(0)=1]-Pr[EXP(1)=1]|</script><p>如果该优势是可忽
       </tags>
   </entry>
   <entry>
-    <title>Diffusion Basic</title>
-    <url>/2022/05/26/Cryptanalysis/Basic-Diffusion/</url>
-    <content><![CDATA[<p>香农提出了密码设计的两种基本方法即 混淆和扩散。</p>
-<p>分组密码系统包括 线性部分 和 非线性部分，其对应功能分别是 扩散和混淆。</p>
-<p>扩散性往往由线性函数提供，如 rotation ，shift ，或更复杂的 MDS matrix（但其本质也是 rotation and shift）。</p>
-<p>在研究扩散性时，如果往其最基本单元考虑：</p>
-<p>线性运算时一般是 位切片操作，即对每一个 bit 进行运算。那么总体来看就是一个面向 GPU 友好型的 <a href="https://baike.baidu.com/item/%E5%8D%95%E6%8C%87%E4%BB%A4%E6%B5%81%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%B5%81/257612">SIMD</a> 操作 ，对一个 bit 的操作不会影响到其他 bits，显然这是不能够满足扩散性的，那么就需要一些 rotation，shift… 来将 bit 打散，使其能够更多的参与到非线性运算。</p>
-<p>由于 扩散主要是用来使用明文和密文的关系变得尽可能的复杂，明文中任何一点小更动都会使得密文有很大的差异，即达到雪崩效应。</p>
-<blockquote>
-<p>雪崩效应：对于密码而言，要求输入位的 1 bit 变化导致每个输出位 bit 有 50% 的概率发生反转</p>
-</blockquote>
-<p><a href="https://crypto.stackexchange.com/questions/19000/shannon-confusion-and-diffusion-concept/44659#44659">The job of the linear diffusion layer is to ensure that each successive input to the non-linear function consists of a balanced and maximum number of super-positioned input bits.</a></p>
-<p>而验证扩散性是否能够尽可能地达到使密码系统安全的办法，除建立相关性方程，利用如 Mathmatica 等工具来搜索之外，可能还需要考虑由于扩散不全而造成的分支代数次数低，差分线性分析等等。</p>
+    <title>piling-up lemma</title>
+    <url>/2022/06/14/Cryptanalysis/Piling-up%20lemmA/</url>
+    <content><![CDATA[<h1 id="堆积引理-Piling-up-lemmA"><a href="#堆积引理-Piling-up-lemmA" class="headerlink" title="堆积引理 (Piling-up lemmA)"></a>堆积引理 (Piling-up lemmA)</h1><p>1993 年，松井先生提出线性密码分析的一个强有力工具—堆积引理，用于计算线性偏差，能够公式化的将多位线性运算的线性偏差表示出来。</p>
+<p>从简单的例子开始：</p>
+<p>随机布尔变量：$X_1,X_2$ ，取到 0 或 1 的概率为：</p>
+<script type="math/tex; mode=display">
+\begin{array}{l}
+P_{r}\left(X_{1}=i\right)=\left\{\begin{array}{ll}
+p_{1}, & i=0 \\
+1-p_{1}, & i=1
+\end{array}\right. \\
+P_{r}\left(X_{2}=i\right)=\left\{\begin{array}{ll}
+p_{2}, & i=0 \\
+1-p_{2}, & i=1
+\end{array}\right.
+\end{array}</script><p>如果 $X_1,X_2$ 分别为一个密码系统的输入输出，在理想情况下，概率应该为：</p>
+<script type="math/tex; mode=display">
+p_1=p_2=\frac{1}{2}</script><p>现实情况往往相比理想情况会有一定的偏差 $\varepsilon\ (-\frac{1}{2}&lt;\varepsilon&lt;\frac{1}{2})$，称为线性偏差，即：</p>
+<script type="math/tex; mode=display">
+p_1=\frac{1}{2}+\varepsilon_1\\
+p_2=\frac{1}{2}+\varepsilon_2</script><p>如果 $X_1,X_2$ <strong>相互独立</strong>，同时对 $X_1,X_2$ 取值，会得到：</p>
+<script type="math/tex; mode=display">
+P_{r}\left(X_{1}=i, X_{2}=j\right)=\left\{\begin{array}{ll}
+p_{1} p_{2}, & i=0, j=0 \\
+p_{1}\left(1-p_{2}\right), & i=0, j=1 \\
+\left(1-p_{1}\right) p_{2}, & i=1, j=0 \\
+\left(1-p_{1}\right)\left(1-p_{2}\right), & i=1, j=1
+\end{array}\right.</script><p>假设需要求 $P_r(X_1\oplus X_2=0)\ i.e. P_r(X_1=X_2)$ ，通过上面很容易得到：</p>
+<script type="math/tex; mode=display">
+P_r(X_1\oplus X_2=0)=P_r(X_1=X_2)\\=p_1p_2+(1-p_1)(1-p_2)\\=1-p_1-p_2+2p_1p_2</script><p>带入上面现实情况的偏差，会得到：</p>
+<script type="math/tex; mode=display">
+P_r(X_1\oplus X_2=0)=P_r(X_1=X_2)\\=\frac{1}{2}+2\varepsilon_1\varepsilon_2</script><p>再考虑理想情况下，$P_r(X_1\oplus X_2=0)=P_r(X_1=X_2)$ 应该为 $\frac{1}{2}$ ，但现实情况仍然是存在偏差 $2\varepsilon_1\varepsilon_2$ ，也就是说，<strong>2个布尔变量相等的概率，在现实情况下与理想情况的偏差为 2 倍的单个布尔变量偏差乘积</strong> ，那么 3 个布尔变量呢？</p>
+<p>假设有 $X_1,X_2,X_3$ ，偏差分别为 $\varepsilon_1,\varepsilon_2,\varepsilon_3$ ，在理想情况下三者模 2 加的结果为 0 的概率为 $\frac{1}{2}$  ，同样的带入偏差计算会得到结果 $\frac{1}{2}+2^2\varepsilon_1\varepsilon_2\varepsilon_3$，即三者XOR得到 0 的偏差为 $2^2\varepsilon_1\varepsilon_2\varepsilon_3$ 。</p>
+<p>4 个布尔变量：$X_1,X_2,X_3,X_4$ ，可以得到偏差为 $2^3\varepsilon_1\varepsilon_2\varepsilon_3\varepsilon_4$</p>
+<p>推广到更一般的情况：也就是堆积引理的公式化描述：</p>
+<script type="math/tex; mode=display">
+P_r(X_1 \oplus X_2 \oplus...\oplus X_n=0)=\frac{1}{2} + 2^{n-1}\prod_{i=1}^{n}\varepsilon_i</script><p>可以发现，由于 $\prod\varepsilon$ 的降低速率远大于 $2^{n-1}$ 的增长速率，所以位数越多，偏差越小。</p>
+<p>由以上也可以推出另一个关系：</p>
+<script type="math/tex; mode=display">
+\begin{array}{l}
+\operatorname{Pr}\left(X_{1} \oplus X_{2}=0\right)=1 / 2+\varepsilon_{1,2} \\
+\operatorname{Pr}\left(X_{2} \oplus X_{3}=0\right)=1 / 2+\varepsilon_{2,3} \\
+\Longrightarrow\\
+\operatorname{Pr}\left(X_{1} \oplus X_{3}=0\right)=1 / 2+\varepsilon_{1,3} \\
+\varepsilon_{1,3}=2\varepsilon_{1,2}\varepsilon_{2,3}
+\end{array} \text {, }\\</script><p>参考：</p>
+<p>Matsui, M. (1994). Linear Cryptanalysis Method for DES Cipher. In: Helleseth, T. (eds) Advances in Cryptology — EUROCRYPT ’93. EUROCRYPT 1993. Lecture Notes in Computer Science, vol 765. Springer, Berlin, Heidelberg. <a href="https://doi.org/10.1007/3-540-48285-7_33">https://doi.org/10.1007/3-540-48285-7_33</a></p>
+<p><a href="https://ssst0n3.github.io/post/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/%E5%AE%89%E5%85%A8%E7%90%86%E8%AE%BA/%E5%AF%86%E7%A0%81%E5%AD%A6/%E5%AF%86%E7%A0%81%E5%88%86%E6%9E%90/SPN%E7%BA%BF%E6%80%A7%E5%AF%86%E7%A0%81%E5%88%86%E6%9E%90.html">st0n3’s blog</a></p>
 ]]></content>
+      <categories>
+        <category>Cryptanalysis</category>
+      </categories>
       <tags>
-        <tag>Crypto</tag>
+        <tag>Math</tag>
       </tags>
   </entry>
   <entry>
@@ -181,61 +238,42 @@ D_n = \max (N,\lceil(R \cdot \ell-N \cdot s) / n\rceil)</script>]]></content>
       </tags>
   </entry>
   <entry>
-    <title>piling-up lemma</title>
-    <url>/2022/06/14/Cryptanalysis/Piling-up%20lemmA/</url>
-    <content><![CDATA[<h1 id="堆积引理-Piling-up-lemmA"><a href="#堆积引理-Piling-up-lemmA" class="headerlink" title="堆积引理 (Piling-up lemmA)"></a>堆积引理 (Piling-up lemmA)</h1><p>1993 年，松井先生提出线性密码分析的一个强有力工具—堆积引理，用于计算线性偏差，能够公式化的将多位线性运算的线性偏差表示出来。</p>
-<p>从简单的例子开始：</p>
-<p>随机布尔变量：$X_1,X_2$ ，取到 0 或 1 的概率为：</p>
+    <title>de Bruijn graph</title>
+    <url>/2022/10/08/Cryptanalysis/de%20Burijn%20sequence/</url>
+    <content><![CDATA[<p>de Bruijn 图 是图论中的一个重要概念，与其关系十分紧密的 de Burijn 序列是组合数学中的重要概念，在基因编码学中有十分重要的作用。以下是对这两个概念的通俗理解。</p>
+<h1 id="de-Bruijn-sequence"><a href="#de-Bruijn-sequence" class="headerlink" title="de Bruijn sequence"></a>de Bruijn sequence</h1><p>在大小为k的字母表A上的n阶德布赖恩序列是一个循环序列，其中A上每个可能的长度为n的字符串作为子串（即作为一个连续的子序列）正好出现一次。将其记为 $B(k,n)$ <a href="https://en.wikipedia.org/wiki/De_Bruijn_sequence">re_wiki</a> ，一般<code>k=2</code>。</p>
+<blockquote>
+<p>Example 1 ：序列 <code>00010111</code> 是大小为 2 的 3 阶 de Bruijn 序列，可以分解为 <code>000,001,010,101,011,111,110,100</code> 刚好包含了 $[0,2^3)$ 内的所有整数。</p>
+</blockquote>
+<p>分解方法也是判断一个序列是否为 de Bruijn 序列的方法，或生成 de Bruijn 序列的方法。可以通过找到一个图中的 <a href="https://zh.m.wikipedia.org/zh-hans/%E5%93%88%E5%AF%86%E9%A1%BF%E5%9B%BE">Hamilton回路</a> 来构造路径，而该路径即为 de Bruijn 序列，见Example 2 。通俗的理解为：设置一个长度为 <code>k</code> 的滑动数组，从左往右滑动，每滑动一格就产生一个新的子串，到末尾时循环到串首，直到产生的子串等于第一个子串。</p>
+<p>··· <a href="https://zh.m.wikipedia.org/zh-hans/%E5%93%88%E5%AF%86%E9%A1%BF%E5%9B%BE">Hamilton回路</a> ：指定的起点前往指定的终点，途中经过所有其他节点且只经过一次，如果起点终点相同，则形成闭环，构成 Hamilton 回路。</p>
+<blockquote>
+<p><a href="https://blog.csdn.net/sunquana/article/details/41245247?spm=1001.2101.3001.6650.9&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-9-41245247-blog-106412814.pc_relevant_3mothn_strategy_recovery&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-9-41245247-blog-106412814.pc_relevant_3mothn_strategy_recovery&amp;utm_relevant_index=11">Example 2 :</a> 这是个很好的例子</p>
+<p><img src = 'https://img-blog.csdn.net/20141118124735076'></p>
+<p>考虑 n=2 的情况，母串可以产生 <code>00,01,10,11</code> 四个子串，而如果要寻找母串, 就需要将所有子串作为顶点，在子串前移除 1 位元素, 并在该子串后分别补 <code>0,1</code> 来产生下一个子串， 而补<code>0,1</code>的过程产生边。如下图：</p>
+<p><img src = 'https://img-blog.csdn.net/20141118125251960?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc3VucXVhbmE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast'></p>
+<p>路径：00-&gt;01-&gt;11-&gt;10 -&gt;00，对应de Bruijn 序列：1100。</p>
+<p>可以看到上图所有顶点 入度=出度=2，且该图具有<a href="https://oi-wiki.org/graph/euler/">欧拉回路</a>是一个<a href="https://oi-wiki.org/graph/euler/">欧拉图</a>，所以如果将所有边上的二进制串构成集合，该集合包含所有 $[0,k^{n+1})$ （这里是 $2^3=8$ ）的所有元素，所以边集为 $B(k,n+1)$ 的分解。</p>
+</blockquote>
+<p>··· <a href="https://oi-wiki.org/graph/euler/">欧拉图</a>：具有欧拉回路的图</p>
+<p>··· <a href="https://oi-wiki.org/graph/euler/">欧拉回路</a>：通过图中每条边恰好一次的回路</p>
+<p>de Bruijn 序列在基因序列组建（不了解）和 <a href="https://zh.m.wikipedia.org/zh-hans/Burrows-Wheeler%E5%8F%98%E6%8D%A2">BWT 算法</a>中有着很大的用处。</p>
+<h1 id="de-Burijn-graph"><a href="#de-Burijn-graph" class="headerlink" title="de Burijn graph"></a>de Burijn graph</h1><p>上面 Example 2 里第二张图即为 de Burijn graph，对应 de Burijn sequence $B(k,n)$ ，m 进制的 de Burijn graph 有 n 维（表示每个顶点数字的 m 进制长度）。图中的每个顶点表示 m 进制的可分解成的数字，边表示分解的过程，即移除首元素并在末尾补上所有可能的 [0,m) 。一般为 m=2。</p>
+<p>很自然的想到，对于进制为 m 的顶点表示， de Burijn graph 的每个顶点的入度和出度均为 m，这也保证了对全空间的遍历；</p>
+<p>同时，每个 de Burijn graph 都是欧拉图和哈密顿图，其边构成欧拉回路和哈密顿回路，而路径形成了 de Burijn sequence。</p>
+<hr>
+<p>可以看到，产生的子串数量为 $k^n$ ，也即覆盖了$\{0,1\}^n$ 的全空间，当然满足 de Bruijn 序列条件的序列也不止一个，可以用公式来计算：</p>
 <script type="math/tex; mode=display">
-\begin{array}{l}
-P_{r}\left(X_{1}=i\right)=\left\{\begin{array}{ll}
-p_{1}, & i=0 \\
-1-p_{1}, & i=1
-\end{array}\right. \\
-P_{r}\left(X_{2}=i\right)=\left\{\begin{array}{ll}
-p_{2}, & i=0 \\
-1-p_{2}, & i=1
-\end{array}\right.
-\end{array}</script><p>如果 $X_1,X_2$ 分别为一个密码系统的输入输出，在理想情况下，概率应该为：</p>
-<script type="math/tex; mode=display">
-p_1=p_2=\frac{1}{2}</script><p>现实情况往往相比理想情况会有一定的偏差 $\varepsilon\ (-\frac{1}{2}&lt;\varepsilon&lt;\frac{1}{2})$，称为线性偏差，即：</p>
-<script type="math/tex; mode=display">
-p_1=\frac{1}{2}+\varepsilon_1\\
-p_2=\frac{1}{2}+\varepsilon_2</script><p>如果 $X_1,X_2$ <strong>相互独立</strong>，同时对 $X_1,X_2$ 取值，会得到：</p>
-<script type="math/tex; mode=display">
-P_{r}\left(X_{1}=i, X_{2}=j\right)=\left\{\begin{array}{ll}
-p_{1} p_{2}, & i=0, j=0 \\
-p_{1}\left(1-p_{2}\right), & i=0, j=1 \\
-\left(1-p_{1}\right) p_{2}, & i=1, j=0 \\
-\left(1-p_{1}\right)\left(1-p_{2}\right), & i=1, j=1
-\end{array}\right.</script><p>假设需要求 $P_r(X_1\oplus X_2=0)\ i.e. P_r(X_1=X_2)$ ，通过上面很容易得到：</p>
-<script type="math/tex; mode=display">
-P_r(X_1\oplus X_2=0)=P_r(X_1=X_2)\\=p_1p_2+(1-p_1)(1-p_2)\\=1-p_1-p_2+2p_1p_2</script><p>带入上面现实情况的偏差，会得到：</p>
-<script type="math/tex; mode=display">
-P_r(X_1\oplus X_2=0)=P_r(X_1=X_2)\\=\frac{1}{2}+2\varepsilon_1\varepsilon_2</script><p>再考虑理想情况下，$P_r(X_1\oplus X_2=0)=P_r(X_1=X_2)$ 应该为 $\frac{1}{2}$ ，但现实情况仍然是存在偏差 $2\varepsilon_1\varepsilon_2$ ，也就是说，<strong>2个布尔变量相等的概率，在现实情况下与理想情况的偏差为 2 倍的单个布尔变量偏差乘积</strong> ，那么 3 个布尔变量呢？</p>
-<p>假设有 $X_1,X_2,X_3$ ，偏差分别为 $\varepsilon_1,\varepsilon_2,\varepsilon_3$ ，在理想情况下三者模 2 加的结果为 0 的概率为 $\frac{1}{2}$  ，同样的带入偏差计算会得到结果 $\frac{1}{2}+2^2\varepsilon_1\varepsilon_2\varepsilon_3$，即三者XOR得到 0 的偏差为 $2^2\varepsilon_1\varepsilon_2\varepsilon_3$ 。</p>
-<p>4 个布尔变量：$X_1,X_2,X_3,X_4$ ，可以得到偏差为 $2^3\varepsilon_1\varepsilon_2\varepsilon_3\varepsilon_4$</p>
-<p>推广到更一般的情况：也就是堆积引理的公式化描述：</p>
-<script type="math/tex; mode=display">
-P_r(X_1 \oplus X_2 \oplus...\oplus X_n=0)=\frac{1}{2} + 2^{n-1}\prod_{i=1}^{n}\varepsilon_i</script><p>可以发现，由于 $\prod\varepsilon$ 的降低速率远大于 $2^{n-1}$ 的增长速率，所以位数越多，偏差越小。</p>
-<p>由以上也可以推出另一个关系：</p>
-<script type="math/tex; mode=display">
-\begin{array}{l}
-\operatorname{Pr}\left(X_{1} \oplus X_{2}=0\right)=1 / 2+\varepsilon_{1,2} \\
-\operatorname{Pr}\left(X_{2} \oplus X_{3}=0\right)=1 / 2+\varepsilon_{2,3} \\
-\Longrightarrow\\
-\operatorname{Pr}\left(X_{1} \oplus X_{3}=0\right)=1 / 2+\varepsilon_{1,3} \\
-\varepsilon_{1,3}=2\varepsilon_{1,2}\varepsilon_{2,3}
-\end{array} \text {, }\\</script><p>参考：</p>
-<p>Matsui, M. (1994). Linear Cryptanalysis Method for DES Cipher. In: Helleseth, T. (eds) Advances in Cryptology — EUROCRYPT ’93. EUROCRYPT 1993. Lecture Notes in Computer Science, vol 765. Springer, Berlin, Heidelberg. <a href="https://doi.org/10.1007/3-540-48285-7_33">https://doi.org/10.1007/3-540-48285-7_33</a></p>
-<p><a href="https://ssst0n3.github.io/post/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/%E5%AE%89%E5%85%A8%E7%90%86%E8%AE%BA/%E5%AF%86%E7%A0%81%E5%AD%A6/%E5%AF%86%E7%A0%81%E5%88%86%E6%9E%90/SPN%E7%BA%BF%E6%80%A7%E5%AF%86%E7%A0%81%E5%88%86%E6%9E%90.html">st0n3’s blog</a></p>
+\frac{(k !)^{k^{n-1}}}{k^{n}}</script><p>==如果能够高效的找到 de Bruijn 序列，是否可以将其与置换的共轭联系？==</p>
 ]]></content>
-      <categories>
-        <category>Cryptanalysis</category>
-      </categories>
       <tags>
-        <tag>Math</tag>
+        <tag>combinatorial mathematics</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>有限域上的运算</title>
+    <url>/2022/05/27/Cryptanalysis/%E6%9C%89%E9%99%90%E5%9F%9F%E4%B8%8A%E7%9A%84%E8%BF%90%E7%AE%97/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>Shor`s Algorithm</title>
@@ -863,10 +901,5 @@ i.e.\ \ \ \alpha \cdot c=\beta \cdot m \oplus \beta \cdot k\ \ where\ \alpha=(1,
       <tags>
         <tag>Crypto</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>有限域上的运算</title>
-    <url>/2022/05/27/Cryptanalysis/%E6%9C%89%E9%99%90%E5%9F%9F%E4%B8%8A%E7%9A%84%E8%BF%90%E7%AE%97/</url>
-    <content><![CDATA[]]></content>
   </entry>
 </search>
